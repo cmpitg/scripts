@@ -1,0 +1,5 @@
+#!/bin/sh
+
+xiki ; xiki restart
+sleep 3
+emacs-xiki $*

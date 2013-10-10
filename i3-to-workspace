@@ -1,0 +1,3 @@
+#!/bin/sh
+
+i3-input -f 'pango:Droid Sans 10' -F 'workspace "%s"' -P 'Go to workspace: ' %s

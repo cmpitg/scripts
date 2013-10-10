@@ -1,0 +1,31 @@
+#!/usr/bin/env ruby
+
+#
+# This script takes the output of get-monitors and make decision based on it.
+# Setting main best resolution and refresh rate for builtin monitor and
+# external one(s).  By default, external monitor is the primary.
+#
+
+monitors_config = `get-monitors`.split("\n")
+
+#
+# Format:
+# - First line: number of currently connected monitors
+# - From second line: <monitor-id> <best-mode> <best-rate>
+#
+
+n_monitors = monitors_config[0].to_i
+xrandr_cmd = ["xrandr"]
+cmds = []
+
+n_monitors.times do |idx|
+  name, mode, rate = monitors_config[idx + 1].split
+  puts ">>> #{name} #{mode} #{rate}"
+  xrandr_cmd << "--output #{name} --mode #{mode} --rate #{rate}#{' --left-of LVDS1' if name != 'LVDS1'}"
+  cmds << "xrandr --output #{name} --gamma 1.0:1.0:1.0"
+end
+
+cmds.unshift xrandr_cmd.join(" ")
+cmds << "xgamma -gamma 1.0"
+
+cmds.each { |cmd| puts cmd; `#{cmd}` }

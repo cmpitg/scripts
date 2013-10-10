@@ -1,0 +1,7 @@
+#!/bin/sh
+
+xrandr --output LVDS1 --off
+xrandr --output VGA1 --mode 1024x768 --rate 75
+zsnes
+set-default-monitor-config
+
