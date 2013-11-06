@@ -20,6 +20,8 @@ a coffee :-).
 
 * `i3-rename-workspace` - Rename a workspace in i3 window manager, in Sh.
 
+* `update-sbcl` - Check and update [SBCL](http://www.sbcl.org/), in Ruby.
+
 * `rename-urt-demos` - Rename Urban Terror 4.1 demo files (upcase, reformat
   for better timestamp and map), in Python.
 
