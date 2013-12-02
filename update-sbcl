@@ -46,24 +46,24 @@ def main
   current_version  = get_current_version
   latest_version   = get_latest_version_string versions
 
-  if latest_version == ""
-    puts "There's some problem with the site, please check the URLs in #{__file__}"
-    return
-  end
+  # if latest_version == ""
+  #   puts "There's some problem with the site, please check the URLs in #{__file__}"
+  #   return
+  # end
 
-  puts "Current version: #{current_version}"
-  puts "Latest version: #{latest_version}"
+  # puts "Current version: #{current_version}"
+  # puts "Latest version: #{latest_version}"
 
-  puts
-  if current_version != latest_version
-    puts "Start downloading latest version"
-    download_latest latest_version
-    extract_tarball latest_version
+  # puts
+  # if current_version != latest_version
+  #   puts "Start downloading latest version"
+  #   download_latest latest_version
+  #   extract_tarball latest_version
     install_sbcl    latest_version
-    remind_setting_up_env
-  else
-    puts "You already have the latest version! :-)"
-  end
+  #   remind_setting_up_env
+  # else
+  #   puts "You already have the latest version! :-)"
+  # end
 end
 
 # Public: Remind user of setting up SBCL_HOME and PATH
@@ -96,11 +96,10 @@ def install_sbcl(version)
 
   # SBCL_HOME conflicts with INSTALL_ROOT (for some odd reason)
   sbcl_home           = ENV["SBCL_HOME"]
-  ENV['INSTALL_ROOT'] = INSTALL_DESTINATION 
-
+  ENV['INSTALL_ROOT'] = INSTALL_DESTINATION
 
   Dir.chdir extracted_dir
-  `sh ./install.sh`
+  `unset SBCL_HOME && sh ./install.sh`
   FileUtils.cp 'output/sbcl.core', INSTALL_DESTINATION
   ENV['SBCL_HOME']    = sbcl_home
 end
