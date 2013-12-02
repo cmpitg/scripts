@@ -46,24 +46,24 @@ def main
   current_version  = get_current_version
   latest_version   = get_latest_version_string versions
 
-  # if latest_version == ""
-  #   puts "There's some problem with the site, please check the URLs in #{__file__}"
-  #   return
-  # end
+  if latest_version == ""
+    puts "There's some problem with the site, please check the URLs in #{__file__}"
+    return
+  end
 
-  # puts "Current version: #{current_version}"
-  # puts "Latest version: #{latest_version}"
+  puts "Current version: #{current_version}"
+  puts "Latest version: #{latest_version}"
 
-  # puts
-  # if current_version != latest_version
-  #   puts "Start downloading latest version"
-  #   download_latest latest_version
-  #   extract_tarball latest_version
+  puts
+  if current_version != latest_version
+    puts "Start downloading latest version"
+    download_latest latest_version
+    extract_tarball latest_version
     install_sbcl    latest_version
-  #   remind_setting_up_env
-  # else
-  #   puts "You already have the latest version! :-)"
-  # end
+    remind_setting_up_env
+  else
+    puts "You already have the latest version! :-)"
+  end
 end
 
 # Public: Remind user of setting up SBCL_HOME and PATH
