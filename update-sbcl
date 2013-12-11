@@ -94,14 +94,20 @@ def install_sbcl(version)
   file_path = DOWNLOAD_DESTINATION + build_file_name(version)
   extracted_dir = file_path.sub('-binary.tar.bz2', '')
 
-  # SBCL_HOME conflicts with INSTALL_ROOT (for some odd reason)
-  sbcl_home           = ENV["SBCL_HOME"]
-  ENV['INSTALL_ROOT'] = INSTALL_DESTINATION
+  # # SBCL_HOME conflicts with INSTALL_ROOT (for some odd reason)
+  # sbcl_home           = ENV["SBCL_HOME"]
+  # ENV['INSTALL_ROOT'] = INSTALL_DESTINATION
 
-  Dir.chdir extracted_dir
-  `unset SBCL_HOME && sh ./install.sh`
-  FileUtils.cp 'output/sbcl.core', INSTALL_DESTINATION
-  ENV['SBCL_HOME']    = sbcl_home
+  # Dir.chdir extracted_dir
+  # `unset SBCL_HOME && sh ./install.sh`
+  # FileUtils.cp 'output/sbcl.core', INSTALL_DESTINATION
+  # ENV['SBCL_HOME']    = sbcl_home
+
+  sbcl_home           = ENV["SBCL_HOME"]
+
+  # Update symlink
+  `sh #{sbcl_home}`
+  `ln -s #{extracted_dir} #{sbcl_home}`
 end
 
 # Public: Extract the tarball in DOWNLOAD_DESTINATION
