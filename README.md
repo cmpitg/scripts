@@ -53,3 +53,6 @@ a coffee :-).
 * `git-rm-orphaned` - Remove deleted files from Git cache, in Sh.
 
 * `firefox-beta` - Run Firefox beta, in Sh.
+
+* `firefox-beta-new-instance` - Run new instance of Firefox beta (Firefox is
+  called with `no-remote`), in Sh.
