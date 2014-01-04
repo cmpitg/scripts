@@ -1,3 +1,3 @@
 #!/bin/sh
 
-/m/opt/firefox-beta/firefox -ProfileManager -no-remote $*
+/m/opt/firefox-beta/firefox -ProfileManager $*
