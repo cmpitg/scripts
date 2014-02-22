@@ -1,0 +1,50 @@
+#!/usr/bin/env racket
+#lang racket
+
+(define +racket-remote-package-list+
+  '())
+
+(define +racket-local-package-list+
+  '("rackjure"
+    ;; "rackshell"
+    "racket-raw-string"))
+
+(define +local-repo-path+ "/m/src/")
+
+;;
+;; Execute a program (not through shell).
+;;
+(define (!! program . args)
+  (apply system* (find-executable-path program) args))
+
+;;
+;; Execute a program in a directory.
+;;
+(define (!~ dir program . args)
+  (parameterize ([current-directory dir])
+    (apply !! program args)))
+
+(define (raco-install-local package)
+  (!~ +local-repo-path+
+      "raco" "pkg" "install" "--link" package))
+
+(define (raco-install-remote package)
+  (!! "raco" "pkg" "install" package))
+
+(define (install-remote-packages)
+  (for ([package +racket-remote-package-list+])
+    (raco-install-remote package)))
+
+(define (install-local-packages)
+  (for ([package +racket-local-package-list+])
+    (raco-install-local package)))
+
+(define (main)
+  (install-remote-packages)
+  (install-local-packages))
+
+(main)
+
+;; Local Variables:
+;; mode: scheme
+;; End:
