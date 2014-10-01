@@ -11,17 +11,17 @@ a coffee :-).
 ## Description
 
 * `i3-exec-command` - Execute an i3 command in
-  [i3 window manager](http://i3wm.org/), in Sh.
+  [i3 window manager](http://i3wm.org/), in SH.
 
 * `i3-switch-window` - Task switcher for
   [i3 window manager](http://i3wm.org/), in Python using `dzen`.
 
 * `i3-move-to-workspace` - Move a window to a workspace in i3 window manager,
-  in Sh.
+  in SH.
 
-* `i3-to-workspace` - Switch to a workspace in i3 window manager, in Sh.
+* `i3-to-workspace` - Switch to a workspace in i3 window manager, in SH.
 
-* `i3-rename-workspace` - Rename a workspace in i3 window manager, in Sh.
+* `i3-rename-workspace` - Rename a workspace in i3 window manager, in SH.
 
 * `update-sbcl` - Check and update [SBCL](http://www.sbcl.org/), in Ruby.
 
@@ -37,22 +37,24 @@ a coffee :-).
 * `set-default-monitor-config` - Basic multihead, in Ruby.
 
 * `du-this` - Get disk usage for all files and directories residing in the
-  current directory and sort them in descending order, in Sh.
+  current directory and sort them in descending order, in SH.
 
-* `monitor-off` - Turn off monitor, in Sh.
+* `monitor-off` - Turn off monitor, in SH.
 
-* `show-cpu-temp` - Show my laptap's 2 CPUs temperature, in Sh.
+* `show-cpu-temp` - SHow my laptap's 2 CPUs temperature, in SH.
 
-* `run-ibus-daemon` - Run/restart iBus daemon, with Xim support, in Sh.
+* `run-ibus-daemon` - Run/restart iBus daemon, with Xim support, in SH.
 
 * `run-xiki` - Fresh start Xiki (due to a bug at startup, Xiki needs to
-  restart after the first run), in Sh.
+  restart after the first run), in SH.
 
-* `run-zsnes` - Run Zsnes emulator, in Sh.
+* `run-zsnes` - Run Zsnes emulator, in SH.
 
-* `git-rm-orphaned` - Remove deleted files from Git cache, in Sh.
+* `git-rm-orphaned` - Remove deleted files from Git cache, in SH.
 
-* `firefox-beta` - Run Firefox beta, in Sh.
+* `firefox-beta` - Run Firefox beta, in SH.
 
 * `firefox-beta-new-instance` - Run new instance of Firefox beta (Firefox is
-  called with `no-remote`), in Sh.
+  called with `no-remote`), in SH.
+
+* `python-print-site-packages-path` - Print Python site packages path, in SH.
