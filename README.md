@@ -58,3 +58,7 @@ a coffee :-).
   called with `no-remote`), in SH.
 
 * `python-print-site-packages-path` - Print Python site packages path, in SH.
+
+* `intel-adjust-brightness` - Adjust brightness with shell script, requires
+  `ALL=NOPASSWD: /usr/bin/tee` in your `/etc/sudoers` (edited by `visudo`), in
+  SH.
