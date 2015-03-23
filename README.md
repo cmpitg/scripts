@@ -62,3 +62,8 @@ a coffee :-).
 * `intel-adjust-brightness` - Adjust brightness with shell script, requires
   `ALL=NOPASSWD: /usr/bin/tee` in your `/etc/sudoers` (edited by `visudo`), in
   SH.
+
+* `virtualenv-symlink` - Symlink Python
+  [virtualenv](https://virtualenv.pypa.io/en/latest/), in SH.
+
+* `count-monitors` - Count number of connected monitors, in SH.
