@@ -5,6 +5,11 @@ do_notify() {
     notify-send "$@"
 }
 
+do_notify_short() {
+    echo "$@"
+    notify-send -t 2000 "$@"
+}
+
 path_exists() {
     ls "$1" &>/dev/null
 }
