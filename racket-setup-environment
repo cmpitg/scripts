@@ -2,7 +2,7 @@
 #lang racket
 
 (define +racket-remote-package-list+
-  '())
+  '("yaml"))
 
 (define +racket-local-package-list+
   '("rackjure"

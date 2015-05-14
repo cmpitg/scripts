@@ -100,6 +100,7 @@ def reformat_filenames(ext=URT_EXT):
                 comps['mapname'])
 
         print('    Rename to \033[93m{0}\033[0m'.format(new_name))
+        count += 1
         os.rename(old_name, new_name)
 
     print('  ', count, 'file(s) renamed')

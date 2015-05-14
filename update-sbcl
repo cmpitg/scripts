@@ -23,8 +23,8 @@
 # Note: The code is verbose because I want to make full use of Ruby, not
 # calling shell command unless I have no choice.
 #
-# Debate: Forking is expensive, but it doesn't matter in this case.  Should
-# I use external tool instead of Ruby?
+# Debate: Forking is expensive, but it doesn't matter in this case.  Should I
+# use external tool instead of Ruby?
 #
 
 require 'nokogiri'
@@ -59,8 +59,6 @@ def main
     puts "Start downloading latest version"
     download_latest latest_version
     extract_tarball latest_version
-    install_sbcl    latest_version
-    remind_setting_up_env
   else
     puts "You already have the latest version! :-)"
   end
@@ -86,7 +84,7 @@ end
 #
 # INSTALL_ROOT=#{INSTALL_DESTINATION} sh ./install.sh
 #
-# Then copy output/scbl.core from SBCL dir to INSTALL_DESTINATION/
+# Then copy output/scbl.core from SBCL dir to INSTALL_DESTINATION
 def install_sbcl(version)
   puts
   puts "Installing to #{INSTALL_DESTINATION}"
@@ -106,8 +104,7 @@ def install_sbcl(version)
   sbcl_home           = ENV["SBCL_HOME"]
 
   # Update symlink
-  `sh #{sbcl_home}`
-  `ln -s #{extracted_dir} #{sbcl_home}`
+  `cd #{sbcl_home}; sudo ln -s #{extracted_dir} #{sbcl_home}`
 end
 
 # Public: Extract the tarball in DOWNLOAD_DESTINATION
