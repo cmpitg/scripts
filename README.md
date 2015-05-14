@@ -10,6 +10,8 @@ a coffee :-).
 
 ## Description
 
+* `functions` - Collection of some requently used SH functions.
+
 * `i3-exec-command` - Execute an i3 command in
   [i3 window manager](http://i3wm.org/), in SH.
 
