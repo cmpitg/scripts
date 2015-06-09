@@ -103,7 +103,17 @@ def get_all_windows(tree):
     for window in tree['nodes']:
         children += get_all_windows(window)
 
-    exit(0 if success else 1)
+    return result + children
+
+
+def is_window(tree):
+    """
+    Determines if a tree is a window.
+    """
+    return tree['window'] \
+        and tree['window_properties']['class'].lower().find('panel') == -1
+
+
 
 
 if __name__ == '__main__':
