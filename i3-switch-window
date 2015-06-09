@@ -88,13 +88,20 @@ def itemize(windows):
     return "\n".join(map(window_as_string(with_id=False), windows))
 
 
+def get_all_windows(tree):
+    """
+    Extracts all windows from i3 tree.
+    """
+    # Add current window
+    if is_window(tree):
+        result = [standardize_window(tree)]
     else:
         result = []
 
-    lookup = lookup_func()
-    target = dmenu(lookup.keys(), args.dmenu)
-    id_ = lookup.get(target)
-    success = action_func(lookup.get(target)) if id_ is not None else False
+    # Add child windows
+    children = []
+    for window in tree['nodes']:
+        children += get_all_windows(window)
 
     exit(0 if success else 1)
 
