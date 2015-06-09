@@ -81,6 +81,13 @@ def build_lookup_table(windows):
     return dict(stringifized)
 
 
+def itemize(windows):
+    """
+    Itemize windows list for dmenu.
+    """
+    return "\n".join(map(window_as_string(with_id=False), windows))
+
+
     else:
         result = []
 
