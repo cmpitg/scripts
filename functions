@@ -17,3 +17,7 @@ path_exists() {
 newline() {
     printf "\n"
 }
+
+is_local_port_open() {
+    nc -z 127.0.0.1 "$1"
+}
