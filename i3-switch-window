@@ -76,6 +76,11 @@ def window_as_string(with_id=False):
     return helper
 
 
+def build_lookup_table(windows):
+    stringifized = map(window_as_string(with_id=True), windows)
+    return dict(stringifized)
+
+
     else:
         result = []
 
