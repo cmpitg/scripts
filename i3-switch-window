@@ -126,6 +126,19 @@ def standardize_window(window):
     }
 
 
+def dmenu(items, dmenu_options):
+    """
+    Calls dmenu to display and menu for window switching.
+    """
+    cmd = subprocess.Popen(
+        "dmenu {}".format(dmenu_options),
+        shell=True,
+        stdin=subprocess.PIPE,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE
+    )
+    stdout, _ = cmd.communicate(items.encode('utf-8'))
+    return stdout.decode('utf-8').strip('\n')
 
 
 if __name__ == '__main__':
