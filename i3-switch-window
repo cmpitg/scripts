@@ -58,15 +58,10 @@ def main():
     )
 
 
-    # jumping to the next empty workspaces doesn't require going through all
-    # the stuff below, as we don't need to call dmenu etc, so we just call it
-    # here and exit if the appropriate flag was given.
-    if args.empty:
-        exit(*goto_workspace(next_empty()))
+def switch_to_window(chosen, table, cmd):
+    window_id = table.get(chosen, "")
+    subprocess.check_call(cmd.format(window_id), shell=True)
 
-    if args.regex:
-        find_window_by_regex(args.regex, args.move)
-        exit(0)
 
     lookup_func = get_windows
     if args.scratchpad:
