@@ -114,6 +114,18 @@ def is_window(tree):
         and tree['window_properties']['class'].lower().find('panel') == -1
 
 
+def standardize_window(window):
+    """
+    Extracts necessary information for a window.
+    """
+    return {
+        'id':       window['id'],
+        'title':    window['window_properties']['title'],
+        'class':    window['window_properties']['class'],
+        'instance': window['window_properties']['instance']
+    }
+
+
 
 
 if __name__ == '__main__':
