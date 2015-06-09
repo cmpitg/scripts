@@ -63,20 +63,21 @@ def switch_to_window(chosen, table, cmd):
     subprocess.check_call(cmd.format(window_id), shell=True)
 
 
-    lookup_func = get_windows
-    if args.scratchpad:
-        lookup_func = get_scratchpad
-    if args.workspaces:
-        lookup_func = get_workspaces
+def window_as_string(with_id=False):
+    global title_format
 
-    action_func = focus
-    if args.move:
-        action_func = move_window_here
+    def helper(window):
+        title = title_format.format(window['class'], window['title'])
+        if with_id:
+            return title, window['id']
+        else:
+            return title
+
+    return helper
+
+
     else:
-        if args.scratchpad:
-            action_func = get_scratchpad_window
-        if args.workspaces:
-            action_func = goto_workspace
+        result = []
 
     lookup = lookup_func()
     target = dmenu(lookup.keys(), args.dmenu)
