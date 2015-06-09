@@ -47,18 +47,16 @@ def main():
         shell=True
     ).decode('utf-8'))
 
-    parser.add_argument(
-        '-d',
-        '--dmenu',
-        default='dmenu -b -i -l 20 -fn "Droid Sans-10" -nf "#ffa077" -nb "#202020"',
-        help='dmenu command, executed within a shell')
+    windows       = get_all_windows(tree)
+    lookup_table  = build_lookup_table(windows)
+    chosen        = dmenu(itemize(windows), dmenu_options)
 
-    args = parser.parse_args()
+    switch_to_window(
+        chosen=chosen,
+        table=lookup_table,
+        cmd=cmd_switch_window
+    )
 
-    if not check_dmenu():
-        print("quickswitch requires dmenu.")
-        print("Please install it using your distribution's package manager.")
-        exit(1)
 
     # jumping to the next empty workspaces doesn't require going through all
     # the stuff below, as we don't need to call dmenu etc, so we just call it
