@@ -13,7 +13,15 @@ for LIB in ${LIB_SYSTEM_PATH}/PyQt4* ; do
     ln -s ${LIB} ${LIB_VIRTUALENV_PATH}/
 done
 
+for LIB in /usr/lib/python3/dist-packages/PyQt4* ; do
+    ln -s ${LIB} ${LIB_VIRTUALENV_PATH}/
+done
+
 for LIB in $LIB_SYSTEM_PATH/sip* ; do
+    ln -s ${LIB} ${LIB_VIRTUALENV_PATH}/
+done
+
+for LIB in /usr/lib/python3/dist-packages/sip* ; do
     ln -s ${LIB} ${LIB_VIRTUALENV_PATH}/
 done
 
