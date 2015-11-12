@@ -69,3 +69,11 @@ a coffee :-).
   [virtualenv](https://virtualenv.pypa.io/en/latest/), in SH.
 
 * `count-monitors` - Count number of connected monitors, in SH.
+
+* `extract-audio` - Extract from a video file, creating the same file name
+  with appropriate extension, in SH with FFmpeg.
+
+* `update-openjdk-8-font-patched` - Update OpenJDK 8 with font rendering patch
+  from PPA
+  [no1wantdthisname](https://launchpad.net/~no1wantdthisname/+archive/ubuntu/openjdk-fontfix),
+  in [Rc shell](http://plan9.bell-labs.com/sys/doc/rc.html).
