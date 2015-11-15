@@ -77,3 +77,6 @@ a coffee :-).
   from PPA
   [no1wantdthisname](https://launchpad.net/~no1wantdthisname/+archive/ubuntu/openjdk-fontfix),
   in [Rc shell](http://plan9.bell-labs.com/sys/doc/rc.html).
+
+* `local-port-open-p` - Check if a local port is open, returning 0 if it is
+  and 1 otherwise, in SH.
