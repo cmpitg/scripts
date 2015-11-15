@@ -1,0 +1,11 @@
+#!/bin/sh
+
+if (test $# -eq 0); then
+    cat <<EOF
+Usage: `basename $0` <port>
+
+Determines if a local TCP port is open.  Returns 0 if it is or 1 otherwise.
+EOF
+else
+    nc -z 127.0.0.1 "$1"
+fi
