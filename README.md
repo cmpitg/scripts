@@ -43,7 +43,7 @@ a coffee :-).
 
 * `monitor-off` - Turn off monitor, in SH.
 
-* `show-cpu-temp` - SHow my laptap's 2 CPUs temperature, in SH.
+* `show-cpu-temp` - Show my laptap's 2 CPUs temperature, in SH.
 
 * `run-ibus-daemon` - Run/restart iBus daemon, with Xim support, in SH.
 
