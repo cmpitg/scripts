@@ -10,7 +10,7 @@
 
 fn get_ports {
     if (test $#* -gt 0) {
-    ports=$*
+        ports=$*
     }
     if not {
         ports=4005  
