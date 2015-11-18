@@ -1,4 +1,4 @@
-# $HOME/bin
+# `/bin`
 
 This is a (not full) collection of my scripts residing at `~/bin/`.  I wrote
 most but not all of them.
