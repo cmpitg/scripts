@@ -1,0 +1,9 @@
+#!/usr/bin/env rc
+
+# Format text at column 78 or using environment variable column, using space to break
+
+if (test $#column -eq 0) {
+    column=78
+}
+
+exec fmt -w $column $*
