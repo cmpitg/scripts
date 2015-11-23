@@ -81,5 +81,9 @@ a coffee :-).
 * `local-port-open-p <port>` - Check if a local port is open, returning 0 if it is
   and 1 otherwise, in SH.
 
-* `sbcl-cmpitg-slime <port> ...` Start a SBCL Slime on a bunch of ports with Tmux;
-  if called with no argument, use port 4005, in Rc shell.
+* `sbcl-cmpitg-slime <port> ...` - Start a SBCL Slime on a bunch of ports with
+  Tmux; if called with no argument, use port 4005, in Rc shell.
+
+* `format-text` (env var: `column`) - Format text with
+  [par](http://www.nicemice.net/par/); column width is set by `column`
+  environment variable; by default `column` is `78`, in Rc shell.
