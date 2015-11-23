@@ -6,4 +6,5 @@ if (test $#column -eq 0) {
     column=78
 }
 
-exec fmt -w $column $*
+PARINIT='rTbgqR B=.,?_A_a Q=_s>|'
+exec par $column^w $*
