@@ -87,3 +87,6 @@ a coffee :-).
 * `format-text` (env var: `column`) - Format text with
   [par](http://www.nicemice.net/par/); column width is set by `column`
   environment variable; by default `column` is `78`, in Rc shell.
+
+* `emacs-format-text` - Format text with Emacs (batch mode) width column width
+  78 (TODO: customizable), in Rc shell, requires Emacs.
