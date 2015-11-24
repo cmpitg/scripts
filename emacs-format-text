@@ -1,0 +1,14 @@
+#!/usr/bin/env rc
+
+input=`{cat}
+code_pieces=`{echo `{cat <<EOF}}
+
+(with-temp-buffer
+  (set-fill-column 78)
+  (insert "$input")
+  (end-of-buffer)
+  (fill-region 0 (point))
+  (princ (buffer-string)))
+EOF
+
+emacs --batch --eval $"code_pieces $* >[2]/dev/null
