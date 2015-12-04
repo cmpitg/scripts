@@ -1,0 +1,7 @@
+#!/usr/bin/env rc
+
+#
+# Starts 9term within an Rc environment.
+#
+
+9term $*
