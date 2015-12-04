@@ -1,0 +1,26 @@
+#!/bin/sh
+
+##
+## Sets up the environment for Plan9port applications:
+## * Starts plumber and font server
+## * Runs the corresponding program
+##
+
+export TEMP9=/tmp/9-${USER}
+export PLAN9=${HOME}/opt/plan9port
+export PATH=${PATH}:${PLAN9}/bin
+
+export SHELL=rc
+export TERM=9term
+export font='/m/9p-fonts/Droid Sans Mono/11a/font'
+
+mkdir -p ${TEMP9}
+
+running-p plumber || plumber
+running-p fontsrv || \
+    nohup fontsrv \
+          -m /m/9p-fonts \
+          >${TEMP9}/fontsrv.out \
+          2>${TEMP9}/fontsrv.err &
+
+exec ${PLAN9}/bin/9 "$@"

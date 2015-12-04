@@ -1,10 +1,19 @@
 #!/usr/bin/env rc
 
-# Format text at column 78 or using environment variable column, using space to break
+#
+# Formats text using Emacs's fill-paragraph.
+#
 
-if (test $#column -eq 0) {
-    column=78
-}
+input=`{cat}
+code_pieces=`{echo `{cat <<EOF}}
 
-PARINIT='rTbgqR B=.,?_A_a Q=_s>|'
-exec par $column^w $*
+(with-temp-buffer
+  (set-fill-column 78)
+  (insert "$input")
+  (end-of-buffer)
+  (fill-region 0 (point))
+  (princ (buffer-string)))
+EOF
+
+emacs --batch --eval $"code_pieces $* >[2]/dev/null
+

@@ -10,10 +10,10 @@
 
 fn get_ports {
     if (test $#* -gt 0) {
-        ports=$*
+        echo $*
     }
     if not {
-        ports=4005  
+        echo 4005  
     }
 }
 
@@ -23,7 +23,7 @@ fn get_ports {
 
 sbcl=sbcl-cmpitg
 session_name=common-lisp
-ports=get_ports
+ports=`{get_ports $*}
 
 for (swank_port in $ports) {
     if (local-port-open-p $swank_port) {
@@ -32,6 +32,7 @@ for (swank_port in $ports) {
     if not {
         echo Starting Slime on port $swank_port
         session=`{tmux ls | awk '/common-lisp:/ { print $1 }'}
+
         if (test $#session -eq 0) {
             tmux new -s $session_name $sbcl --eval '(load-slime '^$swank_port^')' ';' \
                 rename-window $swank_port ';' \
