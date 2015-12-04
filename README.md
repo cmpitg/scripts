@@ -11,7 +11,10 @@ a coffee :-).
 ## Description
 
 * `9` - Sets up font server (`/m/9p-fonts`), temp folder (`/tmp/9-${USER}`)
-  and executes a command in a Plan9port environment in `/m/opt/plan9port`.
+  and executes a command in a Plan9port environment in `/m/opt/plan9port`, in
+  Sh.
+
+* `9-term` - Runs Plan9port term program with `9`, in Rc shell.
 
 * `i3-exec-command` - Execute an i3 command in
   [i3 window manager](http://i3wm.org/), in SH.
