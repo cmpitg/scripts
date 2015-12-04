@@ -16,6 +16,9 @@ a coffee :-).
 
 * `9-term` - Runs Plan9port term program with `9`, in Rc shell.
 
+* `acme` - Runs Plan9port version of Acme with `9`, using Droid Sans Mono as
+  font, opening `/m/Toolbox/acme-menu.txt`, in Rc shell.
+
 * `i3-exec-command` - Execute an i3 command in
   [i3 window manager](http://i3wm.org/), in SH.
 
