@@ -19,6 +19,9 @@ a coffee :-).
 * `acme` - Runs Plan9port version of Acme with `9`, using Droid Sans Mono as
   font, opening `/m/Toolbox/acme-menu.txt`, in Rc shell.
 
+* `prefix <text>` - Reads text from stdin an prefix all lines with
+  `text`. `text` is set to `# ` by default. In Rc shell.
+
 * `i3-exec-command` - Execute an i3 command in
   [i3 window manager](http://i3wm.org/), in SH.
 
