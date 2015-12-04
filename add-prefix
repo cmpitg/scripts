@@ -1,0 +1,12 @@
+#!/usr/bin/env rc
+
+#
+# Adds prefix to all lines.
+#
+
+prefix=$1 {
+    if (test $#prefix -eq 0) {
+        prefix='# '
+    }
+    sed 's/^/'^$prefix^'/g'
+}
