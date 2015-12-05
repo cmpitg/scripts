@@ -77,10 +77,10 @@ lrwxrwxrwx  1 cmpitg cmpitg   22 Aug  3  2014 virtenvs -> /m/cmpitg/Virtual-Envs
 lrwxrwxrwx  1 cmpitg cmpitg   18 Nov 28 20:35 www -> /m/cmpitg/WWW/
 ----
 +
-Most all directories should speak for themselves.  Exceptions include:
+Most directories should speak for themselves.  Exceptions include:
 +
 ** `/m/9p-fonts`: mounted by Plan9port's `fontsrv` to serve fonts, and
-** `/m/acme`: exposes Acme's file system.
+** `/m/acme`: file system interface of Acme.
 
 == Installation
 
