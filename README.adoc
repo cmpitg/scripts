@@ -182,6 +182,28 @@ acme -a \
 
 ----
 
+== `cat-which <executable>` - `cat $(which executable)`
+
+Finds full path to executable and displays the content.
+
+[source,sh,linenums]
+----
+#!/bin/sh
+
+#
+# Finds full path to executable and displays the content.
+#
+
+exec_="$@"
+
+if $(which "${exec_}" >/dev/null); then
+	cat $(which "${exec_}")
+else
+	echo "${exec_} not found" >&2
+fi
+
+----
+
 
 == License
 
@@ -192,8 +214,6 @@ good Vietnamese coffee or something stronger :-).
 
 * `prefix [text]` - Reads text from stdin an prefix all lines with
   `text`. `text` is set to `# ` by default. In Rc shell.
-
-* `cat-which <executable>` - Shorthand for `cat $(which executable)`, in Sh.
 
 * `i3-exec-command` - Execute an i3 command in [i3 window
   manager](http://i3wm.org/), in SH.
