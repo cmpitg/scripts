@@ -103,16 +103,53 @@ To be written...
 
 ''''
 
+== Contents
+
+=== `9` - sets up the envinroment for Plan9port applications
+
+* Starts and mounts 9p font server to `/m/9p-fonts`
+* Creates temporary directory: `/tmp/9-${USER}`
+* And executes a command in a Plan9port environment in `${PLAN9}/bin`.  If
+  `PLAN9` variable is not set, it is set to `/m/opt/plan9port` by default.
+
+.file::9
+[source,sh,linenums]
+----
+#!/bin/sh
+
+##
+## Sets up the environment for Plan9port applications:
+## * Starts plumber and font server
+## * Runs the corresponding program
+##
+
+export TEMP9=/tmp/9-${USER}
+export PLAN9=/m/opt/plan9port
+export PATH=${PLAN9}/bin:${PATH}
+
+export SHELL=rc
+export TERM=9term
+export font='/m/9p-fonts/Droid Sans Mono/11a/font'
+
+mkdir -p ${TEMP9}
+
+running-p plumber || plumber
+running-p fontsrv || \
+	nohup fontsrv \
+		-m /m/9p-fonts \
+		>${TEMP9}/fontsrv.out \
+		2>${TEMP9}/fontsrv.err &
+
+exec ${PLAN9}/bin/9 "$@"
+
+----
+
 == License
 
 Unless clearly stated, do whatever you want with them.  If you like me, buy me
 good Vietnamese coffee or something stronger :-).
 
 == Description
-
-* `9` - Sets up font server (`/m/9p-fonts`), temp directory (`/tmp/9-${USER}`)
-  and executes a command in a Plan9port environment in `/m/opt/plan9port`, in
-  Sh.
 
 * `9-term` - Runs Plan9port term program with `9`, in Rc shell.
 
