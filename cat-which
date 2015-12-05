@@ -1,0 +1,7 @@
+#!/bin/bash
+
+#
+# Finds full path to executable and displays the content.
+#
+
+cat `which $*`
