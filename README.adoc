@@ -11,6 +11,15 @@ are written in http://doc.cat-v.org/plan_9/4th_edition/papers/rc[Rc shell],
 for Bourne-or-Bash-compatible shell suffers from many design flaws, making it
 difficult to maintain.
 
+This document is written in literate programming style.  To generate scripts
+and documentation, you need latest stable version of
+https://github.com/cmpitg/ulquikit[Ulquikit].  You could also clone the repo
+and start using it yourself.
+
+I have just rewritten this README since today (Dec 5^th, 2015).  In the next
+couple of days, I will include all installation scripts and detailed
+instructions to make the setup as painless as possible.
+
 == Requirements
 
 For everything to function correctly, you need:
