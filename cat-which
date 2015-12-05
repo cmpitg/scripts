@@ -4,4 +4,10 @@
 # Finds full path to executable and displays the content.
 #
 
-cat `which $*`
+exec_="$@"
+
+if $(which "${exec_}" >/dev/null); then
+	cat $(which ${exec_})
+else
+	echo "${exec_} not found" >&2
+fi
