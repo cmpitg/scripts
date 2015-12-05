@@ -158,15 +158,37 @@ exec ${PLAN9}/bin/9 "$@"
 
 ----
 
+== `acme` - runs Plan9port Acme with `9`
+
+Font can be chosen by setting the `font` environment variable.  By default, it
+is set to `/m/9p-fonts/Droid Sans Mono/11a/font`.
+
+[source,sh,linenums]
+----
+#!/usr/bin/env rc
+
+#
+# Starts Acme with font specified by variable `font'.  By default, use Droid
+# Sans Mono.
+#
+
+if (test -z $font) {
+	font='/m/9p-fonts/Droid Sans Mono/11a/font'
+}
+
+acme -a \
+	-m /m/acme \
+	-f $font $* $toolbox
+
+----
+
+
 == License
 
 Unless clearly stated, do whatever you want with them.  If you like me, buy me
 good Vietnamese coffee or something stronger :-).
 
 == Description
-
-* `acme` - Runs Plan9port version of Acme with `9`, using Droid Sans Mono as
-  font, opening `/m/Toolbox/acme-menu.txt`, in Rc shell.
 
 * `prefix [text]` - Reads text from stdin an prefix all lines with
   `text`. `text` is set to `# ` by default. In Rc shell.
