@@ -105,7 +105,7 @@ To be written...
 
 == Contents
 
-=== `9` - sets up the envinroment for Plan9port applications
+=== `9` - sets up the environment for Plan9port applications
 
 * Starts and mounts 9p font server to `/m/9p-fonts`
 * Creates temporary directory: `/tmp/9-${USER}`
