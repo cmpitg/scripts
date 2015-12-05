@@ -1,0 +1,192 @@
+= `bin`
+:toc: left
+:toclevels: 4
+:numbered:
+:icons: font
+:source-highlighter: pygments
+:pygments-css: class
+
+A collection of my scripts.  I wrote most but not all of them.  Many of them
+are written in http://doc.cat-v.org/plan_9/4th_edition/papers/rc[Rc shell],
+for Bourne-or-Bash-compatible shell suffers from many design flaws, making it
+difficult to maintain.
+
+== Requirements
+
+For everything to function correctly, you need:
+
+* https://github.com/9fans/plan9port[Plan 9 from User Space] (Plan9port)
+* GNU Emacs 24+
+
+== Notes
+
+My environment is unusual:
+
+* `${HOME}/Data` is either a symlink or a mount point, pointing to all
+  configuration and data belonging to the tools I use.
++
+If you have a separated `${HOME}`, you just need to create the `Data`
+directory.
++
+The main reasons why I don't use separated partition for `${HOME}` is because:
+1) `${HOME}` itself is extremely inconsistent and cluttered (`.config`,
+`.local`, dot files, capticalized names vs. lower-case names, etc.); and 2) I
+use serveral distros, where each piece of software is slightly different in
+versions, thus different in configuration.
++
+In my main system, `/home/cmpitg/Data` is a symlink to `/mnt/home/cmpitg`,
+whereas `/mnt/home` is a mount point.
+
+* `${HOME}/Data/Mount-Points` contains a collection of shortcuts to various
+  directories, and `/m` is its symlink into `/`.
++
+I like to separate the original directories from their shortcuts and to make
+things globally visible.  Some might argue that this is a serious security
+flaw.  I disagree.  Private things should be kept away.  Put your `.ssh`
+should never stay in `/m`.
+
+* `/m/${USER}` is a symlink back to `${HOME}/Data`, so all symlinks in `/m`
+  can utilize `/m/${USER}` itself.
++
+Symlinks are very useful if used appropriately (examples include the
+https://nixos.org/nix/[Nix package manager]).  For me, using `/m/src` is much
+more effective and unified than `~/src` for what `~` depends on what your
+current user is.  I could also re-symlink `/m/src` whenever I want with very
+simple commands.
++
+[source]
+----
+✗ l /m
+lrwxrwxrwx 1 root root 30 Nov 28 20:24 /m -> /home/cmpitg/Data/Mount-Points/
+
+✗ l /m/
+total 12K
+drwxr-xr-x  4 cmpitg cmpitg 4.0K Nov 28 22:04 ./
+drwxr-xr-x 29 cmpitg cmpitg 4.0K Dec  1 23:44 ../
+dr-xr-xr-x  1 cmpitg cmpitg    0 Jan  1  1970 9p-fonts/
+drwxr-xr-x  2 cmpitg cmpitg 4.0K Nov 23 22:23 acme/
+lrwxrwxrwx  1 cmpitg cmpitg   13 Nov 28 22:01 bin -> /m/cmpitg/Bin/
+lrwxrwxrwx  1 cmpitg cmpitg   17 Nov 28 20:22 cmpitg -> /home/cmpitg/Data/
+lrwxrwxrwx  1 cmpitg cmpitg   16 Feb 15  2015 config -> /m/cmpitg/Config/
+lrwxrwxrwx  1 cmpitg cmpitg   13 Nov 28 22:02 opt -> /m/cmpitg/Opt/
+lrwxrwxrwx  1 cmpitg cmpitg   17 Aug  3  2014 scratch -> /m/cmpitg/Scratch/
+lrwxrwxrwx  1 cmpitg cmpitg   18 Nov 28 22:04 src -> /m/cmpitg/Src/
+lrwxrwxrwx  1 cmpitg cmpitg   15 Feb 15  2015 talks -> /m/cmpitg/Talks/
+lrwxrwxrwx  1 cmpitg cmpitg   17 Aug  3  2014 toolbox -> /m/cmpitg/Toolbox/
+lrwxrwxrwx  1 cmpitg cmpitg   22 Aug  3  2014 virtenvs -> /m/cmpitg/Virtual-Envs/
+lrwxrwxrwx  1 cmpitg cmpitg   18 Nov 28 20:35 www -> /m/cmpitg/WWW/
+----
++
+Most all directories should speak for themselves.  Exceptions include:
++
+** `/m/9p-fonts`: mounted by Plan9port's `fontsrv` to serve fonts, and
+** `/m/acme`: exposes Acme's file system.
+
+== Installation
+
+For installation of Plan9port, please refer to
+https://github.com/9fans/plan9port[its original documentation].
+
+To be written...
+
+''''
+
+== License
+
+Unless clearly stated, do whatever you want with them.  If you like me, buy me
+good Vietnamese coffee or something stronger :-).
+
+== Description
+
+* `9` - Sets up font server (`/m/9p-fonts`), temp directory (`/tmp/9-${USER}`)
+  and executes a command in a Plan9port environment in `/m/opt/plan9port`, in
+  Sh.
+
+* `9-term` - Runs Plan9port term program with `9`, in Rc shell.
+
+* `acme` - Runs Plan9port version of Acme with `9`, using Droid Sans Mono as
+  font, opening `/m/Toolbox/acme-menu.txt`, in Rc shell.
+
+* `prefix [text]` - Reads text from stdin an prefix all lines with
+  `text`. `text` is set to `# ` by default. In Rc shell.
+
+* `cat-which <executable>` - Shorthand for `cat $(which executable)`, in Sh.
+
+* `i3-exec-command` - Execute an i3 command in [i3 window
+  manager](http://i3wm.org/), in SH.
+
+* `i3-switch-window` - Task switcher for
+  [i3 window manager](http://i3wm.org/), in Python using `dzen`.
+
+* `i3-move-to-workspace` - Move a window to a workspace in i3 window manager,
+  in SH.
+
+* `i3-to-workspace` - Switch to a workspace in i3 window manager, in SH.
+
+* `i3-rename-workspace` - Rename a workspace in i3 window manager, in SH.
+
+* `update-sbcl` - Check and update [SBCL](http://www.sbcl.org/), in Ruby.
+
+* `rename-urt-demos` - Rename Urban Terror 4.1 demo files (upcase, reformat
+  for better timestamp and map), in Python.
+
+* `get-monitors` - Get `output mode rate` for all active monitors using
+  `xrandr`, in Ruby.
+
+* `github-repo-to-ssh` - Convert `git@` protocol to `git+ssh` which Mercurial
+  understands, in Ruby.
+
+* `set-default-monitor-config` - Basic multihead, in Ruby.
+
+* `du-this` - Get disk usage for all files and directories residing in the
+  current directory and sort them in descending order, in SH.
+
+* `monitor-off` - Turn off monitor, in SH.
+
+* `show-cpu-temp` - Show my laptap's 2 CPUs temperature, in SH.
+
+* `run-ibus-daemon` - Run/restart iBus daemon, with Xim support, in SH.
+
+* `run-xiki` - Fresh start Xiki (due to a bug at startup, Xiki needs to
+  restart after the first run), in SH.
+
+* `run-zsnes` - Run Zsnes emulator, in SH.
+
+* `git-rm-orphaned` - Remove deleted files from Git cache, in SH.
+
+* `firefox-beta` - Run Firefox beta, in SH.
+
+* `firefox-beta-new-instance` - Run new instance of Firefox beta (Firefox is
+  called with `no-remote`), in SH.
+
+* `python-print-site-packages-path` - Print Python site packages path, in SH.
+
+* `intel-adjust-brightness` - Adjust brightness with shell script, requires
+  `ALL=NOPASSWD: /usr/bin/tee` in your `/etc/sudoers` (edited by `visudo`), in
+  SH.
+
+* `virtualenv-symlink` - Symlink Python
+  [virtualenv](https://virtualenv.pypa.io/en/latest/), in SH.
+
+* `count-monitors` - Count number of connected monitors, in SH.
+
+* `extract-audio` - Extract from a video file, creating the same file name
+  with appropriate extension, in SH with FFmpeg.
+
+* `update-openjdk-8-font-patched` - Update OpenJDK 8 with font rendering patch
+  from PPA
+  [no1wantdthisname](https://launchpad.net/~no1wantdthisname/+archive/ubuntu/openjdk-fontfix),
+  in [Rc shell](http://plan9.bell-labs.com/sys/doc/rc.html).
+
+* `local-port-open-p <port>` - Check if a local port is open, returning 0 if it is
+  and 1 otherwise, in SH.
+
+* `sbcl-cmpitg-slime <port> ...` - Start a SBCL Slime on a bunch of ports with
+  Tmux; if called with no argument, use port 4005, in Rc shell.
+
+* `format-text` (env var: `column`) - Format text with
+  [par](http://www.nicemice.net/par/); column width is set by `column`
+  environment variable; by default `column` is `78`, in Rc shell.
+
+* `emacs-format-text` - Format text with Emacs (batch mode) width column width
+  78 (TODO: customizable), in Rc shell, requires Emacs.
