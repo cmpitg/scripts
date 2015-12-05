@@ -144,14 +144,26 @@ exec ${PLAN9}/bin/9 "$@"
 
 ----
 
+== `9-term` - runs Plan9port terminal emulator within an 9 environment
+
+[source,sh,linenums]
+----
+#!/usr/bin/env rc
+
+#
+# Starts 9term within an Rc environment.
+#
+
+9term $*
+
+----
+
 == License
 
 Unless clearly stated, do whatever you want with them.  If you like me, buy me
 good Vietnamese coffee or something stronger :-).
 
 == Description
-
-* `9-term` - Runs Plan9port term program with `9`, in Rc shell.
 
 * `acme` - Runs Plan9port version of Acme with `9`, using Droid Sans Mono as
   font, opening `/m/Toolbox/acme-menu.txt`, in Rc shell.
