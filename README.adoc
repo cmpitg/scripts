@@ -27,6 +27,9 @@ For everything to function correctly, you need:
 * https://github.com/9fans/plan9port[Plan 9 from User Space] (Plan9port)
 * GNU Emacs 24+
 
+Some scripts depend on others.  It's best to fulfill the requirements for all
+of them.
+
 == Notes
 
 My environment is unusual:
