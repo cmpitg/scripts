@@ -317,6 +317,31 @@ popd
 
 ----
 
+=== `comment-code` - comments code, read from stdin
+
+Comments code by prefixing them with line comment character string by the
+first argument passed in this script.  By default, prefix code with `# `.
+
+.file::comment-code
+[source,sh,linenums]
+----
+#!/usr/bin/env rc
+
+#
+# Comments a piece of code.
+#
+
+if (~ $1 '') {
+	comment_char='#'
+}
+if not {
+	comment_char=$1
+}
+
+prefix $comment_char^' '
+
+----
+
 
 == License
 
