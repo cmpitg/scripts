@@ -232,6 +232,26 @@ done
 
 ----
 
+=== `buildapp-cmpitg` - builds Common Lisp standalone executable
+
+With TODO[@xach's] TODO[Buildapp].  This script takes TODO[ASDF] manifest file
+from `manifest` environment variable.  By default, `manifest` is set to `/m/config/common-lisp/sbcl-quicklisp-manifest.txt`.
+
+.file::buildapp-cmpitg
+[source,sh,linenums]
+----
+#!/usr/bin/env rc
+
+if (test -z $manifest) {
+	manifest='/m/config/common-lisp/sbcl-quicklisp-manifest.txt'
+}
+
+buildapp --manifest-file $manifest \
+	--load /m/Toolbox/SBCL/sbcl-cmpitg-base.lisp \
+	$*
+
+----
+
 
 == License
 
