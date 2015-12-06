@@ -294,6 +294,28 @@ sbcl-cmpitg --no-userinit --no-sysinit --non-interactive \
 
 ----
 
+=== `clojure-repl` - starts Clojure REPL with TODO[Lein]
+
+Starts a Clojure REPL in a directory, set by the `clojure_root` environment
+variable.  By default, `clojure_root` is set to `${HOME}/test/clojure/main`.
+
+.file::clojure-repl
+[source,sh,linenums]
+----
+#!/usr/bin/env rc
+
+if (~ $clojure_root '') {
+	clojure_root=$home/test/clojure/main
+}
+
+pushd .
+cd $clojure_root
+lein repl $@
+popd
+
+----
+
+
 == License
 
 Unless clearly stated, do whatever you want with them.  If you like me, buy me
