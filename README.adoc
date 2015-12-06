@@ -272,6 +272,28 @@ find "${dir_}" -type f -print0 | xargs -0 chmod 0644
 
 ----
 
+=== `cl-write-manifest` - writes ASDF manifest file
+
+Writes TODO[ASDF manifest] file to a location, set by environment variable
+`manifest`.  By default, `manifest` is set to
+`/m/config/common-lisp/sbcl-quicklisp-manifest.txt`.
+
+.file::cl-write-manifest
+[source,sh,linenums]
+----
+#!/usr/bin/env rc
+
+if (~ $manifest '') {
+	manifest='/m/config/common-lisp/sbcl-quicklisp-manifest.txt'
+}
+
+echo Writing manifest file $manifest
+
+sbcl-cmpitg --no-userinit --no-sysinit --non-interactive \
+    --eval '(ql:write-asdf-manifest-file "'^$manifest^'")'
+
+----
+
 
 == License
 
