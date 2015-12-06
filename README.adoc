@@ -146,6 +146,7 @@ exec ${PLAN9}/bin/9 "$@"
 
 === `9-term` - runs Plan9port terminal emulator within an 9 environment
 
+.file::9-term
 [source,sh,linenums]
 ----
 #!/usr/bin/env rc
@@ -163,6 +164,7 @@ exec ${PLAN9}/bin/9 "$@"
 Font can be chosen by setting the `font` environment variable.  By default, it
 is set to `/m/9p-fonts/Droid Sans Mono/11a/font`.
 
+.file::acme
 [source,sh,linenums]
 ----
 #!/usr/bin/env rc
@@ -186,6 +188,7 @@ acme -a \
 
 Finds full path to executable and displays the content.
 
+.file::acme
 [source,sh,linenums]
 ----
 #!/bin/sh
@@ -206,6 +209,7 @@ fi
 
 === `check-broken-symlinks [path1] [path2] [...]`
 
+.file::check-broken-symlinks
 [source,sh,linenums]
 ----
 #!/bin/sh
