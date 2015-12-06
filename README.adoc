@@ -1,5 +1,5 @@
 = `bin`
-:toc: left
+:toc: auto
 :toclevels: 4
 :numbered:
 :icons: font
