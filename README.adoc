@@ -342,6 +342,53 @@ prefix $comment_char^' '
 
 ----
 
+=== `config-keymap-altgr` - keyboard layout: Programmer Dvorak + Right Alt as AltGr + Ctrl-Alt swapped + CapsLock-Escape swapped
+
+.file::config-keymap-altgr
+[source,sh,linenums]
+----
+#!/bin/sh
+
+test -z "${DISPLAY}" && exit 0
+
+setxkbmap us -variant dvp -option lv3:ralt_alt
+xmodmap <<EOF
+! -*- mode: xmodmap-generic -*-
+! No modifier map for mod5
+clear mod5
+add mod4 = Super_R
+
+! Swap Escape and Capslock
+remove Lock = Caps_Lock
+add Lock = Escape
+keysym Caps_Lock = Escape
+keysym Escape = Caps_Lock
+
+! Swap left Control and Alt
+remove control = Control_L
+remove mod1 = Alt_L
+remove mod1 = Meta_L
+keysym Control_L = Meta_L
+keysym Control_L = Alt_L
+keysym Alt_L = Control_L
+add mod1 = Meta_L
+add mod1 = Alt_L
+add control = Control_L
+
+! Swap right Control and Alt
+remove control = Control_R
+remove mod1 = Alt_R
+keysym Control_R = Alt_R
+keysym Alt_R = Control_R
+
+add control = Control_R
+
+! Add AltGr to Alt_R
+add mod5 = Alt_R
+
+EOF
+
+----
 
 == License
 
