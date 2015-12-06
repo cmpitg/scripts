@@ -174,7 +174,7 @@ is set to `/m/9p-fonts/Droid Sans Mono/11a/font`.
 # Sans Mono.
 #
 
-if (test -z $font) {
+if (~ $font '') {
 	font='/m/9p-fonts/Droid Sans Mono/11a/font'
 }
 
@@ -245,7 +245,7 @@ environment variable.  By default, `manifest` is set to
 ----
 #!/usr/bin/env rc
 
-if (test -z $manifest) {
+if (~ $manifest '') {
 	manifest='/m/config/common-lisp/sbcl-quicklisp-manifest.txt'
 }
 
@@ -293,7 +293,6 @@ sbcl-cmpitg --no-userinit --no-sysinit --non-interactive \
     --eval '(ql:write-asdf-manifest-file "'^$manifest^'")'
 
 ----
-
 
 == License
 
