@@ -274,8 +274,10 @@ find "${dir_}" -type f -print0 | xargs -0 chmod 0644
 
 === `cl-write-manifest` - writes ASDF manifest file
 
-Writes TODO[ASDF manifest] file to a location, set by environment variable
-`manifest`.  By default, `manifest` is set to
+Writes
+https://common-lisp.net/project/asia/asia.html#_how_to_create_project_manifest_database[ASDF
+manifest] file to a location, set by environment variable `manifest`.  By
+default, `manifest` is set to
 `/m/config/common-lisp/sbcl-quicklisp-manifest.txt`.
 
 .file::cl-write-manifest
@@ -294,7 +296,7 @@ sbcl-cmpitg --no-userinit --no-sysinit --non-interactive \
 
 ----
 
-=== `clojure-repl` - starts Clojure REPL with TODO[Lein]
+=== `clojure-repl` - starts Clojure REPL with http://leiningen.org/[Lein]
 
 Starts a Clojure REPL in a directory, set by the `clojure_root` environment
 variable.  By default, `clojure_root` is set to `${HOME}/test/clojure/main`.
