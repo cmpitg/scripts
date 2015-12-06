@@ -257,7 +257,7 @@ buildapp --manifest-file $manifest \
 
 === `chmod-default [dir]` - fixes permissions
 
-`chmod` a directory recursively, 755 for files and 644 for directory.  By
+`chmod` a directory recursively, 755 for files and 644 for directories.  By
 default, `dir` is current working directory.
 
 .file::chmod-default
