@@ -144,7 +144,7 @@ exec ${PLAN9}/bin/9 "$@"
 
 ----
 
-=== `9-term` - runs Plan9port terminal emulator within an 9 environment
+=== `9-term` - runs Plan9port terminal emulator within a 9 environment
 
 .file::9-term
 [source,sh,linenums]
