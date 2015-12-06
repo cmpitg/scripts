@@ -234,8 +234,11 @@ done
 
 === `buildapp-cmpitg` - builds Common Lisp standalone executable
 
-With TODO[@xach's] TODO[Buildapp].  This script takes TODO[ASDF] manifest file
-from `manifest` environment variable.  By default, `manifest` is set to `/m/config/common-lisp/sbcl-quicklisp-manifest.txt`.
+With https://github.com/xach[@xach's]
+http://www.xach.com/lisp/buildapp/[Buildapp].  This script takes
+https://common-lisp.net/project/asdf/[ASDF] manifest file from `manifest`
+environment variable.  By default, `manifest` is set to
+`/m/config/common-lisp/sbcl-quicklisp-manifest.txt`.
 
 .file::buildapp-cmpitg
 [source,sh,linenums]
