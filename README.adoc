@@ -347,7 +347,7 @@ prefix $comment_char^' '
 .file::config-keymap-altgr
 [source,sh,linenums]
 ----
-#!/bin/sh
+#!/bin/bash
 
 test -z "${DISPLAY}" && exit 0
 
