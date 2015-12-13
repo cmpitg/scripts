@@ -188,7 +188,7 @@ acme -a \
 
 Finds full path to executable and displays the content.
 
-.file::acme
+.file::cat-which
 [source,sh,linenums]
 ----
 #!/bin/sh
@@ -453,6 +453,8 @@ config-touchpad
 config-touchpad
 
 ----
+
+
 == License
 
 Unless clearly stated, do whatever you want with them.  If you like me, buy me
