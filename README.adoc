@@ -502,6 +502,42 @@ xinput set-prop "${ID}" "Device Accel Profile" 7
 
 ----
 
+==== `config-logitech-g300-mouse`
+
+Also, resets keyboard layout for G300 back to US QWERTY, so that
+kbd:[Ctrl+X/C/V] works as expected.
+
+.file::config-logitech-g300-mouse
+[source,sh,linenums]
+----
+#!/bin/bash
+
+id_=$(xinput list \
+			| grep "Logitech Gaming Mouse G300" \
+			| head -1 \
+			| cut -d'=' -f2 \
+			| awk '{ print $1 }')
+id_keyboard_=$(xinput list \
+					 | grep "Logitech Gaming Mouse G300" \
+					 | tail -1 \
+					 | cut -d'=' -f2 \
+					 | awk '{ print $1 }')
+
+test -z "${id_}"          && exit 0
+test -z "${id_keyboard_}" && exit 0
+
+##############################################################################
+
+do-notify-short "Configuring Logitech G300 mouse"
+
+do-notify-short "* Set natural scrolling"
+xinput set-prop "${id_}" "Evdev Scrolling Distance" -1, -1, 1
+
+do-notify-short "* Reset keyboard layout"
+setxkbmap us -device "${id_keyboard_}"
+
+----
+
 
 == License
 
