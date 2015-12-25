@@ -880,6 +880,24 @@ done
 
 ----
 
+=== `convert-to-ogg-vorbis` - converts files into Ogg Vorbis
+
+This script takes a list of files as arguments.
+
+TODO: this should be in Rc, not Zsh.
+
+.file::convert-to-ogg-vorbis
+[source,sh,linenums]
+----
+#!/bin/zsh
+
+which ffpmeg &>/dev/null && prog_=ffmpeg || prog_=avconv
+
+for f in $*; do
+    "${prog_}" -i "${f}" -vn -aq 1 "$f:r.ogg"
+done
+
+----
 
 == License
 
