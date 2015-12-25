@@ -861,6 +861,26 @@ xrandr --output $main_mon --gamma $gamma:$gamma:$gamma
 
 ----
 
+=== `convert-to-mp3` - converts files into MP3
+
+This script takes a list of files as arguments.
+
+TODO: this should be in Rc, not Zsh.
+
+.file::convert-to-mp3
+[source,sh,linenums]
+----
+#!/bin/zsh
+
+which ffpmeg &>/dev/null && PROG=ffmpeg || PROG=avconv
+
+for f in $*; do
+    ${PROG} -i "${f}" -vn -aq 1 "$f:r.mp3"
+done
+
+----
+
+
 == License
 
 Unless clearly stated, do whatever you want with them.  If you like it, buy me
