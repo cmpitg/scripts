@@ -675,6 +675,7 @@ xinput set-prop "${id_}" "Device Accel Velocity Scaling" 5
 
 ==== `config-logitech-trackball-marble-lefty`
 
+.file::config-logitech-trackball-marble-lefty
 [source,sh,linenums]
 ----
 #!/bin/bash
@@ -762,6 +763,27 @@ xinput set-prop "${id_}" "Device Accel Profile" 6
 # Debian
 # xinput set-prop "${id_}" "Device Accel Velocity Scaling" 5
 xinput set-prop "${id_}" "Device Accel Velocity Scaling" 1
+
+----
+
+=== `config-monitors-urt` - configs external monitor for http://www.urbanterror.info[Urban Terror]
+
+Disables laptop monitor and increases brightness, as the brightness option
+doesn't work in-game.
+
+.file::config-monitors-urt
+[source,sh,linenums]
+----
+#!/usr/bin/env rc
+
+laptop_mon=eDP1
+main_mon=HDMI1
+gamma=1.4
+
+xrandr --output $laptop_mon --off
+sleep 2
+xrandr --output $main_mon --mode 1280x1024
+xrandr --output $main_mon --gamma $gamma:$gamma:$gamma
 
 ----
 
