@@ -673,6 +673,98 @@ xinput set-prop "${id_}" "Device Accel Velocity Scaling" 5
 
 ----
 
+==== `config-logitech-trackball-marble-lefty`
+
+[source,sh,linenums]
+----
+#!/bin/bash
+
+# Sources:
+#   https://wiki.archlinux.org/index.php/Logitech_Marble_Mouse
+#   http://www.x.org/wiki/Development/Documentation/PointerAcceleration/
+#   http://www.x.org/archive/X11R7.5/doc/man/man4/evdev.4.html
+#   man evdev
+
+id_=$( \
+    xinput list \
+    | grep "Logitech USB Trackball" \
+    | head -1 \
+    | cut -d'=' -f2 \
+    | awk '{ print $1 }' \
+)
+
+test -z "${id_}" && exit 0
+
+# ID     	Hardware Action     	Result                
+# 1 	Large button left 	normal click
+# 2 	Both large buttons 	middle-click  †
+# 3 	Large button right 	right-click
+# 4 	(not a button) 	-
+# 5 	(not a button) 	-
+# 6 	(not a button) 	-
+# 7 	(not a button) 	-
+# 8 	Small button left 	browser back
+# 9 	Small button right 	browser forward
+
+
+# * big-left: Primary click
+# * big-right: Secondary click
+# * small-left: Scrolling
+# * small-right: Middle click
+do-notify-short """Config buttons for righties:
+   large-left  [1]: Left click
+   large-right [3]: Right click
+   small-left  [8]: Middle click
+   small-right [9]: Scrolling + Middle click"""
+newline
+xinput set-button-map "${id_}" 1 9 3 4 5 6 7 2 9
+# xinput set-button-map "${id_}" 3 9 1 4 5 6 7 2 2
+
+# small-left
+xinput set-prop "${id_}" "Evdev Wheel Emulation Button" 8
+# xinput set-prop "${id_}" "Evdev Wheel Emulation Button" 9
+
+# Enable wheel emulation
+xinput set-prop "${id_}" "Evdev Wheel Emulation"        1
+
+##############################################################################
+
+do-notify-short "Config inverted and horizontial scrolling"
+newline
+
+# For normal scrolling
+# xinput set-prop "${id_}" "Evdev Wheel Emulation Axes" 6 7 4 5
+
+# Inverted scrolling
+xinput set-prop "${id_}" "Evdev Wheel Emulation Axes" 7 6 5 4
+
+# Inverted direction
+xinput set-prop "${id_}" "Evdev Axis Inversion" 1 1
+# xinput set-prop "${id_}" "Evdev Axis Inversion" 0 1
+
+##############################################################################
+
+do-notify-short "Config profile: Fast movement but more control at pixel-level"
+newline
+
+# Default
+# Debian
+# xinput set-prop "${id_}" "Device Accel Constant Deceleration" 1.5
+xinput set-prop "${id_}" "Device Accel Constant Deceleration" 1.5
+
+# More precision
+# xinput set-prop "${id_}" "Device Accel Adaptive Deceleration" 5
+xinput set-prop "${id_}" "Device Accel Adaptive Deceleration" 1
+
+# Acceleration
+# xinput set-prop "${id_}" "Device Accel Profile" -1
+xinput set-prop "${id_}" "Device Accel Profile" 6
+# Debian
+# xinput set-prop "${id_}" "Device Accel Velocity Scaling" 5
+xinput set-prop "${id_}" "Device Accel Velocity Scaling" 1
+
+----
+
 
 == License
 
