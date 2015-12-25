@@ -863,8 +863,8 @@ xrandr --output $main_mon --gamma $gamma:$gamma:$gamma
 
 == License
 
-Unless clearly stated, do whatever you want with them.  If you like me, buy me
-good Vietnamese coffee or something stronger :-).
+Unless clearly stated, do whatever you want with them.  If you like it, buy me
+a good strong coffee :-).
 
 == Description
 
