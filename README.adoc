@@ -872,10 +872,10 @@ TODO: this should be in Rc, not Zsh.
 ----
 #!/bin/zsh
 
-which ffpmeg &>/dev/null && PROG=ffmpeg || PROG=avconv
+which ffpmeg &>/dev/null && prog_=ffmpeg || prog_=avconv
 
 for f in $*; do
-    ${PROG} -i "${f}" -vn -aq 1 "$f:r.mp3"
+    "${prog_}" -i "${f}" -vn -aq 1 "$f:r.mp3"
 done
 
 ----
