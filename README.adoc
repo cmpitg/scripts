@@ -899,6 +899,17 @@ done
 
 ----
 
+=== `count-monitors`
+
+.file::count-monitors
+[source,sh,linenums]
+----
+#!/bin/sh
+
+xrandr | grep " connected" | wc -l
+
+----
+
 == License
 
 Unless clearly stated, do whatever you want with them.  If you like it, buy me
