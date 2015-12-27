@@ -116,7 +116,7 @@ To be written...
 .file::9
 [source,sh,linenums]
 ----
-#!/bin/sh
+#!/bin/bash
 
 ##
 ## Sets up the environment for Plan9port applications:
@@ -192,7 +192,7 @@ Finds full path to executable and displays the content.
 .file::cat-which
 [source,sh,linenums]
 ----
-#!/bin/sh
+#!/bin/bash
 
 #
 # Finds full path to executable and displays the content.
@@ -213,7 +213,7 @@ fi
 .file::check-broken-symlinks
 [source,sh,linenums]
 ----
-#!/bin/sh
+#!/bin/bash
 
 #
 # Checks for broken symlinks.
@@ -264,7 +264,7 @@ default, `dir` is current working directory.
 .file::chmod-default
 [source,sh,linenums]
 ----
-#!/bin/sh
+#!/bin/bash
 
 test -z "$1" && dir_="." || dir_="$1"
 
@@ -904,7 +904,7 @@ done
 .file::count-monitors
 [source,sh,linenums]
 ----
-#!/bin/sh
+#!/bin/bash
 
 xrandr | grep " connected" | wc -l
 
@@ -917,7 +917,7 @@ Returns the average CPU usage measured in 3 consecutive seconds, using `mpstat`.
 .file::cpu-usage
 [source,sh,linenums]
 ----
-#!/bin/sh
+#!/bin/bash
 
 #
 # Using `mpstat', calculates average CPU usage in 3 seconds.
