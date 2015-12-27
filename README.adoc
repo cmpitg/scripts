@@ -861,7 +861,7 @@ xrandr --output $main_mon --gamma $gamma:$gamma:$gamma
 
 ----
 
-=== `convert-to-mp3` - converts files into MP3
+=== `convert-to-mp3` - converts files to MP3
 
 This script takes a list of files as arguments.
 
@@ -880,7 +880,7 @@ done
 
 ----
 
-=== `convert-to-ogg-vorbis` - converts files into Ogg Vorbis
+=== `convert-to-ogg-vorbis` - converts files to Ogg Vorbis
 
 This script takes a list of files as arguments.
 
