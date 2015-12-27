@@ -910,6 +910,28 @@ xrandr | grep " connected" | wc -l
 
 ----
 
+=== `cpu-usage`
+
+Returns the average CPU usage measured in 3 consecutive seconds, using `mpstat`.
+
+.file::cpu-usage
+[source,sh,linenums]
+----
+#!/bin/sh
+
+#
+# Using `mpstat', calculates average CPU usage in 3 seconds.
+#
+
+if which mpstat &>/dev/null ; then
+	echo You need mpstat installed for this command to work
+	exit 1
+fi
+
+mpstat 3 1 | tail -1 | gawk '$12 ~ /[0-9.]+/ { print 100 - $12"%" }'
+
+----
+
 == License
 
 Unless clearly stated, do whatever you want with them.  If you like it, buy me
