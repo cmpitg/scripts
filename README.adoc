@@ -932,6 +932,38 @@ mpstat 3 1 | tail -1 | gawk '$12 ~ /[0-9.]+/ { print 100 - $12"%" }'
 
 ----
 
+=== `create-ctags`
+
+.file::create-ctags
+[source,sh,linenums]
+----
+#!/bin/bash
+
+#
+# Creates a tags file named TAGS using ctags.
+#
+
+if ! which ctags &>/dev/null ; then
+	echo You need ctags installed for this command to work >&2
+	exit 1
+fi
+
+if test -z "$1"; then
+	cat <<EOF
+Usage: $0 <directory> [ctags-options]*
+
+Creates a tags file named TAGS using ctags.
+EOF
+	exit 2
+fi
+
+dir_name_="$1"
+shift
+
+ctags "$@" -f "${dir_name_}"/TAGS -R "${dir_name_}"/*
+
+----
+
 == License
 
 Unless clearly stated, do whatever you want with them.  If you like it, buy me
