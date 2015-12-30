@@ -55,8 +55,8 @@ whereas `/mnt/home` is a mount point.
 +
 I like to separate the original directories from their shortcuts and to make
 things globally visible.  Some might argue that this is a serious security
-flaw.  I disagree.  Private things should be kept away.  Put your `.ssh`
-should never stay in `/m`.
+flaw.  I disagree.  Private things should be kept away.  Your `.ssh` should
+never stay in `/m`.
 
 * `/m/${USER}` is a symlink back to `${HOME}/Data`, so all symlinks in `/m`
   can utilize `/m/${USER}` itself.
