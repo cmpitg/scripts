@@ -1109,6 +1109,16 @@ docker rm $(docker ps -aq)
 
 ----
 
+=== `docker-remove-unnamed-images`
+
+.file::docker-remove-unnamed-images
+[source,sh]
+----
+#!/bin/bash
+
+sudo docker images -a | grep "<none>" | awk '{ print $3 }' | xargs sudo docker rmi
+
+----
 == License
 
 Unless clearly stated, do whatever you want with them.  If you like it, buy me
