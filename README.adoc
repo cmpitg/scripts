@@ -114,7 +114,7 @@ To be written...
   `PLAN9` variable is not set, it is set to `/m/opt/plan9port` by default.
 
 .file::9
-[source,sh,linenums]
+[source,sh]
 ----
 #!/bin/bash
 
@@ -148,7 +148,7 @@ exec ${PLAN9}/bin/9 "$@"
 === `9-term` - runs Plan9port terminal emulator within a 9 environment
 
 .file::9-term
-[source,sh,linenums]
+[source,sh]
 ----
 #!/usr/bin/env rc
 
@@ -166,7 +166,7 @@ Font can be chosen by setting the `font` environment variable.  By default, it
 is set to `/m/9p-fonts/Droid Sans Mono/11a/font`.
 
 .file::acme
-[source,sh,linenums]
+[source,sh]
 ----
 #!/usr/bin/env rc
 
@@ -190,7 +190,7 @@ acme -a \
 Finds full path to executable and displays the content.
 
 .file::cat-which
-[source,sh,linenums]
+[source,sh]
 ----
 #!/bin/bash
 
@@ -211,7 +211,7 @@ fi
 === `check-broken-symlinks [path1] [path2] [...]`
 
 .file::check-broken-symlinks
-[source,sh,linenums]
+[source,sh]
 ----
 #!/bin/bash
 
@@ -242,7 +242,7 @@ environment variable.  By default, `manifest` is set to
 `/m/config/common-lisp/sbcl-quicklisp-manifest.txt`.
 
 .file::buildapp-cmpitg
-[source,sh,linenums]
+[source,sh]
 ----
 #!/usr/bin/env rc
 
@@ -262,7 +262,7 @@ buildapp --manifest-file $manifest \
 default, `dir` is current working directory.
 
 .file::chmod-default
-[source,sh,linenums]
+[source,sh]
 ----
 #!/bin/bash
 
@@ -282,7 +282,7 @@ default, `manifest` is set to
 `/m/config/common-lisp/sbcl-quicklisp-manifest.txt`.
 
 .file::cl-write-manifest
-[source,sh,linenums]
+[source,sh]
 ----
 #!/usr/bin/env rc
 
@@ -303,7 +303,7 @@ Starts a Clojure REPL in a directory, set by the `clojure_root` environment
 variable.  By default, `clojure_root` is set to `${HOME}/test/clojure/main`.
 
 .file::clojure-repl
-[source,sh,linenums]
+[source,sh]
 ----
 #!/usr/bin/env rc
 
@@ -324,7 +324,7 @@ Comments code by prefixing them with line comment character string by the
 first argument passed in this script.  By default, prefix code with `# `.
 
 .file::comment-code
-[source,sh,linenums]
+[source,sh]
 ----
 #!/usr/bin/env rc
 
@@ -346,7 +346,7 @@ prefix $comment_char^' '
 === `config-keymap-altgr` - keyboard layout: Programmer Dvorak + Right Alt as AltGr + Ctrl-Alt swapped + CapsLock-Escape swapped
 
 .file::config-keymap-altgr
-[source,sh,linenums]
+[source,sh]
 ----
 #!/bin/bash
 
@@ -395,7 +395,7 @@ EOF
 === `config-keymap-cmpitg` - keyboard layout: Programmer Dvorak + Ctrl-Alt swapped + CapsLock-Escape swapped
 
 .file::config-keymap-cmpitg
-[source,sh,linenums]
+[source,sh]
 ----
 #!/bin/bash
 
@@ -460,7 +460,7 @@ config-touchpad
 Because Steam doesn't work with swapped modifiers.
 
 .file::config-keymap-steam
-[source,sh,linenums]
+[source,sh]
 ----
 #!/bin/bash
 
@@ -481,7 +481,7 @@ Enables natural scrolling and tweaks acceleration profile.
 ==== `config-lenovo-n700-mouse`
 
 .file::config-lenovo-n700-mouse
-[source,sh,linenums]
+[source,sh]
 ----
 #!/bin/bash
 
@@ -511,7 +511,7 @@ Also, resets keyboard layout for G300 back to US QWERTY, so that
 kbd:[Ctrl+X/C/V] works as expected.
 
 .file::config-logitech-g300-mouse
-[source,sh,linenums]
+[source,sh]
 ----
 #!/bin/bash
 
@@ -544,7 +544,7 @@ setxkbmap us -device "${id_keyboard_}"
 ==== `config-logitech-g502-mouse`
 
 .file::config-logitech-g502-mouse
-[source,sh,linenums]
+[source,sh]
 ----
 #!/bin/bash
 
@@ -583,7 +583,7 @@ xinput set-prop "${id_2_}" "Device Accel Adaptive Deceleration" 1
 ==== `config-logitech-trackball-marble-lefty`
 
 .file::config-logitech-trackball-marble-lefty
-[source,sh,linenums]
+[source,sh]
 ----
 #!/bin/bash
 
@@ -772,7 +772,7 @@ xinput set-prop "${id_}" "Device Accel Velocity Scaling" 1
 Lots of tweaks, the code should be self-explanatory though.
 
 .file::config-touchpad
-[source,sh,linenums]
+[source,sh]
 ----
 #!/bin/bash
 
@@ -846,7 +846,7 @@ Disables laptop monitor and increases brightness, as the brightness option
 doesn't work in-game.
 
 .file::config-monitors-urt
-[source,sh,linenums]
+[source,sh]
 ----
 #!/usr/bin/env rc
 
@@ -868,14 +868,14 @@ This script takes a list of files as arguments.
 TODO: this should be in Rc, not Zsh.
 
 .file::convert-to-mp3
-[source,sh,linenums]
+[source,sh]
 ----
 #!/bin/zsh
 
 which ffpmeg &>/dev/null && prog_=ffmpeg || prog_=avconv
 
 for f in $*; do
-    "${prog_}" -i "${f}" -vn -aq 1 "$f:r.mp3"
+	"${prog_}" -i "${f}" -vn -aq 1 "$f:r.mp3"
 done
 
 ----
@@ -887,14 +887,14 @@ This script takes a list of files as arguments.
 TODO: this should be in Rc, not Zsh.
 
 .file::convert-to-ogg-vorbis
-[source,sh,linenums]
+[source,sh]
 ----
 #!/bin/zsh
 
 which ffpmeg &>/dev/null && prog_=ffmpeg || prog_=avconv
 
 for f in $*; do
-    "${prog_}" -i "${f}" -vn -aq 1 "$f:r.ogg"
+	"${prog_}" -i "${f}" -vn -aq 1 "$f:r.ogg"
 done
 
 ----
@@ -902,7 +902,7 @@ done
 === `count-monitors`
 
 .file::count-monitors
-[source,sh,linenums]
+[source,sh]
 ----
 #!/bin/bash
 
@@ -915,7 +915,7 @@ xrandr | grep " connected" | wc -l
 Returns the average CPU usage measured in 3 consecutive seconds, using `mpstat`.
 
 .file::cpu-usage
-[source,sh,linenums]
+[source,sh]
 ----
 #!/bin/bash
 
@@ -935,7 +935,7 @@ mpstat 3 1 | tail -1 | gawk '$12 ~ /[0-9.]+/ { print 100 - $12"%" }'
 === `create-ctags`
 
 .file::create-ctags
-[source,sh,linenums]
+[source,sh]
 ----
 #!/bin/bash
 
@@ -969,7 +969,7 @@ ctags "$@" -f "${dir_name_}"/TAGS -R "${dir_name_}"/*
 Dumps a customized SBCL image and makes it work with Shelly (if installed).
 
 .file::create-sbcl-cmpitg-image
-[source,sh,linenums]
+[source,sh]
 ----
 #!/usr/bin/env rc
 
