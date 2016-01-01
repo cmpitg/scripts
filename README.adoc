@@ -1048,7 +1048,7 @@ if (test -d $SHELLY_HOME/dumped-cores) {
 
 ----
 
-=== `json-post`
+=== `json-post` - makes a JSON POST
 
 .file::json-post
 [source,sh]
@@ -1058,6 +1058,11 @@ if (test -d $SHELLY_HOME/dumped-cores) {
 #
 # Makes a JSON POST with Curl
 #
+
+if (! which curl >/dev/null >[2=1]) {
+	echo You need to install Curl >[1=2]
+	exit 1
+}
 
 curl -i -H 'Content-Type: application/json' -X POST $*
 
