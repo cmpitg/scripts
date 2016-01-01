@@ -1048,6 +1048,21 @@ if (test -d $SHELLY_HOME/dumped-cores) {
 
 ----
 
+=== `json-post`
+
+.file::json-post
+[source,sh]
+----
+#!/usr/bin/env rc
+
+#
+# Makes a JSON POST with Curl
+#
+
+curl -i -H 'Content-Type: application/json' -X POST $*
+
+----
+
 == License
 
 Unless clearly stated, do whatever you want with them.  If you like it, buy me
