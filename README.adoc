@@ -293,7 +293,7 @@ if (~ $manifest '') {
 echo Writing manifest file $manifest
 
 sbcl-cmpitg --no-userinit --no-sysinit --non-interactive \
-    --eval '(ql:write-asdf-manifest-file "'^$manifest^'")'
+	--eval '(ql:write-asdf-manifest-file "'^$manifest^'")'
 
 ----
 
@@ -594,11 +594,11 @@ xinput set-prop "${id_2_}" "Device Accel Adaptive Deceleration" 1
 #   man evdev
 
 id_=$( \
-    xinput list \
-    | grep "Logitech USB Trackball" \
-    | head -1 \
-    | cut -d'=' -f2 \
-    | awk '{ print $1 }' \
+	xinput list \
+	| grep "Logitech USB Trackball" \
+	| head -1 \
+	| cut -d'=' -f2 \
+	| awk '{ print $1 }' \
 )
 
 test -z "${id_}" && exit 0
@@ -677,7 +677,7 @@ xinput set-prop "${id_}" "Device Accel Velocity Scaling" 5
 ==== `config-logitech-trackball-marble-lefty`
 
 .file::config-logitech-trackball-marble-lefty
-[source,sh,linenums]
+[source,sh]
 ----
 #!/bin/bash
 
@@ -688,11 +688,11 @@ xinput set-prop "${id_}" "Device Accel Velocity Scaling" 5
 #   man evdev
 
 id_=$( \
-    xinput list \
-    | grep "Logitech USB Trackball" \
-    | head -1 \
-    | cut -d'=' -f2 \
-    | awk '{ print $1 }' \
+	xinput list \
+	| grep "Logitech USB Trackball" \
+	| head -1 \
+	| cut -d'=' -f2 \
+	| awk '{ print $1 }' \
 )
 
 test -z "${id_}" && exit 0
