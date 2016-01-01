@@ -1119,6 +1119,24 @@ docker rm $(docker ps -aq)
 sudo docker images -a | grep "<none>" | awk '{ print $3 }' | xargs sudo docker rmi
 
 ----
+
+=== `drop-lines`
+
+.file::drop-lines
+[source,sh]
+----
+#!/usr/bin/env rc
+
+#
+# Drops the first $1 lines.
+#
+
+n_lines=$1
+n_lines=`{echo $n_lines + 1 | bc}
+tail -n +$n_lines
+
+----
+
 == License
 
 Unless clearly stated, do whatever you want with them.  If you like it, buy me
