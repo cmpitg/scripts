@@ -1159,6 +1159,70 @@ TARGET_LANG=fi gtranslate $*
 
 ----
 
+=== `ff` - quickly opens file with Emacs and https://github.com/cmpitg/emnode[Emnode]
+
+Quickly opens file with Emacs + https://github.com/cmpitg/emnode[Emnode]
+server.  Emacs has to be setup with Emnode to listen to port `EMACS_PORT`,
+handling `/open/<file-path>` URI (i.e. command `curl 0:${EMACS_PORT}/open//m/src` opens
+`/m/src` in Emacs).  Sample setup is as followed:
+
+[source,lisp]
+----
+(setq *emnode-routes*
+      '(("^.*//open/\\(.*\\)"  . ~ipc-open-file)))
+
+(defun ~ipc-open-file (httpcon)
+  (let ((path (emnode:http-get-arg httpcon 1)))
+    (emnode:http-start httpcon 200 '("Content-Type" . "text/plain"))
+    (emnode:http-end httpcon (format "> Opening: %s\n" path))
+    (find-file path)))
+
+;; $ curl 0:9999/open//m/src
+
+(use-package emnode
+  :path "/m/src/emnode"
+  :ensure elnode
+  :config
+  (progn
+    (setq emnode:*log-level* emnode:+log-none+)
+    (emnode:stop 9999)
+    (ignore-errors
+      (emnode:start-server *emnode-routes* :port 9999))))
+
+----
+
+If Emacs is not yet started or not listening on port `EMACS_PORT`, start one
+with custom Emacs init file stored in environment variable `EMACS_INIT`.  By
+default, `EMACS_INIT` is set to `"~/emacs-config/src/init.el"` and
+`EMACS_PORT` is set to `9999`.
+
+.file::ff
+[source,sh]
+----
+#!/bin/bash
+
+if [[ -z "$EMACS_INIT" ]]; then
+	EMACS_INIT="~/emacs-config/src/init.el"
+fi
+
+if [[ -z "$EMACS_PORT" ]]; then
+	EMACS_PORT=9999
+fi
+
+(curl 0:$EMACS_PORT &>/dev/null) && server_running_p_=1 || server_running_p_=0
+
+if [[ "${server_running_p_}" -eq "1" ]] ; then
+	if [[ "$1" == /* ]] ; then
+		curl "0:${EMACS_PORT}/open/$1"
+	else
+		curl "0:${EMACS_PORT}/open/$PWD/$1"
+	fi
+else
+	emacs -Q -l "${EMACS_INIT}" "$@"
+fi
+
+----
+
 == License
 
 Unless clearly stated, do whatever you want with them.  If you like it, buy me
