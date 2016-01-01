@@ -1068,6 +1068,21 @@ curl -i -H 'Content-Type: application/json' -X POST $*
 
 ----
 
+=== `do-notify` - sends a desktop notification
+
+.file::do-notify
+[source,sh]
+----
+#!/usr/bin/env rc
+
+echo $*
+
+if (which notify-send >/dev/null >[2=1]) {
+	notify-send $*
+}
+
+----
+
 == License
 
 Unless clearly stated, do whatever you want with them.  If you like it, buy me
