@@ -1228,6 +1228,17 @@ fi
 
 ----
 
+=== `ffb` - quickly open `/m/bin/<file>` with <<ff,`ff`>>
+
+.file::ffb
+[source,sh]
+----
+#!/bin/bash
+
+ff "/m/bin/$@"
+
+----
+
 == License
 
 Unless clearly stated, do whatever you want with them.  If you like it, buy me
