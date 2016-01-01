@@ -1159,6 +1159,8 @@ TARGET_LANG=fi gtranslate $*
 
 ----
 
+anchor:ff[]
+
 === `ff` - quickly opens file with Emacs and https://github.com/cmpitg/emnode[Emnode]
 
 Quickly opens file with Emacs + https://github.com/cmpitg/emnode[Emnode]
