@@ -1083,6 +1083,21 @@ if (which notify-send >/dev/null >[2=1]) {
 
 ----
 
+=== `do-notify-short` - sends a short desktop notification
+
+.file::do-notify-short
+[source,sh]
+----
+#!/usr/bin/env rc
+
+echo $*
+
+if (which notify-send >/dev/null >[2=1]) {
+	notify-send -t 2000 $*
+}
+
+----
+
 == License
 
 Unless clearly stated, do whatever you want with them.  If you like it, buy me
