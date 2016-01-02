@@ -1261,6 +1261,32 @@ ff "/m/bin/$@"
 
 ----
 
+=== `format-text` - formats text from stdin using Emacs's `fill-paragraph`
+
+.file::format-text
+[source,sh]
+----
+#!/usr/bin/env rc
+
+#
+# Formats text from stdin using Emacs's fill-paragraph.
+#
+
+input=`{cat}
+sexpr=`{echo `{cat <<EOF}}
+
+(with-temp-buffer
+  (set-fill-column 78)
+  (insert "$input")
+  (end-of-buffer)
+  (fill-region 0 (point))
+  (princ (buffer-string)))
+EOF
+
+emacs --batch --eval $"sexpr $* >[2]/dev/null
+
+----
+
 == License
 
 Unless clearly stated, do whatever you want with them.  If you like it, buy me
