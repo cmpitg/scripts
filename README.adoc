@@ -1159,6 +1159,28 @@ TARGET_LANG=fi gtranslate $*
 
 ----
 
+=== `fi2en` - translates from Finnish to English
+
+.file::fi2en
+[source,sh]
+----
+#!/usr/bin/env rc
+
+#
+# Translates from Finnish to English with Google Translate, using
+# soimort/translate-shell tool.
+#
+
+if (! which gtranslate >/dev/null >[2=1]) {
+	echo gtranslate command not found >[1=2]
+	echo Make sure you have soimort/translate-shell installed >[1=2]
+	exit 1
+}
+
+TARGET_LANG=en gtranslate $*
+
+----
+
 anchor:ff[]
 
 === `ff` - quickly opens file with Emacs and https://github.com/cmpitg/emnode[Emnode]
