@@ -1137,7 +1137,7 @@ tail -n +$n_lines
 
 ----
 
-=== `en2fi` - translate from English to Finnish
+=== `en2fi` - translates from English to Finnish
 
 .file::en2fi
 [source,sh]
