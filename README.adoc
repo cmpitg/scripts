@@ -1446,6 +1446,27 @@ trans $* -brief $"input
 
 ----
 
+=== `html2text`
+
+.file::html2text
+[source,sh]
+----
+#!/bin/bash
+
+#
+# Converts HTML to text.  HTML is read from stdin.
+#
+
+if ! which lynx &>/dev/null; then
+	echo lynx not found. >&2
+	echo Make sure you have Lynx installed. >&2
+	exit 1
+fi
+
+exec lynx -dump -stdin "$@"
+
+----
+
 == License
 
 Unless clearly stated, do whatever you want with them.  If you like it, buy me
