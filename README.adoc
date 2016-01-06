@@ -1424,6 +1424,28 @@ exec git daemon --reuseaddr '--base-path='$git_path --export-all --verbose '--po
 
 ----
 
+=== `gtranslate` - translates from stdin with Google Translate
+
+.file::gtranslate
+[source,sh]
+----
+#!/usr/bin/env rc
+
+#
+# Translates with Google Translate, using soimort/translate-shell tool.
+#
+
+if (! which trans >/dev/null >[2=1]) {
+	echo trans command not found >[1=2]
+	echo Make sure you have soimort/translate-shell installed >[1=2]
+	exit 1
+}
+
+input=`{cat}
+trans $* -brief $"input
+
+----
+
 == License
 
 Unless clearly stated, do whatever you want with them.  If you like it, buy me
