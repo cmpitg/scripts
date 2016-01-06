@@ -1787,6 +1787,32 @@ i3-input -f 'pango:Droid Sans 10' -F 'workspace "%s"' -P 'Go to workspace: ' %s
 
 Joins all lines using Plan 9's tr.
 
+=== `local-tcp-open-p` - checks if a local TCP port is opened
+
+.file::local-tcp-open-p
+[source,sh]
+----
+#!/bin/bash
+
+if (test $# -eq 0); then
+	cat <<EOF
+Usage: `basename $0` <port>
+
+Determines if a local TCP port is open.  Returns 0 if it is or 1 otherwise.
+EOF
+fi
+
+if ! which nc &>/dev/null; then
+	echo nc not found. >&2
+	echo Make sure you have Netcat installed. >&2
+	exit 2
+fi
+
+nc -z 127.0.0.1 "$1"
+
+----
+
+
 .file::join-lines
 [source,sh]
 ----
