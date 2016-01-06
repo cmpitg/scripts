@@ -1772,6 +1772,17 @@ if __name__ == '__main__':
 
 ----
 
+=== `i3-to-workspace` - jumps to a workspace by name in http://i3wm.org/[i3]
+
+.file::i3-to-workspace
+[source,sh]
+----
+#!/bin/bash
+
+i3-input -f 'pango:Droid Sans 10' -F 'workspace "%s"' -P 'Go to workspace: ' %s
+
+----
+
 == License
 
 Unless clearly stated, do whatever you want with them.  If you like it, buy me
