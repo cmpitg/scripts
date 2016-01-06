@@ -1116,7 +1116,7 @@ docker rm $(docker ps -aq)
 ----
 #!/bin/bash
 
-sudo docker images -a | grep "<none>" | awk '{ print $3 }' | xargs sudo docker rmi
+docker images -a | grep "<none>" | awk '{ print $3 }' | xargs docker rmi
 
 ----
 
