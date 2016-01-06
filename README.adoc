@@ -1381,6 +1381,49 @@ echo 'git+ssh://'$uri
 
 ----
 
+=== `gitserve` - runs a Git server
+
+.file::gitserve
+[source,sh]
+----
+#!/usr/bin/env rc
+
+#
+# Runs a Git server.
+#
+
+program=`{basename $0}
+
+if (~ $1 '-h' '--help') {
+	cat <<USAGE
+    exit 0
+}
+Usage:
+
+Runs a Git server.
+
+  $program             :: Take current directory as Git repository
+  $program <git-repo>  :: Take a specific Git repository
+
+By default, the Git server is opened on port 4242.  This could be overriden by
+setting the environment variable GIT_PORT.  For example: run a Git server on 
+port 5454, serving content from Git repo at /m/bin:
+
+  GIT_PORT=5454 $program /m/bin
+
+Then, you can clone the repo with: git clone git://<host>:<port>/ <repo-name>
+
+Note that this method is a quick way to share Git repository and it's not at
+all secure.  In practice, you might want to Git server behind a reverse proxy.
+USAGE
+
+(test $#GIT_PORT -eq 0) && git_port=4242 || git_port=$GIT_PORT
+(test $#1        -eq 0) && git_path='.'  || git_path=$1
+
+exec git daemon --reuseaddr '--base-path='$git_path --export-all --verbose '--port='$git_port
+
+----
+
 == License
 
 Unless clearly stated, do whatever you want with them.  If you like it, buy me
