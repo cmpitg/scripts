@@ -1467,6 +1467,17 @@ exec lynx -dump -stdin "$@"
 
 ----
 
+=== `i3-exec-command` - executes an http://i3wm.org/[i3] command
+
+.file::i3-exec-command
+[source,sh]
+----
+#!/bin/bash
+
+i3-input -f 'pango:Droid Sans 10' "$@"
+
+----
+
 == License
 
 Unless clearly stated, do whatever you want with them.  If you like it, buy me
