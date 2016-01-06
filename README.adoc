@@ -1151,8 +1151,8 @@ tail -n +$n_lines
 # soimort/translate-shell tool.
 #
 
-if (! which gtranslate >/dev/null >[2=1]) {
-	echo gtranslate command not found >[1=2]
+if (! which trans >/dev/null >[2=1]) {
+	echo trans command not found >[1=2]
 	echo Make sure you have soimort/translate-shell installed >[1=2]
 	exit 1
 }
@@ -1173,8 +1173,8 @@ TARGET_LANG=fi gtranslate $*
 # soimort/translate-shell tool.
 #
 
-if (! which gtranslate >/dev/null >[2=1]) {
-	echo gtranslate command not found >[1=2]
+if (! which trans >/dev/null >[2=1]) {
+	echo trans command not found >[1=2]
 	echo Make sure you have soimort/translate-shell installed >[1=2]
 	exit 1
 }
