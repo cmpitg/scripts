@@ -1332,6 +1332,21 @@ for (output in $lines) {
 git ls-files --deleted | xargs git rm --cached
 
 ----
+
+=== `nix` - runs a command with Nix (if exists)
+
+.file::nix
+[source,sh]
+----
+#!/bin/bash
+
+export NIX_PATH=$(ls -d -1 /m/opt/nix-1.10 | head -1)
+
+. ${NIX_PATH}/scripts/nix-profile.sh
+exec "$@"
+
+----
+
 == License
 
 Unless clearly stated, do whatever you want with them.  If you like it, buy me
