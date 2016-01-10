@@ -1824,6 +1824,26 @@ nc -z 127.0.0.1 "$1"
 
 tr '
 ' ' '
+=== `take-lines` - takes the first `n` lines
+
+.file::take-lines
+[source,sh]
+----
+#!/usr/bin/env rc
+
+#
+# Takes the first $1 lines using Plan 9's seq.
+#
+
+if (test $#* -eq 0) {
+    n_lines=1
+}
+if not {
+    n_lines=$1
+}
+sed $n_lines^q
+
+----
 === `wget-site`
 
 .file::wget-site
