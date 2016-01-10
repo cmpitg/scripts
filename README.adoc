@@ -1309,7 +1309,7 @@ lines=`{xrandr \
 echo $#lines
 for (output in $lines) {
 	data=`{xrandr \
-		| take-from '/'^$output^'/' \
+		| take-from $output \
 		| drop-lines 1 \
 		| take-lines 1 \
 		| tr -d '*' \
