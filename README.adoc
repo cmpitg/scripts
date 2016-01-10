@@ -1989,6 +1989,23 @@ exec pgrep "$@" &>/dev/null
 
 ----
 
+=== `show-keyboard` - shows keyboard of modifiers, convenient when making screencast
+
+.file::show-keyboard
+[source,sh]
+----
+#!/bin/bash
+
+if ! found-executable-p key-mon; then
+	echo key-mon not found. >&2
+	echo Make sure you have key-mon installed. >&2
+	exit 1
+fi
+
+key-mon --decorated --meta --theme modern "$@"
+
+----
+
 === `suspend-me` - suspends computer
 
 .file::suspend-me
