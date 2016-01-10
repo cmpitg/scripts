@@ -1786,6 +1786,19 @@ i3-input -f 'pango:Droid Sans 10' -F 'workspace "%s"' -P 'Go to workspace: ' %s
 
 Joins all lines using Plan 9's tr.
 
+.file::join-lines
+[source,sh]
+----
+#!/usr/bin/env rc
+
+#
+# Joins all lines into one using Plan 9's tr.
+#
+
+tr '
+' ' '
+----
+
 === `local-tcp-open-p` - checks if a local TCP port is opened
 
 .file::local-tcp-open-p
