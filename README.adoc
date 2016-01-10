@@ -1990,6 +1990,37 @@ print(get_python_lib())
 
 ----
 
+=== `qrcode` - creates QR code from a string
+
+.file::qrcode
+[source,sh]
+----
+#!/usr/bin/env rc
+
+if (! found-executable-p tempfile) {
+	echo tempfile not found. >[1=2]
+	echo Make sure you have tempfile utility installed, used to generate a temporary file. >[1=2]
+	exit 1
+}
+
+if (! found-executable-p qrencode) {
+	echo qrencode not found. >[1=2]
+	echo Make sure you have qrencode installed. >[1=2]
+	exit 1
+}
+
+if (test $#* -eq 0) {
+	echo No argument found.
+}
+
+tmpfile=`{tempfile}^.png
+
+qrencode -o $tmpfile -s 5 $*
+do-notify-short $tmpfile' created'
+display $tmpfile
+
+----
+
 === `rc` - runs RC shell with Plan 9 Port environment
 
 .file::rc
