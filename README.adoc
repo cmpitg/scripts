@@ -2153,6 +2153,57 @@ if not {
 sed $n_lines^q
 
 ----
+
+=== `update-openjdk-8-font-patched` - for Debian/Ubuntu
+
+.file::update-openjdk-8-font-patched
+[source,sh]
+----
+#!/usr/bin/env rc
+
+repo_url=http://ppa.launchpad.net/no1wantdthisname/openjdk-fontfix/ubuntu/pool/main/o/openjdk-8/
+echo URL: $repo_url
+
+latest_version=`{lynx -dump $repo_url \
+    | grep '.deb' \
+    | awk '{ print $2 }' \
+    | sort \
+    | tail -1 \
+    | awk 'BEGIN { FS="/" } { print $NF }' \
+    | awk 'BEGIN { FS="source_" } { print $2 }' \
+    | awk 'BEGIN { FS=".deb" } { print $1 }' \
+    | /bin/sed 's/_all//g'}
+echo Latest version: $latest_version
+
+
+current_version=`{apt-cache show openjdk-8-jdk \
+    | /bin/sed -n '/installed/,+10p' \
+    | grep Version \
+    | awk '{ print $2 }'}
+echo Current version: $current_version
+
+if (~ $latest_version $current_version) {
+    echo You have the latest version!
+}
+if not {
+    echo Version mismatch, downloading and installing JDK 8
+    debs=`{lynx -dump $repo_url \
+        | grep $latest_version \
+        | grep 'amd64.*\.deb$' \
+        | awk '{ print $2 }'}
+
+    temp_dir=/tmp/openjdk-deb-tmp
+    echo Temp directory: $temp_dir
+    mkdir -p $temp_dir
+    cd $temp_dir
+    for (deb in $debs) axel $deb
+
+    echo Installing
+    sudo dpkg -i *.deb
+}
+
+----
+
 === `wget-site`
 
 .file::wget-site
