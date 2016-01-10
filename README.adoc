@@ -2175,6 +2175,9 @@ sed $n_lines^q
 
 === `update-openjdk-8-font-patched` - for Debian/Ubuntu
 
+Updates OpenJDK 8 with font rendering patch from PPA
+[no1wantdthisname](https://launchpad.net/~no1wantdthisname/+archive/ubuntu/openjdk-fontfix).
+
 .file::update-openjdk-8-font-patched
 [source,sh]
 ----
