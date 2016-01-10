@@ -1989,6 +1989,18 @@ exec pgrep "$@" &>/dev/null
 
 ----
 
+=== `suspend-me` - suspends computer
+
+.file::suspend-me
+[source,sh]
+----
+#!/bin/bash
+
+# exec sudo pm-suspend && lockscreen
+exec sudo pm-suspend
+
+----
+
 === `take-from` - takes all lines from stdin, starting from a pattern
 
 .file::take-from
