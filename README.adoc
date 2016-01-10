@@ -1974,6 +1974,21 @@ sensors
 
 ----
 
+=== `running-p` - determines if a process is running
+
+.file::running-p
+[source,sh]
+----
+#!/bin/bash
+
+#
+# Determines if a process is running using pgrep.
+#
+
+exec pgrep "$@" &>/dev/null
+
+----
+
 === `take-lines` - takes the first `n` lines
 
 .file::take-lines
