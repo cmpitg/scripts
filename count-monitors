@@ -1,3 +1,0 @@
-#!/bin/zsh
-
-xrandr | grep " connected" | wc -l
