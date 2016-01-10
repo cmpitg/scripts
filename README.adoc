@@ -1931,6 +1931,17 @@ python -m json.tool "$@"
 
 ----
 
+=== `psx` - `ps -ef | grep --color "$@"`
+
+.file::psx
+[source,sh]
+----
+#!/bin/bash
+
+ps -ef | grep --color "$@"
+
+----
+
 === `take-lines` - takes the first `n` lines
 
 .file::take-lines
