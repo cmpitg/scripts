@@ -1953,6 +1953,27 @@ exec 9 rc "$@"
 
 ----
 
+=== `system-temperature`
+
+.file::system-temperature
+[source,sh]
+----
+#!/bin/bash
+
+echo "-> Starting HDDTemp if necessary"
+nc localhost 7634 &>/dev/null || (
+    exec sudo hddtemp -d /dev/sda
+)
+echo ""
+
+echo "-> HDD temperature"
+nc localhost 7634
+
+echo "-> CPU temperature"
+sensors
+
+----
+
 === `take-lines` - takes the first `n` lines
 
 .file::take-lines
