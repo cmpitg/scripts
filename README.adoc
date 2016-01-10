@@ -1874,6 +1874,17 @@ exec /bin/date '+%Y-%m-%d_%H-%M-%S'
 
 ----
 
+=== `now-to-clipboard`
+
+.file::now-to-clipboard
+[source,sh]
+----
+#!/bin/bash
+
+xterm -e 'date -R | xsel -b'
+
+----
+
 === `take-lines` - takes the first `n` lines
 
 .file::take-lines
