@@ -1959,6 +1959,23 @@ exec python "$@"
 
 ----
 
+=== `py3` - runs Python 3 in a http://docs.python-guide.org/en/latest/dev/virtualenvs/[virtual environment]
+
+The name of the virtual environment could be set by setting the `VIRTUAL_ENV`
+environment variable.  By default, it uses `python2-full-debian` as its name.
+
+.file::py3
+[source,sh]
+----
+#!/bin/bash
+
+virtualenv_=${VIRTUAL_ENV:-python2-full-debian}
+
+source "${WORKON_HOME}/${virtualenv_}/bin/activate"
+exec python3 "$@"
+
+----
+
 === `rc` - runs RC shell with Plan 9 Port environment
 
 .file::rc
