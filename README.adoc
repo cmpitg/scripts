@@ -1799,6 +1799,17 @@ tr '
 ' ' '
 ----
 
+=== `all-dev-debs` - lists all Debian `-dev` packages installed
+
+.file::all-dev-debs
+[source,sh]
+----
+#!/bin/bash
+
+dpkg-query -l '*dev' | grep "^.i" | awk '{ print $2 }' | grep "\-dev$"
+
+----
+
 === `local-tcp-open-p` - checks if a local TCP port is opened
 
 .file::local-tcp-open-p
