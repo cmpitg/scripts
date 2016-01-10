@@ -1942,6 +1942,17 @@ ps -ef | grep --color "$@"
 
 ----
 
+=== `rc` - runs RC shell with Plan 9 Port environment
+
+.file::rc
+[source,sh]
+----
+#!/bin/bash
+
+exec 9 rc "$@"
+
+----
+
 === `take-lines` - takes the first `n` lines
 
 .file::take-lines
