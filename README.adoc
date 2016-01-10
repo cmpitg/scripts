@@ -187,8 +187,6 @@ acme -a \
 
 === `cat-which <executable>` - `cat $(which executable)`
 
-Finds full path to executable and displays the content.
-
 .file::cat-which
 [source,sh]
 ----
