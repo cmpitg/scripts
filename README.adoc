@@ -1849,6 +1849,15 @@ xscreensaver-command -lock \
 
 ----
 
+=== `monitor-off`
+
+.file::monitor-off
+[source,sh]
+----
+xset -display :0 dpms force off
+
+----
+
 [source,sh]
 ----
 #!/usr/bin/env rc
