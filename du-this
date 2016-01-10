@@ -1,4 +1,0 @@
-#!/bin/sh
-
-du | sort -rn | cut -f2 | xargs -d '
-' du -h
