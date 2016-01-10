@@ -2195,7 +2195,7 @@ zenity --file-selection \
 === `update-sbcl.ruby`
 
 .file::update-sbcl.ruby
-[source,sh]
+[source,ruby]
 ----
 #!/usr/bin/env ruby
 
