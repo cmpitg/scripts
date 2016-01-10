@@ -1395,7 +1395,7 @@ program=`{basename $0}
 
 if (~ $1 '-h' '--help') {
 	cat <<USAGE
-    exit 0
+	exit 0
 }
 Usage:
 
@@ -2186,7 +2186,7 @@ if ! which zenity &>/dev/null; then
 fi
 
 zenity --file-selection \
-    --filename `pwd` "$@" 2>/dev/null
+	--filename `pwd` "$@" 2>/dev/null
 
 ----
 
