@@ -2021,6 +2021,17 @@ display $tmpfile
 
 ----
 
+=== `rackjure` - runs Racket with https://github.com/greghendershott/rackjure[Rackjure]
+
+.file::rackjure
+[source,sh]
+----
+#!/bin/bash
+
+racket -I rackjure "$@"
+
+----
+
 === `rc` - runs RC shell with Plan 9 Port environment
 
 .file::rc
