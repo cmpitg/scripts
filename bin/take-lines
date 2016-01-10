@@ -1,0 +1,13 @@
+#!/usr/bin/env rc
+
+#
+# Takes the first $1 lines using Plan 9's seq.
+#
+
+if (test $#* -eq 0) {
+    n_lines=1
+}
+if not {
+    n_lines=$1
+}
+sed $n_lines^q

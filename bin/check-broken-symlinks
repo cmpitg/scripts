@@ -1,0 +1,17 @@
+#!/bin/bash
+
+#
+# Checks for broken symlinks.
+#
+
+for file_ in "$@" ; do
+	if [ -L "${file_}" ]; then
+		if readlink -q "${file_}" >/dev/null ; then
+			echo "Good link: ${file_}"
+		else
+			echo "${file_}: bad link" >/dev/stderr
+		fi
+	else
+		echo "${file_} is not a symlink"
+	fi
+done

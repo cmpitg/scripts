@@ -1,0 +1,13 @@
+#!/bin/bash
+
+echo "-> Starting HDDTemp if necessary"
+nc localhost 7634 &>/dev/null || (
+    exec sudo hddtemp -d /dev/sda
+)
+echo ""
+
+echo "-> HDD temperature"
+nc localhost 7634
+
+echo "-> CPU temperature"
+sensors

@@ -1,0 +1,6 @@
+#!/bin/bash
+
+i3-input \
+	-f 'pango:Droid Sans 10' \
+	-F 'move workspace "%s"' \
+	-P 'Move window to workspace: ' %s

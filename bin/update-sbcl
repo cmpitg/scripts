@@ -1,0 +1,22 @@
+#!/usr/bin/env 9-rc
+
+opt=/m/opt/
+destination=/usr/local
+new_sbcl_tar=`{cd $opt; ls sbcl*tar* | sort -n | tail -1}
+
+echo '>' Installing SBCL
+cd $opt
+
+echo     Removing old symlink
+rm -f sbcl
+
+echo     Untar-ing
+tar xf $new_sbcl_tar
+
+echo     Symlinking new version
+ln -s $new_sbcl_tar sbcl
+
+echo     Installing to $destination
+cd sbcl
+INSTALL_ROOT=$destination exec sudo bash install.sh
+sbcl --version

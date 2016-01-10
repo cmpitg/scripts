@@ -1,0 +1,14 @@
+#!/usr/bin/env rc
+
+#
+# Starts Acme with font specified by variable `font'.  By default, use Droid
+# Sans Mono.
+#
+
+if (~ $font '') {
+	font='/m/9p-fonts/Droid Sans Mono/11a/font'
+}
+
+acme -a \
+	-m /m/acme \
+	-f $font $* $toolbox

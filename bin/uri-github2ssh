@@ -1,0 +1,26 @@
+#!/usr/bin/env rc
+
+#
+# git@github.com:schacon/hg-git.git
+# git+ssh://git@github.com/schacon/hg-git.git
+#
+
+program=`{basename $0}
+
+if (~ $1 '' '--help') {
+	cat <<USAGE
+	exit 1
+}
+Usage: $program git@github.com:<user>/<repo>
+
+Converts to universal git+ssh style repository URI.
+
+E.g.
+
+  $program git@github.com:schacon/hg-git.git
+  # ⇨ git+ssh://git@github.com/schacon/hg-git.git
+USAGE
+
+uri=`{echo $1 | sed 's/:/\//g' | sed 's/git\/\/\///g'}
+
+echo 'git+ssh://'$uri

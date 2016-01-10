@@ -1,0 +1,9 @@
+#!/usr/bin/env rc
+
+if (~ $manifest '') {
+	manifest='/m/config/common-lisp/sbcl-quicklisp-manifest.txt'
+}
+
+buildapp --manifest-file $manifest \
+	--load /m/Toolbox/SBCL/sbcl-cmpitg-base.lisp \
+	$*

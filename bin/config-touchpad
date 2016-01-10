@@ -1,0 +1,62 @@
+#!/bin/bash
+
+(xinput list | grep -i touchpad &>/dev/null) || exit 0
+
+##############################################################################
+
+do-notify-short """Configuring touchpad
+* Setting natural scrolling
+* Enabling tapping
+* Enabling two-finger tapping as secondary click"""
+newline
+
+# Edge
+# synclient LeftEdge=1200
+# synclient RightEdge=5100
+# synclient TopEdge=1000
+# synclient BottomEdge=4600
+
+# synclient LeftEdge=1000
+# synclient RightEdge=5200
+# synclient TopEdge=1000
+# synclient BottomEdge=5000
+
+# Palm detection
+synclient PalmDetect=1
+
+# Tap
+synclient MaxTapTime=180
+synclient MaxTapMove=221
+synclient MaxDoubleTapTime=100
+synclient SingleTapTimeout=180
+synclient EmulateTwoFingerMinZ=1
+synclient EmulateTwoFingerMinW=7
+synclient VertEdgeScroll=1
+synclient HorizEdgeScroll=1
+
+# Corner
+synclient RTCornerButton=0
+synclient RBCornerButton=0
+synclient LTCornerButton=1
+synclient LBCornerButton=0
+# synclient TapButton1=3
+# synclient TapButton2=1
+# synclient TapButton3=2
+# synclient TapButton1=1
+# synclient TapButton2=2
+# synclient TapButton3=3
+synclient TapButton1=1
+synclient TapButton2=3
+synclient TapButton3=2
+synclient ClickFinger1=1
+synclient ClickFinger2=1
+synclient ClickFinger3=2
+synclient CircularScrolling=0
+
+# Natural scrolling
+synclient VertScrollDelta=-111
+synclient HorizScrollDelta=-111
+synclient VertEdgeScroll=0
+synclient HorizEdgeScroll=0
+
+# xinput get-button-map "SynPS/2 Synaptics TouchPad" 1 2 3 4 5 6 7 8 9 10 11 12

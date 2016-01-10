@@ -1,0 +1,10 @@
+#!/usr/bin/env rc
+
+if (~ $manifest '') {
+	manifest='/m/config/common-lisp/sbcl-quicklisp-manifest.txt'
+}
+
+echo Writing manifest file $manifest
+
+sbcl-cmpitg --no-userinit --no-sysinit --non-interactive \
+	--eval '(ql:write-asdf-manifest-file "'^$manifest^'")'

@@ -1,0 +1,7 @@
+#!/usr/bin/env rc
+
+echo $*
+
+if (which notify-send >/dev/null >[2=1]) {
+	notify-send $*
+}

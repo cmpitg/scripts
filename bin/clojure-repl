@@ -1,0 +1,10 @@
+#!/usr/bin/env rc
+
+if (~ $clojure_root '') {
+	clojure_root=$home/test/clojure/main
+}
+
+pushd .
+cd $clojure_root
+lein repl $@
+popd

@@ -1,0 +1,14 @@
+#!/usr/bin/env rc
+
+#
+# Translates from English to Finnish with Google Translate, using
+# soimort/translate-shell tool.
+#
+
+if (! which trans >/dev/null >[2=1]) {
+	echo trans command not found >[1=2]
+	echo Make sure you have soimort/translate-shell installed >[1=2]
+	exit 1
+}
+
+TARGET_LANG=fi gtranslate $*

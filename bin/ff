@@ -1,0 +1,21 @@
+#!/bin/bash
+
+if [[ -z "$EMACS_INIT" ]]; then
+	EMACS_INIT="~/emacs-config/src/init.el"
+fi
+
+if [[ -z "$EMACS_PORT" ]]; then
+	EMACS_PORT=9999
+fi
+
+(curl 0:$EMACS_PORT &>/dev/null) && server_running_p_=1 || server_running_p_=0
+
+if [[ "${server_running_p_}" -eq "1" ]] ; then
+	if [[ "$1" == /* ]] ; then
+		curl "0:${EMACS_PORT}/open/$1"
+	else
+		curl "0:${EMACS_PORT}/open/$PWD/$1"
+	fi
+else
+	emacs -Q -l "${EMACS_INIT}" "$@"
+fi

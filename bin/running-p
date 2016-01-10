@@ -1,0 +1,7 @@
+#!/bin/bash
+
+#
+# Determines if a process is running using pgrep.
+#
+
+exec pgrep "$@" &>/dev/null

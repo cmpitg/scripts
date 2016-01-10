@@ -1,0 +1,9 @@
+#!/bin/bash
+
+if ! found-executable-p key-mon; then
+	echo key-mon not found. >&2
+	echo Make sure you have key-mon installed. >&2
+	exit 1
+fi
+
+key-mon --decorated --meta --theme modern "$@"

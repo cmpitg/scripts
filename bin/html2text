@@ -1,0 +1,13 @@
+#!/bin/bash
+
+#
+# Converts HTML to text.  HTML is read from stdin.
+#
+
+if ! which lynx &>/dev/null; then
+	echo lynx not found. >&2
+	echo Make sure you have Lynx installed. >&2
+	exit 1
+fi
+
+exec lynx -dump -stdin "$@"

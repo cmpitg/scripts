@@ -1,0 +1,116 @@
+#!/usr/bin/env racket
+;; -*- mode: racket -*-
+
+;;
+;; Copyright (C) 2014  Duong H. Nguyen (cmpitg_at_gmail_dot_com)
+;;
+;; This program is free software: you can redistribute it and/or modify
+;; it under the terms of the GNU General Public License as published by
+;; the Free Software Foundation, either version 3 of the License, or
+;; (at your option) any later version.
+;;
+;; This program is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU General Public License for more details.
+;;
+;; You should have received a copy of the GNU General Public License
+;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
+;;
+
+#lang rackjure
+(current-curly-dict hash)
+
+(require toml)
+(require 2htdp/batch-io)
+(require racket/path)
+
+(require (file "/m/config/racket/ferb.rkt"))
+(define +global-config-path+ "/m/config/global-config.toml")
+(define *config* (parse-toml (read-file +global-config-path+)))
+
+(define +demo-separator+     "UT4")
+
+(define *urt41-demo-path* (build-path (~> *config* 'path 'urt41)
+                                      "q3ut4"
+                                      "demos"))
+
+(define is-char-digit? #λ(set-member? (set #\0 #\1 #\2
+                                           #\3 #\4 #\5
+                                           #\6 #\7 #\8
+                                           #\9)
+                                      %))
+
+(define not-renamed-yet? #λ(regexp-match? #px"^[[:digit:]]{4}_" %))
+
+(define string-reverse #λ(~> (string->list %)
+                           reverse
+                           list->string))
+
+(define (standardize-name name)
+  (~> (foldl (λ (ch res)
+               (let ([last-char (if (empty? res)
+                                    #\?
+                                    (last res))])
+                 (if (and (char=? last-char #\_)
+                          (char=? ch        #\_))
+                     res
+                     (append res (list ch)))))
+             '()
+             (string->list name))
+    list->string
+    (#λ(let ([end (sub1 (string-length %))])
+         (if (char=? (string-ref % end) #\_)
+             (substring % 0 end)
+             %)))))
+
+(define (main)
+  (current-directory *urt41-demo-path*)
+
+  (let ([count 0])
+    (for ([file (fs/ls)]
+          #:when (not-renamed-yet? file))
+      (let* ([file           (path->string file)]
+             [file/upcase    (string-upcase file)]
+             [position/ut4   (get-last-pos file/upcase +demo-separator+)]
+             [time&name-box  (box (substring file 0 position/ut4))]
+             [rest           (substring file
+                                        (+ position/ut4
+                                           (string-length +demo-separator+)))]
+             [year           (take-digits! time&name-box)]
+             [month          (take-digits! time&name-box)]
+             [date           (take-digits! time&name-box)]
+             [hours          (take-digits! time&name-box)]
+             [mins           (take-digits! time&name-box)]
+             [secs           (take-digits! time&name-box)]
+             [player         (standardize-name (unbox time&name-box))]
+             [newname        (string-upcase
+                              (format "~a-~a-~a_~a-~a-~a_UTC7_-_~a_-~a"
+                                      year month date hours mins secs
+                                      player rest))])
+        (displayln (~a ">> Renaming to " newname))
+        (set! count (add1 count))
+        (fs/rename file newname)))
+    (displayln (~a count " file(s) renamed"))))
+
+(define (take-digits! boxed)
+  (let* ([val-list     (string->list (unbox boxed))]
+         [res          (takef val-list is-char-digit?)]
+         [new-var-list (dropf val-list is-char-digit?)])
+    (set-box! boxed (list->string (drop new-var-list 1)))
+    (str (if (< (length res) 2) "0" "")
+         (list->string res))))
+
+(define (get-last-pos str substr)
+  (let* ([str/reversed    (string-reverse str)]
+         [substr/reversed (string-reverse substr)]
+         [len             (string-length str/reversed)])
+    (- len
+       (~> (regexp-match-positions (regexp-quote substr/reversed)
+                                   str/reversed)
+         first
+         car)
+       (string-length substr))))
+
+(module+ main
+  (void (main)))

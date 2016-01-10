@@ -1,0 +1,74 @@
+#!/usr/bin/env rc
+
+if (~ $1 -h --help) {
+	cat <<EOF
+	exit 1
+}
+Dumps an SBCL image and makes it work with Shelly (if installed).
+
+Usage: $0 [--core-path core-file] [--eval sexp]
+
+Options:
+
+--core-path :: Path to SBCL core file to dump to, default value:
+               '/m/opt/sbcl-images/sbcl-$USER.core'.
+--eval      :: The Sexp to evaluate before dumping, default value:
+               '(load "/m/Toolbox/SBCL/sbcl-$USER-base.lisp")'.
+EOF
+
+##############################################################################
+# Sanity check
+##############################################################################
+
+if (! which sbcl >/dev/null >[2=1]) {
+	echo sbcl executable not found.  Do you have SBCL installed? >[1=2]
+	exit 1
+}
+if not {
+	sbcl_version=`{sbcl --version | cut -d' ' -f2}
+}
+
+##############################################################################
+
+fn try_set_vars {
+	switch ($1) {
+	case --core-path
+		core_path=$2
+	case --eval
+		sexp=$2
+	}
+
+	if (~ $core_path '') {
+		core_path=/m/opt/sbcl-images/sbcl-$USER.core
+	}
+	if (~ $sexp '') {
+		sexp='(load "/m/Toolbox/SBCL/sbcl-'$USER'-base.lisp")'
+	}
+}
+
+try_set_vars $1 $2
+try_set_vars $3 $4
+
+if (! ~ $SHELLY_HOME '') {
+	shelly_core_path=$SHELLY_HOME^'/dumped-cores/sbcl-'^$sbcl_version^'.core'
+}
+
+##############################################################################
+
+echo Core path: $core_path
+echo Sexp: $sexp
+if (! ~ $shelly_core_path '') {
+	echo Shelly found, path to core: $shelly_core_path
+}
+
+echo '-> Dumping core'
+sbcl --noinform \
+	--no-userinit \
+	--eval $sexp \
+	--eval '(sb-ext:save-lisp-and-die "'^$core_path^'")'
+ 
+if (test -d $SHELLY_HOME/dumped-cores) {
+	echo '-> Updating Shelly'
+	cp -fv $core_path $shelly_core_path
+	cp -fv $core_path $SHELLY_HOME/dumped-cores/sbcl.core
+}

@@ -1,0 +1,8 @@
+#!/bin/bash
+
+zenity --text-info \
+       --editable \
+       --title "Use Unicode symbols" \
+       --height 600 \
+       --width 800 \
+       --filename /m/Toolbox/Useful-Unicode-symbols.txt

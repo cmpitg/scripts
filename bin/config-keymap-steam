@@ -1,0 +1,9 @@
+#!/bin/bash
+
+test -z "${DISPLAY}" && exit 0
+
+do-notify-short "Setting keyboard layout for Steam"
+newline
+setxkbmap us -variant dvp -option lv3:ralt_alt
+
+config-logitech-g502-mouse

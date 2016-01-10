@@ -1,0 +1,6 @@
+#!/bin/bash
+
+export NIX_PATH=$(ls -d -1 /m/opt/nix-1.10 | head -1)
+
+. ${NIX_PATH}/scripts/nix-profile.sh
+exec "$@"

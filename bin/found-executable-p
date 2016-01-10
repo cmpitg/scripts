@@ -1,0 +1,7 @@
+#!/bin/bash
+
+#
+# Determines if a executable is found in $PATH
+#
+
+which "$1" &>/dev/null

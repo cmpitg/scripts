@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# exec sudo pm-suspend && lockscreen
+exec sudo pm-suspend

@@ -1,0 +1,12 @@
+#!/usr/bin/env rc
+
+#
+# Makes a JSON POST with Curl
+#
+
+if (! which curl >/dev/null >[2=1]) {
+	echo You need to install Curl >[1=2]
+	exit 1
+}
+
+curl -i -H 'Content-Type: application/json' -X POST $*

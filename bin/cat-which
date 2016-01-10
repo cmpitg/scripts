@@ -1,0 +1,14 @@
+#!/bin/bash
+
+#
+# Finds full path executables and displays the content.
+#
+
+
+for exec_ in "$@"; do
+	if $(which "${exec_}" &>/dev/null); then
+		cat $(which "${exec_}")
+	else
+		echo "${exec_} not found" >&2
+	fi
+done

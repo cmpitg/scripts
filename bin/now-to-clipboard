@@ -1,0 +1,3 @@
+#!/bin/bash
+
+xterm -e 'date -R | xsel -b'

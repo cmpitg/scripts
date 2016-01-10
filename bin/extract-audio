@@ -1,0 +1,8 @@
+#!/bin/zsh
+
+which ffpmeg &>/dev/null && prog_=ffmpeg || prog_=avconv
+
+file_="$1"
+
+${prog_} -i "${file_}" -vn -acodec copy \
+         "$file_:r.$(ffprobe ${file_} 2>&1 | grep Audio | sed -rn 's/.*Audio: ([^ ]*).*/\1/p')"

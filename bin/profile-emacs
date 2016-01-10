@@ -1,0 +1,3 @@
+#!/bin/bash
+
+emacs -Q -l ~/Desktop/Emacs/profile-dotemacs.el -f profile-dotemacs $*
