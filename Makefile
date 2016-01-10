@@ -1,8 +1,8 @@
 all: generate docs
 
-generate:
+generate: README.adoc
 	ulqui generate-src --from . --to bin/
 	chmod +x bin/*
 
-docs:
+docs: README.adoc
 	ulqui generate-html --from . --to docs/
