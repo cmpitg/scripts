@@ -1989,6 +1989,31 @@ exec pgrep "$@" &>/dev/null
 
 ----
 
+=== `take-from` - takes all lines from stdin, starting from a pattern
+
+.file::take-from
+[source,sh]
+----
+#!/usr/bin/env rc
+
+#
+# Takes all lines from a pattern (representing by $1), using GNU Awk.
+#
+
+gawk 'BEGIN {
+	found = 0
+}
+/'^$1^'/ {
+	found = 1
+}
+{
+	if (found == 1) {
+		print $0
+	}
+}'
+
+----
+
 === `take-lines` - takes the first `n` lines
 
 .file::take-lines
