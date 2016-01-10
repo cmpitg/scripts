@@ -1901,6 +1901,26 @@ which "$1" &>/dev/null
 
 ----
 
+=== `prefix` - prefixes all lines read from stdin with a string
+
+.file::prefix
+[source,sh]
+----
+#!/usr/bin/env rc
+
+#
+# Prefixes all lines read from stdin.
+#
+
+prefix=$1 {
+	if (test $#prefix -eq 0) {
+		prefix='# '
+	}
+	sed 's/^/'^$prefix^'/g'
+}
+
+----
+
 === `take-lines` - takes the first `n` lines
 
 .file::take-lines
