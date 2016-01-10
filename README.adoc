@@ -1885,7 +1885,6 @@ xterm -e 'date -R | xsel -b'
 
 ----
 
-
 === `found-executable-p`
 
 .file::found-executable-p
@@ -1918,6 +1917,17 @@ prefix=$1 {
 	}
 	sed 's/^/'^$prefix^'/g'
 }
+
+----
+
+=== `pretty-print-json`
+
+.file::pretty-print-json
+[source,sh]
+----
+#!/bin/bash
+
+python -m json.tool "$@"
 
 ----
 
