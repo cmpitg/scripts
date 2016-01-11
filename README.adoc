@@ -2305,6 +2305,20 @@ zenity --file-selection \
 
 ----
 
+=== `random-string` - generates a random alphanumeric string
+
+.file::random-string
+[source,sh]
+----
+#!/bin/bash
+
+length_=${1:-32}
+
+cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w ${length_} | head -n 1
+
+----
+
+
 == Legacy/Unused scripts
 
 === `update-sbcl.ruby`
