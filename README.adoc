@@ -1340,6 +1340,27 @@ for (output in $lines) {
 
 ----
 
+=== `replace-extension` - replaces file extension
+
+.file::replace-extension
+[source,sh]
+----
+#!/usr/bin/env rc
+
+input=`{cat}
+
+if (~ $1 '') {
+	echo Usage: $0 '<'replacement'>' >[1=2]
+	exit 1
+}
+
+rev_replacement=`{echo $1 | rev}
+
+echo $input | rev | sed 's/^[^.]*\./'$rev_replacement'./' | rev
+
+----
+
+
 === `git-rm-orphaned` - removes orphaned files from Git
 
 .file::git-rm-orphaned
