@@ -1,0 +1,12 @@
+#!/usr/bin/env rc
+
+input=`{cat}
+
+if (~ $1 '') {
+	echo Usage: $0 '<'replacement'>' >[1=2]
+	exit 1
+}
+
+rev_replacement=`{echo $1 | rev}
+
+echo $input | rev | sed 's/^[^.]*\./'$rev_replacement'./' | rev
