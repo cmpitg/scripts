@@ -1,0 +1,62 @@
+#!/usr/bin/env rc
+
+opt=/m/opt
+download_page=http://nim-lang.org/download.html
+tar=/bin/tar
+
+download_url=`{lynx -dump $download_page \
+	| grep 'http.*\.tar\.xz$' \
+	| awk '{ print $2 }'}
+downloaded_file=`{echo $download_url \
+	| rev \
+	| cut -d'/' -f1 \
+	| rev}
+latest_version=`{echo $downloaded_file \
+	| sed 's/\.tar\.xz//' \
+	| sed 's/nim-//'}
+folder=`{echo nim-$latest_version}
+
+if (found-executable-p nim) {
+	current_version=`{nim --version >[2=1] \
+		| grep Version \
+		| awk '{ print $4 }'}
+}
+if not {
+	current_version='0'
+}
+
+echo Download page: $download_page
+echo Download URL: $download_url
+echo Installation destination: $opt/nim
+echo
+echo Latest version: $latest_version
+echo Current version: $current_version
+echo
+
+if (! ~ $current_version $latest_version) {
+	echo '-> Downloading latest version'
+	cd $opt
+	rm -f nim
+	wget $download_url
+	$tar xf $downloaded_file
+
+	echo '-> Symlinking '$opt/$downloaded_file' -> '$opt/nim
+	ln -s $folder nim
+
+	echo '-> Building'
+	PATH=/bin:/usr/bin:$PATH {
+		cd nim
+		# ./build.sh
+		cd ..
+	}
+
+	if (! found-executable-p nim) {
+		echo '   nim not found. Symlinking executable to '$home/bin
+		ln -s $opt/nim/bin/nim $home/bin/
+	}
+
+	echo '-> Installed to: '$opt/nim'. Have fun!'
+}
+if not {
+	echo 'You already had the latest version!'
+}
