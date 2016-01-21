@@ -906,18 +906,20 @@ for (f in $*) {
 
 This script takes a list of files as arguments.
 
-TODO: this should be in Rc, not Zsh.
-
 .file::convert-to-ogg-vorbis
 [source,sh]
 ----
-#!/bin/zsh
+#!/usr/bin/env rc
 
-which ffpmeg &>/dev/null && prog_=ffmpeg || prog_=avconv
+if (! found-executable-p ffmpeg) {
+	echo ffmpeg not found. >[1=2]
+	echo Make sure you have Ffmpeg installed. >[1=2]
+	exit 1
+}
 
-for f in $*; do
-	"${prog_}" -i "${f}" -vn -aq 1 "$f:r.ogg"
-done
+for (f in $*) {
+	ffmpeg -i $f -vn -aq 1 `{echo $f | replace-extension mp3}
+}
 
 ----
 
