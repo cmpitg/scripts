@@ -1517,12 +1517,16 @@ extension.</p>
 <div class="content">
 <pre class="pygments highlight"><code data-lang="sh"><span class="tok-c">#!/bin/zsh</span>
 
-which ffpmeg <span class="tok-p">&amp;</span>&gt;/dev/null <span class="tok-o">&amp;&amp;</span> <span class="tok-nv">prog_</span><span class="tok-o">=</span>ffmpeg <span class="tok-o">||</span> <span class="tok-nv">prog_</span><span class="tok-o">=</span>avconv
+<span class="tok-k">if</span> ! found-executable-p ffmpeg<span class="tok-p">;</span> <span class="tok-k">then</span>
+	<span class="tok-nb">echo </span>ffmpeg not found &gt;<span class="tok-p">&amp;</span>2
+	<span class="tok-nb">echo </span>Make sure you have Ffmpeg installed &gt;<span class="tok-p">&amp;</span>2
+	<span class="tok-nb">echo </span>1
+<span class="tok-k">fi</span>
 
 <span class="tok-nv">file_</span><span class="tok-o">=</span><span class="tok-s2">&quot;$1&quot;</span>
 
-<span class="tok-k">${</span><span class="tok-nv">prog_</span><span class="tok-k">}</span> -i <span class="tok-s2">&quot;${file_}&quot;</span> -vn -acodec copy <span class="tok-se">\</span>
-         <span class="tok-s2">&quot;$file_:r.$(ffprobe ${file_} 2&gt;&amp;1 | grep Audio | sed -rn &#39;s/.*Audio: ([^ ]*).*/\1/p&#39;)&quot;</span></code></pre>
+ffmpeg -i <span class="tok-s2">&quot;${file_}&quot;</span> -vn -acodec copy <span class="tok-se">\</span>
+	<span class="tok-s2">&quot;$file_:r.$(ffprobe ${file_} 2&gt;&amp;1 | grep Audio | sed -rn &#39;s/.*Audio: ([^ ]*).*/\1/p&#39;)&quot;</span></code></pre>
 </div>
 </div>
 </div>
@@ -1537,8 +1541,8 @@ which ffpmeg <span class="tok-p">&amp;</span>&gt;/dev/null <span class="tok-o">&
 <pre class="pygments highlight"><code data-lang="sh"><span class="tok-c">#!/usr/bin/env rc</span>
 
 <span class="tok-k">if</span> <span class="tok-o">(</span>! found-executable-p ffmpeg<span class="tok-o">)</span> <span class="tok-o">{</span>
-	<span class="tok-nb">echo </span>ffmpeg not found. &gt;<span class="tok-o">[</span><span class="tok-nv">1</span><span class="tok-o">=</span>2<span class="tok-o">]</span>
-	<span class="tok-nb">echo </span>Make sure you have Ffmpeg installed. &gt;<span class="tok-o">[</span><span class="tok-nv">1</span><span class="tok-o">=</span>2<span class="tok-o">]</span>
+	<span class="tok-nb">echo </span>ffmpeg not found &gt;<span class="tok-o">[</span><span class="tok-nv">1</span><span class="tok-o">=</span>2<span class="tok-o">]</span>
+	<span class="tok-nb">echo </span>Make sure you have Ffmpeg installed &gt;<span class="tok-o">[</span><span class="tok-nv">1</span><span class="tok-o">=</span>2<span class="tok-o">]</span>
 	<span class="tok-nb">exit </span>1
 <span class="tok-o">}</span>
 
@@ -1553,19 +1557,20 @@ which ffpmeg <span class="tok-p">&amp;</span>&gt;/dev/null <span class="tok-o">&
 <div class="paragraph">
 <p>This script takes a list of files as arguments.</p>
 </div>
-<div class="paragraph">
-<p>TODO: this should be in Rc, not Zsh.</p>
-</div>
 <div class="listingblock">
 <div class="title">file::convert-to-ogg-vorbis</div>
 <div class="content">
-<pre class="pygments highlight"><code data-lang="sh"><span class="tok-c">#!/bin/zsh</span>
+<pre class="pygments highlight"><code data-lang="sh"><span class="tok-c">#!/usr/bin/env rc</span>
 
-which ffpmeg <span class="tok-p">&amp;</span>&gt;/dev/null <span class="tok-o">&amp;&amp;</span> <span class="tok-nv">prog_</span><span class="tok-o">=</span>ffmpeg <span class="tok-o">||</span> <span class="tok-nv">prog_</span><span class="tok-o">=</span>avconv
+<span class="tok-k">if</span> <span class="tok-o">(</span>! found-executable-p ffmpeg<span class="tok-o">)</span> <span class="tok-o">{</span>
+	<span class="tok-nb">echo </span>ffmpeg not found &gt;<span class="tok-o">[</span><span class="tok-nv">1</span><span class="tok-o">=</span>2<span class="tok-o">]</span>
+	<span class="tok-nb">echo </span>Make sure you have Ffmpeg installed &gt;<span class="tok-o">[</span><span class="tok-nv">1</span><span class="tok-o">=</span>2<span class="tok-o">]</span>
+	<span class="tok-nb">exit </span>1
+<span class="tok-o">}</span>
 
-<span class="tok-k">for</span> f in <span class="tok-nv">$*</span><span class="tok-p">;</span> <span class="tok-k">do</span>
-	<span class="tok-s2">&quot;${prog_}&quot;</span> -i <span class="tok-s2">&quot;${f}&quot;</span> -vn -aq <span class="tok-m">1</span> <span class="tok-s2">&quot;$f:r.ogg&quot;</span>
-<span class="tok-k">done</span></code></pre>
+<span class="tok-k">for</span> <span class="tok-o">(</span>f in <span class="tok-nv">$*</span><span class="tok-o">)</span> <span class="tok-o">{</span>
+	ffmpeg -i <span class="tok-nv">$f</span> -vn -aq <span class="tok-m">1</span> <span class="tok-sb">`</span><span class="tok-o">{</span><span class="tok-nb">echo</span> <span class="tok-nv">$f</span> <span class="tok-p">|</span> replace-extension mp3<span class="tok-o">}</span>
+<span class="tok-o">}</span></code></pre>
 </div>
 </div>
 </div>
@@ -1594,8 +1599,9 @@ xrandr <span class="tok-p">|</span> grep <span class="tok-s2">&quot; connected&q
 <span class="tok-c"># Using `mpstat&#39;, calculates average CPU usage in 3 seconds.</span>
 <span class="tok-c">#</span>
 
-<span class="tok-k">if</span> ! which mpstat <span class="tok-p">&amp;</span>&gt;/dev/null <span class="tok-p">;</span> <span class="tok-k">then</span>
-	<span class="tok-nb">echo </span>You need mpstat installed <span class="tok-k">for</span> this <span class="tok-nb">command </span>to work &gt;<span class="tok-p">&amp;</span>2
+<span class="tok-k">if</span> ! found-executable-p mpstat<span class="tok-p">;</span> <span class="tok-k">then</span>
+	<span class="tok-nb">echo </span>mpstat not found &gt;<span class="tok-p">&amp;</span>2
+    <span class="tok-nb">echo </span>Make sure you have Sysstat installed &gt;<span class="tok-p">&amp;</span>2
 	<span class="tok-nb">exit </span>1
 <span class="tok-k">fi</span>
 
@@ -1614,8 +1620,9 @@ mpstat <span class="tok-m">3</span> <span class="tok-m">1</span> <span class="to
 <span class="tok-c"># Creates a tags file named TAGS using ctags.</span>
 <span class="tok-c">#</span>
 
-<span class="tok-k">if</span> ! which ctags <span class="tok-p">&amp;</span>&gt;/dev/null <span class="tok-p">;</span> <span class="tok-k">then</span>
-	<span class="tok-nb">echo </span>You need ctags installed <span class="tok-k">for</span> this <span class="tok-nb">command </span>to work &gt;<span class="tok-p">&amp;</span>2
+<span class="tok-k">if</span> ! found-executable-p tags <span class="tok-p">;</span> <span class="tok-k">then</span>
+	<span class="tok-nb">echo </span>ctags not found &gt;<span class="tok-p">&amp;</span>2
+	<span class="tok-nb">echo </span>Make sure you have Ctags or Exuberant Ctags installed &gt;<span class="tok-p">&amp;</span>2
 	<span class="tok-nb">exit </span>1
 <span class="tok-k">fi</span>
 
@@ -1665,8 +1672,9 @@ ctags <span class="tok-s2">&quot;$@&quot;</span> -f <span class="tok-s2">&quot;$
 <span class="tok-c"># Sanity check</span>
 <span class="tok-c">##############################################################################</span>
 
-<span class="tok-k">if</span> <span class="tok-o">(</span>! which sbcl &gt;/dev/null &gt;<span class="tok-o">[</span><span class="tok-nv">2</span><span class="tok-o">=</span>1<span class="tok-o">])</span> <span class="tok-o">{</span>
-	<span class="tok-nb">echo </span>sbcl executable not found.  Do you have SBCL installed? &gt;<span class="tok-o">[</span><span class="tok-nv">1</span><span class="tok-o">=</span>2<span class="tok-o">]</span>
+<span class="tok-k">if</span> <span class="tok-o">(</span>! found-executable-p sbcl<span class="tok-o">)</span> <span class="tok-o">{</span>
+	<span class="tok-nb">echo </span>sbcl executable not found &gt;<span class="tok-o">[</span><span class="tok-nv">1</span><span class="tok-o">=</span>2<span class="tok-o">]</span>
+	<span class="tok-nb">echo </span>Make sure you have SBCL installed &gt;<span class="tok-o">[</span><span class="tok-nv">1</span><span class="tok-o">=</span>2<span class="tok-o">]</span>
 	<span class="tok-nb">exit </span>1
 <span class="tok-o">}</span>
 <span class="tok-k">if</span> not <span class="tok-o">{</span>
@@ -1731,8 +1739,9 @@ sbcl --noinform <span class="tok-se">\</span>
 <span class="tok-c"># Makes a JSON POST with Curl</span>
 <span class="tok-c">#</span>
 
-<span class="tok-k">if</span> <span class="tok-o">(</span>! which curl &gt;/dev/null &gt;<span class="tok-o">[</span><span class="tok-nv">2</span><span class="tok-o">=</span>1<span class="tok-o">])</span> <span class="tok-o">{</span>
-	<span class="tok-nb">echo </span>You need to install Curl &gt;<span class="tok-o">[</span><span class="tok-nv">1</span><span class="tok-o">=</span>2<span class="tok-o">]</span>
+<span class="tok-k">if</span> <span class="tok-o">(</span>! found-executable-p curl<span class="tok-o">)</span> <span class="tok-o">{</span>
+	<span class="tok-nb">echo </span>curl not found &gt;<span class="tok-o">[</span><span class="tok-nv">1</span><span class="tok-o">=</span>2<span class="tok-o">]</span>
+	<span class="tok-nb">echo </span>Make sure you have Curl installed &gt;<span class="tok-o">[</span><span class="tok-nv">1</span><span class="tok-o">=</span>2<span class="tok-o">]</span>
 	<span class="tok-nb">exit </span>1
 <span class="tok-o">}</span>
 
@@ -1821,7 +1830,7 @@ tail -n +<span class="tok-nv">$n_lines</span></code></pre>
 <span class="tok-c"># soimort/translate-shell tool.</span>
 <span class="tok-c">#</span>
 
-<span class="tok-k">if</span> <span class="tok-o">(</span>! which trans &gt;/dev/null &gt;<span class="tok-o">[</span><span class="tok-nv">2</span><span class="tok-o">=</span>1<span class="tok-o">])</span> <span class="tok-o">{</span>
+<span class="tok-k">if</span> <span class="tok-o">(</span>! found-executable-p trans<span class="tok-o">)</span> <span class="tok-o">{</span>
 	<span class="tok-nb">echo </span>trans <span class="tok-nb">command </span>not found &gt;<span class="tok-o">[</span><span class="tok-nv">1</span><span class="tok-o">=</span>2<span class="tok-o">]</span>
 	<span class="tok-nb">echo </span>Make sure you have soimort/translate-shell installed &gt;<span class="tok-o">[</span><span class="tok-nv">1</span><span class="tok-o">=</span>2<span class="tok-o">]</span>
 	<span class="tok-nb">exit </span>1
@@ -2151,8 +2160,8 @@ trans <span class="tok-nv">$*</span> -brief <span class="tok-nv">$&quot;</span>i
 <span class="tok-c">#</span>
 
 <span class="tok-k">if</span> ! which lynx <span class="tok-p">&amp;</span>&gt;/dev/null<span class="tok-p">;</span> <span class="tok-k">then</span>
-	<span class="tok-nb">echo </span>lynx not found. &gt;<span class="tok-p">&amp;</span>2
-	<span class="tok-nb">echo </span>Make sure you have Lynx installed. &gt;<span class="tok-p">&amp;</span>2
+	<span class="tok-nb">echo </span>lynx not found &gt;<span class="tok-p">&amp;</span>2
+	<span class="tok-nb">echo </span>Make sure you have Lynx installed &gt;<span class="tok-p">&amp;</span>2
 	<span class="tok-nb">exit </span>1
 <span class="tok-k">fi</span>
 
@@ -2524,8 +2533,8 @@ dpkg-query -l <span class="tok-s1">&#39;*dev&#39;</span> <span class="tok-p">|</
 <span class="tok-k">fi</span>
 
 <span class="tok-k">if</span> ! which nc <span class="tok-p">&amp;</span>&gt;/dev/null<span class="tok-p">;</span> <span class="tok-k">then</span>
-	<span class="tok-nb">echo </span>nc not found. &gt;<span class="tok-p">&amp;</span>2
-	<span class="tok-nb">echo </span>Make sure you have Netcat installed. &gt;<span class="tok-p">&amp;</span>2
+	<span class="tok-nb">echo </span>nc not found &gt;<span class="tok-p">&amp;</span>2
+	<span class="tok-nb">echo </span>Make sure you have Netcat installed &gt;<span class="tok-p">&amp;</span>2
 	<span class="tok-nb">exit </span>2
 <span class="tok-k">fi</span>
 
@@ -2698,19 +2707,19 @@ print<span class="tok-o">(</span>get_python_lib<span class="tok-o">())</span></c
 <pre class="pygments highlight"><code data-lang="sh"><span class="tok-c">#!/usr/bin/env rc</span>
 
 <span class="tok-k">if</span> <span class="tok-o">(</span>! found-executable-p tempfile<span class="tok-o">)</span> <span class="tok-o">{</span>
-	<span class="tok-nb">echo </span>tempfile not found. &gt;<span class="tok-o">[</span><span class="tok-nv">1</span><span class="tok-o">=</span>2<span class="tok-o">]</span>
+	<span class="tok-nb">echo </span>tempfile not found &gt;<span class="tok-o">[</span><span class="tok-nv">1</span><span class="tok-o">=</span>2<span class="tok-o">]</span>
 	<span class="tok-nb">echo </span>Make sure you have tempfile utility installed, used to generate a temporary file. &gt;<span class="tok-o">[</span><span class="tok-nv">1</span><span class="tok-o">=</span>2<span class="tok-o">]</span>
 	<span class="tok-nb">exit </span>1
 <span class="tok-o">}</span>
 
 <span class="tok-k">if</span> <span class="tok-o">(</span>! found-executable-p qrencode<span class="tok-o">)</span> <span class="tok-o">{</span>
-	<span class="tok-nb">echo </span>qrencode not found. &gt;<span class="tok-o">[</span><span class="tok-nv">1</span><span class="tok-o">=</span>2<span class="tok-o">]</span>
-	<span class="tok-nb">echo </span>Make sure you have qrencode installed. &gt;<span class="tok-o">[</span><span class="tok-nv">1</span><span class="tok-o">=</span>2<span class="tok-o">]</span>
+	<span class="tok-nb">echo </span>qrencode not found &gt;<span class="tok-o">[</span><span class="tok-nv">1</span><span class="tok-o">=</span>2<span class="tok-o">]</span>
+	<span class="tok-nb">echo </span>Make sure you have qrencode installed &gt;<span class="tok-o">[</span><span class="tok-nv">1</span><span class="tok-o">=</span>2<span class="tok-o">]</span>
 	<span class="tok-nb">exit </span>1
 <span class="tok-o">}</span>
 
 <span class="tok-k">if</span> <span class="tok-o">(</span><span class="tok-nb">test</span> <span class="tok-nv">$#*</span> -eq 0<span class="tok-o">)</span> <span class="tok-o">{</span>
-	<span class="tok-nb">echo </span>No argument found.
+	<span class="tok-nb">echo </span>No argument found
 <span class="tok-o">}</span>
 
 <span class="tok-nv">tmpfile</span><span class="tok-o">=</span><span class="tok-sb">`</span><span class="tok-o">{</span>tempfile<span class="tok-o">}</span>^.png
@@ -2787,8 +2796,8 @@ sensors</code></pre>
 <pre class="pygments highlight"><code data-lang="sh"><span class="tok-c">#!/bin/bash</span>
 
 <span class="tok-k">if</span> ! found-executable-p key-mon<span class="tok-p">;</span> <span class="tok-k">then</span>
-	<span class="tok-nb">echo </span>key-mon not found. &gt;<span class="tok-p">&amp;</span>2
-	<span class="tok-nb">echo </span>Make sure you have key-mon installed. &gt;<span class="tok-p">&amp;</span>2
+	<span class="tok-nb">echo </span>key-mon not found &gt;<span class="tok-p">&amp;</span>2
+	<span class="tok-nb">echo </span>Make sure you have key-mon installed &gt;<span class="tok-p">&amp;</span>2
 	<span class="tok-nb">exit </span>1
 <span class="tok-k">fi</span>
 
@@ -3026,8 +3035,8 @@ wget <span class="tok-se">\</span>
 <pre class="pygments highlight"><code data-lang="sh"><span class="tok-c">#!/bin/bash</span>
 
 <span class="tok-k">if</span> ! which Xephyr <span class="tok-p">&amp;</span>&gt;/dev/null<span class="tok-p">;</span> <span class="tok-k">then</span>
-	<span class="tok-nb">echo </span>Xephyr not found. &gt;<span class="tok-p">&amp;</span>2
-	<span class="tok-nb">echo </span>Make sure you have Xephyr installed. &gt;<span class="tok-p">&amp;</span>2
+	<span class="tok-nb">echo </span>Xephyr not found &gt;<span class="tok-p">&amp;</span>2
+	<span class="tok-nb">echo </span>Make sure you have Xephyr installed &gt;<span class="tok-p">&amp;</span>2
 	<span class="tok-nb">exit </span>1
 <span class="tok-k">fi</span>
 
@@ -3053,8 +3062,8 @@ Xephyr <span class="tok-se">\</span>
 <pre class="pygments highlight"><code data-lang="sh"><span class="tok-c">#!/bin/bash</span>
 
 <span class="tok-k">if</span> ! which zenity <span class="tok-p">&amp;</span>&gt;/dev/null<span class="tok-p">;</span> <span class="tok-k">then</span>
-	<span class="tok-nb">echo </span>zenity not found. &gt;<span class="tok-p">&amp;</span>2
-	<span class="tok-nb">echo </span>Make sure you have Zenity installed. &gt;<span class="tok-p">&amp;</span>2
+	<span class="tok-nb">echo </span>zenity not found &gt;<span class="tok-p">&amp;</span>2
+	<span class="tok-nb">echo </span>Make sure you have Zenity installed &gt;<span class="tok-p">&amp;</span>2
 	<span class="tok-nb">exit </span>1
 <span class="tok-k">fi</span>
 
@@ -3340,7 +3349,7 @@ a good strong coffee :-).</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2016-01-20 18:15:43 EET
+Last updated 2016-01-21 18:07:45 EET
 </div>
 </div>
 </body>
