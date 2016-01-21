@@ -891,8 +891,8 @@ This script takes a list of files as arguments.
 #!/usr/bin/env rc
 
 if (! found-executable-p ffmpeg) {
-	echo ffmpeg not found. >[1=2]
-	echo Make sure you have Ffmpeg installed. >[1=2]
+	echo ffmpeg not found >[1=2]
+	echo Make sure you have Ffmpeg installed >[1=2]
 	exit 1
 }
 
@@ -912,8 +912,8 @@ This script takes a list of files as arguments.
 #!/usr/bin/env rc
 
 if (! found-executable-p ffmpeg) {
-	echo ffmpeg not found. >[1=2]
-	echo Make sure you have Ffmpeg installed. >[1=2]
+	echo ffmpeg not found >[1=2]
+	echo Make sure you have Ffmpeg installed >[1=2]
 	exit 1
 }
 
@@ -948,8 +948,8 @@ Returns the average CPU usage measured in 3 consecutive seconds, using `mpstat`.
 #
 
 if ! found-executable-p mpstat; then
-	echo mpstat not found. >&2
-    echo Make sure you have Sysstat installed. >&2
+	echo mpstat not found >&2
+    echo Make sure you have Sysstat installed >&2
 	exit 1
 fi
 
@@ -969,8 +969,8 @@ mpstat 3 1 | tail -1 | gawk '$12 ~ /[0-9.]+/ { print 100 - $12"%" }'
 #
 
 if ! found-executable-p tags ; then
-	echo ctags not found. >&2
-	echo Make sure you have Ctags or Exuberant Ctags installed. >&2
+	echo ctags not found >&2
+	echo Make sure you have Ctags or Exuberant Ctags installed >&2
 	exit 1
 fi
 
@@ -1503,8 +1503,8 @@ trans $* -brief $"input
 #
 
 if ! which lynx &>/dev/null; then
-	echo lynx not found. >&2
-	echo Make sure you have Lynx installed. >&2
+	echo lynx not found >&2
+	echo Make sure you have Lynx installed >&2
 	exit 1
 fi
 
@@ -1872,8 +1872,8 @@ EOF
 fi
 
 if ! which nc &>/dev/null; then
-	echo nc not found. >&2
-	echo Make sure you have Netcat installed. >&2
+	echo nc not found >&2
+	echo Make sure you have Netcat installed >&2
 	exit 2
 fi
 
@@ -2044,19 +2044,19 @@ print(get_python_lib())
 #!/usr/bin/env rc
 
 if (! found-executable-p tempfile) {
-	echo tempfile not found. >[1=2]
+	echo tempfile not found >[1=2]
 	echo Make sure you have tempfile utility installed, used to generate a temporary file. >[1=2]
 	exit 1
 }
 
 if (! found-executable-p qrencode) {
-	echo qrencode not found. >[1=2]
-	echo Make sure you have qrencode installed. >[1=2]
+	echo qrencode not found >[1=2]
+	echo Make sure you have qrencode installed >[1=2]
 	exit 1
 }
 
 if (test $#* -eq 0) {
-	echo No argument found.
+	echo No argument found
 }
 
 tmpfile=`{tempfile}^.png
@@ -2133,8 +2133,8 @@ exec pgrep "$@" &>/dev/null
 #!/bin/bash
 
 if ! found-executable-p key-mon; then
-	echo key-mon not found. >&2
-	echo Make sure you have key-mon installed. >&2
+	echo key-mon not found >&2
+	echo Make sure you have key-mon installed >&2
 	exit 1
 fi
 
@@ -2370,8 +2370,8 @@ TODO: Help text
 #!/bin/bash
 
 if ! which Xephyr &>/dev/null; then
-	echo Xephyr not found. >&2
-	echo Make sure you have Xephyr installed. >&2
+	echo Xephyr not found >&2
+	echo Make sure you have Xephyr installed >&2
 	exit 1
 fi
 
@@ -2397,8 +2397,8 @@ echo Display: $DISPLAY
 #!/bin/bash
 
 if ! which zenity &>/dev/null; then
-	echo zenity not found. >&2
-	echo Make sure you have Zenity installed. >&2
+	echo zenity not found >&2
+	echo Make sure you have Zenity installed >&2
 	exit 1
 fi
 
