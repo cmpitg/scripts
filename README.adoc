@@ -872,12 +872,16 @@ extension.
 ----
 #!/bin/zsh
 
-which ffpmeg &>/dev/null && prog_=ffmpeg || prog_=avconv
+if ! found-executable-p ffmpeg; then
+	echo ffmpeg not found >&2
+	echo Make sure you have Ffmpeg installed >&2
+	echo 1
+fi
 
 file_="$1"
 
-${prog_} -i "${file_}" -vn -acodec copy \
-         "$file_:r.$(ffprobe ${file_} 2>&1 | grep Audio | sed -rn 's/.*Audio: ([^ ]*).*/\1/p')"
+ffmpeg -i "${file_}" -vn -acodec copy \
+	"$file_:r.$(ffprobe ${file_} 2>&1 | grep Audio | sed -rn 's/.*Audio: ([^ ]*).*/\1/p')"
 
 ----
 
