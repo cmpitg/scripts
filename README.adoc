@@ -968,8 +968,9 @@ mpstat 3 1 | tail -1 | gawk '$12 ~ /[0-9.]+/ { print 100 - $12"%" }'
 # Creates a tags file named TAGS using ctags.
 #
 
-if ! which ctags &>/dev/null ; then
-	echo You need ctags installed for this command to work >&2
+if ! found-executable-p tags ; then
+	echo ctags not found. >&2
+	echo Make sure you have Ctags or Exuberant Ctags installed. >&2
 	exit 1
 fi
 
