@@ -4,8 +4,9 @@
 # Creates a tags file named TAGS using ctags.
 #
 
-if ! which ctags &>/dev/null ; then
-	echo You need ctags installed for this command to work >&2
+if ! found-executable-p tags ; then
+	echo ctags not found >&2
+	echo Make sure you have Ctags or Exuberant Ctags installed >&2
 	exit 1
 fi
 

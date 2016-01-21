@@ -4,8 +4,9 @@
 # Makes a JSON POST with Curl
 #
 
-if (! which curl >/dev/null >[2=1]) {
-	echo You need to install Curl >[1=2]
+if (! found-executable-p curl) {
+	echo curl not found >[1=2]
+	echo Make sure you have Curl installed >[1=2]
 	exit 1
 }
 

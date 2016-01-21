@@ -9,8 +9,8 @@ EOF
 fi
 
 if ! which nc &>/dev/null; then
-	echo nc not found. >&2
-	echo Make sure you have Netcat installed. >&2
+	echo nc not found >&2
+	echo Make sure you have Netcat installed >&2
 	exit 2
 fi
 

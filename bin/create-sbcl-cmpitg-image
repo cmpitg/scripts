@@ -20,8 +20,9 @@ EOF
 # Sanity check
 ##############################################################################
 
-if (! which sbcl >/dev/null >[2=1]) {
-	echo sbcl executable not found.  Do you have SBCL installed? >[1=2]
+if (! found-executable-p sbcl) {
+	echo sbcl executable not found >[1=2]
+	echo Make sure you have SBCL installed >[1=2]
 	exit 1
 }
 if not {
