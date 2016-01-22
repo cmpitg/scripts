@@ -1252,9 +1252,6 @@ with custom Emacs init file stored in environment variable `EMACS_INIT`.  By
 default, `EMACS_INIT` is set to `"~/emacs-config/src/init.el"` and
 `EMACS_PORT` is set to `9999`.
 
-TODO: Handling file pattern: `<path>:line`, `<path>:line-1:line-2`,
-`<path>:/regex/`
-
 .file::ff
 [source,sh]
 ----
