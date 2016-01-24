@@ -1903,10 +1903,6 @@ with custom Emacs init file stored in environment variable <code>EMACS_INIT</cod
 default, <code>EMACS_INIT</code> is set to <code>"~/emacs-config/src/init.el"</code> and
 <code>EMACS_PORT</code> is set to <code>9999</code>.</p>
 </div>
-<div class="paragraph">
-<p>TODO: Handling file pattern: <code>&lt;path&gt;:line</code>, <code>&lt;path&gt;:line-1:line-2</code>,
-<code>&lt;path&gt;:/regex/</code></p>
-</div>
 <div class="listingblock">
 <div class="title">file::ff</div>
 <div class="content">
@@ -2219,9 +2215,7 @@ i3-input <span class="tok-se">\</span>
 <pre class="pygments highlight"><code data-lang="python"><span class="tok-c">#!/usr/bin/env python3</span>
 
 <span class="tok-c">#</span>
-<span class="tok-c"># This file is part of i3-switch-window project.</span>
-<span class="tok-c">#</span>
-<span class="tok-c"># Copyright (C) 2015  Ha-Duong Nguyen &lt;cmpitg@gmail.com&gt;</span>
+<span class="tok-c"># Copyright (C) 2015-2016  Ha-Duong Nguyen &lt;cmpitg@gmail.com&gt;</span>
 <span class="tok-c">#</span>
 <span class="tok-c"># i3-switch-window is free software: you can redistribute it and/or modify it</span>
 <span class="tok-c"># under the terms of the GNU General Public License as published by the Free</span>
@@ -2245,6 +2239,7 @@ i3-input <span class="tok-se">\</span>
 
 <span class="tok-kn">import</span> <span class="tok-nn">json</span>
 <span class="tok-kn">import</span> <span class="tok-nn">subprocess</span>
+<span class="tok-kn">import</span> <span class="tok-nn">sys</span>
 
 
 <span class="tok-c"># dmenu_options      = &#39;-b -i -l 40 -fn &quot;Droid Sans-10&quot; -nf &quot;#ffa077&quot; -nb &quot;#202020&quot;&#39;</span>
@@ -2254,116 +2249,115 @@ i3-input <span class="tok-se">\</span>
 <span class="tok-n">cmd_switch_window</span>  <span class="tok-o">=</span> <span class="tok-s">&quot;i3-msg &#39;[con_id={}] focus&#39;&quot;</span>
 
 
-<span class="tok-c"># TODO: Check if dmenu is available</span>
-
-
 <span class="tok-k">def</span> <span class="tok-nf">main</span><span class="tok-p">():</span>
-    <span class="tok-k">global</span> <span class="tok-n">dmenu_options</span>
-    <span class="tok-k">global</span> <span class="tok-n">cmd_get_tree</span>
-    <span class="tok-k">global</span> <span class="tok-n">cmd_switch_window</span>
+	<span class="tok-n">fail_if_dmenu_not_found</span><span class="tok-p">()</span>
 
-    <span class="tok-n">tree</span> <span class="tok-o">=</span> <span class="tok-n">json</span><span class="tok-o">.</span><span class="tok-n">loads</span><span class="tok-p">(</span><span class="tok-n">subprocess</span><span class="tok-o">.</span><span class="tok-n">check_output</span><span class="tok-p">(</span>
-        <span class="tok-n">cmd_get_tree</span><span class="tok-p">,</span>
-        <span class="tok-n">stderr</span><span class="tok-o">=</span><span class="tok-n">subprocess</span><span class="tok-o">.</span><span class="tok-n">STDOUT</span><span class="tok-p">,</span>
-        <span class="tok-n">shell</span><span class="tok-o">=</span><span class="tok-bp">True</span>
-    <span class="tok-p">)</span><span class="tok-o">.</span><span class="tok-n">decode</span><span class="tok-p">(</span><span class="tok-s">&#39;utf-8&#39;</span><span class="tok-p">))</span>
+	<span class="tok-k">global</span> <span class="tok-n">dmenu_options</span>
+	<span class="tok-k">global</span> <span class="tok-n">cmd_get_tree</span>
+	<span class="tok-k">global</span> <span class="tok-n">cmd_switch_window</span>
 
-    <span class="tok-n">windows</span>       <span class="tok-o">=</span> <span class="tok-n">get_all_windows</span><span class="tok-p">(</span><span class="tok-n">tree</span><span class="tok-p">)</span>
-    <span class="tok-n">lookup_table</span>  <span class="tok-o">=</span> <span class="tok-n">build_lookup_table</span><span class="tok-p">(</span><span class="tok-n">windows</span><span class="tok-p">)</span>
-    <span class="tok-n">chosen</span>        <span class="tok-o">=</span> <span class="tok-n">dmenu</span><span class="tok-p">(</span><span class="tok-n">itemize</span><span class="tok-p">(</span><span class="tok-n">windows</span><span class="tok-p">),</span> <span class="tok-n">dmenu_options</span><span class="tok-p">)</span>
+	<span class="tok-n">tree</span> <span class="tok-o">=</span> <span class="tok-n">json</span><span class="tok-o">.</span><span class="tok-n">loads</span><span class="tok-p">(</span><span class="tok-n">subprocess</span><span class="tok-o">.</span><span class="tok-n">check_output</span><span class="tok-p">(</span>
+		<span class="tok-n">cmd_get_tree</span><span class="tok-p">,</span>
+		<span class="tok-n">stderr</span><span class="tok-o">=</span><span class="tok-n">subprocess</span><span class="tok-o">.</span><span class="tok-n">STDOUT</span><span class="tok-p">,</span>
+		<span class="tok-n">shell</span><span class="tok-o">=</span><span class="tok-bp">True</span>
+	<span class="tok-p">)</span><span class="tok-o">.</span><span class="tok-n">decode</span><span class="tok-p">(</span><span class="tok-s">&#39;utf-8&#39;</span><span class="tok-p">))</span>
 
-    <span class="tok-n">switch_to_window</span><span class="tok-p">(</span>
-        <span class="tok-n">chosen</span><span class="tok-o">=</span><span class="tok-n">chosen</span><span class="tok-p">,</span>
-        <span class="tok-n">table</span><span class="tok-o">=</span><span class="tok-n">lookup_table</span><span class="tok-p">,</span>
-        <span class="tok-n">cmd</span><span class="tok-o">=</span><span class="tok-n">cmd_switch_window</span>
-    <span class="tok-p">)</span>
+	<span class="tok-n">windows</span>       <span class="tok-o">=</span> <span class="tok-n">get_all_windows</span><span class="tok-p">(</span><span class="tok-n">tree</span><span class="tok-p">)</span>
+	<span class="tok-n">lookup_table</span>  <span class="tok-o">=</span> <span class="tok-n">build_lookup_table</span><span class="tok-p">(</span><span class="tok-n">windows</span><span class="tok-p">)</span>
+	<span class="tok-n">chosen</span>        <span class="tok-o">=</span> <span class="tok-n">dmenu</span><span class="tok-p">(</span><span class="tok-n">itemize</span><span class="tok-p">(</span><span class="tok-n">windows</span><span class="tok-p">),</span> <span class="tok-n">dmenu_options</span><span class="tok-p">)</span>
+
+	<span class="tok-n">switch_to_window</span><span class="tok-p">(</span>
+		<span class="tok-n">chosen</span><span class="tok-o">=</span><span class="tok-n">chosen</span><span class="tok-p">,</span>
+		<span class="tok-n">table</span><span class="tok-o">=</span><span class="tok-n">lookup_table</span><span class="tok-p">,</span>
+		<span class="tok-n">cmd</span><span class="tok-o">=</span><span class="tok-n">cmd_switch_window</span>
+	<span class="tok-p">)</span>
+
+
+<span class="tok-k">def</span> <span class="tok-nf">fail_if_dmenu_not_found</span><span class="tok-p">():</span>
+	<span class="tok-sd">&quot;&quot;&quot;Check if dmenu exists and exit if it doesn&#39;t.&quot;&quot;&quot;</span>
+	<span class="tok-k">if</span> <span class="tok-n">subprocess</span><span class="tok-o">.</span><span class="tok-n">call</span><span class="tok-p">(</span><span class="tok-s">&quot;which dmenu&quot;</span><span class="tok-p">,</span> <span class="tok-n">shell</span><span class="tok-o">=</span><span class="tok-bp">True</span><span class="tok-p">)</span> <span class="tok-o">!=</span> <span class="tok-mi">0</span><span class="tok-p">:</span>
+		<span class="tok-n">sys</span><span class="tok-o">.</span><span class="tok-n">stdout</span><span class="tok-o">.</span><span class="tok-n">write</span><span class="tok-p">(</span><span class="tok-s">&quot;dmenu not found</span><span class="tok-se">\n</span><span class="tok-s">&quot;</span><span class="tok-p">)</span>
+		<span class="tok-n">sys</span><span class="tok-o">.</span><span class="tok-n">stdout</span><span class="tok-o">.</span><span class="tok-n">write</span><span class="tok-p">(</span><span class="tok-s">&quot;Make sure you have dmenu installed</span><span class="tok-se">\n</span><span class="tok-s">&quot;</span><span class="tok-p">)</span>
+		<span class="tok-n">sys</span><span class="tok-o">.</span><span class="tok-n">exit</span><span class="tok-p">(</span><span class="tok-mi">1</span><span class="tok-p">)</span>
 
 
 <span class="tok-k">def</span> <span class="tok-nf">switch_to_window</span><span class="tok-p">(</span><span class="tok-n">chosen</span><span class="tok-p">,</span> <span class="tok-n">table</span><span class="tok-p">,</span> <span class="tok-n">cmd</span><span class="tok-p">):</span>
-    <span class="tok-n">window_id</span> <span class="tok-o">=</span> <span class="tok-n">table</span><span class="tok-o">.</span><span class="tok-n">get</span><span class="tok-p">(</span><span class="tok-n">chosen</span><span class="tok-p">,</span> <span class="tok-s">&quot;&quot;</span><span class="tok-p">)</span>
-    <span class="tok-n">subprocess</span><span class="tok-o">.</span><span class="tok-n">check_call</span><span class="tok-p">(</span><span class="tok-n">cmd</span><span class="tok-o">.</span><span class="tok-n">format</span><span class="tok-p">(</span><span class="tok-n">window_id</span><span class="tok-p">),</span> <span class="tok-n">shell</span><span class="tok-o">=</span><span class="tok-bp">True</span><span class="tok-p">)</span>
+	<span class="tok-sd">&quot;&quot;&quot;Switch to the chosen window.&quot;&quot;&quot;</span>
+	<span class="tok-n">window_id</span> <span class="tok-o">=</span> <span class="tok-n">table</span><span class="tok-o">.</span><span class="tok-n">get</span><span class="tok-p">(</span><span class="tok-n">chosen</span><span class="tok-p">,</span> <span class="tok-o">-</span><span class="tok-mi">1</span><span class="tok-p">)</span>
+	<span class="tok-k">if</span> <span class="tok-n">window_id</span> <span class="tok-o">!=</span> <span class="tok-o">-</span><span class="tok-mi">1</span><span class="tok-p">:</span>
+		<span class="tok-n">subprocess</span><span class="tok-o">.</span><span class="tok-n">check_call</span><span class="tok-p">(</span><span class="tok-n">cmd</span><span class="tok-o">.</span><span class="tok-n">format</span><span class="tok-p">(</span><span class="tok-n">window_id</span><span class="tok-p">),</span> <span class="tok-n">shell</span><span class="tok-o">=</span><span class="tok-bp">True</span><span class="tok-p">)</span>
 
 
 <span class="tok-k">def</span> <span class="tok-nf">window_as_string</span><span class="tok-p">(</span><span class="tok-n">with_id</span><span class="tok-o">=</span><span class="tok-bp">False</span><span class="tok-p">):</span>
-    <span class="tok-k">global</span> <span class="tok-n">title_format</span>
+	<span class="tok-k">global</span> <span class="tok-n">title_format</span>
 
-    <span class="tok-k">def</span> <span class="tok-nf">helper</span><span class="tok-p">(</span><span class="tok-n">window</span><span class="tok-p">):</span>
-        <span class="tok-n">title</span> <span class="tok-o">=</span> <span class="tok-n">title_format</span><span class="tok-o">.</span><span class="tok-n">format</span><span class="tok-p">(</span><span class="tok-n">window</span><span class="tok-p">[</span><span class="tok-s">&#39;class&#39;</span><span class="tok-p">],</span> <span class="tok-n">window</span><span class="tok-p">[</span><span class="tok-s">&#39;title&#39;</span><span class="tok-p">])</span>
-        <span class="tok-k">if</span> <span class="tok-n">with_id</span><span class="tok-p">:</span>
-            <span class="tok-k">return</span> <span class="tok-n">title</span><span class="tok-p">,</span> <span class="tok-n">window</span><span class="tok-p">[</span><span class="tok-s">&#39;id&#39;</span><span class="tok-p">]</span>
-        <span class="tok-k">else</span><span class="tok-p">:</span>
-            <span class="tok-k">return</span> <span class="tok-n">title</span>
+	<span class="tok-k">def</span> <span class="tok-nf">helper</span><span class="tok-p">(</span><span class="tok-n">window</span><span class="tok-p">):</span>
+		<span class="tok-n">title</span> <span class="tok-o">=</span> <span class="tok-n">title_format</span><span class="tok-o">.</span><span class="tok-n">format</span><span class="tok-p">(</span><span class="tok-n">window</span><span class="tok-p">[</span><span class="tok-s">&#39;class&#39;</span><span class="tok-p">],</span> <span class="tok-n">window</span><span class="tok-p">[</span><span class="tok-s">&#39;title&#39;</span><span class="tok-p">])</span>
+		<span class="tok-k">if</span> <span class="tok-n">with_id</span><span class="tok-p">:</span>
+			<span class="tok-k">return</span> <span class="tok-n">title</span><span class="tok-p">,</span> <span class="tok-n">window</span><span class="tok-p">[</span><span class="tok-s">&#39;id&#39;</span><span class="tok-p">]</span>
+		<span class="tok-k">else</span><span class="tok-p">:</span>
+			<span class="tok-k">return</span> <span class="tok-n">title</span>
 
-    <span class="tok-k">return</span> <span class="tok-n">helper</span>
+	<span class="tok-k">return</span> <span class="tok-n">helper</span>
 
 
 <span class="tok-k">def</span> <span class="tok-nf">build_lookup_table</span><span class="tok-p">(</span><span class="tok-n">windows</span><span class="tok-p">):</span>
-    <span class="tok-n">stringifized</span> <span class="tok-o">=</span> <span class="tok-nb">map</span><span class="tok-p">(</span><span class="tok-n">window_as_string</span><span class="tok-p">(</span><span class="tok-n">with_id</span><span class="tok-o">=</span><span class="tok-bp">True</span><span class="tok-p">),</span> <span class="tok-n">windows</span><span class="tok-p">)</span>
-    <span class="tok-k">return</span> <span class="tok-nb">dict</span><span class="tok-p">(</span><span class="tok-n">stringifized</span><span class="tok-p">)</span>
+	<span class="tok-n">stringifized</span> <span class="tok-o">=</span> <span class="tok-nb">map</span><span class="tok-p">(</span><span class="tok-n">window_as_string</span><span class="tok-p">(</span><span class="tok-n">with_id</span><span class="tok-o">=</span><span class="tok-bp">True</span><span class="tok-p">),</span> <span class="tok-n">windows</span><span class="tok-p">)</span>
+	<span class="tok-k">return</span> <span class="tok-nb">dict</span><span class="tok-p">(</span><span class="tok-n">stringifized</span><span class="tok-p">)</span>
 
 
 <span class="tok-k">def</span> <span class="tok-nf">itemize</span><span class="tok-p">(</span><span class="tok-n">windows</span><span class="tok-p">):</span>
-    <span class="tok-sd">&quot;&quot;&quot;</span>
-<span class="tok-sd">    Itemize windows list for dmenu.</span>
-<span class="tok-sd">    &quot;&quot;&quot;</span>
-    <span class="tok-k">return</span> <span class="tok-s">&quot;</span><span class="tok-se">\n</span><span class="tok-s">&quot;</span><span class="tok-o">.</span><span class="tok-n">join</span><span class="tok-p">(</span><span class="tok-nb">map</span><span class="tok-p">(</span><span class="tok-n">window_as_string</span><span class="tok-p">(</span><span class="tok-n">with_id</span><span class="tok-o">=</span><span class="tok-bp">False</span><span class="tok-p">),</span> <span class="tok-n">windows</span><span class="tok-p">))</span>
+	<span class="tok-sd">&quot;&quot;&quot;Itemize windows list for dmenu.&quot;&quot;&quot;</span>
+	<span class="tok-k">return</span> <span class="tok-s">&quot;</span><span class="tok-se">\n</span><span class="tok-s">&quot;</span><span class="tok-o">.</span><span class="tok-n">join</span><span class="tok-p">(</span><span class="tok-nb">map</span><span class="tok-p">(</span><span class="tok-n">window_as_string</span><span class="tok-p">(</span><span class="tok-n">with_id</span><span class="tok-o">=</span><span class="tok-bp">False</span><span class="tok-p">),</span> <span class="tok-n">windows</span><span class="tok-p">))</span>
 
 
 <span class="tok-k">def</span> <span class="tok-nf">get_all_windows</span><span class="tok-p">(</span><span class="tok-n">tree</span><span class="tok-p">):</span>
-    <span class="tok-sd">&quot;&quot;&quot;</span>
-<span class="tok-sd">    Extracts all windows from i3 tree.</span>
-<span class="tok-sd">    &quot;&quot;&quot;</span>
-    <span class="tok-c"># Add current window</span>
-    <span class="tok-k">if</span> <span class="tok-n">is_window</span><span class="tok-p">(</span><span class="tok-n">tree</span><span class="tok-p">):</span>
-        <span class="tok-n">result</span> <span class="tok-o">=</span> <span class="tok-p">[</span><span class="tok-n">standardize_window</span><span class="tok-p">(</span><span class="tok-n">tree</span><span class="tok-p">)]</span>
-    <span class="tok-k">else</span><span class="tok-p">:</span>
-        <span class="tok-n">result</span> <span class="tok-o">=</span> <span class="tok-p">[]</span>
+	<span class="tok-sd">&quot;&quot;&quot;Extracts all windows from i3 tree.&quot;&quot;&quot;</span>
+	<span class="tok-c"># Add current window</span>
+	<span class="tok-k">if</span> <span class="tok-n">is_window</span><span class="tok-p">(</span><span class="tok-n">tree</span><span class="tok-p">):</span>
+		<span class="tok-n">result</span> <span class="tok-o">=</span> <span class="tok-p">[</span><span class="tok-n">standardize_window</span><span class="tok-p">(</span><span class="tok-n">tree</span><span class="tok-p">)]</span>
+	<span class="tok-k">else</span><span class="tok-p">:</span>
+		<span class="tok-n">result</span> <span class="tok-o">=</span> <span class="tok-p">[]</span>
 
-    <span class="tok-c"># Add child windows</span>
-    <span class="tok-n">children</span> <span class="tok-o">=</span> <span class="tok-p">[]</span>
-    <span class="tok-k">for</span> <span class="tok-n">window</span> <span class="tok-ow">in</span> <span class="tok-n">tree</span><span class="tok-p">[</span><span class="tok-s">&#39;nodes&#39;</span><span class="tok-p">]:</span>
-        <span class="tok-n">children</span> <span class="tok-o">+=</span> <span class="tok-n">get_all_windows</span><span class="tok-p">(</span><span class="tok-n">window</span><span class="tok-p">)</span>
+	<span class="tok-c"># Add child windows</span>
+	<span class="tok-n">children</span> <span class="tok-o">=</span> <span class="tok-p">[]</span>
+	<span class="tok-k">for</span> <span class="tok-n">window</span> <span class="tok-ow">in</span> <span class="tok-n">tree</span><span class="tok-p">[</span><span class="tok-s">&#39;nodes&#39;</span><span class="tok-p">]:</span>
+		<span class="tok-n">children</span> <span class="tok-o">+=</span> <span class="tok-n">get_all_windows</span><span class="tok-p">(</span><span class="tok-n">window</span><span class="tok-p">)</span>
 
-    <span class="tok-k">return</span> <span class="tok-n">result</span> <span class="tok-o">+</span> <span class="tok-n">children</span>
+	<span class="tok-k">return</span> <span class="tok-n">result</span> <span class="tok-o">+</span> <span class="tok-n">children</span>
 
 
 <span class="tok-k">def</span> <span class="tok-nf">is_window</span><span class="tok-p">(</span><span class="tok-n">tree</span><span class="tok-p">):</span>
-    <span class="tok-sd">&quot;&quot;&quot;</span>
-<span class="tok-sd">    Determines if a tree is a window.</span>
-<span class="tok-sd">    &quot;&quot;&quot;</span>
-    <span class="tok-k">return</span> <span class="tok-n">tree</span><span class="tok-p">[</span><span class="tok-s">&#39;window&#39;</span><span class="tok-p">]</span> \
-        <span class="tok-ow">and</span> <span class="tok-n">tree</span><span class="tok-p">[</span><span class="tok-s">&#39;window_properties&#39;</span><span class="tok-p">][</span><span class="tok-s">&#39;class&#39;</span><span class="tok-p">]</span><span class="tok-o">.</span><span class="tok-n">lower</span><span class="tok-p">()</span><span class="tok-o">.</span><span class="tok-n">find</span><span class="tok-p">(</span><span class="tok-s">&#39;panel&#39;</span><span class="tok-p">)</span> <span class="tok-o">==</span> <span class="tok-o">-</span><span class="tok-mi">1</span>
+	<span class="tok-sd">&quot;&quot;&quot;Determines if a tree is a window.&quot;&quot;&quot;</span>
+	<span class="tok-k">return</span> <span class="tok-n">tree</span><span class="tok-p">[</span><span class="tok-s">&#39;window&#39;</span><span class="tok-p">]</span> \
+		<span class="tok-ow">and</span> <span class="tok-n">tree</span><span class="tok-p">[</span><span class="tok-s">&#39;window_properties&#39;</span><span class="tok-p">][</span><span class="tok-s">&#39;class&#39;</span><span class="tok-p">]</span><span class="tok-o">.</span><span class="tok-n">lower</span><span class="tok-p">()</span><span class="tok-o">.</span><span class="tok-n">find</span><span class="tok-p">(</span><span class="tok-s">&#39;panel&#39;</span><span class="tok-p">)</span> <span class="tok-o">==</span> <span class="tok-o">-</span><span class="tok-mi">1</span>
 
 
 <span class="tok-k">def</span> <span class="tok-nf">standardize_window</span><span class="tok-p">(</span><span class="tok-n">window</span><span class="tok-p">):</span>
-    <span class="tok-sd">&quot;&quot;&quot;</span>
-<span class="tok-sd">    Extracts necessary information for a window.</span>
-<span class="tok-sd">    &quot;&quot;&quot;</span>
-    <span class="tok-k">return</span> <span class="tok-p">{</span>
-        <span class="tok-s">&#39;id&#39;</span><span class="tok-p">:</span>       <span class="tok-n">window</span><span class="tok-p">[</span><span class="tok-s">&#39;id&#39;</span><span class="tok-p">],</span>
-        <span class="tok-s">&#39;title&#39;</span><span class="tok-p">:</span>    <span class="tok-n">window</span><span class="tok-p">[</span><span class="tok-s">&#39;window_properties&#39;</span><span class="tok-p">][</span><span class="tok-s">&#39;title&#39;</span><span class="tok-p">],</span>
-        <span class="tok-s">&#39;class&#39;</span><span class="tok-p">:</span>    <span class="tok-n">window</span><span class="tok-p">[</span><span class="tok-s">&#39;window_properties&#39;</span><span class="tok-p">][</span><span class="tok-s">&#39;class&#39;</span><span class="tok-p">],</span>
-        <span class="tok-s">&#39;instance&#39;</span><span class="tok-p">:</span> <span class="tok-n">window</span><span class="tok-p">[</span><span class="tok-s">&#39;window_properties&#39;</span><span class="tok-p">][</span><span class="tok-s">&#39;instance&#39;</span><span class="tok-p">]</span>
-    <span class="tok-p">}</span>
+	<span class="tok-sd">&quot;&quot;&quot;Extracts necessary information for a window.&quot;&quot;&quot;</span>
+	<span class="tok-k">return</span> <span class="tok-p">{</span>
+		<span class="tok-s">&#39;id&#39;</span><span class="tok-p">:</span>       <span class="tok-n">window</span><span class="tok-p">[</span><span class="tok-s">&#39;id&#39;</span><span class="tok-p">],</span>
+		<span class="tok-s">&#39;title&#39;</span><span class="tok-p">:</span>    <span class="tok-n">window</span><span class="tok-p">[</span><span class="tok-s">&#39;window_properties&#39;</span><span class="tok-p">][</span><span class="tok-s">&#39;title&#39;</span><span class="tok-p">],</span>
+		<span class="tok-s">&#39;class&#39;</span><span class="tok-p">:</span>    <span class="tok-n">window</span><span class="tok-p">[</span><span class="tok-s">&#39;window_properties&#39;</span><span class="tok-p">][</span><span class="tok-s">&#39;class&#39;</span><span class="tok-p">],</span>
+		<span class="tok-s">&#39;instance&#39;</span><span class="tok-p">:</span> <span class="tok-n">window</span><span class="tok-p">[</span><span class="tok-s">&#39;window_properties&#39;</span><span class="tok-p">][</span><span class="tok-s">&#39;instance&#39;</span><span class="tok-p">]</span>
+	<span class="tok-p">}</span>
 
 
 <span class="tok-k">def</span> <span class="tok-nf">dmenu</span><span class="tok-p">(</span><span class="tok-n">items</span><span class="tok-p">,</span> <span class="tok-n">dmenu_options</span><span class="tok-p">):</span>
-    <span class="tok-sd">&quot;&quot;&quot;</span>
-<span class="tok-sd">    Calls dmenu to display and menu for window switching.</span>
-<span class="tok-sd">    &quot;&quot;&quot;</span>
-    <span class="tok-n">cmd</span> <span class="tok-o">=</span> <span class="tok-n">subprocess</span><span class="tok-o">.</span><span class="tok-n">Popen</span><span class="tok-p">(</span>
-        <span class="tok-s">&quot;dmenu {}&quot;</span><span class="tok-o">.</span><span class="tok-n">format</span><span class="tok-p">(</span><span class="tok-n">dmenu_options</span><span class="tok-p">),</span>
-        <span class="tok-n">shell</span><span class="tok-o">=</span><span class="tok-bp">True</span><span class="tok-p">,</span>
-        <span class="tok-n">stdin</span><span class="tok-o">=</span><span class="tok-n">subprocess</span><span class="tok-o">.</span><span class="tok-n">PIPE</span><span class="tok-p">,</span>
-        <span class="tok-n">stdout</span><span class="tok-o">=</span><span class="tok-n">subprocess</span><span class="tok-o">.</span><span class="tok-n">PIPE</span><span class="tok-p">,</span>
-        <span class="tok-n">stderr</span><span class="tok-o">=</span><span class="tok-n">subprocess</span><span class="tok-o">.</span><span class="tok-n">PIPE</span>
-    <span class="tok-p">)</span>
-    <span class="tok-n">stdout</span><span class="tok-p">,</span> <span class="tok-n">_</span> <span class="tok-o">=</span> <span class="tok-n">cmd</span><span class="tok-o">.</span><span class="tok-n">communicate</span><span class="tok-p">(</span><span class="tok-n">items</span><span class="tok-o">.</span><span class="tok-n">encode</span><span class="tok-p">(</span><span class="tok-s">&#39;utf-8&#39;</span><span class="tok-p">))</span>
-    <span class="tok-k">return</span> <span class="tok-n">stdout</span><span class="tok-o">.</span><span class="tok-n">decode</span><span class="tok-p">(</span><span class="tok-s">&#39;utf-8&#39;</span><span class="tok-p">)</span><span class="tok-o">.</span><span class="tok-n">strip</span><span class="tok-p">(</span><span class="tok-s">&#39;</span><span class="tok-se">\n</span><span class="tok-s">&#39;</span><span class="tok-p">)</span>
+	<span class="tok-sd">&quot;&quot;&quot;Calls dmenu to display and menu for window switching.&quot;&quot;&quot;</span>
+	<span class="tok-n">cmd</span> <span class="tok-o">=</span> <span class="tok-n">subprocess</span><span class="tok-o">.</span><span class="tok-n">Popen</span><span class="tok-p">(</span>
+		<span class="tok-s">&quot;dmenu {}&quot;</span><span class="tok-o">.</span><span class="tok-n">format</span><span class="tok-p">(</span><span class="tok-n">dmenu_options</span><span class="tok-p">),</span>
+		<span class="tok-n">shell</span><span class="tok-o">=</span><span class="tok-bp">True</span><span class="tok-p">,</span>
+		<span class="tok-n">stdin</span><span class="tok-o">=</span><span class="tok-n">subprocess</span><span class="tok-o">.</span><span class="tok-n">PIPE</span><span class="tok-p">,</span>
+		<span class="tok-n">stdout</span><span class="tok-o">=</span><span class="tok-n">subprocess</span><span class="tok-o">.</span><span class="tok-n">PIPE</span><span class="tok-p">,</span>
+		<span class="tok-n">stderr</span><span class="tok-o">=</span><span class="tok-n">subprocess</span><span class="tok-o">.</span><span class="tok-n">PIPE</span>
+	<span class="tok-p">)</span>
+	<span class="tok-n">stdout</span><span class="tok-p">,</span> <span class="tok-n">_</span> <span class="tok-o">=</span> <span class="tok-n">cmd</span><span class="tok-o">.</span><span class="tok-n">communicate</span><span class="tok-p">(</span><span class="tok-n">items</span><span class="tok-o">.</span><span class="tok-n">encode</span><span class="tok-p">(</span><span class="tok-s">&#39;utf-8&#39;</span><span class="tok-p">))</span>
+	<span class="tok-k">return</span> <span class="tok-n">stdout</span><span class="tok-o">.</span><span class="tok-n">decode</span><span class="tok-p">(</span><span class="tok-s">&#39;utf-8&#39;</span><span class="tok-p">)</span><span class="tok-o">.</span><span class="tok-n">strip</span><span class="tok-p">(</span><span class="tok-s">&#39;</span><span class="tok-se">\n</span><span class="tok-s">&#39;</span><span class="tok-p">)</span>
 
 
 <span class="tok-k">if</span> <span class="tok-n">__name__</span> <span class="tok-o">==</span> <span class="tok-s">&#39;__main__&#39;</span><span class="tok-p">:</span>
-    <span class="tok-n">main</span><span class="tok-p">()</span></code></pre>
+	<span class="tok-n">main</span><span class="tok-p">()</span></code></pre>
 </div>
 </div>
 </div>
@@ -2378,9 +2372,7 @@ i3-input <span class="tok-se">\</span>
 <pre class="pygments highlight"><code data-lang="python"><span class="tok-c">#!/usr/bin/env python3</span>
 
 <span class="tok-c">#</span>
-<span class="tok-c"># This file is part of i3-switch-window project.</span>
-<span class="tok-c">#</span>
-<span class="tok-c"># Copyright (C) 2015  Ha-Duong Nguyen &lt;cmpitg@gmail.com&gt;</span>
+<span class="tok-c"># Copyright (C) 2015-2016  Ha-Duong Nguyen &lt;cmpitg@gmail.com&gt;</span>
 <span class="tok-c">#</span>
 <span class="tok-c"># i3-switch-window is free software: you can redistribute it and/or modify it</span>
 <span class="tok-c"># under the terms of the GNU General Public License as published by the Free</span>
@@ -2412,67 +2404,69 @@ i3-input <span class="tok-se">\</span>
 <span class="tok-n">cmd_switch_workspace</span>  <span class="tok-o">=</span> <span class="tok-s">&quot;i3-msg &#39;workspace {}&#39;&quot;</span>
 
 
-<span class="tok-c"># TODO: Check if dmenu exists</span>
-
-
 <span class="tok-k">def</span> <span class="tok-nf">main</span><span class="tok-p">():</span>
-    <span class="tok-k">global</span> <span class="tok-n">dmenu_options</span>
-    <span class="tok-k">global</span> <span class="tok-n">cmd_get_workspaces</span>
-    <span class="tok-k">global</span> <span class="tok-n">cmd_switch_workspace</span>
+	<span class="tok-n">fail_if_dmenu_not_found</span><span class="tok-p">()</span>
 
-    <span class="tok-n">workspaces</span> <span class="tok-o">=</span> <span class="tok-n">filter_workspaces</span><span class="tok-p">(</span><span class="tok-n">json</span><span class="tok-o">.</span><span class="tok-n">loads</span><span class="tok-p">(</span><span class="tok-n">subprocess</span><span class="tok-o">.</span><span class="tok-n">check_output</span><span class="tok-p">(</span>
-        <span class="tok-n">cmd_get_workspaces</span><span class="tok-p">,</span>
-        <span class="tok-n">stderr</span><span class="tok-o">=</span><span class="tok-n">subprocess</span><span class="tok-o">.</span><span class="tok-n">STDOUT</span><span class="tok-p">,</span>
-        <span class="tok-n">shell</span><span class="tok-o">=</span><span class="tok-bp">True</span>
-    <span class="tok-p">)</span><span class="tok-o">.</span><span class="tok-n">decode</span><span class="tok-p">(</span><span class="tok-s">&#39;utf-8&#39;</span><span class="tok-p">)))</span>
+	<span class="tok-k">global</span> <span class="tok-n">dmenu_options</span>
+	<span class="tok-k">global</span> <span class="tok-n">cmd_get_workspaces</span>
+	<span class="tok-k">global</span> <span class="tok-n">cmd_switch_workspace</span>
 
-    <span class="tok-n">chosen</span> <span class="tok-o">=</span> <span class="tok-n">dmenu</span><span class="tok-p">(</span><span class="tok-n">itemize</span><span class="tok-p">(</span><span class="tok-n">workspaces</span><span class="tok-p">),</span> <span class="tok-n">dmenu_options</span><span class="tok-p">)</span>
+	<span class="tok-n">workspaces</span> <span class="tok-o">=</span> <span class="tok-n">filter_workspaces</span><span class="tok-p">(</span><span class="tok-n">json</span><span class="tok-o">.</span><span class="tok-n">loads</span><span class="tok-p">(</span><span class="tok-n">subprocess</span><span class="tok-o">.</span><span class="tok-n">check_output</span><span class="tok-p">(</span>
+		<span class="tok-n">cmd_get_workspaces</span><span class="tok-p">,</span>
+		<span class="tok-n">stderr</span><span class="tok-o">=</span><span class="tok-n">subprocess</span><span class="tok-o">.</span><span class="tok-n">STDOUT</span><span class="tok-p">,</span>
+		<span class="tok-n">shell</span><span class="tok-o">=</span><span class="tok-bp">True</span>
+	<span class="tok-p">)</span><span class="tok-o">.</span><span class="tok-n">decode</span><span class="tok-p">(</span><span class="tok-s">&#39;utf-8&#39;</span><span class="tok-p">)))</span>
 
-    <span class="tok-n">switch_to_workspace</span><span class="tok-p">(</span>
-        <span class="tok-n">chosen</span><span class="tok-o">=</span><span class="tok-n">chosen</span><span class="tok-p">,</span>
-        <span class="tok-n">cmd</span><span class="tok-o">=</span><span class="tok-n">cmd_switch_workspace</span>
-    <span class="tok-p">)</span>
+	<span class="tok-n">chosen</span> <span class="tok-o">=</span> <span class="tok-n">dmenu</span><span class="tok-p">(</span><span class="tok-n">itemize</span><span class="tok-p">(</span><span class="tok-n">workspaces</span><span class="tok-p">),</span> <span class="tok-n">dmenu_options</span><span class="tok-p">)</span>
+
+	<span class="tok-k">if</span> <span class="tok-n">chosen</span><span class="tok-o">.</span><span class="tok-n">strip</span><span class="tok-p">()</span> <span class="tok-o">!=</span> <span class="tok-s">&quot;&quot;</span><span class="tok-p">:</span>
+		<span class="tok-n">switch_to_workspace</span><span class="tok-p">(</span>
+			<span class="tok-n">chosen</span><span class="tok-o">=</span><span class="tok-n">chosen</span><span class="tok-p">,</span>
+			<span class="tok-n">cmd</span><span class="tok-o">=</span><span class="tok-n">cmd_switch_workspace</span>
+		<span class="tok-p">)</span>
+
+
+<span class="tok-k">def</span> <span class="tok-nf">fail_if_dmenu_not_found</span><span class="tok-p">():</span>
+	<span class="tok-sd">&quot;&quot;&quot;Check if dmenu exists and exit if it doesn&#39;t.&quot;&quot;&quot;</span>
+	<span class="tok-k">if</span> <span class="tok-n">subprocess</span><span class="tok-o">.</span><span class="tok-n">call</span><span class="tok-p">(</span><span class="tok-s">&quot;which dmenu&quot;</span><span class="tok-p">,</span> <span class="tok-n">shell</span><span class="tok-o">=</span><span class="tok-bp">True</span><span class="tok-p">)</span> <span class="tok-o">!=</span> <span class="tok-mi">0</span><span class="tok-p">:</span>
+		<span class="tok-n">sys</span><span class="tok-o">.</span><span class="tok-n">stdout</span><span class="tok-o">.</span><span class="tok-n">write</span><span class="tok-p">(</span><span class="tok-s">&quot;dmenu not found</span><span class="tok-se">\n</span><span class="tok-s">&quot;</span><span class="tok-p">)</span>
+		<span class="tok-n">sys</span><span class="tok-o">.</span><span class="tok-n">stdout</span><span class="tok-o">.</span><span class="tok-n">write</span><span class="tok-p">(</span><span class="tok-s">&quot;Make sure you have dmenu installed</span><span class="tok-se">\n</span><span class="tok-s">&quot;</span><span class="tok-p">)</span>
+		<span class="tok-n">sys</span><span class="tok-o">.</span><span class="tok-n">exit</span><span class="tok-p">(</span><span class="tok-mi">1</span><span class="tok-p">)</span>
 
 
 <span class="tok-k">def</span> <span class="tok-nf">switch_to_workspace</span><span class="tok-p">(</span><span class="tok-n">chosen</span><span class="tok-p">,</span> <span class="tok-n">cmd</span><span class="tok-p">):</span>
-    <span class="tok-sd">&quot;&quot;&quot;</span>
-<span class="tok-sd">    Switch to a chosen workspace.</span>
-<span class="tok-sd">    &quot;&quot;&quot;</span>
-    <span class="tok-n">subprocess</span><span class="tok-o">.</span><span class="tok-n">check_call</span><span class="tok-p">(</span><span class="tok-n">cmd</span><span class="tok-o">.</span><span class="tok-n">format</span><span class="tok-p">(</span><span class="tok-n">chosen</span><span class="tok-p">),</span> <span class="tok-n">shell</span><span class="tok-o">=</span><span class="tok-bp">True</span><span class="tok-p">)</span>
+	<span class="tok-sd">&quot;&quot;&quot;Switch to a chosen workspace.&quot;&quot;&quot;</span>
+	<span class="tok-n">subprocess</span><span class="tok-o">.</span><span class="tok-n">check_call</span><span class="tok-p">(</span><span class="tok-n">cmd</span><span class="tok-o">.</span><span class="tok-n">format</span><span class="tok-p">(</span><span class="tok-n">chosen</span><span class="tok-p">),</span> <span class="tok-n">shell</span><span class="tok-o">=</span><span class="tok-bp">True</span><span class="tok-p">)</span>
 
 
 <span class="tok-k">def</span> <span class="tok-nf">filter_workspaces</span><span class="tok-p">(</span><span class="tok-n">workspaces</span><span class="tok-p">):</span>
-    <span class="tok-sd">&quot;&quot;&quot;</span>
-<span class="tok-sd">    Filter out current workspace.</span>
-<span class="tok-sd">    &quot;&quot;&quot;</span>
-    <span class="tok-k">return</span> <span class="tok-p">[</span>
-        <span class="tok-n">w</span>
-        <span class="tok-k">for</span> <span class="tok-n">w</span> <span class="tok-ow">in</span> <span class="tok-n">workspaces</span>
-        <span class="tok-k">if</span> <span class="tok-ow">not</span> <span class="tok-n">w</span><span class="tok-o">.</span><span class="tok-n">get</span><span class="tok-p">(</span><span class="tok-s">&#39;focused&#39;</span><span class="tok-p">,</span> <span class="tok-bp">False</span><span class="tok-p">)</span>
-    <span class="tok-p">]</span>
+	<span class="tok-sd">&quot;&quot;&quot;Filter out current workspace.&quot;&quot;&quot;</span>
+	<span class="tok-k">return</span> <span class="tok-p">[</span>
+		<span class="tok-n">w</span>
+		<span class="tok-k">for</span> <span class="tok-n">w</span> <span class="tok-ow">in</span> <span class="tok-n">workspaces</span>
+		<span class="tok-k">if</span> <span class="tok-ow">not</span> <span class="tok-n">w</span><span class="tok-o">.</span><span class="tok-n">get</span><span class="tok-p">(</span><span class="tok-s">&#39;focused&#39;</span><span class="tok-p">,</span> <span class="tok-bp">False</span><span class="tok-p">)</span>
+	<span class="tok-p">]</span>
 
 
 <span class="tok-k">def</span> <span class="tok-nf">itemize</span><span class="tok-p">(</span><span class="tok-n">workspaces</span><span class="tok-p">):</span>
-    <span class="tok-sd">&quot;&quot;&quot;</span>
-<span class="tok-sd">    Itemize workspaces list for dmenu.</span>
-<span class="tok-sd">    &quot;&quot;&quot;</span>
-    <span class="tok-k">return</span> <span class="tok-s">&quot;</span><span class="tok-se">\n</span><span class="tok-s">&quot;</span><span class="tok-o">.</span><span class="tok-n">join</span><span class="tok-p">(</span><span class="tok-nb">map</span><span class="tok-p">(</span><span class="tok-k">lambda</span> <span class="tok-n">w</span><span class="tok-p">:</span> <span class="tok-n">w</span><span class="tok-p">[</span><span class="tok-s">&#39;name&#39;</span><span class="tok-p">],</span> <span class="tok-n">workspaces</span><span class="tok-p">))</span>
+	<span class="tok-sd">&quot;&quot;&quot;Itemize workspaces list for dmenu.&quot;&quot;&quot;</span>
+	<span class="tok-k">return</span> <span class="tok-s">&quot;</span><span class="tok-se">\n</span><span class="tok-s">&quot;</span><span class="tok-o">.</span><span class="tok-n">join</span><span class="tok-p">(</span><span class="tok-nb">map</span><span class="tok-p">(</span><span class="tok-k">lambda</span> <span class="tok-n">w</span><span class="tok-p">:</span> <span class="tok-n">w</span><span class="tok-p">[</span><span class="tok-s">&#39;name&#39;</span><span class="tok-p">],</span> <span class="tok-n">workspaces</span><span class="tok-p">))</span>
 
 
 <span class="tok-k">def</span> <span class="tok-nf">dmenu</span><span class="tok-p">(</span><span class="tok-n">items</span><span class="tok-p">,</span> <span class="tok-n">dmenu_options</span><span class="tok-p">):</span>
-    <span class="tok-n">cmd</span> <span class="tok-o">=</span> <span class="tok-n">subprocess</span><span class="tok-o">.</span><span class="tok-n">Popen</span><span class="tok-p">(</span>
-        <span class="tok-s">&quot;dmenu {}&quot;</span><span class="tok-o">.</span><span class="tok-n">format</span><span class="tok-p">(</span><span class="tok-n">dmenu_options</span><span class="tok-p">),</span>
-        <span class="tok-n">shell</span><span class="tok-o">=</span><span class="tok-bp">True</span><span class="tok-p">,</span>
-        <span class="tok-n">stdin</span><span class="tok-o">=</span><span class="tok-n">subprocess</span><span class="tok-o">.</span><span class="tok-n">PIPE</span><span class="tok-p">,</span>
-        <span class="tok-n">stdout</span><span class="tok-o">=</span><span class="tok-n">subprocess</span><span class="tok-o">.</span><span class="tok-n">PIPE</span><span class="tok-p">,</span>
-        <span class="tok-n">stderr</span><span class="tok-o">=</span><span class="tok-n">subprocess</span><span class="tok-o">.</span><span class="tok-n">PIPE</span>
-    <span class="tok-p">)</span>
-    <span class="tok-n">stdout</span><span class="tok-p">,</span> <span class="tok-n">_</span> <span class="tok-o">=</span> <span class="tok-n">cmd</span><span class="tok-o">.</span><span class="tok-n">communicate</span><span class="tok-p">(</span><span class="tok-n">items</span><span class="tok-o">.</span><span class="tok-n">encode</span><span class="tok-p">(</span><span class="tok-s">&#39;utf-8&#39;</span><span class="tok-p">))</span>
-    <span class="tok-k">return</span> <span class="tok-n">stdout</span><span class="tok-o">.</span><span class="tok-n">decode</span><span class="tok-p">(</span><span class="tok-s">&#39;utf-8&#39;</span><span class="tok-p">)</span><span class="tok-o">.</span><span class="tok-n">strip</span><span class="tok-p">(</span><span class="tok-s">&#39;</span><span class="tok-se">\n</span><span class="tok-s">&#39;</span><span class="tok-p">)</span>
+	<span class="tok-n">cmd</span> <span class="tok-o">=</span> <span class="tok-n">subprocess</span><span class="tok-o">.</span><span class="tok-n">Popen</span><span class="tok-p">(</span>
+		<span class="tok-s">&quot;dmenu {}&quot;</span><span class="tok-o">.</span><span class="tok-n">format</span><span class="tok-p">(</span><span class="tok-n">dmenu_options</span><span class="tok-p">),</span>
+		<span class="tok-n">shell</span><span class="tok-o">=</span><span class="tok-bp">True</span><span class="tok-p">,</span>
+		<span class="tok-n">stdin</span><span class="tok-o">=</span><span class="tok-n">subprocess</span><span class="tok-o">.</span><span class="tok-n">PIPE</span><span class="tok-p">,</span>
+		<span class="tok-n">stdout</span><span class="tok-o">=</span><span class="tok-n">subprocess</span><span class="tok-o">.</span><span class="tok-n">PIPE</span><span class="tok-p">,</span>
+		<span class="tok-n">stderr</span><span class="tok-o">=</span><span class="tok-n">subprocess</span><span class="tok-o">.</span><span class="tok-n">PIPE</span>
+	<span class="tok-p">)</span>
+	<span class="tok-n">stdout</span><span class="tok-p">,</span> <span class="tok-n">_</span> <span class="tok-o">=</span> <span class="tok-n">cmd</span><span class="tok-o">.</span><span class="tok-n">communicate</span><span class="tok-p">(</span><span class="tok-n">items</span><span class="tok-o">.</span><span class="tok-n">encode</span><span class="tok-p">(</span><span class="tok-s">&#39;utf-8&#39;</span><span class="tok-p">))</span>
+	<span class="tok-k">return</span> <span class="tok-n">stdout</span><span class="tok-o">.</span><span class="tok-n">decode</span><span class="tok-p">(</span><span class="tok-s">&#39;utf-8&#39;</span><span class="tok-p">)</span><span class="tok-o">.</span><span class="tok-n">strip</span><span class="tok-p">(</span><span class="tok-s">&#39;</span><span class="tok-se">\n</span><span class="tok-s">&#39;</span><span class="tok-p">)</span>
 
 
 <span class="tok-k">if</span> <span class="tok-n">__name__</span> <span class="tok-o">==</span> <span class="tok-s">&#39;__main__&#39;</span><span class="tok-p">:</span>
-    <span class="tok-n">main</span><span class="tok-p">()</span></code></pre>
+	<span class="tok-n">main</span><span class="tok-p">()</span></code></pre>
 </div>
 </div>
 </div>
@@ -2866,9 +2860,11 @@ sed <span class="tok-nv">$n_lines</span>^q</code></pre>
 <div class="sect2">
 <h3 id="__code_update_nim_code_updates_nim_compiler">4.71. <code>update-nim</code> - updates Nim compiler</h3>
 <div class="paragraph">
-<p>Installs/updates Nim to <code>/m/opt/nim</code> using latest binary from the
-offical <a href="http://nim-lang.org/download.html">download page</a>.  TODO: Make this
-customizable.</p>
+<p>Installs/updates Nim to <code>/m/opt/nim</code> using latest binary from the offical
+<a href="http://nim-lang.org/download.html">download page</a>. Nim installation destination
+can be customize by changing value of <code>OPT</code> environment variable (by default,
+is set to <code>/m/opt</code>), and so it Nim download page
+(<code><a href="http://nim-lang.org/download.html" class="bare">http://nim-lang.org/download.html</a></code>) by default.</p>
 </div>
 <div class="listingblock">
 <div class="title">file::update-nim</div>
@@ -2878,6 +2874,14 @@ customizable.</p>
 <span class="tok-nv">opt</span><span class="tok-o">=</span>/m/opt
 <span class="tok-nv">download_page</span><span class="tok-o">=</span>http://nim-lang.org/download.html
 <span class="tok-nv">tar</span><span class="tok-o">=</span>/bin/tar
+
+<span class="tok-k">if</span> <span class="tok-o">(</span>! ~ <span class="tok-nv">$OPT</span> <span class="tok-s1">&#39;&#39;</span><span class="tok-o">)</span> <span class="tok-o">{</span>
+	<span class="tok-nv">opt</span><span class="tok-o">=</span><span class="tok-nv">$OPT</span>
+<span class="tok-o">}</span>
+
+<span class="tok-k">if</span> <span class="tok-o">(</span>! ~ <span class="tok-nv">$DOWNLOAD_PAGE</span> <span class="tok-s1">&#39;&#39;</span><span class="tok-o">)</span> <span class="tok-o">{</span>
+	<span class="tok-nv">download_page</span><span class="tok-o">=</span><span class="tok-nv">$DOWNLOAD_PAGE</span>
+<span class="tok-o">}</span>
 
 <span class="tok-nv">download_url</span><span class="tok-o">=</span><span class="tok-sb">`</span><span class="tok-o">{</span>lynx -dump <span class="tok-nv">$download_page</span> <span class="tok-se">\</span>
 	<span class="tok-p">|</span> grep <span class="tok-s1">&#39;http.*\.tar\.xz$&#39;</span> <span class="tok-se">\</span>
@@ -3349,7 +3353,7 @@ a good strong coffee :-).</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2016-01-21 18:07:45 EET
+Last updated 2016-01-24 17:58:44 EET
 </div>
 </div>
 </body>

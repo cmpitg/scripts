@@ -4,6 +4,14 @@ opt=/m/opt
 download_page=http://nim-lang.org/download.html
 tar=/bin/tar
 
+if (! ~ $OPT '') {
+	opt=$OPT
+}
+
+if (! ~ $DOWNLOAD_PAGE '') {
+	download_page=$DOWNLOAD_PAGE
+}
+
 download_url=`{lynx -dump $download_page \
 	| grep 'http.*\.tar\.xz$' \
 	| awk '{ print $2 }'}
@@ -35,6 +43,7 @@ echo
 
 if (! ~ $current_version $latest_version) {
 	echo '-> Downloading latest version'
+	mkdir -p $opt
 	cd $opt
 	rm -f nim
 	wget $download_url
