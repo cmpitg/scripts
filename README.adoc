@@ -2203,9 +2203,11 @@ sed $n_lines^q
 
 === `update-nim` - updates Nim compiler
 
-Installs/updates Nim to `/m/opt/nim` using latest binary from the
-offical http://nim-lang.org/download.html[download page].  TODO: Make this
-customizable.
+Installs/updates Nim to `/m/opt/nim` using latest binary from the offical
+http://nim-lang.org/download.html[download page]. Nim installation destination
+can be customize by changing value of `OPT` environment variable (by default,
+is set to `/m/opt`), and so it Nim download page
+(`http://nim-lang.org/download.html`) by default.
 
 .file::update-nim
 [source,sh]
@@ -2215,6 +2217,14 @@ customizable.
 opt=/m/opt
 download_page=http://nim-lang.org/download.html
 tar=/bin/tar
+
+if (! ~ $OPT '') {
+	opt=$OPT
+}
+
+if (! ~ $DOWNLOAD_PAGE '') {
+	download_page=$DOWNLOAD_PAGE
+}
 
 download_url=`{lynx -dump $download_page \
 	| grep 'http.*\.tar\.xz$' \
@@ -2247,6 +2257,7 @@ echo
 
 if (! ~ $current_version $latest_version) {
 	echo '-> Downloading latest version'
+	mkdir -p $opt
 	cd $opt
 	rm -f nim
 	wget $download_url
