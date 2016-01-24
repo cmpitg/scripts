@@ -1588,6 +1588,7 @@ Requirement: `dmenu`.
 
 import json
 import subprocess
+import sys
 
 
 # dmenu_options      = '-b -i -l 40 -fn "Droid Sans-10" -nf "#ffa077" -nb "#202020"'
@@ -1621,6 +1622,13 @@ def main():
         cmd=cmd_switch_window
     )
 
+def fail_if_dmenu_not_found():
+	"""Check if dmenu exists and exit if it doesn't."""
+	if subprocess.call("which dmenu", shell=True) != 0:
+		sys.stdout.write("dmenu not found\n")
+		sys.stdout.write("Make sure you have dmenu installed\n")
+		sys.exit(1)
+	
 
 def switch_to_window(chosen, table, cmd):
     window_id = table.get(chosen, "")
