@@ -1598,29 +1598,29 @@ cmd_get_tree       = "i3-msg -t get_tree"
 cmd_switch_window  = "i3-msg '[con_id={}] focus'"
 
 
-# TODO: Check if dmenu is available
-
-
 def main():
-    global dmenu_options
-    global cmd_get_tree
-    global cmd_switch_window
+	fail_if_dmenu_not_found()
 
-    tree = json.loads(subprocess.check_output(
-        cmd_get_tree,
-        stderr=subprocess.STDOUT,
-        shell=True
-    ).decode('utf-8'))
+	global dmenu_options
+	global cmd_get_tree
+	global cmd_switch_window
 
-    windows       = get_all_windows(tree)
-    lookup_table  = build_lookup_table(windows)
-    chosen        = dmenu(itemize(windows), dmenu_options)
+	tree = json.loads(subprocess.check_output(
+		cmd_get_tree,
+		stderr=subprocess.STDOUT,
+		shell=True
+	).decode('utf-8'))
 
-    switch_to_window(
-        chosen=chosen,
-        table=lookup_table,
-        cmd=cmd_switch_window
-    )
+	windows       = get_all_windows(tree)
+	lookup_table  = build_lookup_table(windows)
+	chosen        = dmenu(itemize(windows), dmenu_options)
+
+	switch_to_window(
+		chosen=chosen,
+		table=lookup_table,
+		cmd=cmd_switch_window
+	)
+
 
 def fail_if_dmenu_not_found():
 	"""Check if dmenu exists and exit if it doesn't."""
@@ -1631,90 +1631,82 @@ def fail_if_dmenu_not_found():
 	
 
 def switch_to_window(chosen, table, cmd):
-    window_id = table.get(chosen, "")
-    subprocess.check_call(cmd.format(window_id), shell=True)
+	"""Switch to the chosen window."""
+	window_id = table.get(chosen, -1)
+	if window_id != -1:
+		subprocess.check_call(cmd.format(window_id), shell=True)
 
 
 def window_as_string(with_id=False):
-    global title_format
+	global title_format
 
-    def helper(window):
-        title = title_format.format(window['class'], window['title'])
-        if with_id:
-            return title, window['id']
-        else:
-            return title
+	def helper(window):
+		title = title_format.format(window['class'], window['title'])
+		if with_id:
+			return title, window['id']
+		else:
+			return title
 
-    return helper
+	return helper
 
 
 def build_lookup_table(windows):
-    stringifized = map(window_as_string(with_id=True), windows)
-    return dict(stringifized)
+	stringifized = map(window_as_string(with_id=True), windows)
+	return dict(stringifized)
 
 
 def itemize(windows):
-    """
-    Itemize windows list for dmenu.
-    """
-    return "\n".join(map(window_as_string(with_id=False), windows))
+	"""Itemize windows list for dmenu."""
+	return "\n".join(map(window_as_string(with_id=False), windows))
 
 
 def get_all_windows(tree):
-    """
-    Extracts all windows from i3 tree.
-    """
-    # Add current window
-    if is_window(tree):
-        result = [standardize_window(tree)]
-    else:
-        result = []
+	"""Extracts all windows from i3 tree."""
+	# Add current window
+	if is_window(tree):
+		result = [standardize_window(tree)]
+	else:
+		result = []
 
-    # Add child windows
-    children = []
-    for window in tree['nodes']:
-        children += get_all_windows(window)
+	# Add child windows
+	children = []
+	for window in tree['nodes']:
+		children += get_all_windows(window)
 
-    return result + children
+	return result + children
 
 
 def is_window(tree):
-    """
-    Determines if a tree is a window.
-    """
-    return tree['window'] \
-        and tree['window_properties']['class'].lower().find('panel') == -1
+	"""Determines if a tree is a window."""
+	return tree['window'] \
+		and tree['window_properties']['class'].lower().find('panel') == -1
 
 
 def standardize_window(window):
-    """
-    Extracts necessary information for a window.
-    """
-    return {
-        'id':       window['id'],
-        'title':    window['window_properties']['title'],
-        'class':    window['window_properties']['class'],
-        'instance': window['window_properties']['instance']
-    }
+	"""Extracts necessary information for a window."""
+	return {
+		'id':       window['id'],
+		'title':    window['window_properties']['title'],
+		'class':    window['window_properties']['class'],
+		'instance': window['window_properties']['instance']
+	}
 
 
 def dmenu(items, dmenu_options):
-    """
-    Calls dmenu to display and menu for window switching.
-    """
-    cmd = subprocess.Popen(
-        "dmenu {}".format(dmenu_options),
-        shell=True,
-        stdin=subprocess.PIPE,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE
-    )
-    stdout, _ = cmd.communicate(items.encode('utf-8'))
-    return stdout.decode('utf-8').strip('\n')
+	"""Calls dmenu to display and menu for window switching."""
+	cmd = subprocess.Popen(
+		"dmenu {}".format(dmenu_options),
+		shell=True,
+		stdin=subprocess.PIPE,
+		stdout=subprocess.PIPE,
+		stderr=subprocess.PIPE
+	)
+	stdout, _ = cmd.communicate(items.encode('utf-8'))
+	return stdout.decode('utf-8').strip('\n')
 
 
 if __name__ == '__main__':
-    main()
+	main()
 
 ----
 
