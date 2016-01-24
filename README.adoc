@@ -1720,9 +1720,7 @@ Requirement: `dmenu`.
 #!/usr/bin/env python3
 
 #
-# This file is part of i3-switch-window project.
-#
-# Copyright (C) 2015  Ha-Duong Nguyen <cmpitg@gmail.com>
+# Copyright (C) 2015-2016  Ha-Duong Nguyen <cmpitg@gmail.com>
 #
 # i3-switch-window is free software: you can redistribute it and/or modify it
 # under the terms of the GNU General Public License as published by the Free
@@ -1754,10 +1752,9 @@ cmd_get_workspaces    = "i3-msg -t get_workspaces"
 cmd_switch_workspace  = "i3-msg 'workspace {}'"
 
 
-# TODO: Check if dmenu exists
-
-
 def main():
+    fail_if_dmenu_not_found()
+
     global dmenu_options
     global cmd_get_workspaces
     global cmd_switch_workspace
@@ -1776,17 +1773,21 @@ def main():
     )
 
 
+def fail_if_dmenu_not_found():
+    """Check if dmenu exists and exit if it doesn't."""
+    if subprocess.call("which dmenu", shell=True) != 0:
+        sys.stdout.write("dmenu not found\n")
+        sys.stdout.write("Make sure you have dmenu installed\n")
+        sys.exit(1)
+
+
 def switch_to_workspace(chosen, cmd):
-    """
-    Switch to a chosen workspace.
-    """
+    """Switch to a chosen workspace."""
     subprocess.check_call(cmd.format(chosen), shell=True)
 
 
 def filter_workspaces(workspaces):
-    """
-    Filter out current workspace.
-    """
+    """Filter out current workspace."""
     return [
         w
         for w in workspaces
@@ -1795,9 +1796,7 @@ def filter_workspaces(workspaces):
 
 
 def itemize(workspaces):
-    """
-    Itemize workspaces list for dmenu.
-    """
+    """Itemize workspaces list for dmenu."""
     return "\n".join(map(lambda w: w['name'], workspaces))
 
 
