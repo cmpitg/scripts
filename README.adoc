@@ -1564,9 +1564,7 @@ Requirement: `dmenu`.
 #!/usr/bin/env python3
 
 #
-# This file is part of i3-switch-window project.
-#
-# Copyright (C) 2015  Ha-Duong Nguyen <cmpitg@gmail.com>
+# Copyright (C) 2015-2016  Ha-Duong Nguyen <cmpitg@gmail.com>
 #
 # i3-switch-window is free software: you can redistribute it and/or modify it
 # under the terms of the GNU General Public License as published by the Free
