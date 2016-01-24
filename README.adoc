@@ -1767,10 +1767,11 @@ def main():
 
 	chosen = dmenu(itemize(workspaces), dmenu_options)
 
-	switch_to_workspace(
-		chosen=chosen,
-		cmd=cmd_switch_workspace
-	)
+	if chosen.strip() != "":
+		switch_to_workspace(
+			chosen=chosen,
+			cmd=cmd_switch_workspace
+		)
 
 
 def fail_if_dmenu_not_found():
