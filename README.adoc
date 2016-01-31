@@ -1936,6 +1936,22 @@ xterm -e 'date -R | xsel -b'
 
 ----
 
+=== `symlink-p`
+
+.file::symlink-p
+[source,sh,linenums]
+----
+#!/bin/sh
+
+#
+# Determines if a file is a symbolic link
+#
+
+test -L "$@"
+
+----
+
+
 === `found-executable-p`
 
 .file::found-executable-p
