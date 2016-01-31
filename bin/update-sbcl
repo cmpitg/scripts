@@ -1,8 +1,12 @@
-#!/usr/bin/env 9-rc
+#!/usr/bin/env rc
 
 opt=/m/opt/
 destination=/usr/local
 new_sbcl_tar=`{cd $opt; ls sbcl*tar* | sort -n | tail -1}
+
+if (! ~ $OPT '') {
+	opt=$OPT
+}
 
 echo '>' Installing SBCL
 cd $opt

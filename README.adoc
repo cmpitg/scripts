@@ -1950,7 +1950,7 @@ xterm -e 'date -R | xsel -b'
 === `symlink-p`
 
 .file::symlink-p
-[source,sh,linenums]
+[source,sh]
 ----
 #!/bin/sh
 
@@ -2231,6 +2231,41 @@ if not {
 sed $n_lines^q
 
 ----
+
+=== `update-sbcl` - updates SBCL
+
+.file::update-sbcl
+[source,sh]
+----
+#!/usr/bin/env rc
+
+opt=/m/opt/
+destination=/usr/local
+new_sbcl_tar=`{cd $opt; ls sbcl*tar* | sort -n | tail -1}
+
+if (! ~ $OPT '') {
+	opt=$OPT
+}
+
+echo '>' Installing SBCL
+cd $opt
+
+echo     Removing old symlink
+rm -f sbcl
+
+echo     Untar-ing
+tar xf $new_sbcl_tar
+
+echo     Symlinking new version
+ln -s $new_sbcl_tar sbcl
+
+echo     Installing to $destination
+cd $opt/sbcl
+INSTALL_ROOT=$destination exec sudo bash install.sh
+sbcl --version
+
+----
+
 
 === `update-nim` - updates Nim compiler
 
