@@ -32,6 +32,10 @@ TODO: Explain principal of the following commands:
 * When to output as text?  Human-readable?
 * What about exit code?
 
+TODO: Add script to verify checksum
+
+TODO: Verify checksums for downloaded files
+
 == Requirements
 
 For everything to function correctly, you need:
