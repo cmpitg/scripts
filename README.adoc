@@ -25,6 +25,13 @@ TODO: Tryout Clib to bundle Plan9port with this repository
 
 TODO: Make a script to update Elixir: https://github.com/elixir-lang/elixir/releases/
 
+TODO: Make a script to update Racket
+
+TODO: Explain principal of the following commands:
+* When to pass as argumment?  When to pass into stdin?
+* When to output as text?  Human-readable?
+* What about exit code?
+
 == Requirements
 
 For everything to function correctly, you need:
