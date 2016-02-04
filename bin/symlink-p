@@ -1,0 +1,7 @@
+#!/bin/sh
+
+#
+# Determines if a file is a symbolic link
+#
+
+test -L "$@"

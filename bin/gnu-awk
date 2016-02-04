@@ -1,0 +1,9 @@
+#!/bin/bash
+
+if ! found-executable-p gawk; then
+	echo gawk not found. >&2
+	echo Make sure you have GNU Awk installed. >&2
+	exit 1
+fi
+
+exec gawk "$@"
