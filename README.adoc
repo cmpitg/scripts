@@ -2234,6 +2234,12 @@ sed $n_lines^q
 
 === `update-sbcl` - updates SBCL
 
+TODO:
+
+* Download archive file
+* Check version
+* Fix `tar` command
+
 .file::update-sbcl
 [source,sh]
 ----
