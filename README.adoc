@@ -2272,6 +2272,66 @@ sbcl --version
 
 ----
 
+=== `update-racket` - updates Racket
+
+Installs/updates Racket to `/m/opt/racket` using latest binary from the
+offical https://download.racket-lang.org/all-versions.html[download page].
+
+Racket installation destination can be customize by changing value of `OPT`
+environment variable (by default, is set to `/m/opt`).
+
+[source,sh]
+----
+#!/usr/bin/env rc
+
+opt=/m/opt
+download_page='https://mirror.racket-lang.org/installers/recent/'
+
+if (! ~ $OPT '') {
+	opt=$OPT
+}
+
+download_url=`{lynx -dump $download_page \
+	| egrep 'https://.*x86_64-linux-debian' \
+	| grep -v minimal \
+	| awk '{ print $2 }'}
+
+
+latest_version=`{echo $download_url \
+	| /bin/sed 's/.*racket-\(.*\)-x86_64.*/\1/'}
+
+installer=`{echo $download_url \
+	| awk 'BEGIN { FS="/" } { print $NF }'}
+
+if (found-executable-p racket) {
+	current_version=`{racket -v \
+		| awk '{ print $NF }' \
+		| cut -c 2- \
+		| rev \
+		| cut -c 2- \
+		| rev}
+}
+if not {
+	current_version=none
+}
+
+echo Download page: $download_page
+echo Download URL: $download_url
+echo Latest version: $latest_version
+echo Current version: $current_version
+echo
+
+if (! ~ $latest_version $current_version) {
+	echo Versions mismatch, downloading latest one
+
+	cd /m/opt
+	wget $download_url
+	chmod +x $installer
+	exec bash $installer
+}
+
+----
+
 
 === `update-nim` - updates Nim compiler
 
