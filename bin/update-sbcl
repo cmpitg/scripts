@@ -21,6 +21,6 @@ echo     Symlinking new version
 ln -s $new_sbcl_tar sbcl
 
 echo     Installing to $destination
-cd sbcl
+cd $opt/sbcl
 INSTALL_ROOT=$destination exec sudo bash install.sh
 sbcl --version

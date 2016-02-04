@@ -11,12 +11,12 @@ latest_version=`{lynx -dump $repo_url \
     | awk 'BEGIN { FS="/" } { print $NF }' \
     | awk 'BEGIN { FS="source_" } { print $2 }' \
     | awk 'BEGIN { FS=".deb" } { print $1 }' \
-    | /bin/sed 's/_all//g'}
+    | gnu-sed 's/_all//g'}
 echo Latest version: $latest_version
 
 
 current_version=`{apt-cache show openjdk-8-jdk \
-    | /bin/sed -n '/installed/,+10p' \
+    | gnu-sed -n '/installed/,+10p' \
     | grep Version \
     | awk '{ print $2 }'}
 echo Current version: $current_version
