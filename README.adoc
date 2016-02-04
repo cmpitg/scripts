@@ -17,7 +17,7 @@ and documentation, you need latest stable version of
 https://github.com/cmpitg/ulquikit[Ulquikit].  You could also clone the repo
 and start using it yourself.
 
-I have just rewritten this README since today (Jan 10^th^, 2016).  In the next
+I have just rewritten this README since today (Jan 10^^th^^, 2016).  In the next
 couple of days, I will include all installation scripts and detailed
 instructions to make the setup as painless as possible.
 
