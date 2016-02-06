@@ -174,6 +174,16 @@ exec ${PLAN9}/bin/9 "$@"
 9term $*
 
 ----
+=== `rc` - runs RC shell with Plan 9 Port environment
+
+.file::rc
+[source,sh]
+----
+#!/bin/bash
+
+exec 9 rc "$@"
+
+----
 
 === `acme` - runs Plan9port Acme with `9`
 
@@ -2149,17 +2159,6 @@ display $tmpfile
 #!/bin/bash
 
 racket -I rackjure "$@"
-
-----
-
-=== `rc` - runs RC shell with Plan 9 Port environment
-
-.file::rc
-[source,sh]
-----
-#!/bin/bash
-
-exec 9 rc "$@"
 
 ----
 
