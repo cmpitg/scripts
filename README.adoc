@@ -2615,6 +2615,37 @@ zenity --file-selection \
 
 ----
 
+=== `download` - downloads using Aria2, Axel, or Wget
+
+Tries downloading using one of the following tools:
+
+* Aria2
+* Axel
+* Wget
+
+If one tool is not found, the next one is tried.
+
+.file:download
+[source,sh]
+----
+#!/bin/bash
+
+if found-executable-p aria2c; then
+	download_tool_=aria2c
+elif found-executable-p axel; then
+	download_tool_=axel
+elif found-executable-p wget; then
+	download_tool_=wget
+else
+	echo aria2c, axel, and wget not found >&2
+	echo You need one of the following tools: Aria2, Axel, or Wget >&2
+	exit 1
+fi
+
+exec "${download_tool_}" "$@"
+
+----
+
 === `random-string` - generates a random alphanumeric string
 
 .file::random-string
