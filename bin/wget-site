@@ -1,15 +1,15 @@
 #!/bin/bash
 
 wget \
-    --recursive \
-    --no-clobber \
-    --page-requisites \
-    --html-extension \
-    --convert-links \
-    --timestamping \
-    --no-parent \
-    --mirror \
-    $*
+	--recursive \
+	--no-clobber \
+	--page-requisites \
+	--html-extension \
+	--convert-links \
+	--timestamping \
+	--no-parent \
+	--mirror \
+	"$@"
 
 #
 # --recursive             download the entire Web site.

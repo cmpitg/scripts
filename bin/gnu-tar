@@ -1,0 +1,16 @@
+#!/bin/bash
+
+if ! found-executable-p tar; then
+	echo tar not found. >&2
+	echo Make user you have GNU Tar installed. >&2
+	exit 1
+fi
+
+if (/bin/tar --version | head -1 | grep tar &>/dev/null); then
+	exec /bin/tar "$@"
+elif (tar --version | head -1 | grep tar &>/dev/null); then
+	exec tar "$@"
+else
+	echo You don\'t have GNU tar installed. >&2
+    exit 1
+fi

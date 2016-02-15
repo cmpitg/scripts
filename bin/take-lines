@@ -5,9 +5,9 @@
 #
 
 if (test $#* -eq 0) {
-    n_lines=1
+	n_lines=1
 }
 if not {
-    n_lines=$1
+	n_lines=$1
 }
 sed $n_lines^q

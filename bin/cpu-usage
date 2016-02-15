@@ -6,7 +6,7 @@
 
 if ! found-executable-p mpstat; then
 	echo mpstat not found >&2
-    echo Make sure you have Sysstat installed >&2
+	echo Make sure you have Sysstat installed >&2
 	exit 1
 fi
 

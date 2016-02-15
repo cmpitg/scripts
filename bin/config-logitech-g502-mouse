@@ -5,15 +5,15 @@
 ##############################################################################
 
 id_=$(xinput list \
-			 | grep "Logitech Gaming Mouse G502" \
-			 | head -1 \
-			 | cut -d'=' -f2 \
-			 | awk '{ print $1 }')
+	| grep "Logitech Gaming Mouse G502" \
+	| head -1 \
+	| cut -d'=' -f2 \
+	| awk '{ print $1 }')
 id_2_=$(xinput list \
-			   | grep "Logitech Gaming Mouse G502" \
-			   | tail -1 \
-			   | cut -d'=' -f2 \
-			   | awk '{ print $1 }')
+	| grep "Logitech Gaming Mouse G502" \
+	| tail -1 \
+	| cut -d'=' -f2 \
+	| awk '{ print $1 }')
 
 test -z "${id_}"   && exit 0
 test -z "${id_2_}" && exit 0
