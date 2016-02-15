@@ -2625,7 +2625,7 @@ Tries downloading using one of the following tools:
 
 If one tool is not found, the next one is tried.
 
-.file:download
+.file::download
 [source,sh]
 ----
 #!/bin/bash
