@@ -21,11 +21,24 @@ I have just rewritten this README since today (Jan 10^^th^^, 2016).  In the next
 couple of days, I will include all installation scripts and detailed
 instructions to make the setup as painless as possible.
 
+TODO: `found-executable-p` shouldn't use `which`
+
+TODO: Replace wget with `download`
+
 TODO: Tryout Clib to bundle Plan9port with this repository
 
 TODO: Make a script to update Elixir: https://github.com/elixir-lang/elixir/releases/
 
 TODO: Make a script to update Racket
+
+TODO: Make a script ot update Docker Compose and Docker Machine
+
+```
+https://github.com/docker/compose/releases
+
+curl -L https://github.com/docker/compose/releases/download/1.6.0/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
+chmod +x /usr/local/bin/docker-compose
+```
 
 TODO: Explain principal of the following commands:
 * When to pass as argumment?  When to pass into stdin?
