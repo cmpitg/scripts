@@ -7,6 +7,8 @@
 :source-highlighter: pygments
 :pygments-css: class
 
+:toc:
+
 A collection of my scripts.  I wrote most but not all of them.  Many of them
 are written in http://doc.cat-v.org/plan_9/4th_edition/papers/rc[Rc shell],
 for Bourne-or-Bash-compatible shell suffers from many design flaws, making it
