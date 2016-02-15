@@ -1,26 +1,85 @@
 #!/usr/bin/env rc
 
+if (! found-executable-p lynx) {
+	echo lynx not found. >[2=1]
+	echo Make sure you have Lynx installed. >[2=1]
+	exit 1
+}
+
 opt=/m/opt/
+
 destination=/usr/local
-new_sbcl_tar=`{cd $opt; ls sbcl*tar* | sort -n | tail -1}
 
 if (! ~ $OPT '') {
 	opt=$OPT
 }
 
-echo '>' Installing SBCL
-cd $opt
+if (! ~ $DESTINATION '') {
+	destination=$DESTINATION
+}
 
-echo     Removing old symlink
-rm -f sbcl
+download_page=http://www.sbcl.org/platform-table.html
 
-echo     Untar-ing
-tar xf $new_sbcl_tar
+download_url=`{ \
+	lynx -dump $download_page \
+	| take-from 'References' \
+	| awk '{ print $2 }' \
+	| grep 'x86-64-linux-binary' \
+}
 
-echo     Symlinking new version
-ln -s $new_sbcl_tar sbcl
+tarball=`{echo $download_url | awk 'BEGIN { FS="/" } { print $NF }'}
 
-echo     Installing to $destination
-cd $opt/sbcl
-INSTALL_ROOT=$destination exec sudo bash install.sh
-sbcl --version
+latest_version=`{ \
+	echo $tarball \
+	| gnu-awk 'BEGIN { FS="sbcl-" } { print $2 }' \
+	| cut -d'-' -f1
+}
+
+if (found-executable-p sbcl) {
+	current_version=`{sbcl --version | awk '{ print $2 }'}
+}
+if not {
+	current_version=0
+}
+
+echo Download page: $download_page
+echo Download URL: $download_url
+echo Latest version: $latest_version
+echo Current version: $current_version
+echo
+echo Opt folder: $opt
+echo Installation destination: $destination
+echo
+
+if (! ~ $current_version $latest_version) {
+ 	echo Versions mismatch, updating...
+
+	new_sbcl_folder=`{ \
+		echo $tarball \
+		| awk 'BEGIN { FS=".tar.bz2" } { print $1 }' \
+	}
+
+	cd $opt
+  	echo '-> Downloading...'
+	download $download_url
+	echo
+
+	echo '-> Decompressing...'
+	gnu-tar xf $tarball
+	echo '   Done, folder: '$new_sbcl_folder
+	echo
+
+	echo '-> Removing old symlink'
+	rm -f sbcl
+	echo
+
+	echo '-> Symlinking new version'
+	ln -s $new_sbcl_folder sbcl
+
+	echo '-> Installing to '$destination
+	cd $opt/sbcl
+	INSTALL_ROOT=$destination exec sudo bash install.sh && sbcl --version
+}
+if not {
+	echo You already got the latest version!
+}
