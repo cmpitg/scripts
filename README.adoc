@@ -589,11 +589,13 @@ Enables natural scrolling and tweaks acceleration profile.
 ----
 #!/bin/bash
 
-id_=$(xinput list 2>/dev/null \
-			| grep "Dual Mode WL Touch Mouse N700" \
-			| head -1 \
-			| cut -d'=' -f2 \
-			| awk '{ print $1 }')
+id_=$( \
+	xinput list 2>/dev/null \
+	| grep "Dual Mode WL Touch Mouse N700" \
+	| head -1 \
+	| cut -d'=' -f2 \
+	| awk '{ print $1 }' \
+)
 
 test -z "${id_}" && exit 0
 
@@ -619,16 +621,20 @@ kbd:[Ctrl+X/C/V] works as expected.
 ----
 #!/bin/bash
 
-id_=$(xinput list \
-			| grep "Logitech Gaming Mouse G300" \
-			| head -1 \
-			| cut -d'=' -f2 \
-			| awk '{ print $1 }')
-id_keyboard_=$(xinput list \
-					 | grep "Logitech Gaming Mouse G300" \
-					 | tail -1 \
-					 | cut -d'=' -f2 \
-					 | awk '{ print $1 }')
+id_=$( \
+	xinput list \
+	| grep "Logitech Gaming Mouse G300" \
+	| head -1 \
+	| cut -d'=' -f2 \
+	| awk '{ print $1 }' \
+)
+id_keyboard_=$( \
+	xinput list \
+	 | grep "Logitech Gaming Mouse G300" \
+	 | tail -1 \
+	 | cut -d'=' -f2 \
+	 | awk '{ print $1 }' \
+)
 
 test -z "${id_}"          && exit 0
 test -z "${id_keyboard_}" && exit 0
@@ -656,16 +662,20 @@ setxkbmap us -device "${id_keyboard_}"
 
 ##############################################################################
 
-id_=$(xinput list \
+id_=$( \
+	xinput list \
 	| grep "Logitech Gaming Mouse G502" \
 	| head -1 \
 	| cut -d'=' -f2 \
-	| awk '{ print $1 }')
-id_2_=$(xinput list \
+	| awk '{ print $1 }' \
+)
+ud_2_=$( \
+	xinput list \
 	| grep "Logitech Gaming Mouse G502" \
 	| tail -1 \
 	| cut -d'=' -f2 \
-	| awk '{ print $1 }')
+	| awk '{ print $1 }' \
+)
 
 test -z "${id_}"   && exit 0
 test -z "${id_2_}" && exit 0
