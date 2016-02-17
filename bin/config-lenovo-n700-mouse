@@ -1,10 +1,12 @@
 #!/bin/bash
 
-id_=$(xinput list 2>/dev/null \
-			| grep "Dual Mode WL Touch Mouse N700" \
-			| head -1 \
-			| cut -d'=' -f2 \
-			| awk '{ print $1 }')
+id_=$( \
+	xinput list 2>/dev/null \
+	| grep "Dual Mode WL Touch Mouse N700" \
+	| head -1 \
+	| cut -d'=' -f2 \
+	| awk '{ print $1 }' \
+)
 
 test -z "${id_}" && exit 0
 
