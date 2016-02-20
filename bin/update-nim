@@ -46,7 +46,7 @@ if (! ~ $current_version $latest_version) {
 	mkdir -p $opt
 	cd $opt
 	rm -f nim
-	wget $download_url
+	download $download_url
 	$tar xf $downloaded_file
 
 	echo '-> Symlinking '$opt/$downloaded_file' -> '$opt/nim
