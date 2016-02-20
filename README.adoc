@@ -31,8 +31,6 @@ TODO: Tryout Clib to bundle Plan9port with this repository
 
 TODO: Make a script to update Elixir: https://github.com/elixir-lang/elixir/releases/
 
-TODO: Make a script to update Racket
-
 TODO: Make a script ot update Docker Compose and Docker Machine
 
 TODO: Add development dependency: Nim
@@ -2442,6 +2440,7 @@ offical https://download.racket-lang.org/all-versions.html[download page].
 Racket installation destination can be customize by changing value of `OPT`
 environment variable (by default, is set to `/m/opt`).
 
+.file::update-racket
 [source,sh]
 ----
 #!/usr/bin/env rc
@@ -2457,7 +2456,6 @@ download_url=`{lynx -dump $download_page \
 	| egrep 'https://.*x86_64-linux-debian' \
 	| grep -v minimal \
 	| awk '{ print $2 }'}
-
 
 latest_version=`{echo $download_url \
 	| gnu-sed 's/.*racket-\(.*\)-x86_64.*/\1/'}
@@ -2487,7 +2485,8 @@ if (! ~ $latest_version $current_version) {
 	echo Versions mismatch, downloading latest one
 
 	cd /m/opt
-	download $download_url
+    # aria2c < 1.19.1 has problem with RSA-SHA1, use wget for now
+	wget $download_url
 	chmod +x $installer
 	exec bash $installer
 }
