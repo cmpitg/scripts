@@ -35,6 +35,8 @@ TODO: Make a script to update Racket
 
 TODO: Make a script ot update Docker Compose and Docker Machine
 
+TODO: Add development dependency: Nim
+
 ```
 https://github.com/docker/compose/releases
 
