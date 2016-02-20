@@ -57,6 +57,7 @@ if (! ~ $current_version $latest_version) {
 	new_sbcl_folder=`{ \
 		echo $tarball \
 		| awk 'BEGIN { FS=".tar.bz2" } { print $1 }' \
+        | awk 'BEGIN { FS="-binary" } { print $1 }' \
 	}
 
 	cd $opt
