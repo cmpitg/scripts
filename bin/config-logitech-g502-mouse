@@ -11,7 +11,7 @@ id_=$( \
 	| cut -d'=' -f2 \
 	| awk '{ print $1 }' \
 )
-ud_2_=$( \
+id_2_=$( \
 	xinput list \
 	| grep "Logitech Gaming Mouse G502" \
 	| tail -1 \
