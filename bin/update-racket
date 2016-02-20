@@ -1,0 +1,47 @@
+#!/usr/bin/env rc
+
+opt=/m/opt
+download_page='https://mirror.racket-lang.org/installers/recent/'
+
+if (! ~ $OPT '') {
+	opt=$OPT
+}
+
+download_url=`{lynx -dump $download_page \
+	| egrep 'https://.*x86_64-linux-debian' \
+	| grep -v minimal \
+	| awk '{ print $2 }'}
+
+latest_version=`{echo $download_url \
+	| gnu-sed 's/.*racket-\(.*\)-x86_64.*/\1/'}
+
+installer=`{echo $download_url \
+	| awk 'BEGIN { FS="/" } { print $NF }'}
+
+if (found-executable-p racket) {
+	current_version=`{racket -v \
+		| awk '{ print $NF }' \
+		| cut -c 2- \
+		| rev \
+		| cut -c 2- \
+		| rev}
+}
+if not {
+	current_version=none
+}
+
+echo Download page: $download_page
+echo Download URL: $download_url
+echo Latest version: $latest_version
+echo Current version: $current_version
+echo
+
+if (! ~ $latest_version $current_version) {
+	echo Versions mismatch, downloading latest one
+
+	cd /m/opt
+    # aria2c < 1.19.1 has problem with RSA-SHA1, use wget for now
+	wget $download_url
+	chmod +x $installer
+	exec bash $installer
+}
