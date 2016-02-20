@@ -613,7 +613,7 @@ instructions to make the setup as painless as possible.</p>
 <p>TODO: <code>found-executable-p</code> shouldn&#8217;t use <code>which</code></p>
 </div>
 <div class="paragraph">
-<p>TODO: Replace wget with <code>download</code></p>
+<p>TODO: Add <code>report-missing-executables &lt;bin&gt; &lt;software&gt; &lt;bin&gt; &lt;software&gt; &#8230;&#8203;</code></p>
 </div>
 <div class="paragraph">
 <p>TODO: Tryout Clib to bundle Plan9port with this repository</p>
@@ -626,6 +626,9 @@ instructions to make the setup as painless as possible.</p>
 </div>
 <div class="paragraph">
 <p>TODO: Make a script ot update Docker Compose and Docker Machine</p>
+</div>
+<div class="paragraph">
+<p>TODO: Add development dependency: Nim</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1246,11 +1249,13 @@ config-logitech-g502-mouse</code></pre>
 <div class="content">
 <pre class="pygments highlight"><code data-lang="sh"><span class="tok-c">#!/bin/bash</span>
 
-<span class="tok-nv">id_</span><span class="tok-o">=</span><span class="tok-k">$(</span>xinput list 2&gt;/dev/null <span class="tok-se">\</span>
-			<span class="tok-p">|</span> grep <span class="tok-s2">&quot;Dual Mode WL Touch Mouse N700&quot;</span> <span class="tok-se">\</span>
-			<span class="tok-p">|</span> head -1 <span class="tok-se">\</span>
-			<span class="tok-p">|</span> cut -d<span class="tok-s1">&#39;=&#39;</span> -f2 <span class="tok-se">\</span>
-			<span class="tok-p">|</span> awk <span class="tok-s1">&#39;{ print $1 }&#39;</span><span class="tok-k">)</span>
+<span class="tok-nv">id_</span><span class="tok-o">=</span><span class="tok-k">$(</span> <span class="tok-se">\</span>
+	xinput list 2&gt;/dev/null <span class="tok-se">\</span>
+	<span class="tok-p">|</span> grep <span class="tok-s2">&quot;Dual Mode WL Touch Mouse N700&quot;</span> <span class="tok-se">\</span>
+	<span class="tok-p">|</span> head -1 <span class="tok-se">\</span>
+	<span class="tok-p">|</span> cut -d<span class="tok-s1">&#39;=&#39;</span> -f2 <span class="tok-se">\</span>
+	<span class="tok-p">|</span> awk <span class="tok-s1">&#39;{ print $1 }&#39;</span> <span class="tok-se">\</span>
+<span class="tok-k">)</span>
 
 <span class="tok-nb">test</span> -z <span class="tok-s2">&quot;${id_}&quot;</span> <span class="tok-o">&amp;&amp;</span> <span class="tok-nb">exit </span>0
 
@@ -1277,16 +1282,20 @@ xinput <span class="tok-nb">set</span>-prop <span class="tok-s2">&quot;${id_}&qu
 <div class="content">
 <pre class="pygments highlight"><code data-lang="sh"><span class="tok-c">#!/bin/bash</span>
 
-<span class="tok-nv">id_</span><span class="tok-o">=</span><span class="tok-k">$(</span>xinput list <span class="tok-se">\</span>
-			<span class="tok-p">|</span> grep <span class="tok-s2">&quot;Logitech Gaming Mouse G300&quot;</span> <span class="tok-se">\</span>
-			<span class="tok-p">|</span> head -1 <span class="tok-se">\</span>
-			<span class="tok-p">|</span> cut -d<span class="tok-s1">&#39;=&#39;</span> -f2 <span class="tok-se">\</span>
-			<span class="tok-p">|</span> awk <span class="tok-s1">&#39;{ print $1 }&#39;</span><span class="tok-k">)</span>
-<span class="tok-nv">id_keyboard_</span><span class="tok-o">=</span><span class="tok-k">$(</span>xinput list <span class="tok-se">\</span>
-					 <span class="tok-p">|</span> grep <span class="tok-s2">&quot;Logitech Gaming Mouse G300&quot;</span> <span class="tok-se">\</span>
-					 <span class="tok-p">|</span> tail -1 <span class="tok-se">\</span>
-					 <span class="tok-p">|</span> cut -d<span class="tok-s1">&#39;=&#39;</span> -f2 <span class="tok-se">\</span>
-					 <span class="tok-p">|</span> awk <span class="tok-s1">&#39;{ print $1 }&#39;</span><span class="tok-k">)</span>
+<span class="tok-nv">id_</span><span class="tok-o">=</span><span class="tok-k">$(</span> <span class="tok-se">\</span>
+	xinput list <span class="tok-se">\</span>
+	<span class="tok-p">|</span> grep <span class="tok-s2">&quot;Logitech Gaming Mouse G300&quot;</span> <span class="tok-se">\</span>
+	<span class="tok-p">|</span> head -1 <span class="tok-se">\</span>
+	<span class="tok-p">|</span> cut -d<span class="tok-s1">&#39;=&#39;</span> -f2 <span class="tok-se">\</span>
+	<span class="tok-p">|</span> awk <span class="tok-s1">&#39;{ print $1 }&#39;</span> <span class="tok-se">\</span>
+<span class="tok-k">)</span>
+<span class="tok-nv">id_keyboard_</span><span class="tok-o">=</span><span class="tok-k">$(</span> <span class="tok-se">\</span>
+	xinput list <span class="tok-se">\</span>
+	 <span class="tok-p">|</span> grep <span class="tok-s2">&quot;Logitech Gaming Mouse G300&quot;</span> <span class="tok-se">\</span>
+	 <span class="tok-p">|</span> tail -1 <span class="tok-se">\</span>
+	 <span class="tok-p">|</span> cut -d<span class="tok-s1">&#39;=&#39;</span> -f2 <span class="tok-se">\</span>
+	 <span class="tok-p">|</span> awk <span class="tok-s1">&#39;{ print $1 }&#39;</span> <span class="tok-se">\</span>
+<span class="tok-k">)</span>
 
 <span class="tok-nb">test</span> -z <span class="tok-s2">&quot;${id_}&quot;</span>          <span class="tok-o">&amp;&amp;</span> <span class="tok-nb">exit </span>0
 <span class="tok-nb">test</span> -z <span class="tok-s2">&quot;${id_keyboard_}&quot;</span> <span class="tok-o">&amp;&amp;</span> <span class="tok-nb">exit </span>0
@@ -1314,16 +1323,20 @@ setxkbmap us -device <span class="tok-s2">&quot;${id_keyboard_}&quot;</span></co
 
 <span class="tok-c">##############################################################################</span>
 
-<span class="tok-nv">id_</span><span class="tok-o">=</span><span class="tok-k">$(</span>xinput list <span class="tok-se">\</span>
+<span class="tok-nv">id_</span><span class="tok-o">=</span><span class="tok-k">$(</span> <span class="tok-se">\</span>
+	xinput list <span class="tok-se">\</span>
 	<span class="tok-p">|</span> grep <span class="tok-s2">&quot;Logitech Gaming Mouse G502&quot;</span> <span class="tok-se">\</span>
 	<span class="tok-p">|</span> head -1 <span class="tok-se">\</span>
 	<span class="tok-p">|</span> cut -d<span class="tok-s1">&#39;=&#39;</span> -f2 <span class="tok-se">\</span>
-	<span class="tok-p">|</span> awk <span class="tok-s1">&#39;{ print $1 }&#39;</span><span class="tok-k">)</span>
-<span class="tok-nv">id_2_</span><span class="tok-o">=</span><span class="tok-k">$(</span>xinput list <span class="tok-se">\</span>
+	<span class="tok-p">|</span> awk <span class="tok-s1">&#39;{ print $1 }&#39;</span> <span class="tok-se">\</span>
+<span class="tok-k">)</span>
+<span class="tok-nv">id_2_</span><span class="tok-o">=</span><span class="tok-k">$(</span> <span class="tok-se">\</span>
+	xinput list <span class="tok-se">\</span>
 	<span class="tok-p">|</span> grep <span class="tok-s2">&quot;Logitech Gaming Mouse G502&quot;</span> <span class="tok-se">\</span>
 	<span class="tok-p">|</span> tail -1 <span class="tok-se">\</span>
 	<span class="tok-p">|</span> cut -d<span class="tok-s1">&#39;=&#39;</span> -f2 <span class="tok-se">\</span>
-	<span class="tok-p">|</span> awk <span class="tok-s1">&#39;{ print $1 }&#39;</span><span class="tok-k">)</span>
+	<span class="tok-p">|</span> awk <span class="tok-s1">&#39;{ print $1 }&#39;</span> <span class="tok-se">\</span>
+<span class="tok-k">)</span>
 
 <span class="tok-nb">test</span> -z <span class="tok-s2">&quot;${id_}&quot;</span>   <span class="tok-o">&amp;&amp;</span> <span class="tok-nb">exit </span>0
 <span class="tok-nb">test</span> -z <span class="tok-s2">&quot;${id_2_}&quot;</span> <span class="tok-o">&amp;&amp;</span> <span class="tok-nb">exit </span>0
@@ -2725,15 +2738,32 @@ xterm -e <span class="tok-s1">&#39;date -R | xsel -b&#39;</span></code></pre>
 <div class="sect2">
 <h3 id="__code_found_executable_p_code">4.60. <code>found-executable-p</code></h3>
 <div class="listingblock">
-<div class="title">file::found-executable-p</div>
+<div class="title">file::src/found_executable_p.nim</div>
 <div class="content">
-<pre class="pygments highlight"><code data-lang="sh"><span class="tok-c">#!/bin/bash</span>
+<pre class="pygments highlight"><code data-lang="nim"><span class="tok-kn">import</span> <span class="tok-n">os</span><span class="tok-p">,</span> <span class="tok-n">strutils</span>
 
-<span class="tok-c">#</span>
-<span class="tok-c"># Determines if a executable is found in $PATH</span>
-<span class="tok-c">#</span>
+<span class="tok-k">proc </span><span class="tok-nf">showHelp</span> <span class="tok-o">=</span>
+  <span class="tok-kd">var</span>
+    <span class="tok-p">(</span><span class="tok-err">_, thisApp) = getAppFilename().splitPath()</span>
+  <span class="tok-n">echo</span> <span class="tok-s">&quot;&quot;&quot;Usage: </span><span class="tok-si">$1</span><span class="tok-s"> &lt;file&gt;</span>
 
-which <span class="tok-s2">&quot;$1&quot;</span> <span class="tok-p">&amp;</span>&gt;/dev/null</code></pre>
+<span class="tok-s">Returns exit code 0 if the file is an executable and found in the PATH</span>
+<span class="tok-s">environment variable and returns exit code 1 otherwise.&quot;&quot;&quot;</span><span class="tok-p">.</span><span class="tok-n">format</span><span class="tok-p">(</span><span class="tok-n">thisApp</span><span class="tok-p">)</span>
+
+
+<span class="tok-k">if</span> <span class="tok-n">isMainModule</span><span class="tok-p">:</span>
+  <span class="tok-k">if</span> <span class="tok-n">paramCount</span><span class="tok-p">()</span> <span class="tok-o">==</span> <span class="tok-mi">1</span> <span class="tok-ow">and</span> <span class="tok-n">paramStr</span><span class="tok-p">(</span><span class="tok-mi">1</span><span class="tok-p">)</span> <span class="tok-o">==</span> <span class="tok-s">&quot;--help&quot;</span><span class="tok-p">:</span>
+    <span class="tok-n">showHelp</span><span class="tok-p">()</span>
+    <span class="tok-n">quit</span><span class="tok-p">(</span><span class="tok-mi">0</span><span class="tok-p">)</span>
+  <span class="tok-k">elif</span> <span class="tok-n">paramCount</span><span class="tok-p">()</span> <span class="tok-o">==</span> <span class="tok-mi">0</span><span class="tok-p">:</span>
+    <span class="tok-n">showHelp</span><span class="tok-p">()</span>
+    <span class="tok-n">quit</span><span class="tok-p">(</span><span class="tok-mi">2</span><span class="tok-p">)</span>
+  <span class="tok-k">elif</span> <span class="tok-n">paramCount</span><span class="tok-p">()</span> <span class="tok-o">!=</span> <span class="tok-mi">1</span><span class="tok-p">:</span>
+    <span class="tok-n">echo</span> <span class="tok-s">&quot;Invalid arguments.&quot;</span>
+    <span class="tok-n">showHelp</span><span class="tok-p">()</span>
+    <span class="tok-n">quit</span><span class="tok-p">(</span><span class="tok-mi">3</span><span class="tok-p">)</span>
+  <span class="tok-k">else</span><span class="tok-p">:</span>
+    <span class="tok-n">quit</span><span class="tok-p">(</span><span class="tok-k">if</span> <span class="tok-n">findExe</span><span class="tok-p">(</span><span class="tok-n">paramStr</span><span class="tok-p">(</span><span class="tok-mi">1</span><span class="tok-p">))</span> <span class="tok-o">==</span> <span class="tok-s">&quot;&quot;</span><span class="tok-p">:</span> <span class="tok-mi">1</span> <span class="tok-k">else</span><span class="tok-p">:</span> <span class="tok-mi">0</span><span class="tok-p">)</span></code></pre>
 </div>
 </div>
 </div>
@@ -2995,7 +3025,7 @@ sed <span class="tok-nv">$n_lines</span>^q</code></pre>
 	<span class="tok-nb">exit </span>1
 <span class="tok-o">}</span>
 
-<span class="tok-nv">opt</span><span class="tok-o">=</span>/m/opt/
+<span class="tok-nv">opt</span><span class="tok-o">=</span>/m/opt
 
 <span class="tok-nv">destination</span><span class="tok-o">=</span>/usr/local
 
@@ -3046,6 +3076,7 @@ sed <span class="tok-nv">$n_lines</span>^q</code></pre>
 	<span class="tok-nv">new_sbcl_folder</span><span class="tok-o">=</span><span class="tok-sb">`</span><span class="tok-o">{</span> <span class="tok-se">\</span>
 		<span class="tok-nb">echo</span> <span class="tok-nv">$tarball</span> <span class="tok-se">\</span>
 		<span class="tok-p">|</span> awk <span class="tok-s1">&#39;BEGIN { FS=&quot;.tar.bz2&quot; } { print $1 }&#39;</span> <span class="tok-se">\</span>
+        <span class="tok-p">|</span> awk <span class="tok-s1">&#39;BEGIN { FS=&quot;-binary&quot; } { print $1 }&#39;</span> <span class="tok-se">\</span>
 	<span class="tok-o">}</span>
 
 	<span class="tok-nb">cd</span> <span class="tok-nv">$opt</span>
@@ -3063,7 +3094,7 @@ sed <span class="tok-nv">$n_lines</span>^q</code></pre>
 	<span class="tok-nb">echo</span>
 
 <span class="tok-nb">	echo</span> <span class="tok-s1">&#39;-&gt; Symlinking new version&#39;</span>
-	ln -s <span class="tok-nv">$new_sbcl_folder</span> sbcl
+	ln -vs <span class="tok-nv">$new_sbcl_folder</span> sbcl
 
 	<span class="tok-nb">echo</span> <span class="tok-s1">&#39;-&gt; Installing to &#39;</span><span class="tok-nv">$destination</span>
 	<span class="tok-nb">cd</span> <span class="tok-nv">$opt</span>/sbcl
@@ -3130,7 +3161,7 @@ environment variable (by default, is set to <code>/m/opt</code>).</p>
 	<span class="tok-nb">echo </span>Versions mismatch, downloading latest one
 
 	<span class="tok-nb">cd</span> /m/opt
-	wget <span class="tok-nv">$download_url</span>
+	download <span class="tok-nv">$download_url</span>
 	chmod +x <span class="tok-nv">$installer</span>
 	<span class="tok-nb">exec </span>bash <span class="tok-nv">$installer</span>
 <span class="tok-o">}</span></code></pre>
@@ -3197,7 +3228,7 @@ is set to <code>/m/opt</code>), and so it Nim download page
 	mkdir -p <span class="tok-nv">$opt</span>
 	<span class="tok-nb">cd</span> <span class="tok-nv">$opt</span>
 	rm -f nim
-	wget <span class="tok-nv">$download_url</span>
+	download <span class="tok-nv">$download_url</span>
 	<span class="tok-nv">$tar</span> xf <span class="tok-nv">$downloaded_file</span>
 
 	<span class="tok-nb">echo</span> <span class="tok-s1">&#39;-&gt; Symlinking &#39;</span><span class="tok-nv">$opt</span>/<span class="tok-nv">$downloaded_file</span><span class="tok-s1">&#39; -&gt; &#39;</span><span class="tok-nv">$opt</span>/nim
@@ -3676,7 +3707,7 @@ a good strong coffee :-).</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2016-02-16 00:25:56 EET
+Last updated 2016-02-20 23:25:45 EET
 </div>
 </div>
 </body>
