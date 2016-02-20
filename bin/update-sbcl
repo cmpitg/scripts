@@ -75,7 +75,7 @@ if (! ~ $current_version $latest_version) {
 	echo
 
 	echo '-> Symlinking new version'
-	ln -s $new_sbcl_folder sbcl
+	ln -vs $new_sbcl_folder sbcl
 
 	echo '-> Installing to '$destination
 	cd $opt/sbcl
