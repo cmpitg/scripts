@@ -25,6 +25,8 @@ instructions to make the setup as painless as possible.
 
 TODO: `found-executable-p` shouldn't use `which`
 
+TODO: Add `report-missing-executables <bin> <software> <bin> <software> ...`
+
 TODO: Tryout Clib to bundle Plan9port with this repository
 
 TODO: Make a script to update Elixir: https://github.com/elixir-lang/elixir/releases/
