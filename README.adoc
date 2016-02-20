@@ -2334,7 +2334,7 @@ if (! found-executable-p lynx) {
 	exit 1
 }
 
-opt=/m/opt/
+opt=/m/opt
 
 destination=/usr/local
 
@@ -2385,6 +2385,7 @@ if (! ~ $current_version $latest_version) {
 	new_sbcl_folder=`{ \
 		echo $tarball \
 		| awk 'BEGIN { FS=".tar.bz2" } { print $1 }' \
+        | awk 'BEGIN { FS="-binary" } { print $1 }' \
 	}
 
 	cd $opt
@@ -2402,7 +2403,7 @@ if (! ~ $current_version $latest_version) {
 	echo
 
 	echo '-> Symlinking new version'
-	ln -s $new_sbcl_folder sbcl
+	ln -vs $new_sbcl_folder sbcl
 
 	echo '-> Installing to '$destination
 	cd $opt/sbcl
