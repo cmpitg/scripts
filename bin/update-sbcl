@@ -6,7 +6,7 @@ if (! found-executable-p lynx) {
 	exit 1
 }
 
-opt=/m/opt/
+opt=/m/opt
 
 destination=/usr/local
 
