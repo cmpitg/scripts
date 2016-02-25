@@ -2093,6 +2093,33 @@ if isMainModule:
 
 ----
 
+=== `report-missing-executables <bin-1> <software-1> <bin-2> <software-2> ...`
+
+Reports missing software by checking if their corresponding executables exist.
+If all executables are found, exit with status 0; otherwise, exit with
+status 1.
+
+Sample usage:
+
+[source,sh]
+----
+report-missing-executables aria2c Aria2 wget Wget
+# ⇨
+# aria2c and wget not found
+# Make sure you have Aria2 and Wget installed
+
+report-missing-executables aria2c Aria2 wget Wget curl cURL
+# ⇨
+# aria2c, curl, and wget not found
+# Make sure you have Aria2, Wget, and cURL installed
+
+report-missing-executables aria2c Aria2 wget
+# ⇨
+# Invalid arguments.  Number of arguments must be even.
+
+----
+
+
 === `prefix` - prefixes all lines read from stdin with a string
 
 .file::prefix
@@ -2192,7 +2219,7 @@ print(get_python_lib())
 
 if (! found-executable-p tempfile) {
 	echo tempfile not found >[1=2]
-	echo Make sure you have tempfile utility installed, used to generate a temporary file. >[1=2]
+	echo Make sure you have tempfile utility installed, used to generate a temporary file >[1=2]
 	exit 1
 }
 
