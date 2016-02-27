@@ -23,8 +23,6 @@ I have just rewritten this README since today (Jan 10^^th^^, 2016).  In the next
 couple of days, I will include all installation scripts and detailed
 instructions to make the setup as painless as possible.
 
-TODO: Use `report-missing-executables <bin> <software> <bin> <software> ...`
-
 TODO: Tryout Clib to bundle Plan9port with this repository
 
 TODO: Make a script to update Elixir: https://github.com/elixir-lang/elixir/releases/
