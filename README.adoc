@@ -232,11 +232,7 @@ acme -a \
 ----
 #!/bin/bash
 
-if ! found-executable-p gawk; then
-	echo gawk not found. >&2
-	echo Make sure you have GNU Awk installed. >&2
-	exit 1
-fi
+report-missing-executables gawk "GNU Awk" || exit 1
 
 exec gawk "$@"
 
@@ -249,11 +245,7 @@ exec gawk "$@"
 ----
 #!/bin/bash
 
-if ! found-executable-p sed; then
-	echo sed not found. >&2
-	echo Make user you have GNU sed installed. >&2
-	exit 1
-fi
+report-missing-executables sed "GNU sed" || exit 1
 
 if (/bin/sed --version | head -1 | grep sed &>/dev/null); then
 	exec /bin/sed "$@"
@@ -273,11 +265,7 @@ fi
 ----
 #!/bin/bash
 
-if ! found-executable-p tar; then
-	echo tar not found. >&2
-	echo Make user you have GNU Tar installed. >&2
-	exit 1
-fi
+report-missing-executables tar "GNU tar" || exit 1
 
 if (/bin/tar --version | head -1 | grep tar &>/dev/null); then
 	exec /bin/tar "$@"
@@ -987,11 +975,7 @@ extension.
 ----
 #!/bin/zsh
 
-if ! found-executable-p ffmpeg; then
-	echo ffmpeg not found >&2
-	echo Make sure you have Ffmpeg installed >&2
-	echo 1
-fi
+report-missing-executables ffmpeg Ffmpeg || exit 1
 
 file_="$1"
 
@@ -1009,11 +993,7 @@ This script takes a list of files as arguments.
 ----
 #!/usr/bin/env rc
 
-if (! found-executable-p ffmpeg) {
-	echo ffmpeg not found >[1=2]
-	echo Make sure you have Ffmpeg installed >[1=2]
-	exit 1
-}
+report-missing-executables ffmpeg Ffmpeg || exit 1
 
 for (f in $*) {
 	ffmpeg -i $f -vn -aq 1 `{echo $f | replace-extension mp3}
@@ -1030,11 +1010,7 @@ This script takes a list of files as arguments.
 ----
 #!/usr/bin/env rc
 
-if (! found-executable-p ffmpeg) {
-	echo ffmpeg not found >[1=2]
-	echo Make sure you have Ffmpeg installed >[1=2]
-	exit 1
-}
+report-missing-executables ffmpeg Ffmpeg || exit 1
 
 for (f in $*) {
 	ffmpeg -i $f -vn -aq 1 `{echo $f | replace-extension mp3}
@@ -1066,11 +1042,7 @@ Returns the average CPU usage measured in 3 consecutive seconds, using `mpstat`.
 # Using `mpstat', calculates average CPU usage in 3 seconds.
 #
 
-if ! found-executable-p mpstat; then
-	echo mpstat not found >&2
-	echo Make sure you have Sysstat installed >&2
-	exit 1
-fi
+report-missing-executables mpstat Sysstat || exit 1
 
 mpstat 3 1 | tail -1 | gawk '$12 ~ /[0-9.]+/ { print 100 - $12"%" }'
 
@@ -1087,11 +1059,7 @@ mpstat 3 1 | tail -1 | gawk '$12 ~ /[0-9.]+/ { print 100 - $12"%" }'
 # Creates a tags file named TAGS using ctags.
 #
 
-if ! found-executable-p tags ; then
-	echo ctags not found >&2
-	echo Make sure you have Ctags or Exuberant Ctags installed >&2
-	exit 1
-fi
+report-missing-executables tags "Ctags or Exuberant Ctags" || exit 1
 
 if test -z "$1"; then
 	cat <<EOF
@@ -1138,14 +1106,9 @@ EOF
 # Sanity check
 ##############################################################################
 
-if (! found-executable-p sbcl) {
-	echo sbcl executable not found >[1=2]
-	echo Make sure you have SBCL installed >[1=2]
-	exit 1
-}
-if not {
-	sbcl_version=`{sbcl --version | cut -d' ' -f2}
-}
+report-missing-executables sbcl SBCL || exit 1
+
+sbcl_version=`{sbcl --version | cut -d' ' -f2}
 
 ##############################################################################
 
@@ -1205,11 +1168,7 @@ if (test -d $SHELLY_HOME/dumped-cores) {
 # Makes a JSON POST with Curl
 #
 
-if (! found-executable-p curl) {
-	echo curl not found >[1=2]
-	echo Make sure you have Curl installed >[1=2]
-	exit 1
-}
+report-missing-executables curl cURL || exit 1
 
 curl -i -H 'Content-Type: application/json' -X POST $*
 
@@ -1296,11 +1255,7 @@ tail -n +$n_lines
 # soimort/translate-shell tool.
 #
 
-if (! found-executable-p trans) {
-	echo trans command not found >[1=2]
-	echo Make sure you have soimort/translate-shell installed >[1=2]
-	exit 1
-}
+report-missing-executables trans soimort/translate-shell || exit 1
 
 TARGET_LANG=fi gtranslate $*
 
@@ -1620,11 +1575,7 @@ trans $* -brief $"input
 # Converts HTML to text.  HTML is read from stdin.
 #
 
-if ! which lynx &>/dev/null; then
-	echo lynx not found >&2
-	echo Make sure you have Lynx installed >&2
-	exit 1
-fi
+report-missing-executables lynx Lynx || exit 1
 
 exec lynx -dump -stdin "$@"
 
@@ -1987,11 +1938,7 @@ Determines if a local TCP port is open.  Returns 0 if it is or 1 otherwise.
 EOF
 fi
 
-if ! which nc &>/dev/null; then
-	echo nc not found >&2
-	echo Make sure you have Netcat installed >&2
-	exit 2
-fi
+report-missing-executables nc Netcat || exit 1
 
 nc -z 127.0.0.1 "$1"
 
@@ -2071,8 +2018,7 @@ test -L "$@"
 import os, strutils
 
 proc showHelp =
-  let
-    (_, thisApp) = getAppFilename().splitPath()
+  let (_, thisApp) = getAppFilename().splitPath()
   echo """Usage: $1 <file>
 
 Returns exit code 0 if the file is an executable and found in the PATH
@@ -2385,18 +2331,12 @@ print(get_python_lib())
 ----
 #!/usr/bin/env rc
 
-if (! found-executable-p tempfile) {
-	echo tempfile not found >[1=2]
-	echo Make sure you have tempfile utility installed, used to generate a temporary file >[1=2]
-	exit 1
-}
+report-missing-executables \
+	tempfile "tempfile utility" \
+	qrencode Qrencode \
+	|| exit 1
 
-if (! found-executable-p qrencode) {
-	echo qrencode not found >[1=2]
-	echo Make sure you have qrencode installed >[1=2]
-	exit 1
-}
-
+# FIXME: Not working
 if (test $#* -eq 0) {
 	echo No argument found
 }
@@ -2463,11 +2403,7 @@ exec pgrep "$@" &>/dev/null
 ----
 #!/bin/bash
 
-if ! found-executable-p key-mon; then
-	echo key-mon not found >&2
-	echo Make sure you have key-mon installed >&2
-	exit 1
-fi
+report-missing-executables key-mon key-mon || exit 1
 
 key-mon --decorated --meta --theme modern "$@"
 
@@ -2538,14 +2474,9 @@ sed $n_lines^q
 ----
 #!/usr/bin/env rc
 
-if (! found-executable-p lynx) {
-	echo lynx not found. >[2=1]
-	echo Make sure you have Lynx installed. >[2=1]
-	exit 1
-}
+report-missing-executables lynx Lynx || exit 1
 
 opt=/m/opt
-
 destination=/usr/local
 
 if (! ~ $OPT '') {
@@ -2867,11 +2798,7 @@ TODO: Help text
 ----
 #!/bin/bash
 
-if ! which Xephyr &>/dev/null; then
-	echo Xephyr not found >&2
-	echo Make sure you have Xephyr installed >&2
-	exit 1
-fi
+report-missing-executables Xephyr Xephyr || exit 1
 
 resolution_=${RESOLUTION:-800x600}
 
@@ -2894,11 +2821,7 @@ echo Display: $DISPLAY
 ----
 #!/bin/bash
 
-if ! which zenity &>/dev/null; then
-	echo zenity not found >&2
-	echo Make sure you have Zenity installed >&2
-	exit 1
-fi
+report-missing-executables zenity Zenity || exit 1
 
 zenity --file-selection \
 	--filename `pwd` "$@" 2>/dev/null
