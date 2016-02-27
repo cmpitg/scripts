@@ -5,10 +5,6 @@
 # soimort/translate-shell tool.
 #
 
-if (! found-executable-p trans) {
-	echo trans command not found >[1=2]
-	echo Make sure you have soimort/translate-shell installed >[1=2]
-	exit 1
-}
+report-missing-executables trans soimort/translate-shell || exit 1
 
 TARGET_LANG=fi gtranslate $*

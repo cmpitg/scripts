@@ -4,11 +4,7 @@
 # Creates a tags file named TAGS using ctags.
 #
 
-if ! found-executable-p tags ; then
-	echo ctags not found >&2
-	echo Make sure you have Ctags or Exuberant Ctags installed >&2
-	exit 1
-fi
+report-missing-executables tags "Ctags or Exuberant Ctags" || exit 1
 
 if test -z "$1"; then
 	cat <<EOF

@@ -1,10 +1,6 @@
 #!/bin/zsh
 
-if ! found-executable-p ffmpeg; then
-	echo ffmpeg not found >&2
-	echo Make sure you have Ffmpeg installed >&2
-	echo 1
-fi
+report-missing-executables ffmpeg Ffmpeg || exit 1
 
 file_="$1"
 

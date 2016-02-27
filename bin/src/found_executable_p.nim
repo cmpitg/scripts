@@ -1,8 +1,7 @@
 import os, strutils
 
 proc showHelp =
-  let
-    (_, thisApp) = getAppFilename().splitPath()
+  let (_, thisApp) = getAppFilename().splitPath()
   echo """Usage: $1 <file>
 
 Returns exit code 0 if the file is an executable and found in the PATH

@@ -1,13 +1,8 @@
 #!/usr/bin/env rc
 
-if (! found-executable-p lynx) {
-	echo lynx not found. >[2=1]
-	echo Make sure you have Lynx installed. >[2=1]
-	exit 1
-}
+report-missing-executables lynx Lynx || exit 1
 
 opt=/m/opt
-
 destination=/usr/local
 
 if (! ~ $OPT '') {

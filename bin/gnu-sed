@@ -1,10 +1,6 @@
 #!/bin/bash
 
-if ! found-executable-p sed; then
-	echo sed not found. >&2
-	echo Make user you have GNU sed installed. >&2
-	exit 1
-fi
+report-missing-executables sed "GNU sed" || exit 1
 
 if (/bin/sed --version | head -1 | grep sed &>/dev/null); then
 	exec /bin/sed "$@"

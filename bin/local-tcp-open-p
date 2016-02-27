@@ -8,10 +8,6 @@ Determines if a local TCP port is open.  Returns 0 if it is or 1 otherwise.
 EOF
 fi
 
-if ! which nc &>/dev/null; then
-	echo nc not found >&2
-	echo Make sure you have Netcat installed >&2
-	exit 2
-fi
+report-missing-executables nc Netcat || exit 1
 
 nc -z 127.0.0.1 "$1"

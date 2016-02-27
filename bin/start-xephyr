@@ -1,10 +1,6 @@
 #!/bin/bash
 
-if ! which Xephyr &>/dev/null; then
-	echo Xephyr not found >&2
-	echo Make sure you have Xephyr installed >&2
-	exit 1
-fi
+report-missing-executables Xephyr Xephyr || exit 1
 
 resolution_=${RESOLUTION:-800x600}
 

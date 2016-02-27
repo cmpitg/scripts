@@ -20,14 +20,9 @@ EOF
 # Sanity check
 ##############################################################################
 
-if (! found-executable-p sbcl) {
-	echo sbcl executable not found >[1=2]
-	echo Make sure you have SBCL installed >[1=2]
-	exit 1
-}
-if not {
-	sbcl_version=`{sbcl --version | cut -d' ' -f2}
-}
+report-missing-executables sbcl SBCL || exit 1
+
+sbcl_version=`{sbcl --version | cut -d' ' -f2}
 
 ##############################################################################
 

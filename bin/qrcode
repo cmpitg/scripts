@@ -1,17 +1,11 @@
 #!/usr/bin/env rc
 
-if (! found-executable-p tempfile) {
-	echo tempfile not found >[1=2]
-	echo Make sure you have tempfile utility installed, used to generate a temporary file >[1=2]
-	exit 1
-}
+report-missing-executables \
+	tempfile "tempfile utility" \
+	qrencode Qrencode \
+	|| exit 1
 
-if (! found-executable-p qrencode) {
-	echo qrencode not found >[1=2]
-	echo Make sure you have qrencode installed >[1=2]
-	exit 1
-}
-
+# FIXME: Not working
 if (test $#* -eq 0) {
 	echo No argument found
 }
