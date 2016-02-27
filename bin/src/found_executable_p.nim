@@ -1,7 +1,7 @@
 import os, strutils
 
 proc showHelp =
-  var
+  let
     (_, thisApp) = getAppFilename().splitPath()
   echo """Usage: $1 <file>
 
