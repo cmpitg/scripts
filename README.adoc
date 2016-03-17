@@ -981,6 +981,24 @@ for (id in $ids) {
 
 ----
 
+=== `audio-unmute`
+
+.file::audio-unmute
+[source,sh]
+----
+#!/usr/bin/env rc
+
+ids=`{ \
+	pactl list sinks short \
+	| awk '{ print $1 }'
+}
+
+for (id in $ids) {
+	pactl set-sink-mute $id 0
+}
+
+----
+
 === `extract-audio`
 
 Extracts from a video file, creating the same file name with appropriate
