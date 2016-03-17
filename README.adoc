@@ -27,7 +27,7 @@ TODO: Tryout Clib to bundle Plan9port with this repository
 
 TODO: Make a script to update Elixir: https://github.com/elixir-lang/elixir/releases/
 
-TODO: Make a script ot update Docker Compose and Docker Machine
+TODO: Make a script to update Docker Compose and Docker Machine
 
 TODO: Add development dependency: Nim
 
