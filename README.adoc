@@ -776,9 +776,9 @@ xinput set-prop "${id_}" "Device Accel Velocity Scaling" 5
 
 ----
 
-==== `config-logitech-trackball-marble-lefty`
+==== `config-logitech-trackball-marble-righty`
 
-.file::config-logitech-trackball-marble-lefty
+.file::config-logitech-trackball-marble-righty
 [source,sh]
 ----
 #!/bin/bash
@@ -854,18 +854,19 @@ newline
 # Default
 # Debian
 # xinput set-prop "${id_}" "Device Accel Constant Deceleration" 1.5
-xinput set-prop "${id_}" "Device Accel Constant Deceleration" 1.5
+# xinput set-prop "${id_}" "Device Accel Constant Deceleration" 1.5
 
 # More precision
 # xinput set-prop "${id_}" "Device Accel Adaptive Deceleration" 5
-xinput set-prop "${id_}" "Device Accel Adaptive Deceleration" 1
+# xinput set-prop "${id_}" "Device Accel Adaptive Deceleration" 1
 
 # Acceleration
 # xinput set-prop "${id_}" "Device Accel Profile" -1
-xinput set-prop "${id_}" "Device Accel Profile" 6
+# xinput set-prop "${id_}" "Device Accel Profile" 6
+xinput set-prop "${id_}" "Device Accel Profile" 2
 # Debian
-# xinput set-prop "${id_}" "Device Accel Velocity Scaling" 5
-xinput set-prop "${id_}" "Device Accel Velocity Scaling" 1
+xinput set-prop "${id_}" "Device Accel Velocity Scaling" 1.5
+# xinput set-prop "${id_}" "Device Accel Velocity Scaling" 1
 
 ----
 
@@ -940,7 +941,6 @@ synclient HorizEdgeScroll=0
 # xinput get-button-map "SynPS/2 Synaptics TouchPad" 1 2 3 4 5 6 7 8 9 10 11 12
 
 ----
-
 
 === `config-monitors-urt` - configs external monitor for http://www.urbanterror.info[Urban Terror]
 
