@@ -963,6 +963,24 @@ xrandr --output $main_mon --gamma $gamma:$gamma:$gamma
 
 ----
 
+=== `audio-toggle-mute`
+
+.file::audio-toggle-mute
+[source,sh]
+----
+#!/usr/bin/env rc
+
+ids=`{ \
+	pactl list sinks short \
+	| awk '{ print $1 }'
+}
+
+for (id in $ids) {
+	pactl set-sink-mute $id toggle
+}
+
+----
+
 === `extract-audio`
 
 Extracts from a video file, creating the same file name with appropriate
