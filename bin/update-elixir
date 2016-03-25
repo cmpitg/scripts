@@ -1,0 +1,71 @@
+#!/usr/bin/env rc
+
+report-missing-executables lynx Lynx wget Wget || exit 1
+
+opt=/m/opt
+
+if (! ~ $OPT '') {
+	opt=$OPT
+}
+
+download_page=https://github.com/elixir-lang/elixir/releases/
+
+download_url=`{ \
+	lynx -dump $download_page \
+	| take-from 'References' \
+	| awk '{ print $2 }' \
+	| grep 'Precompiled.zip$' \
+	| sort \
+	| tail -1 \
+}
+
+latest_version=`{ \
+	echo $download_url \
+	| awk 'BEGIN { FS="/" } { print $(NF-1) }' \
+	| cut -d'v' -f2 \
+}
+
+compressed=`{echo 'elixir-'^$latest_version^'.zip'}
+
+if (found-executable-p elixir) {
+	current_version=`{ \
+		elixir --version \
+		| tail -1 \
+		| cut -d' ' -f2 \
+	}
+}
+if not {
+	current_version=0
+}
+
+echo Download page: $download_page
+echo Download URL: $download_url
+echo Latest version: $latest_version
+echo Current version: $current_version
+echo
+echo Opt folder: $opt
+echo Installation destination: $opt/elixir
+echo 'New release (zip)': $opt/elixir/$compressed
+echo
+
+if (! ~ $current_version $latest_version) {
+ 	echo Versions mismatch, updating...
+
+	mkdir -p $opt/elixir
+	cd $opt/elixir
+
+	echo '-> Downloading...'
+	wget -O $compressed $download_url
+	echo
+
+	echo '-> Decompressing...'
+	/usr/bin/unzip $compressed
+	echo '   Done, folder: '^`{pwd}
+	echo
+
+	echo '-> Please add '^`{pwd}^'/bin to your $PATH'
+	echo '   to complete the installation'
+}
+if not {
+	echo You already got the latest version!
+}
