@@ -47,16 +47,16 @@ echo Installation destination: $destination
 echo
 
 if (! ~ $current_version $latest_version) {
- 	echo Versions mismatch, updating...
+	echo Versions mismatch, updating...
 
 	new_sbcl_folder=`{ \
 		echo $tarball \
 		| awk 'BEGIN { FS=".tar.bz2" } { print $1 }' \
-        | awk 'BEGIN { FS="-binary" } { print $1 }' \
+		| awk 'BEGIN { FS="-binary" } { print $1 }' \
 	}
 
 	cd $opt
-  	echo '-> Downloading...'
+	echo '-> Downloading...'
 	download $download_url
 	echo
 
