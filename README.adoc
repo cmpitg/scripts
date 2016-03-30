@@ -27,8 +27,6 @@ TODO: Tryout Clib to bundle Plan9port with this repository
 
 TODO: Make a script to update Docker Compose and Docker Machine
 
-TODO: Add development dependency: Nim
-
 TODO: Create a local Nim library based on the helpers/utilities
 
 ```
@@ -53,9 +51,14 @@ For everything to function correctly, you need:
 
 * https://github.com/9fans/plan9port[Plan 9 from User Space] (Plan9port)
 * GNU Emacs 24+
+* Python 3
 
 Some scripts depend on others.  It's best to fulfill the requirements for all
 of them.
+
+=== For development
+
+* http://nim-lang.org/[Nim 0.13+]
 
 == Notes
 
