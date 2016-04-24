@@ -252,7 +252,7 @@ elif (sed --version | head -1 | grep sed &>/dev/null); then
 	exec sed "$@"
 else
 	echo You don\'t have GNU sed installed. >&2
-    exit 1
+	exit 1
 fi
 
 ----
@@ -272,7 +272,7 @@ elif (tar --version | head -1 | grep tar &>/dev/null); then
 	exec tar "$@"
 else
 	echo You don\'t have GNU tar installed. >&2
-    exit 1
+	exit 1
 fi
 
 ----
@@ -2422,7 +2422,7 @@ racket -I rackjure "$@"
 
 echo "-> Starting HDDTemp if necessary"
 nc localhost 7634 &>/dev/null || (
-    exec sudo hddtemp -d /dev/sda
+	exec sudo hddtemp -d /dev/sda
 )
 echo ""
 
@@ -2662,14 +2662,13 @@ if (! ~ $latest_version $current_version) {
 	echo Versions mismatch, downloading latest one
 
 	cd /m/opt
-    # aria2c < 1.19.1 has problem with RSA-SHA1, use wget for now
+	# aria2c < 1.19.1 has problem with RSA-SHA1, use wget for now
 	wget $download_url
 	chmod +x $installer
 	exec bash $installer
 }
 
 ----
-
 
 === `update-nim` - updates Nim compiler
 
