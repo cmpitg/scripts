@@ -888,6 +888,13 @@ Lots of tweaks, the code should be self-explanatory though.
 
 (xinput list | grep -i touchpad &>/dev/null) || exit 0
 
+id_=$( \
+	xinput list \
+	| grep -i 'synaptics touchpad' \
+	| cut -d'=' -f2 \
+	| awk '{ print $1 }' \
+)
+
 ##############################################################################
 
 do-notify-short """Configuring touchpad
@@ -944,6 +951,12 @@ synclient VertScrollDelta=-111
 synclient HorizScrollDelta=-111
 synclient VertEdgeScroll=0
 synclient HorizEdgeScroll=0
+
+##############################################################################
+
+# Eff Debian!
+xinput set-prop "${id_}" "libinput Tapping Enabled" 0
+xinput set-prop "${id_}" "libinput Natural Scrolling Enabled" 1
 
 # xinput get-button-map "SynPS/2 Synaptics TouchPad" 1 2 3 4 5 6 7 8 9 10 11 12
 
