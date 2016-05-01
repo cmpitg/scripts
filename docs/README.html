@@ -4,13 +4,13 @@
 <meta charset="UTF-8">
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Asciidoctor 1.5.2">
+<meta name="generator" content="Asciidoctor 1.5.4">
 <title>bin</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
-/* Remove the comments around the @import statement below when using this as a custom stylesheet */
-/*@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400";*/
+/* Remove comment around @import statement below when using as a custom stylesheet */
+/*@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";*/
 article,aside,details,figcaption,figure,footer,header,hgroup,main,nav,section,summary{display:block}
 audio,canvas,video{display:inline-block}
 audio:not([controls]){display:none;height:0}
@@ -57,7 +57,6 @@ a:hover{cursor:pointer}
 img,object,embed{max-width:100%;height:auto}
 object,embed{height:100%}
 img{-ms-interpolation-mode:bicubic}
-#map_canvas img,#map_canvas embed,#map_canvas object,.map_canvas img,.map_canvas embed,.map_canvas object{max-width:none!important}
 .left{float:left!important}
 .right{float:right!important}
 .text-left{text-align:left!important}
@@ -65,10 +64,12 @@ img{-ms-interpolation-mode:bicubic}
 .text-center{text-align:center!important}
 .text-justify{text-align:justify!important}
 .hide{display:none}
-.antialiased,body{-webkit-font-smoothing:antialiased}
-img{display:inline-block;vertical-align:middle}
+body{-webkit-font-smoothing:antialiased}
+img,object,svg{display:inline-block;vertical-align:middle}
 textarea{height:auto;min-height:50px}
 select{width:100%}
+.center{margin-left:auto;margin-right:auto}
+.spread{width:100%}
 p.lead,.paragraph.lead>p,#preamble>.sectionbody>.paragraph:first-of-type p{font-size:1.21875em;line-height:1.6}
 .subheader,.admonitionblock td.content>.title,.audioblock>.title,.exampleblock>.title,.imageblock>.title,.listingblock>.title,.literalblock>.title,.stemblock>.title,.openblock>.title,.paragraph>.title,.quoteblock>.title,table.tableblock>.title,.verseblock>.title,.videoblock>.title,.dlist>.title,.olist>.title,.ulist>.title,.qlist>.title,.hdlist>.title{line-height:1.45;color:#7a2518;font-weight:400;margin-top:0;margin-bottom:.25em}
 div,dl,dt,dd,ul,ol,li,h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6,pre,form,p,blockquote,th,td{margin:0;padding:0;direction:ltr}
@@ -111,12 +112,14 @@ blockquote,blockquote p{line-height:1.6;color:rgba(0,0,0,.85)}
 h1{font-size:2.75em}
 h2{font-size:2.3125em}
 h3,#toctitle,.sidebarblock>.content>.title{font-size:1.6875em}
-h4{font-size:1.4375em}}table{background:#fff;margin-bottom:1.25em;border:solid 1px #dedede}
+h4{font-size:1.4375em}}
+table{background:#fff;margin-bottom:1.25em;border:solid 1px #dedede}
 table thead,table tfoot{background:#f7f8f7;font-weight:bold}
 table thead tr th,table thead tr td,table tfoot tr th,table tfoot tr td{padding:.5em .625em .625em;font-size:inherit;color:rgba(0,0,0,.8);text-align:left}
 table tr th,table tr td{padding:.5625em .625em;font-size:inherit;color:rgba(0,0,0,.8)}
 table tr.even,table tr.alt,table tr:nth-of-type(even){background:#f8f8f7}
 table thead tr th,table tfoot tr th,table tbody tr td,table tr td,table tfoot tr td{display:table-cell;line-height:1.6}
+body{tab-size:4}
 h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2;word-spacing:-.05em}
 h1 strong,h2 strong,h3 strong,#toctitle strong,.sidebarblock>.content>.title strong,h4 strong,h5 strong,h6 strong{font-weight:400}
 .clearfix:before,.clearfix:after,.float-group:before,.float-group:after{content:" ";display:table}
@@ -124,7 +127,7 @@ h1 strong,h2 strong,h3 strong,#toctitle strong,.sidebarblock>.content>.title str
 *:not(pre)>code{font-size:.9375em;font-style:normal!important;letter-spacing:0;padding:.1em .5ex;word-spacing:-.15em;background-color:#f7f7f8;-webkit-border-radius:4px;border-radius:4px;line-height:1.45;text-rendering:optimizeSpeed}
 pre,pre>code{line-height:1.45;color:rgba(0,0,0,.9);font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;font-weight:400;text-rendering:optimizeSpeed}
 .keyseq{color:rgba(51,51,51,.8)}
-kbd{display:inline-block;color:rgba(0,0,0,.8);font-size:.75em;line-height:1.4;background-color:#f7f7f7;border:1px solid #ccc;-webkit-border-radius:3px;border-radius:3px;-webkit-box-shadow:0 1px 0 rgba(0,0,0,.2),0 0 0 .1em white inset;box-shadow:0 1px 0 rgba(0,0,0,.2),0 0 0 .1em #fff inset;margin:-.15em .15em 0 .15em;padding:.2em .6em .2em .5em;vertical-align:middle;white-space:nowrap}
+kbd{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;display:inline-block;color:rgba(0,0,0,.8);font-size:.65em;line-height:1.45;background-color:#f7f7f7;border:1px solid #ccc;-webkit-border-radius:3px;border-radius:3px;-webkit-box-shadow:0 1px 0 rgba(0,0,0,.2),0 0 0 .1em white inset;box-shadow:0 1px 0 rgba(0,0,0,.2),0 0 0 .1em #fff inset;margin:0 .15em;padding:.2em .5em;vertical-align:middle;position:relative;top:-.1em;white-space:nowrap}
 .keyseq kbd:first-child{margin-left:0}
 .keyseq kbd:last-child{margin-right:0}
 .menuseq,.menu{color:rgba(0,0,0,.8)}
@@ -155,29 +158,33 @@ p a>code:hover{color:rgba(0,0,0,.9)}
 #toc ul.sectlevel0>li>a{font-style:italic}
 #toc ul.sectlevel0 ul.sectlevel1{margin:.5em 0}
 #toc ul{font-family:"Open Sans","DejaVu Sans",sans-serif;list-style-type:none}
+#toc li{line-height:1.3334;margin-top:.3334em}
 #toc a{text-decoration:none}
 #toc a:active{text-decoration:underline}
 #toctitle{color:#7a2518;font-size:1.2em}
 @media only screen and (min-width:768px){#toctitle{font-size:1.375em}
 body.toc2{padding-left:15em;padding-right:0}
 #toc.toc2{margin-top:0!important;background-color:#f8f8f7;position:fixed;width:15em;left:0;top:0;border-right:1px solid #efefed;border-top-width:0!important;border-bottom-width:0!important;z-index:1000;padding:1.25em 1em;height:100%;overflow:auto}
-#toc.toc2 #toctitle{margin-top:0;font-size:1.2em}
+#toc.toc2 #toctitle{margin-top:0;margin-bottom:.8rem;font-size:1.2em}
 #toc.toc2>ul{font-size:.9em;margin-bottom:0}
 #toc.toc2 ul ul{margin-left:0;padding-left:1em}
 #toc.toc2 ul.sectlevel0 ul.sectlevel1{padding-left:0;margin-top:.5em;margin-bottom:.5em}
 body.toc2.toc-right{padding-left:0;padding-right:15em}
-body.toc2.toc-right #toc.toc2{border-right-width:0;border-left:1px solid #efefed;left:auto;right:0}}@media only screen and (min-width:1280px){body.toc2{padding-left:20em;padding-right:0}
+body.toc2.toc-right #toc.toc2{border-right-width:0;border-left:1px solid #efefed;left:auto;right:0}}
+@media only screen and (min-width:1280px){body.toc2{padding-left:20em;padding-right:0}
 #toc.toc2{width:20em}
 #toc.toc2 #toctitle{font-size:1.375em}
 #toc.toc2>ul{font-size:.95em}
 #toc.toc2 ul ul{padding-left:1.25em}
-body.toc2.toc-right{padding-left:0;padding-right:20em}}#content #toc{border-style:solid;border-width:1px;border-color:#e0e0dc;margin-bottom:1.25em;padding:1.25em;background:#f8f8f7;-webkit-border-radius:4px;border-radius:4px}
+body.toc2.toc-right{padding-left:0;padding-right:20em}}
+#content #toc{border-style:solid;border-width:1px;border-color:#e0e0dc;margin-bottom:1.25em;padding:1.25em;background:#f8f8f7;-webkit-border-radius:4px;border-radius:4px}
 #content #toc>:first-child{margin-top:0}
 #content #toc>:last-child{margin-bottom:0}
 #footer{max-width:100%;background-color:rgba(0,0,0,.8);padding:1.25em}
 #footer-text{color:rgba(255,255,255,.8);line-height:1.44}
 .sect1{padding-bottom:.625em}
-@media only screen and (min-width:768px){.sect1{padding-bottom:1.25em}}.sect1+.sect1{border-top:1px solid #efefed}
+@media only screen and (min-width:768px){.sect1{padding-bottom:1.25em}}
+.sect1+.sect1{border-top:1px solid #efefed}
 #content h1>a.anchor,h2>a.anchor,h3>a.anchor,#toctitle>a.anchor,.sidebarblock>.content>.title>a.anchor,h4>a.anchor,h5>a.anchor,h6>a.anchor{position:absolute;z-index:1001;width:1.5ex;margin-left:-1.5ex;display:block;text-decoration:none!important;visibility:hidden;text-align:center;font-weight:400}
 #content h1>a.anchor:before,h2>a.anchor:before,h3>a.anchor:before,#toctitle>a.anchor:before,.sidebarblock>.content>.title>a.anchor:before,h4>a.anchor:before,h5>a.anchor:before,h6>a.anchor:before{content:"\00A7";font-size:.85em;display:block;padding-top:.1em}
 #content h1:hover>a.anchor,#content h1>a.anchor:hover,h2:hover>a.anchor,h2>a.anchor:hover,h3:hover>a.anchor,#toctitle:hover>a.anchor,.sidebarblock>.content>.title:hover>a.anchor,h3>a.anchor:hover,#toctitle>a.anchor:hover,.sidebarblock>.content>.title>a.anchor:hover,h4:hover>a.anchor,h4>a.anchor:hover,h5:hover>a.anchor,h5>a.anchor:hover,h6:hover>a.anchor,h6>a.anchor:hover{visibility:visible}
@@ -206,7 +213,9 @@ table.tableblock #preamble>.sectionbody>.paragraph:first-of-type p{font-size:inh
 .sidebarblock .literalblock pre,.sidebarblock .listingblock pre:not(.highlight),.sidebarblock .listingblock pre[class="highlight"],.sidebarblock .listingblock pre[class^="highlight "],.sidebarblock .listingblock pre.CodeRay,.sidebarblock .listingblock pre.prettyprint{background:#f2f1f1}
 .literalblock pre,.literalblock pre[class],.listingblock pre,.listingblock pre[class]{-webkit-border-radius:4px;border-radius:4px;word-wrap:break-word;padding:1em;font-size:.8125em}
 .literalblock pre.nowrap,.literalblock pre[class].nowrap,.listingblock pre.nowrap,.listingblock pre[class].nowrap{overflow-x:auto;white-space:pre;word-wrap:normal}
-@media only screen and (min-width:768px){.literalblock pre,.literalblock pre[class],.listingblock pre,.listingblock pre[class]{font-size:.90625em}}@media only screen and (min-width:1280px){.literalblock pre,.literalblock pre[class],.listingblock pre,.listingblock pre[class]{font-size:1em}}.literalblock.output pre{color:#f7f7f8;background-color:rgba(0,0,0,.9)}
+@media only screen and (min-width:768px){.literalblock pre,.literalblock pre[class],.listingblock pre,.listingblock pre[class]{font-size:.90625em}}
+@media only screen and (min-width:1280px){.literalblock pre,.literalblock pre[class],.listingblock pre,.listingblock pre[class]{font-size:1em}}
+.literalblock.output pre{color:#f7f7f8;background-color:rgba(0,0,0,.9)}
 .listingblock pre.highlightjs{padding:0}
 .listingblock pre.highlightjs>code{padding:1em;-webkit-border-radius:4px;border-radius:4px}
 .listingblock pre.prettyprint{border-width:0}
@@ -216,7 +225,7 @@ table.tableblock #preamble>.sectionbody>.paragraph:first-of-type p{font-size:inh
 .listingblock.terminal pre .command:before{content:attr(data-prompt);padding-right:.5em;color:#999}
 .listingblock.terminal pre .command:not([data-prompt]):before{content:"$"}
 table.pyhltable{border-collapse:separate;border:0;margin-bottom:0;background:none}
-table.pyhltable td{vertical-align:top;padding-top:0;padding-bottom:0}
+table.pyhltable td{vertical-align:top;padding-top:0;padding-bottom:0;line-height:1.45}
 table.pyhltable td.code{padding-left:.75em;padding-right:0}
 pre.pygments .lineno,table.pyhltable td:not(.code){color:#999;padding-left:0;padding-right:.5em;border-right:1px solid #ddddd8}
 pre.pygments .lineno{display:inline-block;margin-right:.25em}
@@ -237,13 +246,12 @@ table.pyhltable .linenodiv{background:none!important;padding-right:0!important}
 .verseblock .attribution{margin-top:1.25rem;margin-left:.5ex}
 .quoteblock .attribution,.verseblock .attribution{font-size:.9375em;line-height:1.45;font-style:italic}
 .quoteblock .attribution br,.verseblock .attribution br{display:none}
-.quoteblock .attribution cite,.verseblock .attribution cite{display:block;letter-spacing:-.05em;color:rgba(0,0,0,.6)}
+.quoteblock .attribution cite,.verseblock .attribution cite{display:block;letter-spacing:-.025em;color:rgba(0,0,0,.6)}
 .quoteblock.abstract{margin:0 0 1.25em 0;display:block}
 .quoteblock.abstract blockquote,.quoteblock.abstract blockquote p{text-align:left;word-spacing:0}
 .quoteblock.abstract blockquote:before,.quoteblock.abstract blockquote p:first-of-type:before{display:none}
 table.tableblock{max-width:100%;border-collapse:separate}
 table.tableblock td>.paragraph:last-child p>p:last-child,table.tableblock th>p:last-child,table.tableblock td>p:last-child{margin-bottom:0}
-table.spread{width:100%}
 table.tableblock,th.tableblock,td.tableblock{border:0 solid #dedede}
 table.grid-all th.tableblock,table.grid-all td.tableblock{border-width:0 1px 1px 0}
 table.grid-all tfoot>tr>th.tableblock,table.grid-all tfoot>tr>td.tableblock{border-width:1px 1px 0 0}
@@ -289,8 +297,8 @@ ol.upperroman{list-style-type:upper-roman}
 ol.lowergreek{list-style-type:lower-greek}
 .hdlist>table,.colist>table{border:0;background:none}
 .hdlist>table>tbody>tr,.colist>table>tbody>tr{background:none}
-td.hdlist1{padding-right:.75em;font-weight:bold}
-td.hdlist1,td.hdlist2{vertical-align:top}
+td.hdlist1,td.hdlist2{vertical-align:top;padding:0 .625em}
+td.hdlist1{font-weight:bold;padding-bottom:1.25em}
 .literalblock+.colist,.listingblock+.colist{margin-top:-.5em}
 .colist>table tr>td:first-of-type{padding:0 .75em;line-height:1}
 .colist>table tr>td:last-of-type{padding:.25em 0}
@@ -303,13 +311,14 @@ td.hdlist1,td.hdlist2{vertical-align:top}
 .image.left,.image.right{margin-top:.25em;margin-bottom:.25em;display:inline-block;line-height:0}
 .image.left{margin-right:.625em}
 .image.right{margin-left:.625em}
-a.image{text-decoration:none}
-span.footnote,span.footnoteref{vertical-align:super;font-size:.875em}
-span.footnote a,span.footnoteref a{text-decoration:none}
-span.footnote a:active,span.footnoteref a:active{text-decoration:underline}
+a.image{text-decoration:none;display:inline-block}
+a.image object{pointer-events:none}
+sup.footnote,sup.footnoteref{font-size:.875em;position:static;vertical-align:super}
+sup.footnote a,sup.footnoteref a{text-decoration:none}
+sup.footnote a:active,sup.footnoteref a:active{text-decoration:underline}
 #footnotes{padding-top:.75em;padding-bottom:.75em;margin-bottom:.625em}
 #footnotes hr{width:20%;min-width:6.25em;margin:-.25em 0 .75em 0;border-width:1px 0 0 0}
-#footnotes .footnote{padding:0 .375em;line-height:1.3;font-size:.875em;margin-left:1.2em;text-indent:-1.2em;margin-bottom:.2em}
+#footnotes .footnote{padding:0 .375em 0 .225em;line-height:1.3334;font-size:.875em;margin-left:1.2em;text-indent:-1.05em;margin-bottom:.2em}
 #footnotes .footnote a:first-of-type{font-weight:bold;text-decoration:none}
 #footnotes .footnote:last-of-type{margin-bottom:0}
 #content #footnotes{margin-top:-.625em;margin-bottom:0;padding:.75em 0}
@@ -367,11 +376,10 @@ span.icon>.fa{cursor:default}
 pre .conum[data-value]{position:relative;top:-.125em}
 b.conum *{color:inherit!important}
 .conum:not([data-value]):empty{display:none}
-h1,h2{letter-spacing:-.01em}
-dt,th.tableblock,td.content{text-rendering:optimizeLegibility}
-p,td.content{letter-spacing:-.01em}
-p strong,td.content strong{letter-spacing:-.005em}
-p,blockquote,dt,td.content{font-size:1.0625rem}
+dt,th.tableblock,td.content,div.footnote{text-rendering:optimizeLegibility}
+h1,h2,p,td.content,span.alt{letter-spacing:-.01em}
+p strong,td.content strong,div.footnote strong{letter-spacing:-.005em}
+p,blockquote,dt,td.content,span.alt{font-size:1.0625rem}
 p{margin-bottom:1.25rem}
 .sidebarblock p,.sidebarblock dt,.sidebarblock td.content,p.tableblock{font-size:1em}
 .exampleblock>.content{background-color:#fffef7;border-color:#e0e0dc;-webkit-box-shadow:0 1px 4px #e0e0dc;box-shadow:0 1px 4px #e0e0dc}
@@ -382,9 +390,9 @@ a{color:inherit!important;text-decoration:underline!important}
 a.bare,a[href^="#"],a[href^="mailto:"]{text-decoration:none!important}
 a[href^="http:"]:not(.bare):after,a[href^="https:"]:not(.bare):after{content:"(" attr(href) ")";display:inline-block;font-size:.875em;padding-left:.25em}
 abbr[title]:after{content:" (" attr(title) ")"}
-pre,blockquote,tr,img{page-break-inside:avoid}
+pre,blockquote,tr,img,object,svg{page-break-inside:avoid}
 thead{display:table-header-group}
-img{max-width:100%!important}
+svg{max-width:100%}
 p,blockquote,dt,td.content{font-size:1em;orphans:3;widows:3}
 h2,h3,#toctitle,.sidebarblock>.content>.title{page-break-after:avoid}
 #toc,.sidebarblock,.exampleblock>.content{background:none!important}
@@ -408,7 +416,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 .hide-for-print{display:none!important}
 .show-for-print{display:inherit!important}}
 </style>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
 <style>
 .listingblock .pygments .hll { background-color: #ffffcc }
 .listingblock .pygments  { background: #f8f8f8; }
@@ -481,7 +489,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="toc" class="toc">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#_requirements">1. Requirements</a></li>
+<li><a href="#_requirements">1. Requirements</a>
+<ul class="sectlevel2">
+<li><a href="#_for_development">1.1. For development</a></li>
+</ul>
+</li>
 <li><a href="#_notes">2. Notes</a></li>
 <li><a href="#_installation">3. Installation</a></li>
 <li><a href="#_contents">4. Contents</a>
@@ -509,76 +521,80 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#__code_config_logitech_g300_mouse_code">4.18.2. <code>config-logitech-g300-mouse</code></a></li>
 <li><a href="#__code_config_logitech_g502_mouse_code">4.18.3. <code>config-logitech-g502-mouse</code></a></li>
 <li><a href="#__code_config_logitech_trackball_marble_lefty_code">4.18.4. <code>config-logitech-trackball-marble-lefty</code></a></li>
-<li><a href="#__code_config_logitech_trackball_marble_lefty_code_2">4.18.5. <code>config-logitech-trackball-marble-lefty</code></a></li>
+<li><a href="#__code_config_logitech_trackball_marble_righty_code">4.18.5. <code>config-logitech-trackball-marble-righty</code></a></li>
 <li><a href="#__code_config_touchpad_code">4.18.6. <code>config-touchpad</code></a></li>
 </ul>
 </li>
 <li><a href="#__code_config_monitors_urt_code_configs_external_monitor_for_a_href_http_www_urbanterror_info_urban_terror_a">4.19. <code>config-monitors-urt</code> - configs external monitor for <a href="http://www.urbanterror.info">Urban Terror</a></a></li>
-<li><a href="#__code_extract_audio_code">4.20. <code>extract-audio</code></a></li>
-<li><a href="#__code_convert_to_mp3_code_converts_files_to_mp3">4.21. <code>convert-to-mp3</code> - converts files to MP3</a></li>
-<li><a href="#__code_convert_to_ogg_vorbis_code_converts_files_to_ogg_vorbis">4.22. <code>convert-to-ogg-vorbis</code> - converts files to Ogg Vorbis</a></li>
-<li><a href="#__code_count_monitors_code">4.23. <code>count-monitors</code></a></li>
-<li><a href="#__code_cpu_usage_code">4.24. <code>cpu-usage</code></a></li>
-<li><a href="#__code_create_ctags_code">4.25. <code>create-ctags</code></a></li>
-<li><a href="#__code_create_sbcl_cmpitg_image_code_dumping_a_customized_sbcl_image">4.26. <code>create-sbcl-cmpitg-image</code> - dumping a customized SBCL image</a></li>
-<li><a href="#__code_json_post_code_makes_a_json_post">4.27. <code>json-post</code> - makes a JSON POST</a></li>
-<li><a href="#__code_do_notify_code_sends_a_desktop_notification">4.28. <code>do-notify</code> - sends a desktop notification</a></li>
-<li><a href="#__code_do_notify_short_code_sends_a_short_desktop_notification">4.29. <code>do-notify-short</code> - sends a short desktop notification</a></li>
-<li><a href="#__code_docker_remove_orphaned_containers_code">4.30. <code>docker-remove-orphaned-containers</code></a></li>
-<li><a href="#__code_docker_remove_unnamed_images_code">4.31. <code>docker-remove-unnamed-images</code></a></li>
-<li><a href="#__code_drop_lines_code">4.32. <code>drop-lines</code></a></li>
-<li><a href="#__code_en2fi_code_translates_from_english_to_finnish">4.33. <code>en2fi</code> - translates from English to Finnish</a></li>
-<li><a href="#__code_fi2en_code_translates_from_finnish_to_english">4.34. <code>fi2en</code> - translates from Finnish to English</a></li>
-<li><a href="#__code_ff_code_quickly_opens_file_with_emacs_and_a_href_https_github_com_cmpitg_emnode_emnode_a">4.35. <code>ff</code> - quickly opens file with Emacs and <a href="https://github.com/cmpitg/emnode">Emnode</a></a></li>
-<li><a href="#__code_ffb_code_quickly_open_code_m_bin_file_code_with_a_href_ff_code_ff_code_a">4.36. <code>ffb</code> - quickly open <code>/m/bin/&lt;file&gt;</code> with <a href="#ff"><code>ff</code></a></a></li>
-<li><a href="#__code_format_text_code_formats_text_from_stdin_using_emacs_s_code_fill_paragraph_code">4.37. <code>format-text</code> - formats text from stdin using Emacs&#8217;s <code>fill-paragraph</code></a></li>
-<li><a href="#__code_monitors_info_code_retrieves_information_of_connected_monitors">4.38. <code>monitors-info</code> - retrieves information of connected monitors</a></li>
-<li><a href="#__code_replace_extension_code_replaces_file_extension">4.39. <code>replace-extension</code> - replaces file extension</a></li>
-<li><a href="#__code_git_rm_orphaned_code_removes_orphaned_files_from_git">4.40. <code>git-rm-orphaned</code> - removes orphaned files from Git</a></li>
-<li><a href="#__code_nix_code_runs_a_command_with_nix_if_exists">4.41. <code>nix</code> - runs a command with Nix (if exists)</a></li>
-<li><a href="#__code_uri_github2ssh_code_converts_github_uri_to_code_git_ssh_code_style">4.42. <code>uri-github2ssh</code> - converts Github URI to <code>git+ssh</code> style</a></li>
-<li><a href="#__code_gitserve_code_runs_a_git_server">4.43. <code>gitserve</code> - runs a Git server</a></li>
-<li><a href="#__code_gtranslate_code_translates_from_stdin_with_google_translate">4.44. <code>gtranslate</code> - translates from stdin with Google Translate</a></li>
-<li><a href="#__code_html2text_code">4.45. <code>html2text</code></a></li>
-<li><a href="#__code_i3_exec_command_code_executes_an_a_href_http_i3wm_org_i3_a_command">4.46. <code>i3-exec-command</code> - executes an <a href="http://i3wm.org/">i3</a> command</a></li>
-<li><a href="#__code_i3_move_to_workspace_code_moves_a_window_to_a_workspace_with_a_href_http_i3wm_org_i3_a">4.47. <code>i3-move-to-workspace</code> - moves a window to a workspace with <a href="http://i3wm.org/">i3</a></a></li>
-<li><a href="#__code_i3_rename_workspace_code_renames_current_workspace_in_a_href_http_i3wm_org_i3_a">4.48. <code>i3-rename-workspace</code> - renames current workspace in <a href="http://i3wm.org/">i3</a></a></li>
-<li><a href="#__code_i3_switch_window_code_window_switcher_for_a_href_http_i3wm_org_i3_a">4.49. <code>i3-switch-window</code> - window switcher for <a href="http://i3wm.org/">i3</a></a></li>
-<li><a href="#__code_i3_switch_workspace_code_workspace_switcher_for_a_href_http_i3wm_org_i3_a">4.50. <code>i3-switch-workspace</code> - workspace switcher for <a href="http://i3wm.org/">i3</a></a></li>
-<li><a href="#__code_i3_to_workspace_code_jumps_to_a_workspace_by_name_in_a_href_http_i3wm_org_i3_a">4.51. <code>i3-to-workspace</code> - jumps to a workspace by name in <a href="http://i3wm.org/">i3</a></a></li>
-<li><a href="#__code_join_lines_code">4.52. <code>join-lines</code></a></li>
-<li><a href="#__code_all_dev_debs_code_lists_all_debian_code_dev_code_packages_installed">4.53. <code>all-dev-debs</code> - lists all Debian <code>-dev</code> packages installed</a></li>
-<li><a href="#__code_local_tcp_open_p_code_checks_if_a_local_tcp_port_is_opened">4.54. <code>local-tcp-open-p</code> - checks if a local TCP port is opened</a></li>
-<li><a href="#__code_lockscreen_code">4.55. <code>lockscreen</code></a></li>
-<li><a href="#__code_monitor_off_code">4.56. <code>monitor-off</code></a></li>
-<li><a href="#__code_now_standardized_code">4.57. <code>now-standardized</code></a></li>
-<li><a href="#__code_now_to_clipboard_code">4.58. <code>now-to-clipboard</code></a></li>
-<li><a href="#__code_symlink_p_code">4.59. <code>symlink-p</code></a></li>
-<li><a href="#__code_found_executable_p_code">4.60. <code>found-executable-p</code></a></li>
-<li><a href="#__code_report_missing_executables_bin_1_software_1_bin_2_software_2_code">4.61. <code>report-missing-executables &lt;bin-1&gt; &lt;software-1&gt; &lt;bin-2&gt; &lt;software-2&gt; &#8230;&#8203;</code></a></li>
-<li><a href="#__code_prefix_code_prefixes_all_lines_read_from_stdin_with_a_string">4.62. <code>prefix</code> - prefixes all lines read from stdin with a string</a></li>
-<li><a href="#__code_pretty_print_json_code">4.63. <code>pretty-print-json</code></a></li>
-<li><a href="#__code_psx_code_code_ps_ef_grep_color_code">4.64. <code>psx</code> - <code>ps -ef | grep --color "$@"</code></a></li>
-<li><a href="#__code_py2_code_runs_python_2_in_a_a_href_http_docs_python_guide_org_en_latest_dev_virtualenvs_virtual_environment_a">4.65. <code>py2</code> - runs Python 2 in a <a href="http://docs.python-guide.org/en/latest/dev/virtualenvs/">virtual environment</a></a></li>
-<li><a href="#__code_py3_code_runs_python_3_in_a_a_href_http_docs_python_guide_org_en_latest_dev_virtualenvs_virtual_environment_a">4.66. <code>py3</code> - runs Python 3 in a <a href="http://docs.python-guide.org/en/latest/dev/virtualenvs/">virtual environment</a></a></li>
-<li><a href="#__code_site_packages_path_code_prints_python_site_packages_path">4.67. <code>site-packages-path</code> - prints Python site packages path</a></li>
-<li><a href="#__code_qrcode_code_creates_qr_code_from_a_string">4.68. <code>qrcode</code> - creates QR code from a string</a></li>
-<li><a href="#__code_rackjure_code_runs_racket_with_a_href_https_github_com_greghendershott_rackjure_rackjure_a">4.69. <code>rackjure</code> - runs Racket with <a href="https://github.com/greghendershott/rackjure">Rackjure</a></a></li>
-<li><a href="#__code_system_temperature_code">4.70. <code>system-temperature</code></a></li>
-<li><a href="#__code_running_p_code_determines_if_a_process_is_running">4.71. <code>running-p</code> - determines if a process is running</a></li>
-<li><a href="#__code_show_keyboard_code_shows_keyboard_of_modifiers_convenient_when_making_screencast">4.72. <code>show-keyboard</code> - shows keyboard of modifiers, convenient when making screencast</a></li>
-<li><a href="#__code_suspend_me_code_suspends_computer">4.73. <code>suspend-me</code> - suspends computer</a></li>
-<li><a href="#__code_take_from_code_takes_all_lines_from_stdin_starting_from_a_pattern">4.74. <code>take-from</code> - takes all lines from stdin, starting from a pattern</a></li>
-<li><a href="#__code_take_lines_code_takes_the_first_code_n_code_lines">4.75. <code>take-lines</code> - takes the first <code>n</code> lines</a></li>
-<li><a href="#__code_update_sbcl_code_updates_sbcl">4.76. <code>update-sbcl</code> - updates SBCL</a></li>
-<li><a href="#__code_update_racket_code_updates_racket">4.77. <code>update-racket</code> - updates Racket</a></li>
-<li><a href="#__code_update_nim_code_updates_nim_compiler">4.78. <code>update-nim</code> - updates Nim compiler</a></li>
-<li><a href="#__code_update_openjdk_8_font_patched_code_for_debian_ubuntu">4.79. <code>update-openjdk-8-font-patched</code> - for Debian/Ubuntu</a></li>
-<li><a href="#__code_wget_site_code">4.80. <code>wget-site</code></a></li>
-<li><a href="#__code_start_xephyr_code_starts_a_xephyr_server_for_debugging_window_manager">4.81. <code>start-xephyr</code> - starts a Xephyr server (for debugging window manager)</a></li>
-<li><a href="#__code_openfile_dialog_code_creates_a_open_file_dialog_and_prints_the_selected_path_to_stdout">4.82. <code>openfile-dialog</code> - creates a open-file dialog and prints the selected path to stdout</a></li>
-<li><a href="#__code_download_code_downloads_using_aria2_axel_or_wget">4.83. <code>download</code> - downloads using Aria2, Axel, or Wget</a></li>
-<li><a href="#__code_random_string_code_generates_a_random_alphanumeric_string">4.84. <code>random-string</code> - generates a random alphanumeric string</a></li>
+<li><a href="#__code_audio_toggle_mute_code">4.20. <code>audio-toggle-mute</code></a></li>
+<li><a href="#__code_audio_unmute_code">4.21. <code>audio-unmute</code></a></li>
+<li><a href="#__code_audio_mute_code">4.22. <code>audio-mute</code></a></li>
+<li><a href="#__code_extract_audio_code">4.23. <code>extract-audio</code></a></li>
+<li><a href="#__code_convert_to_mp3_code_converts_files_to_mp3">4.24. <code>convert-to-mp3</code> - converts files to MP3</a></li>
+<li><a href="#__code_convert_to_ogg_vorbis_code_converts_files_to_ogg_vorbis">4.25. <code>convert-to-ogg-vorbis</code> - converts files to Ogg Vorbis</a></li>
+<li><a href="#__code_count_monitors_code">4.26. <code>count-monitors</code></a></li>
+<li><a href="#__code_cpu_usage_code">4.27. <code>cpu-usage</code></a></li>
+<li><a href="#__code_create_ctags_code">4.28. <code>create-ctags</code></a></li>
+<li><a href="#__code_create_sbcl_cmpitg_image_code_dumping_a_customized_sbcl_image">4.29. <code>create-sbcl-cmpitg-image</code> - dumping a customized SBCL image</a></li>
+<li><a href="#__code_json_post_code_makes_a_json_post">4.30. <code>json-post</code> - makes a JSON POST</a></li>
+<li><a href="#__code_do_notify_code_sends_a_desktop_notification">4.31. <code>do-notify</code> - sends a desktop notification</a></li>
+<li><a href="#__code_do_notify_short_code_sends_a_short_desktop_notification">4.32. <code>do-notify-short</code> - sends a short desktop notification</a></li>
+<li><a href="#__code_docker_remove_orphaned_containers_code">4.33. <code>docker-remove-orphaned-containers</code></a></li>
+<li><a href="#__code_docker_remove_unnamed_images_code">4.34. <code>docker-remove-unnamed-images</code></a></li>
+<li><a href="#__code_drop_lines_code">4.35. <code>drop-lines</code></a></li>
+<li><a href="#__code_en2fi_code_translates_from_english_to_finnish">4.36. <code>en2fi</code> - translates from English to Finnish</a></li>
+<li><a href="#__code_fi2en_code_translates_from_finnish_to_english">4.37. <code>fi2en</code> - translates from Finnish to English</a></li>
+<li><a href="#__code_ff_code_quickly_opens_file_with_emacs_and_a_href_https_github_com_cmpitg_emnode_emnode_a">4.38. <code>ff</code> - quickly opens file with Emacs and <a href="https://github.com/cmpitg/emnode">Emnode</a></a></li>
+<li><a href="#__code_ffb_code_quickly_open_code_m_bin_file_code_with_a_href_ff_code_ff_code_a">4.39. <code>ffb</code> - quickly open <code>/m/bin/&lt;file&gt;</code> with <a href="#ff"><code>ff</code></a></a></li>
+<li><a href="#__code_format_text_code_formats_text_from_stdin_using_emacs_s_code_fill_paragraph_code">4.40. <code>format-text</code> - formats text from stdin using Emacs&#8217;s <code>fill-paragraph</code></a></li>
+<li><a href="#__code_monitors_info_code_retrieves_information_of_connected_monitors">4.41. <code>monitors-info</code> - retrieves information of connected monitors</a></li>
+<li><a href="#__code_replace_extension_code_replaces_file_extension">4.42. <code>replace-extension</code> - replaces file extension</a></li>
+<li><a href="#__code_git_rm_orphaned_code_removes_orphaned_files_from_git">4.43. <code>git-rm-orphaned</code> - removes orphaned files from Git</a></li>
+<li><a href="#__code_nix_code_runs_a_command_with_nix_if_exists">4.44. <code>nix</code> - runs a command with Nix (if exists)</a></li>
+<li><a href="#__code_uri_github2ssh_code_converts_github_uri_to_code_git_ssh_code_style">4.45. <code>uri-github2ssh</code> - converts Github URI to <code>git+ssh</code> style</a></li>
+<li><a href="#__code_gitserve_code_runs_a_git_server">4.46. <code>gitserve</code> - runs a Git server</a></li>
+<li><a href="#__code_gtranslate_code_translates_from_stdin_with_google_translate">4.47. <code>gtranslate</code> - translates from stdin with Google Translate</a></li>
+<li><a href="#__code_html2text_code">4.48. <code>html2text</code></a></li>
+<li><a href="#__code_i3_exec_command_code_executes_an_a_href_http_i3wm_org_i3_a_command">4.49. <code>i3-exec-command</code> - executes an <a href="http://i3wm.org/">i3</a> command</a></li>
+<li><a href="#__code_i3_move_to_workspace_code_moves_a_window_to_a_workspace_with_a_href_http_i3wm_org_i3_a">4.50. <code>i3-move-to-workspace</code> - moves a window to a workspace with <a href="http://i3wm.org/">i3</a></a></li>
+<li><a href="#__code_i3_rename_workspace_code_renames_current_workspace_in_a_href_http_i3wm_org_i3_a">4.51. <code>i3-rename-workspace</code> - renames current workspace in <a href="http://i3wm.org/">i3</a></a></li>
+<li><a href="#__code_i3_switch_window_code_window_switcher_for_a_href_http_i3wm_org_i3_a">4.52. <code>i3-switch-window</code> - window switcher for <a href="http://i3wm.org/">i3</a></a></li>
+<li><a href="#__code_i3_switch_workspace_code_workspace_switcher_for_a_href_http_i3wm_org_i3_a">4.53. <code>i3-switch-workspace</code> - workspace switcher for <a href="http://i3wm.org/">i3</a></a></li>
+<li><a href="#__code_i3_to_workspace_code_jumps_to_a_workspace_by_name_in_a_href_http_i3wm_org_i3_a">4.54. <code>i3-to-workspace</code> - jumps to a workspace by name in <a href="http://i3wm.org/">i3</a></a></li>
+<li><a href="#__code_join_lines_code">4.55. <code>join-lines</code></a></li>
+<li><a href="#__code_all_dev_debs_code_lists_all_debian_code_dev_code_packages_installed">4.56. <code>all-dev-debs</code> - lists all Debian <code>-dev</code> packages installed</a></li>
+<li><a href="#__code_local_tcp_open_p_code_checks_if_a_local_tcp_port_is_opened">4.57. <code>local-tcp-open-p</code> - checks if a local TCP port is opened</a></li>
+<li><a href="#__code_lockscreen_code">4.58. <code>lockscreen</code></a></li>
+<li><a href="#__code_monitor_off_code">4.59. <code>monitor-off</code></a></li>
+<li><a href="#__code_now_standardized_code">4.60. <code>now-standardized</code></a></li>
+<li><a href="#__code_now_to_clipboard_code">4.61. <code>now-to-clipboard</code></a></li>
+<li><a href="#__code_symlink_p_code">4.62. <code>symlink-p</code></a></li>
+<li><a href="#__code_found_executable_p_code">4.63. <code>found-executable-p</code></a></li>
+<li><a href="#__code_report_missing_executables_bin_1_software_1_bin_2_software_2_code">4.64. <code>report-missing-executables &lt;bin-1&gt; &lt;software-1&gt; &lt;bin-2&gt; &lt;software-2&gt; &#8230;&#8203;</code></a></li>
+<li><a href="#__code_prefix_code_prefixes_all_lines_read_from_stdin_with_a_string">4.65. <code>prefix</code> - prefixes all lines read from stdin with a string</a></li>
+<li><a href="#__code_pretty_print_json_code">4.66. <code>pretty-print-json</code></a></li>
+<li><a href="#__code_psx_code_code_ps_ef_grep_color_code">4.67. <code>psx</code> - <code>ps -ef | grep --color "$@"</code></a></li>
+<li><a href="#__code_py2_code_runs_python_2_in_a_a_href_http_docs_python_guide_org_en_latest_dev_virtualenvs_virtual_environment_a">4.68. <code>py2</code> - runs Python 2 in a <a href="http://docs.python-guide.org/en/latest/dev/virtualenvs/">virtual environment</a></a></li>
+<li><a href="#__code_py3_code_runs_python_3_in_a_a_href_http_docs_python_guide_org_en_latest_dev_virtualenvs_virtual_environment_a">4.69. <code>py3</code> - runs Python 3 in a <a href="http://docs.python-guide.org/en/latest/dev/virtualenvs/">virtual environment</a></a></li>
+<li><a href="#__code_site_packages_path_code_prints_python_site_packages_path">4.70. <code>site-packages-path</code> - prints Python site packages path</a></li>
+<li><a href="#__code_qrcode_code_creates_qr_code_from_a_string">4.71. <code>qrcode</code> - creates QR code from a string</a></li>
+<li><a href="#__code_rackjure_code_runs_racket_with_a_href_https_github_com_greghendershott_rackjure_rackjure_a">4.72. <code>rackjure</code> - runs Racket with <a href="https://github.com/greghendershott/rackjure">Rackjure</a></a></li>
+<li><a href="#__code_system_temperature_code">4.73. <code>system-temperature</code></a></li>
+<li><a href="#__code_running_p_code_determines_if_a_process_is_running">4.74. <code>running-p</code> - determines if a process is running</a></li>
+<li><a href="#__code_show_keyboard_code_shows_keyboard_of_modifiers_convenient_when_making_screencast">4.75. <code>show-keyboard</code> - shows keyboard of modifiers, convenient when making screencast</a></li>
+<li><a href="#__code_suspend_me_code_suspends_computer">4.76. <code>suspend-me</code> - suspends computer</a></li>
+<li><a href="#__code_take_from_code_takes_all_lines_from_stdin_starting_from_a_pattern">4.77. <code>take-from</code> - takes all lines from stdin, starting from a pattern</a></li>
+<li><a href="#__code_take_lines_code_takes_the_first_code_n_code_lines">4.78. <code>take-lines</code> - takes the first <code>n</code> lines</a></li>
+<li><a href="#__code_update_sbcl_code_updates_sbcl">4.79. <code>update-sbcl</code> - updates SBCL</a></li>
+<li><a href="#__code_update_racket_code_updates_racket">4.80. <code>update-racket</code> - updates Racket</a></li>
+<li><a href="#__code_update_nim_code_updates_nim_compiler">4.81. <code>update-nim</code> - updates Nim compiler</a></li>
+<li><a href="#__code_update_elixir_code">4.82. <code>update-elixir</code></a></li>
+<li><a href="#__code_update_openjdk_8_font_patched_code_for_debian_ubuntu">4.83. <code>update-openjdk-8-font-patched</code> - for Debian/Ubuntu</a></li>
+<li><a href="#__code_wget_site_code">4.84. <code>wget-site</code></a></li>
+<li><a href="#__code_start_xephyr_code_starts_a_xephyr_server_for_debugging_window_manager">4.85. <code>start-xephyr</code> - starts a Xephyr server (for debugging window manager)</a></li>
+<li><a href="#__code_openfile_dialog_code_creates_a_open_file_dialog_and_prints_the_selected_path_to_stdout">4.86. <code>openfile-dialog</code> - creates a open-file dialog and prints the selected path to stdout</a></li>
+<li><a href="#__code_download_code_downloads_using_aria2_axel_or_wget">4.87. <code>download</code> - downloads using Aria2, Axel, or Wget</a></li>
+<li><a href="#__code_random_string_code_generates_a_random_alphanumeric_string">4.88. <code>random-string</code> - generates a random alphanumeric string</a></li>
 </ul>
 </li>
 <li><a href="#_legacy_unused_scripts">5. Legacy/Unused scripts</a>
@@ -611,19 +627,10 @@ couple of days, I will include all installation scripts and detailed
 instructions to make the setup as painless as possible.</p>
 </div>
 <div class="paragraph">
-<p>TODO: Use <code>report-missing-executables &lt;bin&gt; &lt;software&gt; &lt;bin&gt; &lt;software&gt; &#8230;&#8203;</code></p>
-</div>
-<div class="paragraph">
 <p>TODO: Tryout Clib to bundle Plan9port with this repository</p>
 </div>
 <div class="paragraph">
-<p>TODO: Make a script to update Elixir: <a href="https://github.com/elixir-lang/elixir/releases/" class="bare">https://github.com/elixir-lang/elixir/releases/</a></p>
-</div>
-<div class="paragraph">
-<p>TODO: Make a script ot update Docker Compose and Docker Machine</p>
-</div>
-<div class="paragraph">
-<p>TODO: Add development dependency: Nim</p>
+<p>TODO: Make a script to update Docker Compose and Docker Machine</p>
 </div>
 <div class="paragraph">
 <p>TODO: Create a local Nim library based on the helpers/utilities</p>
@@ -664,11 +671,24 @@ chmod +x /usr/local/bin/docker-compose</code></pre>
 <li>
 <p>GNU Emacs 24+</p>
 </li>
+<li>
+<p>Python 3</p>
+</li>
 </ul>
 </div>
 <div class="paragraph">
 <p>Some scripts depend on others.  It&#8217;s best to fulfill the requirements for all
 of them.</p>
+</div>
+<div class="sect2">
+<h3 id="_for_development">1.1. For development</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="http://nim-lang.org/">Nim 0.13+</a></p>
+</li>
+</ul>
+</div>
 </div>
 </div>
 </div>
@@ -883,11 +903,7 @@ acme -a <span class="tok-se">\</span>
 <div class="content">
 <pre class="pygments highlight"><code data-lang="sh"><span class="tok-c">#!/bin/bash</span>
 
-<span class="tok-k">if</span> ! found-executable-p gawk<span class="tok-p">;</span> <span class="tok-k">then</span>
-	<span class="tok-nb">echo </span>gawk not found. &gt;<span class="tok-p">&amp;</span>2
-	<span class="tok-nb">echo </span>Make sure you have GNU Awk installed. &gt;<span class="tok-p">&amp;</span>2
-	<span class="tok-nb">exit </span>1
-<span class="tok-k">fi</span>
+report-missing-executables gawk <span class="tok-s2">&quot;GNU Awk&quot;</span> <span class="tok-o">||</span> <span class="tok-nb">exit </span>1
 
 <span class="tok-nb">exec </span>gawk <span class="tok-s2">&quot;$@&quot;</span></code></pre>
 </div>
@@ -900,11 +916,7 @@ acme -a <span class="tok-se">\</span>
 <div class="content">
 <pre class="pygments highlight"><code data-lang="sh"><span class="tok-c">#!/bin/bash</span>
 
-<span class="tok-k">if</span> ! found-executable-p sed<span class="tok-p">;</span> <span class="tok-k">then</span>
-	<span class="tok-nb">echo </span>sed not found. &gt;<span class="tok-p">&amp;</span>2
-	<span class="tok-nb">echo </span>Make user you have GNU sed installed. &gt;<span class="tok-p">&amp;</span>2
-	<span class="tok-nb">exit </span>1
-<span class="tok-k">fi</span>
+report-missing-executables sed <span class="tok-s2">&quot;GNU sed&quot;</span> <span class="tok-o">||</span> <span class="tok-nb">exit </span>1
 
 <span class="tok-k">if</span> <span class="tok-o">(</span>/bin/sed --version <span class="tok-p">|</span> head -1 <span class="tok-p">|</span> grep sed <span class="tok-p">&amp;</span>&gt;/dev/null<span class="tok-o">)</span><span class="tok-p">;</span> <span class="tok-k">then</span>
 	<span class="tok-nb">exec</span> /bin/sed <span class="tok-s2">&quot;$@&quot;</span>
@@ -912,7 +924,7 @@ acme -a <span class="tok-se">\</span>
 	<span class="tok-nb">exec </span>sed <span class="tok-s2">&quot;$@&quot;</span>
 <span class="tok-k">else</span>
 	<span class="tok-nb">echo </span>You don<span class="tok-se">\&#39;</span>t have GNU sed installed. &gt;<span class="tok-p">&amp;</span>2
-    <span class="tok-nb">exit </span>1
+	<span class="tok-nb">exit </span>1
 <span class="tok-k">fi</span></code></pre>
 </div>
 </div>
@@ -924,11 +936,7 @@ acme -a <span class="tok-se">\</span>
 <div class="content">
 <pre class="pygments highlight"><code data-lang="sh"><span class="tok-c">#!/bin/bash</span>
 
-<span class="tok-k">if</span> ! found-executable-p tar<span class="tok-p">;</span> <span class="tok-k">then</span>
-	<span class="tok-nb">echo </span>tar not found. &gt;<span class="tok-p">&amp;</span>2
-	<span class="tok-nb">echo </span>Make user you have GNU Tar installed. &gt;<span class="tok-p">&amp;</span>2
-	<span class="tok-nb">exit </span>1
-<span class="tok-k">fi</span>
+report-missing-executables tar <span class="tok-s2">&quot;GNU tar&quot;</span> <span class="tok-o">||</span> <span class="tok-nb">exit </span>1
 
 <span class="tok-k">if</span> <span class="tok-o">(</span>/bin/tar --version <span class="tok-p">|</span> head -1 <span class="tok-p">|</span> grep tar <span class="tok-p">&amp;</span>&gt;/dev/null<span class="tok-o">)</span><span class="tok-p">;</span> <span class="tok-k">then</span>
 	<span class="tok-nb">exec</span> /bin/tar <span class="tok-s2">&quot;$@&quot;</span>
@@ -936,7 +944,7 @@ acme -a <span class="tok-se">\</span>
 	<span class="tok-nb">exec </span>tar <span class="tok-s2">&quot;$@&quot;</span>
 <span class="tok-k">else</span>
 	<span class="tok-nb">echo </span>You don<span class="tok-se">\&#39;</span>t have GNU tar installed. &gt;<span class="tok-p">&amp;</span>2
-    <span class="tok-nb">exit </span>1
+	<span class="tok-nb">exit </span>1
 <span class="tok-k">fi</span></code></pre>
 </div>
 </div>
@@ -1347,10 +1355,16 @@ setxkbmap us -device <span class="tok-s2">&quot;${id_keyboard_}&quot;</span></co
 <span class="tok-s2">&quot;</span>
 
 <span class="tok-k">for</span> mouse_ in <span class="tok-s2">&quot;${id_}&quot;</span> <span class="tok-s2">&quot;${id_2_}&quot;</span><span class="tok-p">;</span> <span class="tok-k">do</span>
-	xinput <span class="tok-nb">set</span>-prop <span class="tok-s2">&quot;${mouse_}&quot;</span> <span class="tok-s2">&quot;Evdev Scrolling Distance&quot;</span> -1, -1, 1
-	xinput <span class="tok-nb">set</span>-prop <span class="tok-s2">&quot;${mouse_}&quot;</span> <span class="tok-s2">&quot;Device Accel Profile&quot;</span> 7
-	xinput <span class="tok-nb">set</span>-prop <span class="tok-s2">&quot;${mouse_}&quot;</span> <span class="tok-s2">&quot;Device Accel Constant Deceleration&quot;</span> 2
-	xinput <span class="tok-nb">set</span>-prop <span class="tok-s2">&quot;${mouse_}&quot;</span> <span class="tok-s2">&quot;Device Accel Adaptive Deceleration&quot;</span> 1
+	<span class="tok-c"># xinput set-prop &quot;${mouse_}&quot; &quot;Evdev Scrolling Distance&quot; -1, -1, 1</span>
+	<span class="tok-c"># xinput set-prop &quot;${mouse_}&quot; &quot;Device Accel Profile&quot; 7</span>
+	<span class="tok-c"># xinput set-prop &quot;${mouse_}&quot; &quot;Device Accel Constant Deceleration&quot; 2</span>
+	<span class="tok-c"># xinput set-prop &quot;${mouse_}&quot; &quot;Device Accel Adaptive Deceleration&quot; 1</span>
+
+	<span class="tok-c"># For some damn reasons, Debian updates constantly break...  evdev was</span>
+	<span class="tok-c"># replaced by libinput.  I haven&#39;t found this change documented anywhere.</span>
+	<span class="tok-c"># FFS, if you want to change, how hard is it to mark something as</span>
+	<span class="tok-c"># deprecated then warn your users?  Eff you Debian!</span>
+	xinput <span class="tok-nb">set</span>-prop <span class="tok-s2">&quot;${mouse_}&quot;</span> <span class="tok-s2">&quot;libinput Natural Scrolling Enabled&quot;</span> 1
 <span class="tok-k">done</span></code></pre>
 </div>
 </div>
@@ -1450,9 +1464,9 @@ xinput <span class="tok-nb">set</span>-prop <span class="tok-s2">&quot;${id_}&qu
 </div>
 </div>
 <div class="sect3">
-<h4 id="__code_config_logitech_trackball_marble_lefty_code_2">4.18.5. <code>config-logitech-trackball-marble-lefty</code></h4>
+<h4 id="__code_config_logitech_trackball_marble_righty_code">4.18.5. <code>config-logitech-trackball-marble-righty</code></h4>
 <div class="listingblock">
-<div class="title">file::config-logitech-trackball-marble-lefty</div>
+<div class="title">file::config-logitech-trackball-marble-righty</div>
 <div class="content">
 <pre class="pygments highlight"><code data-lang="sh"><span class="tok-c">#!/bin/bash</span>
 
@@ -1527,18 +1541,19 @@ newline
 <span class="tok-c"># Default</span>
 <span class="tok-c"># Debian</span>
 <span class="tok-c"># xinput set-prop &quot;${id_}&quot; &quot;Device Accel Constant Deceleration&quot; 1.5</span>
-xinput <span class="tok-nb">set</span>-prop <span class="tok-s2">&quot;${id_}&quot;</span> <span class="tok-s2">&quot;Device Accel Constant Deceleration&quot;</span> 1.5
+<span class="tok-c"># xinput set-prop &quot;${id_}&quot; &quot;Device Accel Constant Deceleration&quot; 1.5</span>
 
 <span class="tok-c"># More precision</span>
 <span class="tok-c"># xinput set-prop &quot;${id_}&quot; &quot;Device Accel Adaptive Deceleration&quot; 5</span>
-xinput <span class="tok-nb">set</span>-prop <span class="tok-s2">&quot;${id_}&quot;</span> <span class="tok-s2">&quot;Device Accel Adaptive Deceleration&quot;</span> 1
+<span class="tok-c"># xinput set-prop &quot;${id_}&quot; &quot;Device Accel Adaptive Deceleration&quot; 1</span>
 
 <span class="tok-c"># Acceleration</span>
 <span class="tok-c"># xinput set-prop &quot;${id_}&quot; &quot;Device Accel Profile&quot; -1</span>
-xinput <span class="tok-nb">set</span>-prop <span class="tok-s2">&quot;${id_}&quot;</span> <span class="tok-s2">&quot;Device Accel Profile&quot;</span> 6
+<span class="tok-c"># xinput set-prop &quot;${id_}&quot; &quot;Device Accel Profile&quot; 6</span>
+xinput <span class="tok-nb">set</span>-prop <span class="tok-s2">&quot;${id_}&quot;</span> <span class="tok-s2">&quot;Device Accel Profile&quot;</span> 2
 <span class="tok-c"># Debian</span>
-<span class="tok-c"># xinput set-prop &quot;${id_}&quot; &quot;Device Accel Velocity Scaling&quot; 5</span>
-xinput <span class="tok-nb">set</span>-prop <span class="tok-s2">&quot;${id_}&quot;</span> <span class="tok-s2">&quot;Device Accel Velocity Scaling&quot;</span> 1</code></pre>
+xinput <span class="tok-nb">set</span>-prop <span class="tok-s2">&quot;${id_}&quot;</span> <span class="tok-s2">&quot;Device Accel Velocity Scaling&quot;</span> 1.5
+<span class="tok-c"># xinput set-prop &quot;${id_}&quot; &quot;Device Accel Velocity Scaling&quot; 1</span></code></pre>
 </div>
 </div>
 </div>
@@ -1553,6 +1568,13 @@ xinput <span class="tok-nb">set</span>-prop <span class="tok-s2">&quot;${id_}&qu
 <pre class="pygments highlight"><code data-lang="sh"><span class="tok-c">#!/bin/bash</span>
 
 <span class="tok-o">(</span>xinput list <span class="tok-p">|</span> grep -i touchpad <span class="tok-p">&amp;</span>&gt;/dev/null<span class="tok-o">)</span> <span class="tok-o">||</span> <span class="tok-nb">exit </span>0
+
+<span class="tok-nv">id_</span><span class="tok-o">=</span><span class="tok-k">$(</span> <span class="tok-se">\</span>
+	xinput list <span class="tok-se">\</span>
+	<span class="tok-p">|</span> grep -i <span class="tok-s1">&#39;synaptics touchpad&#39;</span> <span class="tok-se">\</span>
+	<span class="tok-p">|</span> cut -d<span class="tok-s1">&#39;=&#39;</span> -f2 <span class="tok-se">\</span>
+	<span class="tok-p">|</span> awk <span class="tok-s1">&#39;{ print $1 }&#39;</span> <span class="tok-se">\</span>
+<span class="tok-k">)</span>
 
 <span class="tok-c">##############################################################################</span>
 
@@ -1611,6 +1633,12 @@ synclient <span class="tok-nv">HorizScrollDelta</span><span class="tok-o">=</spa
 synclient <span class="tok-nv">VertEdgeScroll</span><span class="tok-o">=</span>0
 synclient <span class="tok-nv">HorizEdgeScroll</span><span class="tok-o">=</span>0
 
+<span class="tok-c">##############################################################################</span>
+
+<span class="tok-c"># Eff Debian!</span>
+xinput <span class="tok-nb">set</span>-prop <span class="tok-s2">&quot;${id_}&quot;</span> <span class="tok-s2">&quot;libinput Tapping Enabled&quot;</span> 0
+xinput <span class="tok-nb">set</span>-prop <span class="tok-s2">&quot;${id_}&quot;</span> <span class="tok-s2">&quot;libinput Natural Scrolling Enabled&quot;</span> 1
+
 <span class="tok-c"># xinput get-button-map &quot;SynPS/2 Synaptics TouchPad&quot; 1 2 3 4 5 6 7 8 9 10 11 12</span></code></pre>
 </div>
 </div>
@@ -1639,7 +1667,61 @@ xrandr --output <span class="tok-nv">$main_mon</span> --gamma <span class="tok-n
 </div>
 </div>
 <div class="sect2">
-<h3 id="__code_extract_audio_code">4.20. <code>extract-audio</code></h3>
+<h3 id="__code_audio_toggle_mute_code">4.20. <code>audio-toggle-mute</code></h3>
+<div class="listingblock">
+<div class="title">file::audio-toggle-mute</div>
+<div class="content">
+<pre class="pygments highlight"><code data-lang="sh"><span class="tok-c">#!/usr/bin/env rc</span>
+
+<span class="tok-nv">ids</span><span class="tok-o">=</span><span class="tok-sb">`</span><span class="tok-o">{</span> <span class="tok-se">\</span>
+	pactl list sinks short <span class="tok-se">\</span>
+	<span class="tok-p">|</span> awk <span class="tok-s1">&#39;{ print $1 }&#39;</span>
+<span class="tok-o">}</span>
+
+<span class="tok-k">for</span> <span class="tok-o">(</span>id in <span class="tok-nv">$ids</span><span class="tok-o">)</span> <span class="tok-o">{</span>
+	pactl <span class="tok-nb">set</span>-sink-mute <span class="tok-nv">$id</span> toggle
+<span class="tok-o">}</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="__code_audio_unmute_code">4.21. <code>audio-unmute</code></h3>
+<div class="listingblock">
+<div class="title">file::audio-unmute</div>
+<div class="content">
+<pre class="pygments highlight"><code data-lang="sh"><span class="tok-c">#!/usr/bin/env rc</span>
+
+<span class="tok-nv">ids</span><span class="tok-o">=</span><span class="tok-sb">`</span><span class="tok-o">{</span> <span class="tok-se">\</span>
+	pactl list sinks short <span class="tok-se">\</span>
+	<span class="tok-p">|</span> awk <span class="tok-s1">&#39;{ print $1 }&#39;</span>
+<span class="tok-o">}</span>
+
+<span class="tok-k">for</span> <span class="tok-o">(</span>id in <span class="tok-nv">$ids</span><span class="tok-o">)</span> <span class="tok-o">{</span>
+	pactl <span class="tok-nb">set</span>-sink-mute <span class="tok-nv">$id</span> 0
+<span class="tok-o">}</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="__code_audio_mute_code">4.22. <code>audio-mute</code></h3>
+<div class="listingblock">
+<div class="title">file::audio-mute</div>
+<div class="content">
+<pre class="pygments highlight"><code data-lang="sh"><span class="tok-c">#!/usr/bin/env rc</span>
+
+<span class="tok-nv">ids</span><span class="tok-o">=</span><span class="tok-sb">`</span><span class="tok-o">{</span> <span class="tok-se">\</span>
+	pactl list sinks short <span class="tok-se">\</span>
+	<span class="tok-p">|</span> awk <span class="tok-s1">&#39;{ print $1 }&#39;</span>
+<span class="tok-o">}</span>
+
+<span class="tok-k">for</span> <span class="tok-o">(</span>id in <span class="tok-nv">$ids</span><span class="tok-o">)</span> <span class="tok-o">{</span>
+	pactl <span class="tok-nb">set</span>-sink-mute <span class="tok-nv">$id</span> 1
+<span class="tok-o">}</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="__code_extract_audio_code">4.23. <code>extract-audio</code></h3>
 <div class="paragraph">
 <p>Extracts from a video file, creating the same file name with appropriate
 extension.</p>
@@ -1649,11 +1731,7 @@ extension.</p>
 <div class="content">
 <pre class="pygments highlight"><code data-lang="sh"><span class="tok-c">#!/bin/zsh</span>
 
-<span class="tok-k">if</span> ! found-executable-p ffmpeg<span class="tok-p">;</span> <span class="tok-k">then</span>
-	<span class="tok-nb">echo </span>ffmpeg not found &gt;<span class="tok-p">&amp;</span>2
-	<span class="tok-nb">echo </span>Make sure you have Ffmpeg installed &gt;<span class="tok-p">&amp;</span>2
-	<span class="tok-nb">echo </span>1
-<span class="tok-k">fi</span>
+report-missing-executables ffmpeg Ffmpeg <span class="tok-o">||</span> <span class="tok-nb">exit </span>1
 
 <span class="tok-nv">file_</span><span class="tok-o">=</span><span class="tok-s2">&quot;$1&quot;</span>
 
@@ -1663,7 +1741,7 @@ ffmpeg -i <span class="tok-s2">&quot;${file_}&quot;</span> -vn -acodec copy <spa
 </div>
 </div>
 <div class="sect2">
-<h3 id="__code_convert_to_mp3_code_converts_files_to_mp3">4.21. <code>convert-to-mp3</code> - converts files to MP3</h3>
+<h3 id="__code_convert_to_mp3_code_converts_files_to_mp3">4.24. <code>convert-to-mp3</code> - converts files to MP3</h3>
 <div class="paragraph">
 <p>This script takes a list of files as arguments.</p>
 </div>
@@ -1672,11 +1750,7 @@ ffmpeg -i <span class="tok-s2">&quot;${file_}&quot;</span> -vn -acodec copy <spa
 <div class="content">
 <pre class="pygments highlight"><code data-lang="sh"><span class="tok-c">#!/usr/bin/env rc</span>
 
-<span class="tok-k">if</span> <span class="tok-o">(</span>! found-executable-p ffmpeg<span class="tok-o">)</span> <span class="tok-o">{</span>
-	<span class="tok-nb">echo </span>ffmpeg not found &gt;<span class="tok-o">[</span><span class="tok-nv">1</span><span class="tok-o">=</span>2<span class="tok-o">]</span>
-	<span class="tok-nb">echo </span>Make sure you have Ffmpeg installed &gt;<span class="tok-o">[</span><span class="tok-nv">1</span><span class="tok-o">=</span>2<span class="tok-o">]</span>
-	<span class="tok-nb">exit </span>1
-<span class="tok-o">}</span>
+report-missing-executables ffmpeg Ffmpeg <span class="tok-o">||</span> <span class="tok-nb">exit </span>1
 
 <span class="tok-k">for</span> <span class="tok-o">(</span>f in <span class="tok-nv">$*</span><span class="tok-o">)</span> <span class="tok-o">{</span>
 	ffmpeg -i <span class="tok-nv">$f</span> -vn -aq <span class="tok-m">1</span> <span class="tok-sb">`</span><span class="tok-o">{</span><span class="tok-nb">echo</span> <span class="tok-nv">$f</span> <span class="tok-p">|</span> replace-extension mp3<span class="tok-o">}</span>
@@ -1685,7 +1759,7 @@ ffmpeg -i <span class="tok-s2">&quot;${file_}&quot;</span> -vn -acodec copy <spa
 </div>
 </div>
 <div class="sect2">
-<h3 id="__code_convert_to_ogg_vorbis_code_converts_files_to_ogg_vorbis">4.22. <code>convert-to-ogg-vorbis</code> - converts files to Ogg Vorbis</h3>
+<h3 id="__code_convert_to_ogg_vorbis_code_converts_files_to_ogg_vorbis">4.25. <code>convert-to-ogg-vorbis</code> - converts files to Ogg Vorbis</h3>
 <div class="paragraph">
 <p>This script takes a list of files as arguments.</p>
 </div>
@@ -1694,11 +1768,7 @@ ffmpeg -i <span class="tok-s2">&quot;${file_}&quot;</span> -vn -acodec copy <spa
 <div class="content">
 <pre class="pygments highlight"><code data-lang="sh"><span class="tok-c">#!/usr/bin/env rc</span>
 
-<span class="tok-k">if</span> <span class="tok-o">(</span>! found-executable-p ffmpeg<span class="tok-o">)</span> <span class="tok-o">{</span>
-	<span class="tok-nb">echo </span>ffmpeg not found &gt;<span class="tok-o">[</span><span class="tok-nv">1</span><span class="tok-o">=</span>2<span class="tok-o">]</span>
-	<span class="tok-nb">echo </span>Make sure you have Ffmpeg installed &gt;<span class="tok-o">[</span><span class="tok-nv">1</span><span class="tok-o">=</span>2<span class="tok-o">]</span>
-	<span class="tok-nb">exit </span>1
-<span class="tok-o">}</span>
+report-missing-executables ffmpeg Ffmpeg <span class="tok-o">||</span> <span class="tok-nb">exit </span>1
 
 <span class="tok-k">for</span> <span class="tok-o">(</span>f in <span class="tok-nv">$*</span><span class="tok-o">)</span> <span class="tok-o">{</span>
 	ffmpeg -i <span class="tok-nv">$f</span> -vn -aq <span class="tok-m">1</span> <span class="tok-sb">`</span><span class="tok-o">{</span><span class="tok-nb">echo</span> <span class="tok-nv">$f</span> <span class="tok-p">|</span> replace-extension mp3<span class="tok-o">}</span>
@@ -1707,7 +1777,7 @@ ffmpeg -i <span class="tok-s2">&quot;${file_}&quot;</span> -vn -acodec copy <spa
 </div>
 </div>
 <div class="sect2">
-<h3 id="__code_count_monitors_code">4.23. <code>count-monitors</code></h3>
+<h3 id="__code_count_monitors_code">4.26. <code>count-monitors</code></h3>
 <div class="listingblock">
 <div class="title">file::count-monitors</div>
 <div class="content">
@@ -1718,7 +1788,7 @@ xrandr <span class="tok-p">|</span> grep <span class="tok-s2">&quot; connected&q
 </div>
 </div>
 <div class="sect2">
-<h3 id="__code_cpu_usage_code">4.24. <code>cpu-usage</code></h3>
+<h3 id="__code_cpu_usage_code">4.27. <code>cpu-usage</code></h3>
 <div class="paragraph">
 <p>Returns the average CPU usage measured in 3 consecutive seconds, using <code>mpstat</code>.</p>
 </div>
@@ -1731,18 +1801,14 @@ xrandr <span class="tok-p">|</span> grep <span class="tok-s2">&quot; connected&q
 <span class="tok-c"># Using `mpstat&#39;, calculates average CPU usage in 3 seconds.</span>
 <span class="tok-c">#</span>
 
-<span class="tok-k">if</span> ! found-executable-p mpstat<span class="tok-p">;</span> <span class="tok-k">then</span>
-	<span class="tok-nb">echo </span>mpstat not found &gt;<span class="tok-p">&amp;</span>2
-	<span class="tok-nb">echo </span>Make sure you have Sysstat installed &gt;<span class="tok-p">&amp;</span>2
-	<span class="tok-nb">exit </span>1
-<span class="tok-k">fi</span>
+report-missing-executables mpstat Sysstat <span class="tok-o">||</span> <span class="tok-nb">exit </span>1
 
 mpstat <span class="tok-m">3</span> <span class="tok-m">1</span> <span class="tok-p">|</span> tail -1 <span class="tok-p">|</span> gawk <span class="tok-s1">&#39;$12 ~ /[0-9.]+/ { print 100 - $12&quot;%&quot; }&#39;</span></code></pre>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="__code_create_ctags_code">4.25. <code>create-ctags</code></h3>
+<h3 id="__code_create_ctags_code">4.28. <code>create-ctags</code></h3>
 <div class="listingblock">
 <div class="title">file::create-ctags</div>
 <div class="content">
@@ -1752,11 +1818,7 @@ mpstat <span class="tok-m">3</span> <span class="tok-m">1</span> <span class="to
 <span class="tok-c"># Creates a tags file named TAGS using ctags.</span>
 <span class="tok-c">#</span>
 
-<span class="tok-k">if</span> ! found-executable-p tags <span class="tok-p">;</span> <span class="tok-k">then</span>
-	<span class="tok-nb">echo </span>ctags not found &gt;<span class="tok-p">&amp;</span>2
-	<span class="tok-nb">echo </span>Make sure you have Ctags or Exuberant Ctags installed &gt;<span class="tok-p">&amp;</span>2
-	<span class="tok-nb">exit </span>1
-<span class="tok-k">fi</span>
+report-missing-executables tags <span class="tok-s2">&quot;Ctags or Exuberant Ctags&quot;</span> <span class="tok-o">||</span> <span class="tok-nb">exit </span>1
 
 <span class="tok-k">if</span> <span class="tok-nb">test</span> -z <span class="tok-s2">&quot;$1&quot;</span><span class="tok-p">;</span> <span class="tok-k">then</span>
 	cat <span class="tok-s">&lt;&lt;EOF</span>
@@ -1775,7 +1837,7 @@ ctags <span class="tok-s2">&quot;$@&quot;</span> -f <span class="tok-s2">&quot;$
 </div>
 </div>
 <div class="sect2">
-<h3 id="__code_create_sbcl_cmpitg_image_code_dumping_a_customized_sbcl_image">4.26. <code>create-sbcl-cmpitg-image</code> - dumping a customized SBCL image</h3>
+<h3 id="__code_create_sbcl_cmpitg_image_code_dumping_a_customized_sbcl_image">4.29. <code>create-sbcl-cmpitg-image</code> - dumping a customized SBCL image</h3>
 <div class="paragraph">
 <p>Dumps a customized SBCL image and makes it work with Shelly (if installed).</p>
 </div>
@@ -1804,14 +1866,9 @@ ctags <span class="tok-s2">&quot;$@&quot;</span> -f <span class="tok-s2">&quot;$
 <span class="tok-c"># Sanity check</span>
 <span class="tok-c">##############################################################################</span>
 
-<span class="tok-k">if</span> <span class="tok-o">(</span>! found-executable-p sbcl<span class="tok-o">)</span> <span class="tok-o">{</span>
-	<span class="tok-nb">echo </span>sbcl executable not found &gt;<span class="tok-o">[</span><span class="tok-nv">1</span><span class="tok-o">=</span>2<span class="tok-o">]</span>
-	<span class="tok-nb">echo </span>Make sure you have SBCL installed &gt;<span class="tok-o">[</span><span class="tok-nv">1</span><span class="tok-o">=</span>2<span class="tok-o">]</span>
-	<span class="tok-nb">exit </span>1
-<span class="tok-o">}</span>
-<span class="tok-k">if</span> not <span class="tok-o">{</span>
-	<span class="tok-nv">sbcl_version</span><span class="tok-o">=</span><span class="tok-sb">`</span><span class="tok-o">{</span>sbcl --version <span class="tok-p">|</span> cut -d<span class="tok-s1">&#39; &#39;</span> -f2<span class="tok-o">}</span>
-<span class="tok-o">}</span>
+report-missing-executables sbcl SBCL <span class="tok-o">||</span> <span class="tok-nb">exit </span>1
+
+<span class="tok-nv">sbcl_version</span><span class="tok-o">=</span><span class="tok-sb">`</span><span class="tok-o">{</span>sbcl --version <span class="tok-p">|</span> cut -d<span class="tok-s1">&#39; &#39;</span> -f2<span class="tok-o">}</span>
 
 <span class="tok-c">##############################################################################</span>
 
@@ -1861,7 +1918,7 @@ sbcl --noinform <span class="tok-se">\</span>
 </div>
 </div>
 <div class="sect2">
-<h3 id="__code_json_post_code_makes_a_json_post">4.27. <code>json-post</code> - makes a JSON POST</h3>
+<h3 id="__code_json_post_code_makes_a_json_post">4.30. <code>json-post</code> - makes a JSON POST</h3>
 <div class="listingblock">
 <div class="title">file::json-post</div>
 <div class="content">
@@ -1871,18 +1928,14 @@ sbcl --noinform <span class="tok-se">\</span>
 <span class="tok-c"># Makes a JSON POST with Curl</span>
 <span class="tok-c">#</span>
 
-<span class="tok-k">if</span> <span class="tok-o">(</span>! found-executable-p curl<span class="tok-o">)</span> <span class="tok-o">{</span>
-	<span class="tok-nb">echo </span>curl not found &gt;<span class="tok-o">[</span><span class="tok-nv">1</span><span class="tok-o">=</span>2<span class="tok-o">]</span>
-	<span class="tok-nb">echo </span>Make sure you have Curl installed &gt;<span class="tok-o">[</span><span class="tok-nv">1</span><span class="tok-o">=</span>2<span class="tok-o">]</span>
-	<span class="tok-nb">exit </span>1
-<span class="tok-o">}</span>
+report-missing-executables curl cURL <span class="tok-o">||</span> <span class="tok-nb">exit </span>1
 
 curl -i -H <span class="tok-s1">&#39;Content-Type: application/json&#39;</span> -X POST <span class="tok-nv">$*</span></code></pre>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="__code_do_notify_code_sends_a_desktop_notification">4.28. <code>do-notify</code> - sends a desktop notification</h3>
+<h3 id="__code_do_notify_code_sends_a_desktop_notification">4.31. <code>do-notify</code> - sends a desktop notification</h3>
 <div class="listingblock">
 <div class="title">file::do-notify</div>
 <div class="content">
@@ -1897,7 +1950,7 @@ curl -i -H <span class="tok-s1">&#39;Content-Type: application/json&#39;</span> 
 </div>
 </div>
 <div class="sect2">
-<h3 id="__code_do_notify_short_code_sends_a_short_desktop_notification">4.29. <code>do-notify-short</code> - sends a short desktop notification</h3>
+<h3 id="__code_do_notify_short_code_sends_a_short_desktop_notification">4.32. <code>do-notify-short</code> - sends a short desktop notification</h3>
 <div class="listingblock">
 <div class="title">file::do-notify-short</div>
 <div class="content">
@@ -1912,7 +1965,7 @@ curl -i -H <span class="tok-s1">&#39;Content-Type: application/json&#39;</span> 
 </div>
 </div>
 <div class="sect2">
-<h3 id="__code_docker_remove_orphaned_containers_code">4.30. <code>docker-remove-orphaned-containers</code></h3>
+<h3 id="__code_docker_remove_orphaned_containers_code">4.33. <code>docker-remove-orphaned-containers</code></h3>
 <div class="listingblock">
 <div class="title">file::docker-remove-orphaned-containers</div>
 <div class="content">
@@ -1923,7 +1976,7 @@ docker rm <span class="tok-k">$(</span>docker ps -aq<span class="tok-k">)</span>
 </div>
 </div>
 <div class="sect2">
-<h3 id="__code_docker_remove_unnamed_images_code">4.31. <code>docker-remove-unnamed-images</code></h3>
+<h3 id="__code_docker_remove_unnamed_images_code">4.34. <code>docker-remove-unnamed-images</code></h3>
 <div class="listingblock">
 <div class="title">file::docker-remove-unnamed-images</div>
 <div class="content">
@@ -1934,7 +1987,7 @@ docker images -a <span class="tok-p">|</span> grep <span class="tok-s2">&quot;&l
 </div>
 </div>
 <div class="sect2">
-<h3 id="__code_drop_lines_code">4.32. <code>drop-lines</code></h3>
+<h3 id="__code_drop_lines_code">4.35. <code>drop-lines</code></h3>
 <div class="listingblock">
 <div class="title">file::drop-lines</div>
 <div class="content">
@@ -1951,7 +2004,7 @@ tail -n +<span class="tok-nv">$n_lines</span></code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="__code_en2fi_code_translates_from_english_to_finnish">4.33. <code>en2fi</code> - translates from English to Finnish</h3>
+<h3 id="__code_en2fi_code_translates_from_english_to_finnish">4.36. <code>en2fi</code> - translates from English to Finnish</h3>
 <div class="listingblock">
 <div class="title">file::en2fi</div>
 <div class="content">
@@ -1962,18 +2015,14 @@ tail -n +<span class="tok-nv">$n_lines</span></code></pre>
 <span class="tok-c"># soimort/translate-shell tool.</span>
 <span class="tok-c">#</span>
 
-<span class="tok-k">if</span> <span class="tok-o">(</span>! found-executable-p trans<span class="tok-o">)</span> <span class="tok-o">{</span>
-	<span class="tok-nb">echo </span>trans <span class="tok-nb">command </span>not found &gt;<span class="tok-o">[</span><span class="tok-nv">1</span><span class="tok-o">=</span>2<span class="tok-o">]</span>
-	<span class="tok-nb">echo </span>Make sure you have soimort/translate-shell installed &gt;<span class="tok-o">[</span><span class="tok-nv">1</span><span class="tok-o">=</span>2<span class="tok-o">]</span>
-	<span class="tok-nb">exit </span>1
-<span class="tok-o">}</span>
+report-missing-executables trans soimort/translate-shell <span class="tok-o">||</span> <span class="tok-nb">exit </span>1
 
 <span class="tok-nv">TARGET_LANG</span><span class="tok-o">=</span><span class="tok-k">fi</span> gtranslate <span class="tok-nv">$*</span></code></pre>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="__code_fi2en_code_translates_from_finnish_to_english">4.34. <code>fi2en</code> - translates from Finnish to English</h3>
+<h3 id="__code_fi2en_code_translates_from_finnish_to_english">4.37. <code>fi2en</code> - translates from Finnish to English</h3>
 <div class="listingblock">
 <div class="title">file::fi2en</div>
 <div class="content">
@@ -1998,7 +2047,7 @@ tail -n +<span class="tok-nv">$n_lines</span></code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="__code_ff_code_quickly_opens_file_with_emacs_and_a_href_https_github_com_cmpitg_emnode_emnode_a">4.35. <code>ff</code> - quickly opens file with Emacs and <a href="https://github.com/cmpitg/emnode">Emnode</a></h3>
+<h3 id="__code_ff_code_quickly_opens_file_with_emacs_and_a_href_https_github_com_cmpitg_emnode_emnode_a">4.38. <code>ff</code> - quickly opens file with Emacs and <a href="https://github.com/cmpitg/emnode">Emnode</a></h3>
 <div class="paragraph">
 <p>Quickly opens file with Emacs + <a href="https://github.com/cmpitg/emnode">Emnode</a>
 server.  Emacs has to be setup with Emnode to listen to port <code>EMACS_PORT</code>,
@@ -2040,6 +2089,8 @@ default, <code>EMACS_INIT</code> is set to <code>"~/emacs-config/src/init.el"</c
 <div class="content">
 <pre class="pygments highlight"><code data-lang="sh"><span class="tok-c">#!/bin/bash</span>
 
+<span class="tok-nb">export </span><span class="tok-nv">GPG_TTY</span><span class="tok-o">=</span><span class="tok-k">$(</span>tty<span class="tok-k">)</span>
+
 <span class="tok-k">if</span> <span class="tok-o">[[</span> -z <span class="tok-s2">&quot;$EMACS_INIT&quot;</span> <span class="tok-o">]]</span><span class="tok-p">;</span> <span class="tok-k">then</span>
 	<span class="tok-nv">EMACS_INIT</span><span class="tok-o">=</span><span class="tok-s2">&quot;~/emacs-config/src/init.el&quot;</span>
 <span class="tok-k">fi</span>
@@ -2063,7 +2114,7 @@ default, <code>EMACS_INIT</code> is set to <code>"~/emacs-config/src/init.el"</c
 </div>
 </div>
 <div class="sect2">
-<h3 id="__code_ffb_code_quickly_open_code_m_bin_file_code_with_a_href_ff_code_ff_code_a">4.36. <code>ffb</code> - quickly open <code>/m/bin/&lt;file&gt;</code> with <a href="#ff"><code>ff</code></a></h3>
+<h3 id="__code_ffb_code_quickly_open_code_m_bin_file_code_with_a_href_ff_code_ff_code_a">4.39. <code>ffb</code> - quickly open <code>/m/bin/&lt;file&gt;</code> with <a href="#ff"><code>ff</code></a></h3>
 <div class="listingblock">
 <div class="title">file::ffb</div>
 <div class="content">
@@ -2074,7 +2125,7 @@ ff <span class="tok-s2">&quot;/m/bin/$@&quot;</span></code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="__code_format_text_code_formats_text_from_stdin_using_emacs_s_code_fill_paragraph_code">4.37. <code>format-text</code> - formats text from stdin using Emacs&#8217;s <code>fill-paragraph</code></h3>
+<h3 id="__code_format_text_code_formats_text_from_stdin_using_emacs_s_code_fill_paragraph_code">4.40. <code>format-text</code> - formats text from stdin using Emacs&#8217;s <code>fill-paragraph</code></h3>
 <div class="listingblock">
 <div class="title">file::format-text</div>
 <div class="content">
@@ -2100,7 +2151,7 @@ emacs --batch --eval <span class="tok-nv">$&quot;</span>sexpr <span class="tok-n
 </div>
 </div>
 <div class="sect2">
-<h3 id="__code_monitors_info_code_retrieves_information_of_connected_monitors">4.38. <code>monitors-info</code> - retrieves information of connected monitors</h3>
+<h3 id="__code_monitors_info_code_retrieves_information_of_connected_monitors">4.41. <code>monitors-info</code> - retrieves information of connected monitors</h3>
 <div class="listingblock">
 <div class="title">file::monitors-info</div>
 <div class="content">
@@ -2133,7 +2184,7 @@ emacs --batch --eval <span class="tok-nv">$&quot;</span>sexpr <span class="tok-n
 </div>
 </div>
 <div class="sect2">
-<h3 id="__code_replace_extension_code_replaces_file_extension">4.39. <code>replace-extension</code> - replaces file extension</h3>
+<h3 id="__code_replace_extension_code_replaces_file_extension">4.42. <code>replace-extension</code> - replaces file extension</h3>
 <div class="listingblock">
 <div class="title">file::replace-extension</div>
 <div class="content">
@@ -2153,7 +2204,7 @@ emacs --batch --eval <span class="tok-nv">$&quot;</span>sexpr <span class="tok-n
 </div>
 </div>
 <div class="sect2">
-<h3 id="__code_git_rm_orphaned_code_removes_orphaned_files_from_git">4.40. <code>git-rm-orphaned</code> - removes orphaned files from Git</h3>
+<h3 id="__code_git_rm_orphaned_code_removes_orphaned_files_from_git">4.43. <code>git-rm-orphaned</code> - removes orphaned files from Git</h3>
 <div class="listingblock">
 <div class="title">file::git-rm-orphaned</div>
 <div class="content">
@@ -2164,7 +2215,7 @@ git ls-files --deleted <span class="tok-p">|</span> xargs git rm --cached</code>
 </div>
 </div>
 <div class="sect2">
-<h3 id="__code_nix_code_runs_a_command_with_nix_if_exists">4.41. <code>nix</code> - runs a command with Nix (if exists)</h3>
+<h3 id="__code_nix_code_runs_a_command_with_nix_if_exists">4.44. <code>nix</code> - runs a command with Nix (if exists)</h3>
 <div class="listingblock">
 <div class="title">file::nix</div>
 <div class="content">
@@ -2178,7 +2229,7 @@ git ls-files --deleted <span class="tok-p">|</span> xargs git rm --cached</code>
 </div>
 </div>
 <div class="sect2">
-<h3 id="__code_uri_github2ssh_code_converts_github_uri_to_code_git_ssh_code_style">4.42. <code>uri-github2ssh</code> - converts Github URI to <code>git+ssh</code> style</h3>
+<h3 id="__code_uri_github2ssh_code_converts_github_uri_to_code_git_ssh_code_style">4.45. <code>uri-github2ssh</code> - converts Github URI to <code>git+ssh</code> style</h3>
 <div class="listingblock">
 <div class="title">file::uri-github2ssh</div>
 <div class="content">
@@ -2212,7 +2263,7 @@ git ls-files --deleted <span class="tok-p">|</span> xargs git rm --cached</code>
 </div>
 </div>
 <div class="sect2">
-<h3 id="__code_gitserve_code_runs_a_git_server">4.43. <code>gitserve</code> - runs a Git server</h3>
+<h3 id="__code_gitserve_code_runs_a_git_server">4.46. <code>gitserve</code> - runs a Git server</h3>
 <div class="listingblock">
 <div class="title">file::gitserve</div>
 <div class="content">
@@ -2255,7 +2306,7 @@ git ls-files --deleted <span class="tok-p">|</span> xargs git rm --cached</code>
 </div>
 </div>
 <div class="sect2">
-<h3 id="__code_gtranslate_code_translates_from_stdin_with_google_translate">4.44. <code>gtranslate</code> - translates from stdin with Google Translate</h3>
+<h3 id="__code_gtranslate_code_translates_from_stdin_with_google_translate">4.47. <code>gtranslate</code> - translates from stdin with Google Translate</h3>
 <div class="listingblock">
 <div class="title">file::gtranslate</div>
 <div class="content">
@@ -2277,7 +2328,7 @@ trans <span class="tok-nv">$*</span> -brief <span class="tok-nv">$&quot;</span>i
 </div>
 </div>
 <div class="sect2">
-<h3 id="__code_html2text_code">4.45. <code>html2text</code></h3>
+<h3 id="__code_html2text_code">4.48. <code>html2text</code></h3>
 <div class="listingblock">
 <div class="title">file::html2text</div>
 <div class="content">
@@ -2287,18 +2338,14 @@ trans <span class="tok-nv">$*</span> -brief <span class="tok-nv">$&quot;</span>i
 <span class="tok-c"># Converts HTML to text.  HTML is read from stdin.</span>
 <span class="tok-c">#</span>
 
-<span class="tok-k">if</span> ! which lynx <span class="tok-p">&amp;</span>&gt;/dev/null<span class="tok-p">;</span> <span class="tok-k">then</span>
-	<span class="tok-nb">echo </span>lynx not found &gt;<span class="tok-p">&amp;</span>2
-	<span class="tok-nb">echo </span>Make sure you have Lynx installed &gt;<span class="tok-p">&amp;</span>2
-	<span class="tok-nb">exit </span>1
-<span class="tok-k">fi</span>
+report-missing-executables lynx Lynx <span class="tok-o">||</span> <span class="tok-nb">exit </span>1
 
 <span class="tok-nb">exec </span>lynx -dump -stdin <span class="tok-s2">&quot;$@&quot;</span></code></pre>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="__code_i3_exec_command_code_executes_an_a_href_http_i3wm_org_i3_a_command">4.46. <code>i3-exec-command</code> - executes an <a href="http://i3wm.org/">i3</a> command</h3>
+<h3 id="__code_i3_exec_command_code_executes_an_a_href_http_i3wm_org_i3_a_command">4.49. <code>i3-exec-command</code> - executes an <a href="http://i3wm.org/">i3</a> command</h3>
 <div class="listingblock">
 <div class="title">file::i3-exec-command</div>
 <div class="content">
@@ -2309,7 +2356,7 @@ i3-input -f <span class="tok-s1">&#39;pango:Droid Sans 10&#39;</span> <span clas
 </div>
 </div>
 <div class="sect2">
-<h3 id="__code_i3_move_to_workspace_code_moves_a_window_to_a_workspace_with_a_href_http_i3wm_org_i3_a">4.47. <code>i3-move-to-workspace</code> - moves a window to a workspace with <a href="http://i3wm.org/">i3</a></h3>
+<h3 id="__code_i3_move_to_workspace_code_moves_a_window_to_a_workspace_with_a_href_http_i3wm_org_i3_a">4.50. <code>i3-move-to-workspace</code> - moves a window to a workspace with <a href="http://i3wm.org/">i3</a></h3>
 <div class="listingblock">
 <div class="title">file::i3-move-to-workspace</div>
 <div class="content">
@@ -2323,7 +2370,7 @@ i3-input <span class="tok-se">\</span>
 </div>
 </div>
 <div class="sect2">
-<h3 id="__code_i3_rename_workspace_code_renames_current_workspace_in_a_href_http_i3wm_org_i3_a">4.48. <code>i3-rename-workspace</code> - renames current workspace in <a href="http://i3wm.org/">i3</a></h3>
+<h3 id="__code_i3_rename_workspace_code_renames_current_workspace_in_a_href_http_i3wm_org_i3_a">4.51. <code>i3-rename-workspace</code> - renames current workspace in <a href="http://i3wm.org/">i3</a></h3>
 <div class="listingblock">
 <div class="title">file::i3-rename-workspace</div>
 <div class="content">
@@ -2337,7 +2384,7 @@ i3-input <span class="tok-se">\</span>
 </div>
 </div>
 <div class="sect2">
-<h3 id="__code_i3_switch_window_code_window_switcher_for_a_href_http_i3wm_org_i3_a">4.49. <code>i3-switch-window</code> - window switcher for <a href="http://i3wm.org/">i3</a></h3>
+<h3 id="__code_i3_switch_window_code_window_switcher_for_a_href_http_i3wm_org_i3_a">4.52. <code>i3-switch-window</code> - window switcher for <a href="http://i3wm.org/">i3</a></h3>
 <div class="paragraph">
 <p>Requirement: <code>dmenu</code>.</p>
 </div>
@@ -2494,7 +2541,7 @@ i3-input <span class="tok-se">\</span>
 </div>
 </div>
 <div class="sect2">
-<h3 id="__code_i3_switch_workspace_code_workspace_switcher_for_a_href_http_i3wm_org_i3_a">4.50. <code>i3-switch-workspace</code> - workspace switcher for <a href="http://i3wm.org/">i3</a></h3>
+<h3 id="__code_i3_switch_workspace_code_workspace_switcher_for_a_href_http_i3wm_org_i3_a">4.53. <code>i3-switch-workspace</code> - workspace switcher for <a href="http://i3wm.org/">i3</a></h3>
 <div class="paragraph">
 <p>Requirement: <code>dmenu</code>.</p>
 </div>
@@ -2603,7 +2650,7 @@ i3-input <span class="tok-se">\</span>
 </div>
 </div>
 <div class="sect2">
-<h3 id="__code_i3_to_workspace_code_jumps_to_a_workspace_by_name_in_a_href_http_i3wm_org_i3_a">4.51. <code>i3-to-workspace</code> - jumps to a workspace by name in <a href="http://i3wm.org/">i3</a></h3>
+<h3 id="__code_i3_to_workspace_code_jumps_to_a_workspace_by_name_in_a_href_http_i3wm_org_i3_a">4.54. <code>i3-to-workspace</code> - jumps to a workspace by name in <a href="http://i3wm.org/">i3</a></h3>
 <div class="listingblock">
 <div class="title">file::i3-to-workspace</div>
 <div class="content">
@@ -2614,7 +2661,7 @@ i3-input -f <span class="tok-s1">&#39;pango:Droid Sans 10&#39;</span> -F <span c
 </div>
 </div>
 <div class="sect2">
-<h3 id="__code_join_lines_code">4.52. <code>join-lines</code></h3>
+<h3 id="__code_join_lines_code">4.55. <code>join-lines</code></h3>
 <div class="paragraph">
 <p>Joins all lines using Plan 9&#8217;s tr.</p>
 </div>
@@ -2633,7 +2680,7 @@ tr <span class="tok-s1">&#39;</span>
 </div>
 </div>
 <div class="sect2">
-<h3 id="__code_all_dev_debs_code_lists_all_debian_code_dev_code_packages_installed">4.53. <code>all-dev-debs</code> - lists all Debian <code>-dev</code> packages installed</h3>
+<h3 id="__code_all_dev_debs_code_lists_all_debian_code_dev_code_packages_installed">4.56. <code>all-dev-debs</code> - lists all Debian <code>-dev</code> packages installed</h3>
 <div class="listingblock">
 <div class="title">file::all-dev-debs</div>
 <div class="content">
@@ -2644,7 +2691,7 @@ dpkg-query -l <span class="tok-s1">&#39;*dev&#39;</span> <span class="tok-p">|</
 </div>
 </div>
 <div class="sect2">
-<h3 id="__code_local_tcp_open_p_code_checks_if_a_local_tcp_port_is_opened">4.54. <code>local-tcp-open-p</code> - checks if a local TCP port is opened</h3>
+<h3 id="__code_local_tcp_open_p_code_checks_if_a_local_tcp_port_is_opened">4.57. <code>local-tcp-open-p</code> - checks if a local TCP port is opened</h3>
 <div class="listingblock">
 <div class="title">file::local-tcp-open-p</div>
 <div class="content">
@@ -2658,18 +2705,14 @@ dpkg-query -l <span class="tok-s1">&#39;*dev&#39;</span> <span class="tok-p">|</
 <span class="tok-s">EOF</span>
 <span class="tok-k">fi</span>
 
-<span class="tok-k">if</span> ! which nc <span class="tok-p">&amp;</span>&gt;/dev/null<span class="tok-p">;</span> <span class="tok-k">then</span>
-	<span class="tok-nb">echo </span>nc not found &gt;<span class="tok-p">&amp;</span>2
-	<span class="tok-nb">echo </span>Make sure you have Netcat installed &gt;<span class="tok-p">&amp;</span>2
-	<span class="tok-nb">exit </span>2
-<span class="tok-k">fi</span>
+report-missing-executables nc Netcat <span class="tok-o">||</span> <span class="tok-nb">exit </span>1
 
 nc -z 127.0.0.1 <span class="tok-s2">&quot;$1&quot;</span></code></pre>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="__code_lockscreen_code">4.55. <code>lockscreen</code></h3>
+<h3 id="__code_lockscreen_code">4.58. <code>lockscreen</code></h3>
 <div class="listingblock">
 <div class="title">file::lockscreen</div>
 <div class="content">
@@ -2683,7 +2726,7 @@ xscreensaver-command -lock <span class="tok-se">\</span>
 </div>
 </div>
 <div class="sect2">
-<h3 id="__code_monitor_off_code">4.56. <code>monitor-off</code></h3>
+<h3 id="__code_monitor_off_code">4.59. <code>monitor-off</code></h3>
 <div class="listingblock">
 <div class="title">file::monitor-off</div>
 <div class="content">
@@ -2692,7 +2735,7 @@ xscreensaver-command -lock <span class="tok-se">\</span>
 </div>
 </div>
 <div class="sect2">
-<h3 id="__code_now_standardized_code">4.57. <code>now-standardized</code></h3>
+<h3 id="__code_now_standardized_code">4.60. <code>now-standardized</code></h3>
 <div class="listingblock">
 <div class="title">file::now-standardized</div>
 <div class="content">
@@ -2708,7 +2751,7 @@ xscreensaver-command -lock <span class="tok-se">\</span>
 </div>
 </div>
 <div class="sect2">
-<h3 id="__code_now_to_clipboard_code">4.58. <code>now-to-clipboard</code></h3>
+<h3 id="__code_now_to_clipboard_code">4.61. <code>now-to-clipboard</code></h3>
 <div class="listingblock">
 <div class="title">file::now-to-clipboard</div>
 <div class="content">
@@ -2719,7 +2762,7 @@ xterm -e <span class="tok-s1">&#39;date -R | xsel -b&#39;</span></code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="__code_symlink_p_code">4.59. <code>symlink-p</code></h3>
+<h3 id="__code_symlink_p_code">4.62. <code>symlink-p</code></h3>
 <div class="listingblock">
 <div class="title">file::symlink-p</div>
 <div class="content">
@@ -2734,15 +2777,14 @@ xterm -e <span class="tok-s1">&#39;date -R | xsel -b&#39;</span></code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="__code_found_executable_p_code">4.60. <code>found-executable-p</code></h3>
+<h3 id="__code_found_executable_p_code">4.63. <code>found-executable-p</code></h3>
 <div class="listingblock">
 <div class="title">file::src/found_executable_p.nim</div>
 <div class="content">
 <pre class="pygments highlight"><code data-lang="nim"><span class="tok-kn">import</span> <span class="tok-n">os</span><span class="tok-p">,</span> <span class="tok-n">strutils</span>
 
 <span class="tok-k">proc </span><span class="tok-nf">showHelp</span> <span class="tok-o">=</span>
-  <span class="tok-k">let</span>
-    <span class="tok-p">(</span><span class="tok-err">_, thisApp) = getAppFilename().splitPath()</span>
+  <span class="tok-k">let</span> <span class="tok-p">(</span><span class="tok-err">_, thisApp) = getAppFilename().splitPath()</span>
   <span class="tok-n">echo</span> <span class="tok-s">&quot;&quot;&quot;Usage: </span><span class="tok-si">$1</span><span class="tok-s"> &lt;file&gt;</span>
 
 <span class="tok-s">Returns exit code 0 if the file is an executable and found in the PATH</span>
@@ -2766,7 +2808,7 @@ xterm -e <span class="tok-s1">&#39;date -R | xsel -b&#39;</span></code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="__code_report_missing_executables_bin_1_software_1_bin_2_software_2_code">4.61. <code>report-missing-executables &lt;bin-1&gt; &lt;software-1&gt; &lt;bin-2&gt; &lt;software-2&gt; &#8230;&#8203;</code></h3>
+<h3 id="__code_report_missing_executables_bin_1_software_1_bin_2_software_2_code">4.64. <code>report-missing-executables &lt;bin-1&gt; &lt;software-1&gt; &lt;bin-2&gt; &lt;software-2&gt; &#8230;&#8203;</code></h3>
 <div class="paragraph">
 <p>Reports missing software by checking if their corresponding executables exist.
 If all executables are found, exit with status 0; otherwise, exit with
@@ -2960,7 +3002,7 @@ report-missing-executables aria2c Aria2 wget
 </div>
 </div>
 <div class="sect2">
-<h3 id="__code_prefix_code_prefixes_all_lines_read_from_stdin_with_a_string">4.62. <code>prefix</code> - prefixes all lines read from stdin with a string</h3>
+<h3 id="__code_prefix_code_prefixes_all_lines_read_from_stdin_with_a_string">4.65. <code>prefix</code> - prefixes all lines read from stdin with a string</h3>
 <div class="listingblock">
 <div class="title">file::prefix</div>
 <div class="content">
@@ -2980,7 +3022,7 @@ report-missing-executables aria2c Aria2 wget
 </div>
 </div>
 <div class="sect2">
-<h3 id="__code_pretty_print_json_code">4.63. <code>pretty-print-json</code></h3>
+<h3 id="__code_pretty_print_json_code">4.66. <code>pretty-print-json</code></h3>
 <div class="listingblock">
 <div class="title">file::pretty-print-json</div>
 <div class="content">
@@ -2991,7 +3033,7 @@ python -m json.tool <span class="tok-s2">&quot;$@&quot;</span></code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="__code_psx_code_code_ps_ef_grep_color_code">4.64. <code>psx</code> - <code>ps -ef | grep --color "$@"</code></h3>
+<h3 id="__code_psx_code_code_ps_ef_grep_color_code">4.67. <code>psx</code> - <code>ps -ef | grep --color "$@"</code></h3>
 <div class="listingblock">
 <div class="title">file::psx</div>
 <div class="content">
@@ -3002,7 +3044,7 @@ ps -ef <span class="tok-p">|</span> grep --color <span class="tok-s2">&quot;$@&q
 </div>
 </div>
 <div class="sect2">
-<h3 id="__code_py2_code_runs_python_2_in_a_a_href_http_docs_python_guide_org_en_latest_dev_virtualenvs_virtual_environment_a">4.65. <code>py2</code> - runs Python 2 in a <a href="http://docs.python-guide.org/en/latest/dev/virtualenvs/">virtual environment</a></h3>
+<h3 id="__code_py2_code_runs_python_2_in_a_a_href_http_docs_python_guide_org_en_latest_dev_virtualenvs_virtual_environment_a">4.68. <code>py2</code> - runs Python 2 in a <a href="http://docs.python-guide.org/en/latest/dev/virtualenvs/">virtual environment</a></h3>
 <div class="paragraph">
 <p>The name of the virtual environment could be set by setting the <code>VIRTUAL_ENV</code>
 environment variable.  By default, it uses <code>python2-full-debian</code> as its name.</p>
@@ -3020,7 +3062,7 @@ environment variable.  By default, it uses <code>python2-full-debian</code> as i
 </div>
 </div>
 <div class="sect2">
-<h3 id="__code_py3_code_runs_python_3_in_a_a_href_http_docs_python_guide_org_en_latest_dev_virtualenvs_virtual_environment_a">4.66. <code>py3</code> - runs Python 3 in a <a href="http://docs.python-guide.org/en/latest/dev/virtualenvs/">virtual environment</a></h3>
+<h3 id="__code_py3_code_runs_python_3_in_a_a_href_http_docs_python_guide_org_en_latest_dev_virtualenvs_virtual_environment_a">4.69. <code>py3</code> - runs Python 3 in a <a href="http://docs.python-guide.org/en/latest/dev/virtualenvs/">virtual environment</a></h3>
 <div class="paragraph">
 <p>The name of the virtual environment could be set by setting the <code>VIRTUAL_ENV</code>
 environment variable.  By default, it uses <code>python2-full-debian</code> as its name.</p>
@@ -3038,7 +3080,7 @@ environment variable.  By default, it uses <code>python2-full-debian</code> as i
 </div>
 </div>
 <div class="sect2">
-<h3 id="__code_site_packages_path_code_prints_python_site_packages_path">4.67. <code>site-packages-path</code> - prints Python site packages path</h3>
+<h3 id="__code_site_packages_path_code_prints_python_site_packages_path">4.70. <code>site-packages-path</code> - prints Python site packages path</h3>
 <div class="listingblock">
 <div class="title">file::site-packages-path</div>
 <div class="content">
@@ -3052,24 +3094,18 @@ print<span class="tok-o">(</span>get_python_lib<span class="tok-o">())</span></c
 </div>
 </div>
 <div class="sect2">
-<h3 id="__code_qrcode_code_creates_qr_code_from_a_string">4.68. <code>qrcode</code> - creates QR code from a string</h3>
+<h3 id="__code_qrcode_code_creates_qr_code_from_a_string">4.71. <code>qrcode</code> - creates QR code from a string</h3>
 <div class="listingblock">
 <div class="title">file::qrcode</div>
 <div class="content">
 <pre class="pygments highlight"><code data-lang="sh"><span class="tok-c">#!/usr/bin/env rc</span>
 
-<span class="tok-k">if</span> <span class="tok-o">(</span>! found-executable-p tempfile<span class="tok-o">)</span> <span class="tok-o">{</span>
-	<span class="tok-nb">echo </span>tempfile not found &gt;<span class="tok-o">[</span><span class="tok-nv">1</span><span class="tok-o">=</span>2<span class="tok-o">]</span>
-	<span class="tok-nb">echo </span>Make sure you have tempfile utility installed, used to generate a temporary file &gt;<span class="tok-o">[</span><span class="tok-nv">1</span><span class="tok-o">=</span>2<span class="tok-o">]</span>
-	<span class="tok-nb">exit </span>1
-<span class="tok-o">}</span>
+report-missing-executables <span class="tok-se">\</span>
+	tempfile <span class="tok-s2">&quot;tempfile utility&quot;</span> <span class="tok-se">\</span>
+	qrencode Qrencode <span class="tok-se">\</span>
+	<span class="tok-o">||</span> <span class="tok-nb">exit </span>1
 
-<span class="tok-k">if</span> <span class="tok-o">(</span>! found-executable-p qrencode<span class="tok-o">)</span> <span class="tok-o">{</span>
-	<span class="tok-nb">echo </span>qrencode not found &gt;<span class="tok-o">[</span><span class="tok-nv">1</span><span class="tok-o">=</span>2<span class="tok-o">]</span>
-	<span class="tok-nb">echo </span>Make sure you have qrencode installed &gt;<span class="tok-o">[</span><span class="tok-nv">1</span><span class="tok-o">=</span>2<span class="tok-o">]</span>
-	<span class="tok-nb">exit </span>1
-<span class="tok-o">}</span>
-
+<span class="tok-c"># FIXME: Not working</span>
 <span class="tok-k">if</span> <span class="tok-o">(</span><span class="tok-nb">test</span> <span class="tok-nv">$#*</span> -eq 0<span class="tok-o">)</span> <span class="tok-o">{</span>
 	<span class="tok-nb">echo </span>No argument found
 <span class="tok-o">}</span>
@@ -3083,7 +3119,7 @@ display <span class="tok-nv">$tmpfile</span></code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="__code_rackjure_code_runs_racket_with_a_href_https_github_com_greghendershott_rackjure_rackjure_a">4.69. <code>rackjure</code> - runs Racket with <a href="https://github.com/greghendershott/rackjure">Rackjure</a></h3>
+<h3 id="__code_rackjure_code_runs_racket_with_a_href_https_github_com_greghendershott_rackjure_rackjure_a">4.72. <code>rackjure</code> - runs Racket with <a href="https://github.com/greghendershott/rackjure">Rackjure</a></h3>
 <div class="listingblock">
 <div class="title">file::rackjure</div>
 <div class="content">
@@ -3094,7 +3130,7 @@ racket -I rackjure <span class="tok-s2">&quot;$@&quot;</span></code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="__code_system_temperature_code">4.70. <code>system-temperature</code></h3>
+<h3 id="__code_system_temperature_code">4.73. <code>system-temperature</code></h3>
 <div class="listingblock">
 <div class="title">file::system-temperature</div>
 <div class="content">
@@ -3102,7 +3138,7 @@ racket -I rackjure <span class="tok-s2">&quot;$@&quot;</span></code></pre>
 
 <span class="tok-nb">echo</span> <span class="tok-s2">&quot;-&gt; Starting HDDTemp if necessary&quot;</span>
 nc localhost <span class="tok-m">7634</span> <span class="tok-p">&amp;</span>&gt;/dev/null <span class="tok-o">||</span> <span class="tok-o">(</span>
-    <span class="tok-nb">exec </span>sudo hddtemp -d /dev/sda
+	<span class="tok-nb">exec </span>sudo hddtemp -d /dev/sda
 <span class="tok-o">)</span>
 <span class="tok-nb">echo</span> <span class="tok-s2">&quot;&quot;</span>
 
@@ -3115,7 +3151,7 @@ sensors</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="__code_running_p_code_determines_if_a_process_is_running">4.71. <code>running-p</code> - determines if a process is running</h3>
+<h3 id="__code_running_p_code_determines_if_a_process_is_running">4.74. <code>running-p</code> - determines if a process is running</h3>
 <div class="listingblock">
 <div class="title">file::running-p</div>
 <div class="content">
@@ -3130,24 +3166,20 @@ sensors</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="__code_show_keyboard_code_shows_keyboard_of_modifiers_convenient_when_making_screencast">4.72. <code>show-keyboard</code> - shows keyboard of modifiers, convenient when making screencast</h3>
+<h3 id="__code_show_keyboard_code_shows_keyboard_of_modifiers_convenient_when_making_screencast">4.75. <code>show-keyboard</code> - shows keyboard of modifiers, convenient when making screencast</h3>
 <div class="listingblock">
 <div class="title">file::show-keyboard</div>
 <div class="content">
 <pre class="pygments highlight"><code data-lang="sh"><span class="tok-c">#!/bin/bash</span>
 
-<span class="tok-k">if</span> ! found-executable-p key-mon<span class="tok-p">;</span> <span class="tok-k">then</span>
-	<span class="tok-nb">echo </span>key-mon not found &gt;<span class="tok-p">&amp;</span>2
-	<span class="tok-nb">echo </span>Make sure you have key-mon installed &gt;<span class="tok-p">&amp;</span>2
-	<span class="tok-nb">exit </span>1
-<span class="tok-k">fi</span>
+report-missing-executables key-mon key-mon <span class="tok-o">||</span> <span class="tok-nb">exit </span>1
 
 key-mon --decorated --meta --theme modern <span class="tok-s2">&quot;$@&quot;</span></code></pre>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="__code_suspend_me_code_suspends_computer">4.73. <code>suspend-me</code> - suspends computer</h3>
+<h3 id="__code_suspend_me_code_suspends_computer">4.76. <code>suspend-me</code> - suspends computer</h3>
 <div class="listingblock">
 <div class="title">file::suspend-me</div>
 <div class="content">
@@ -3159,7 +3191,7 @@ key-mon --decorated --meta --theme modern <span class="tok-s2">&quot;$@&quot;</s
 </div>
 </div>
 <div class="sect2">
-<h3 id="__code_take_from_code_takes_all_lines_from_stdin_starting_from_a_pattern">4.74. <code>take-from</code> - takes all lines from stdin, starting from a pattern</h3>
+<h3 id="__code_take_from_code_takes_all_lines_from_stdin_starting_from_a_pattern">4.77. <code>take-from</code> - takes all lines from stdin, starting from a pattern</h3>
 <div class="listingblock">
 <div class="title">file::take-from</div>
 <div class="content">
@@ -3184,7 +3216,7 @@ gawk <span class="tok-s1">&#39;BEGIN {</span>
 </div>
 </div>
 <div class="sect2">
-<h3 id="__code_take_lines_code_takes_the_first_code_n_code_lines">4.75. <code>take-lines</code> - takes the first <code>n</code> lines</h3>
+<h3 id="__code_take_lines_code_takes_the_first_code_n_code_lines">4.78. <code>take-lines</code> - takes the first <code>n</code> lines</h3>
 <div class="listingblock">
 <div class="title">file::take-lines</div>
 <div class="content">
@@ -3205,20 +3237,15 @@ sed <span class="tok-nv">$n_lines</span>^q</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="__code_update_sbcl_code_updates_sbcl">4.76. <code>update-sbcl</code> - updates SBCL</h3>
+<h3 id="__code_update_sbcl_code_updates_sbcl">4.79. <code>update-sbcl</code> - updates SBCL</h3>
 <div class="listingblock">
 <div class="title">file::update-sbcl</div>
 <div class="content">
 <pre class="pygments highlight"><code data-lang="sh"><span class="tok-c">#!/usr/bin/env rc</span>
 
-<span class="tok-k">if</span> <span class="tok-o">(</span>! found-executable-p lynx<span class="tok-o">)</span> <span class="tok-o">{</span>
-	<span class="tok-nb">echo </span>lynx not found. &gt;<span class="tok-o">[</span><span class="tok-nv">2</span><span class="tok-o">=</span>1<span class="tok-o">]</span>
-	<span class="tok-nb">echo </span>Make sure you have Lynx installed. &gt;<span class="tok-o">[</span><span class="tok-nv">2</span><span class="tok-o">=</span>1<span class="tok-o">]</span>
-	<span class="tok-nb">exit </span>1
-<span class="tok-o">}</span>
+report-missing-executables lynx Lynx <span class="tok-o">||</span> <span class="tok-nb">exit </span>1
 
 <span class="tok-nv">opt</span><span class="tok-o">=</span>/m/opt
-
 <span class="tok-nv">destination</span><span class="tok-o">=</span>/usr/local
 
 <span class="tok-k">if</span> <span class="tok-o">(</span>! ~ <span class="tok-nv">$OPT</span> <span class="tok-s1">&#39;&#39;</span><span class="tok-o">)</span> <span class="tok-o">{</span>
@@ -3263,16 +3290,16 @@ sed <span class="tok-nv">$n_lines</span>^q</code></pre>
 <span class="tok-nb">echo</span>
 
 <span class="tok-k">if</span> <span class="tok-o">(</span>! ~ <span class="tok-nv">$current_version</span> <span class="tok-nv">$latest_version</span><span class="tok-o">)</span> <span class="tok-o">{</span>
- 	<span class="tok-nb">echo </span>Versions mismatch, updating...
+	<span class="tok-nb">echo </span>Versions mismatch, updating...
 
 	<span class="tok-nv">new_sbcl_folder</span><span class="tok-o">=</span><span class="tok-sb">`</span><span class="tok-o">{</span> <span class="tok-se">\</span>
 		<span class="tok-nb">echo</span> <span class="tok-nv">$tarball</span> <span class="tok-se">\</span>
 		<span class="tok-p">|</span> awk <span class="tok-s1">&#39;BEGIN { FS=&quot;.tar.bz2&quot; } { print $1 }&#39;</span> <span class="tok-se">\</span>
-        <span class="tok-p">|</span> awk <span class="tok-s1">&#39;BEGIN { FS=&quot;-binary&quot; } { print $1 }&#39;</span> <span class="tok-se">\</span>
+		<span class="tok-p">|</span> awk <span class="tok-s1">&#39;BEGIN { FS=&quot;-binary&quot; } { print $1 }&#39;</span> <span class="tok-se">\</span>
 	<span class="tok-o">}</span>
 
 	<span class="tok-nb">cd</span> <span class="tok-nv">$opt</span>
-  	<span class="tok-nb">echo</span> <span class="tok-s1">&#39;-&gt; Downloading...&#39;</span>
+	<span class="tok-nb">echo</span> <span class="tok-s1">&#39;-&gt; Downloading...&#39;</span>
 	download <span class="tok-nv">$download_url</span>
 	<span class="tok-nb">echo</span>
 
@@ -3299,7 +3326,7 @@ sed <span class="tok-nv">$n_lines</span>^q</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="__code_update_racket_code_updates_racket">4.77. <code>update-racket</code> - updates Racket</h3>
+<h3 id="__code_update_racket_code_updates_racket">4.80. <code>update-racket</code> - updates Racket</h3>
 <div class="paragraph">
 <p>Installs/updates Racket to <code>/m/opt/racket</code> using latest binary from the
 offical <a href="https://download.racket-lang.org/all-versions.html">download page</a>.</p>
@@ -3353,7 +3380,7 @@ environment variable (by default, is set to <code>/m/opt</code>).</p>
 	<span class="tok-nb">echo </span>Versions mismatch, downloading latest one
 
 	<span class="tok-nb">cd</span> /m/opt
-    <span class="tok-c"># aria2c &lt; 1.19.1 has problem with RSA-SHA1, use wget for now</span>
+	<span class="tok-c"># aria2c &lt; 1.19.1 has problem with RSA-SHA1, use wget for now</span>
 	wget <span class="tok-nv">$download_url</span>
 	chmod +x <span class="tok-nv">$installer</span>
 	<span class="tok-nb">exec </span>bash <span class="tok-nv">$installer</span>
@@ -3362,7 +3389,7 @@ environment variable (by default, is set to <code>/m/opt</code>).</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="__code_update_nim_code_updates_nim_compiler">4.78. <code>update-nim</code> - updates Nim compiler</h3>
+<h3 id="__code_update_nim_code_updates_nim_compiler">4.81. <code>update-nim</code> - updates Nim compiler</h3>
 <div class="paragraph">
 <p>Installs/updates Nim to <code>/m/opt/nim</code> using latest binary from the offical
 <a href="http://nim-lang.org/download.html">download page</a>. Nim installation destination
@@ -3448,7 +3475,86 @@ is set to <code>/m/opt</code>), and so it Nim download page
 </div>
 </div>
 <div class="sect2">
-<h3 id="__code_update_openjdk_8_font_patched_code_for_debian_ubuntu">4.79. <code>update-openjdk-8-font-patched</code> - for Debian/Ubuntu</h3>
+<h3 id="__code_update_elixir_code">4.82. <code>update-elixir</code></h3>
+<div class="listingblock">
+<div class="title">file::update-elixir</div>
+<div class="content">
+<pre class="pygments highlight"><code data-lang="sh"><span class="tok-c">#!/usr/bin/env rc</span>
+
+report-missing-executables lynx Lynx wget Wget <span class="tok-o">||</span> <span class="tok-nb">exit </span>1
+
+<span class="tok-nv">opt</span><span class="tok-o">=</span>/m/opt
+
+<span class="tok-k">if</span> <span class="tok-o">(</span>! ~ <span class="tok-nv">$OPT</span> <span class="tok-s1">&#39;&#39;</span><span class="tok-o">)</span> <span class="tok-o">{</span>
+	<span class="tok-nv">opt</span><span class="tok-o">=</span><span class="tok-nv">$OPT</span>
+<span class="tok-o">}</span>
+
+<span class="tok-nv">download_page</span><span class="tok-o">=</span>https://github.com/elixir-lang/elixir/releases/
+
+<span class="tok-nv">download_url</span><span class="tok-o">=</span><span class="tok-sb">`</span><span class="tok-o">{</span> <span class="tok-se">\</span>
+	lynx -dump <span class="tok-nv">$download_page</span> <span class="tok-se">\</span>
+	<span class="tok-p">|</span> take-from <span class="tok-s1">&#39;References&#39;</span> <span class="tok-se">\</span>
+	<span class="tok-p">|</span> awk <span class="tok-s1">&#39;{ print $2 }&#39;</span> <span class="tok-se">\</span>
+	<span class="tok-p">|</span> grep <span class="tok-s1">&#39;Precompiled.zip$&#39;</span> <span class="tok-se">\</span>
+	<span class="tok-p">|</span> sort <span class="tok-se">\</span>
+	<span class="tok-p">|</span> tail -1 <span class="tok-se">\</span>
+<span class="tok-o">}</span>
+
+<span class="tok-nv">latest_version</span><span class="tok-o">=</span><span class="tok-sb">`</span><span class="tok-o">{</span> <span class="tok-se">\</span>
+	<span class="tok-nb">echo</span> <span class="tok-nv">$download_url</span> <span class="tok-se">\</span>
+	<span class="tok-p">|</span> awk <span class="tok-s1">&#39;BEGIN { FS=&quot;/&quot; } { print $(NF-1) }&#39;</span> <span class="tok-se">\</span>
+	<span class="tok-p">|</span> cut -d<span class="tok-s1">&#39;v&#39;</span> -f2 <span class="tok-se">\</span>
+<span class="tok-o">}</span>
+
+<span class="tok-nv">compressed</span><span class="tok-o">=</span><span class="tok-sb">`</span><span class="tok-o">{</span><span class="tok-nb">echo</span> <span class="tok-s1">&#39;elixir-&#39;</span>^<span class="tok-nv">$latest_version</span>^<span class="tok-s1">&#39;.zip&#39;</span><span class="tok-o">}</span>
+
+<span class="tok-k">if</span> <span class="tok-o">(</span>found-executable-p elixir<span class="tok-o">)</span> <span class="tok-o">{</span>
+	<span class="tok-nv">current_version</span><span class="tok-o">=</span><span class="tok-sb">`</span><span class="tok-o">{</span> <span class="tok-se">\</span>
+		elixir --version <span class="tok-se">\</span>
+		<span class="tok-p">|</span> tail -1 <span class="tok-se">\</span>
+		<span class="tok-p">|</span> cut -d<span class="tok-s1">&#39; &#39;</span> -f2 <span class="tok-se">\</span>
+	<span class="tok-o">}</span>
+<span class="tok-o">}</span>
+<span class="tok-k">if</span> not <span class="tok-o">{</span>
+	<span class="tok-nv">current_version</span><span class="tok-o">=</span>0
+<span class="tok-o">}</span>
+
+<span class="tok-nb">echo </span>Download page: <span class="tok-nv">$download_page</span>
+<span class="tok-nb">echo </span>Download URL: <span class="tok-nv">$download_url</span>
+<span class="tok-nb">echo </span>Latest version: <span class="tok-nv">$latest_version</span>
+<span class="tok-nb">echo </span>Current version: <span class="tok-nv">$current_version</span>
+<span class="tok-nb">echo</span>
+<span class="tok-nb">echo </span>Opt folder: <span class="tok-nv">$opt</span>
+<span class="tok-nb">echo </span>Installation destination: <span class="tok-nv">$opt</span>/elixir
+<span class="tok-nb">echo</span> <span class="tok-s1">&#39;New release (zip)&#39;</span>: <span class="tok-nv">$opt</span>/elixir/<span class="tok-nv">$compressed</span>
+<span class="tok-nb">echo</span>
+
+<span class="tok-k">if</span> <span class="tok-o">(</span>! ~ <span class="tok-nv">$current_version</span> <span class="tok-nv">$latest_version</span><span class="tok-o">)</span> <span class="tok-o">{</span>
+ 	<span class="tok-nb">echo </span>Versions mismatch, updating...
+
+	mkdir -p <span class="tok-nv">$opt</span>/elixir
+	<span class="tok-nb">cd</span> <span class="tok-nv">$opt</span>/elixir
+
+	<span class="tok-nb">echo</span> <span class="tok-s1">&#39;-&gt; Downloading...&#39;</span>
+	wget -O <span class="tok-nv">$compressed</span> <span class="tok-nv">$download_url</span>
+	<span class="tok-nb">echo</span>
+
+<span class="tok-nb">	echo</span> <span class="tok-s1">&#39;-&gt; Decompressing...&#39;</span>
+	/usr/bin/unzip <span class="tok-nv">$compressed</span>
+	<span class="tok-nb">echo</span> <span class="tok-s1">&#39;   Done, folder: &#39;</span>^<span class="tok-sb">`</span><span class="tok-o">{</span><span class="tok-nb">pwd</span><span class="tok-o">}</span>
+	<span class="tok-nb">echo</span>
+
+<span class="tok-nb">	echo</span> <span class="tok-s1">&#39;-&gt; Please add &#39;</span>^<span class="tok-sb">`</span><span class="tok-o">{</span><span class="tok-nb">pwd</span><span class="tok-o">}</span>^<span class="tok-s1">&#39;/bin to your $PATH&#39;</span>
+	<span class="tok-nb">echo</span> <span class="tok-s1">&#39;   to complete the installation&#39;</span>
+<span class="tok-o">}</span>
+<span class="tok-k">if</span> not <span class="tok-o">{</span>
+	<span class="tok-nb">echo </span>You already got the latest version!
+<span class="tok-o">}</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="__code_update_openjdk_8_font_patched_code_for_debian_ubuntu">4.83. <code>update-openjdk-8-font-patched</code> - for Debian/Ubuntu</h3>
 <div class="paragraph">
 <p>Updates OpenJDK 8 with font rendering patch from PPA
 [no1wantdthisname](<a href="https://launchpad.net/~no1wantdthisname/+archive/ubuntu/openjdk-fontfix" class="bare">https://launchpad.net/~no1wantdthisname/+archive/ubuntu/openjdk-fontfix</a>).</p>
@@ -3502,7 +3608,7 @@ is set to <code>/m/opt</code>), and so it Nim download page
 </div>
 </div>
 <div class="sect2">
-<h3 id="__code_wget_site_code">4.80. <code>wget-site</code></h3>
+<h3 id="__code_wget_site_code">4.84. <code>wget-site</code></h3>
 <div class="listingblock">
 <div class="title">file::wget-site</div>
 <div class="content">
@@ -3534,7 +3640,7 @@ wget <span class="tok-se">\</span>
 </div>
 </div>
 <div class="sect2">
-<h3 id="__code_start_xephyr_code_starts_a_xephyr_server_for_debugging_window_manager">4.81. <code>start-xephyr</code> - starts a Xephyr server (for debugging window manager)</h3>
+<h3 id="__code_start_xephyr_code_starts_a_xephyr_server_for_debugging_window_manager">4.85. <code>start-xephyr</code> - starts a Xephyr server (for debugging window manager)</h3>
 <div class="paragraph">
 <p>TODO: Help text</p>
 </div>
@@ -3543,11 +3649,7 @@ wget <span class="tok-se">\</span>
 <div class="content">
 <pre class="pygments highlight"><code data-lang="sh"><span class="tok-c">#!/bin/bash</span>
 
-<span class="tok-k">if</span> ! which Xephyr <span class="tok-p">&amp;</span>&gt;/dev/null<span class="tok-p">;</span> <span class="tok-k">then</span>
-	<span class="tok-nb">echo </span>Xephyr not found &gt;<span class="tok-p">&amp;</span>2
-	<span class="tok-nb">echo </span>Make sure you have Xephyr installed &gt;<span class="tok-p">&amp;</span>2
-	<span class="tok-nb">exit </span>1
-<span class="tok-k">fi</span>
+report-missing-executables Xephyr Xephyr <span class="tok-o">||</span> <span class="tok-nb">exit </span>1
 
 <span class="tok-nv">resolution_</span><span class="tok-o">=</span><span class="tok-k">${</span><span class="tok-nv">RESOLUTION</span><span class="tok-k">:-</span><span class="tok-nv">800x600</span><span class="tok-k">}</span>
 
@@ -3564,17 +3666,13 @@ Xephyr <span class="tok-se">\</span>
 </div>
 </div>
 <div class="sect2">
-<h3 id="__code_openfile_dialog_code_creates_a_open_file_dialog_and_prints_the_selected_path_to_stdout">4.82. <code>openfile-dialog</code> - creates a open-file dialog and prints the selected path to stdout</h3>
+<h3 id="__code_openfile_dialog_code_creates_a_open_file_dialog_and_prints_the_selected_path_to_stdout">4.86. <code>openfile-dialog</code> - creates a open-file dialog and prints the selected path to stdout</h3>
 <div class="listingblock">
 <div class="title">file::openfile-dialog</div>
 <div class="content">
 <pre class="pygments highlight"><code data-lang="sh"><span class="tok-c">#!/bin/bash</span>
 
-<span class="tok-k">if</span> ! which zenity <span class="tok-p">&amp;</span>&gt;/dev/null<span class="tok-p">;</span> <span class="tok-k">then</span>
-	<span class="tok-nb">echo </span>zenity not found &gt;<span class="tok-p">&amp;</span>2
-	<span class="tok-nb">echo </span>Make sure you have Zenity installed &gt;<span class="tok-p">&amp;</span>2
-	<span class="tok-nb">exit </span>1
-<span class="tok-k">fi</span>
+report-missing-executables zenity Zenity <span class="tok-o">||</span> <span class="tok-nb">exit </span>1
 
 zenity --file-selection <span class="tok-se">\</span>
 	--filename <span class="tok-sb">`</span><span class="tok-nb">pwd</span><span class="tok-sb">`</span> <span class="tok-s2">&quot;$@&quot;</span> 2&gt;/dev/null</code></pre>
@@ -3582,7 +3680,7 @@ zenity --file-selection <span class="tok-se">\</span>
 </div>
 </div>
 <div class="sect2">
-<h3 id="__code_download_code_downloads_using_aria2_axel_or_wget">4.83. <code>download</code> - downloads using Aria2, Axel, or Wget</h3>
+<h3 id="__code_download_code_downloads_using_aria2_axel_or_wget">4.87. <code>download</code> - downloads using Aria2, Axel, or Wget</h3>
 <div class="paragraph">
 <p>Tries downloading using one of the following tools:</p>
 </div>
@@ -3624,7 +3722,7 @@ zenity --file-selection <span class="tok-se">\</span>
 </div>
 </div>
 <div class="sect2">
-<h3 id="__code_random_string_code_generates_a_random_alphanumeric_string">4.84. <code>random-string</code> - generates a random alphanumeric string</h3>
+<h3 id="__code_random_string_code_generates_a_random_alphanumeric_string">4.88. <code>random-string</code> - generates a random alphanumeric string</h3>
 <div class="listingblock">
 <div class="title">file::random-string</div>
 <div class="content">
@@ -3900,7 +3998,7 @@ a good strong coffee :-).</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2016-02-27 15:07:20 EET
+Last updated 2016-05-01 16:08:17 EEST
 </div>
 </div>
 </body>

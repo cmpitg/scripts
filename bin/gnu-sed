@@ -8,5 +8,5 @@ elif (sed --version | head -1 | grep sed &>/dev/null); then
 	exec sed "$@"
 else
 	echo You don\'t have GNU sed installed. >&2
-    exit 1
+	exit 1
 fi

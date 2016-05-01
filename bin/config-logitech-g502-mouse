@@ -30,8 +30,14 @@ do-notify "Configuring Logitech G502 mouse
 "
 
 for mouse_ in "${id_}" "${id_2_}"; do
-	xinput set-prop "${mouse_}" "Evdev Scrolling Distance" -1, -1, 1
-	xinput set-prop "${mouse_}" "Device Accel Profile" 7
-	xinput set-prop "${mouse_}" "Device Accel Constant Deceleration" 2
-	xinput set-prop "${mouse_}" "Device Accel Adaptive Deceleration" 1
+	# xinput set-prop "${mouse_}" "Evdev Scrolling Distance" -1, -1, 1
+	# xinput set-prop "${mouse_}" "Device Accel Profile" 7
+	# xinput set-prop "${mouse_}" "Device Accel Constant Deceleration" 2
+	# xinput set-prop "${mouse_}" "Device Accel Adaptive Deceleration" 1
+
+	# For some damn reasons, Debian updates constantly break...  evdev was
+	# replaced by libinput.  I haven't found this change documented anywhere.
+	# FFS, if you want to change, how hard is it to mark something as
+	# deprecated then warn your users?  Eff you Debian!
+	xinput set-prop "${mouse_}" "libinput Natural Scrolling Enabled" 1
 done

@@ -8,5 +8,5 @@ elif (tar --version | head -1 | grep tar &>/dev/null); then
 	exec tar "$@"
 else
 	echo You don\'t have GNU tar installed. >&2
-    exit 1
+	exit 1
 fi

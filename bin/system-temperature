@@ -2,7 +2,7 @@
 
 echo "-> Starting HDDTemp if necessary"
 nc localhost 7634 &>/dev/null || (
-    exec sudo hddtemp -d /dev/sda
+	exec sudo hddtemp -d /dev/sda
 )
 echo ""
 

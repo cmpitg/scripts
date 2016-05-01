@@ -40,7 +40,7 @@ if (! ~ $latest_version $current_version) {
 	echo Versions mismatch, downloading latest one
 
 	cd /m/opt
-    # aria2c < 1.19.1 has problem with RSA-SHA1, use wget for now
+	# aria2c < 1.19.1 has problem with RSA-SHA1, use wget for now
 	wget $download_url
 	chmod +x $installer
 	exec bash $installer

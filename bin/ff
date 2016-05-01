@@ -1,5 +1,7 @@
 #!/bin/bash
 
+export GPG_TTY=$(tty)
+
 if [[ -z "$EMACS_INIT" ]]; then
 	EMACS_INIT="~/emacs-config/src/init.el"
 fi
