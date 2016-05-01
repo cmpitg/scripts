@@ -1399,6 +1399,8 @@ default, `EMACS_INIT` is set to `"~/emacs-config/src/init.el"` and
 ----
 #!/bin/bash
 
+export GPG_TTY=$(tty)
+
 if [[ -z "$EMACS_INIT" ]]; then
 	EMACS_INIT="~/emacs-config/src/init.el"
 fi
