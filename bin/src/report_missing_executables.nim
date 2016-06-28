@@ -1,4 +1,4 @@
-import os, strutils, lists
+import os, strutils, lists, sequtils
 
 type ExeProg = tuple[exe: string, prog: string]
 
@@ -29,8 +29,7 @@ E.g.
 #
 # Determines if an executable is found in your `PATH` environment variable.
 #
-proc foundExe(exe: string): bool =
-  findExe(exe).len() != 0
+proc foundExe(exe: string): bool = findExe(exe).len() != 0
 
 
 #
@@ -43,9 +42,8 @@ proc getMissingExes(): SinglyLinkedList[ExeProg] =
   result = initSinglyLinkedList[ExeProg]()
 
   for i in countup(1, paramCount(), 2):
-    let
-      exe  = paramStr(i)
-      prog = paramStr(i + 1)
+    let exe  = paramStr(i)
+    let prog = paramStr(i + 1)
 
     if not foundExe(exe):
       result.prepend((exe, prog))
@@ -56,8 +54,7 @@ proc getMissingExes(): SinglyLinkedList[ExeProg] =
 #
 # Determines if a SinglyLinkedList is empty.
 #
-proc isEmpty[T](list: SinglyLinkedList[T]): bool =
-  return list.head == nil
+proc isEmpty[T](list: SinglyLinkedList[T]): bool = return list.head == nil
 
 
 #
