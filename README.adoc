@@ -2175,8 +2175,7 @@ E.g.
 #
 # Determines if an executable is found in your `PATH` environment variable.
 #
-proc foundExe(exe: string): bool =
-  findExe(exe).len() != 0
+proc foundExe(exe: string): bool = findExe(exe).len() != 0
 
 
 #
@@ -2189,9 +2188,8 @@ proc getMissingExes(): SinglyLinkedList[ExeProg] =
   result = initSinglyLinkedList[ExeProg]()
 
   for i in countup(1, paramCount(), 2):
-    let
-      exe  = paramStr(i)
-      prog = paramStr(i + 1)
+    let exe  = paramStr(i)
+    let prog = paramStr(i + 1)
 
     if not foundExe(exe):
       result.prepend((exe, prog))
