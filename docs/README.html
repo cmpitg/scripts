@@ -1355,10 +1355,10 @@ setxkbmap us -device <span class="tok-s2">&quot;${id_keyboard_}&quot;</span></co
 <span class="tok-s2">&quot;</span>
 
 <span class="tok-k">for</span> mouse_ in <span class="tok-s2">&quot;${id_}&quot;</span> <span class="tok-s2">&quot;${id_2_}&quot;</span><span class="tok-p">;</span> <span class="tok-k">do</span>
-	<span class="tok-c"># xinput set-prop &quot;${mouse_}&quot; &quot;Evdev Scrolling Distance&quot; -1, -1, 1</span>
-	<span class="tok-c"># xinput set-prop &quot;${mouse_}&quot; &quot;Device Accel Profile&quot; 7</span>
-	<span class="tok-c"># xinput set-prop &quot;${mouse_}&quot; &quot;Device Accel Constant Deceleration&quot; 2</span>
-	<span class="tok-c"># xinput set-prop &quot;${mouse_}&quot; &quot;Device Accel Adaptive Deceleration&quot; 1</span>
+	xinput <span class="tok-nb">set</span>-prop <span class="tok-s2">&quot;${mouse_}&quot;</span> <span class="tok-s2">&quot;Evdev Scrolling Distance&quot;</span> -1, -1, 1
+	xinput <span class="tok-nb">set</span>-prop <span class="tok-s2">&quot;${mouse_}&quot;</span> <span class="tok-s2">&quot;Device Accel Profile&quot;</span> 7
+	xinput <span class="tok-nb">set</span>-prop <span class="tok-s2">&quot;${mouse_}&quot;</span> <span class="tok-s2">&quot;Device Accel Constant Deceleration&quot;</span> 2
+	xinput <span class="tok-nb">set</span>-prop <span class="tok-s2">&quot;${mouse_}&quot;</span> <span class="tok-s2">&quot;Device Accel Adaptive Deceleration&quot;</span> 1
 
 	<span class="tok-c"># For some damn reasons, Debian updates constantly break...  evdev was</span>
 	<span class="tok-c"># replaced by libinput.  I haven&#39;t found this change documented anywhere.</span>
@@ -2868,8 +2868,7 @@ report-missing-executables aria2c Aria2 wget
 <span class="tok-c">#</span>
 <span class="tok-c"># Determines if an executable is found in your `PATH` environment variable.</span>
 <span class="tok-c">#</span>
-<span class="tok-k">proc </span><span class="tok-nf">foundExe</span><span class="tok-p">(</span><span class="tok-n">exe</span><span class="tok-p">:</span> <span class="tok-kt">string</span><span class="tok-p">):</span> <span class="tok-kt">bool</span> <span class="tok-o">=</span>
-  <span class="tok-n">findExe</span><span class="tok-p">(</span><span class="tok-n">exe</span><span class="tok-p">).</span><span class="tok-n">len</span><span class="tok-p">()</span> <span class="tok-o">!=</span> <span class="tok-mi">0</span>
+<span class="tok-k">proc </span><span class="tok-nf">foundExe</span><span class="tok-p">(</span><span class="tok-n">exe</span><span class="tok-p">:</span> <span class="tok-kt">string</span><span class="tok-p">):</span> <span class="tok-kt">bool</span> <span class="tok-o">=</span> <span class="tok-n">findExe</span><span class="tok-p">(</span><span class="tok-n">exe</span><span class="tok-p">).</span><span class="tok-n">len</span><span class="tok-p">()</span> <span class="tok-o">!=</span> <span class="tok-mi">0</span>
 
 
 <span class="tok-c">#</span>
@@ -2882,9 +2881,8 @@ report-missing-executables aria2c Aria2 wget
   <span class="tok-n">result</span> <span class="tok-o">=</span> <span class="tok-n">initSinglyLinkedList</span><span class="tok-o">[</span><span class="tok-n">ExeProg</span><span class="tok-o">]</span><span class="tok-p">()</span>
 
   <span class="tok-k">for</span> <span class="tok-n">i</span> <span class="tok-ow">in</span> <span class="tok-n">countup</span><span class="tok-p">(</span><span class="tok-mi">1</span><span class="tok-p">,</span> <span class="tok-n">paramCount</span><span class="tok-p">(),</span> <span class="tok-mi">2</span><span class="tok-p">):</span>
-    <span class="tok-k">let</span>
-      <span class="tok-n">exe</span>  <span class="tok-o">=</span> <span class="tok-n">paramStr</span><span class="tok-p">(</span><span class="tok-n">i</span><span class="tok-p">)</span>
-      <span class="tok-n">prog</span> <span class="tok-o">=</span> <span class="tok-n">paramStr</span><span class="tok-p">(</span><span class="tok-n">i</span> <span class="tok-o">+</span> <span class="tok-mi">1</span><span class="tok-p">)</span>
+    <span class="tok-k">let</span> <span class="tok-n">exe</span>  <span class="tok-o">=</span> <span class="tok-n">paramStr</span><span class="tok-p">(</span><span class="tok-n">i</span><span class="tok-p">)</span>
+    <span class="tok-k">let</span> <span class="tok-n">prog</span> <span class="tok-o">=</span> <span class="tok-n">paramStr</span><span class="tok-p">(</span><span class="tok-n">i</span> <span class="tok-o">+</span> <span class="tok-mi">1</span><span class="tok-p">)</span>
 
     <span class="tok-k">if</span> <span class="tok-ow">not</span> <span class="tok-n">foundExe</span><span class="tok-p">(</span><span class="tok-n">exe</span><span class="tok-p">):</span>
       <span class="tok-n">result</span><span class="tok-p">.</span><span class="tok-n">prepend</span><span class="tok-p">((</span><span class="tok-n">exe</span><span class="tok-p">,</span> <span class="tok-n">prog</span><span class="tok-p">))</span>
@@ -2895,8 +2893,7 @@ report-missing-executables aria2c Aria2 wget
 <span class="tok-c">#</span>
 <span class="tok-c"># Determines if a SinglyLinkedList is empty.</span>
 <span class="tok-c">#</span>
-<span class="tok-k">proc </span><span class="tok-nf">isEmpty</span><span class="tok-o">[</span><span class="tok-n">T</span><span class="tok-o">]</span><span class="tok-p">(</span><span class="tok-n">list</span><span class="tok-p">:</span> <span class="tok-n">SinglyLinkedList</span><span class="tok-o">[</span><span class="tok-n">T</span><span class="tok-o">]</span><span class="tok-p">):</span> <span class="tok-kt">bool</span> <span class="tok-o">=</span>
-  <span class="tok-k">return</span> <span class="tok-n">list</span><span class="tok-p">.</span><span class="tok-n">head</span> <span class="tok-o">==</span> <span class="tok-kp">nil</span>
+<span class="tok-k">proc </span><span class="tok-nf">isEmpty</span><span class="tok-o">[</span><span class="tok-n">T</span><span class="tok-o">]</span><span class="tok-p">(</span><span class="tok-n">list</span><span class="tok-p">:</span> <span class="tok-n">SinglyLinkedList</span><span class="tok-o">[</span><span class="tok-n">T</span><span class="tok-o">]</span><span class="tok-p">):</span> <span class="tok-kt">bool</span> <span class="tok-o">=</span> <span class="tok-k">return</span> <span class="tok-n">list</span><span class="tok-p">.</span><span class="tok-n">head</span> <span class="tok-o">==</span> <span class="tok-kp">nil</span>
 
 
 <span class="tok-c">#</span>
@@ -2907,6 +2904,7 @@ report-missing-executables aria2c Aria2 wget
   <span class="tok-k">for</span> <span class="tok-n">item</span> <span class="tok-ow">in</span> <span class="tok-n">list</span><span class="tok-p">:</span>
     <span class="tok-n">inc</span><span class="tok-p">(</span><span class="tok-n">count</span><span class="tok-p">)</span>
   <span class="tok-k">return</span> <span class="tok-n">count</span>
+<span class="tok-c"># proc length[T](list: SinglyLinkedList[T]): int = fold(list, a + b, 0)</span>
 
 
 <span class="tok-c">#</span>
@@ -3998,7 +3996,7 @@ a good strong coffee :-).</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2016-05-01 16:08:17 EEST
+Last updated 2016-06-16 22:04:29 EEST
 </div>
 </div>
 </body>
