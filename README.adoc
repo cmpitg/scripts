@@ -27,8 +27,6 @@ TODO: Tryout Clib to bundle Plan9port with this repository
 
 TODO: Make a script to update Docker Compose and Docker Machine
 
-TODO: Create a local Nim library based on the helpers/utilities
-
 ```
 https://github.com/docker/compose/releases
 
@@ -58,7 +56,7 @@ of them.
 
 === For development
 
-* http://nim-lang.org/[Nim 0.13+]
+* http://crystal-lang.org/[Crystal 0.18+]
 
 == Notes
 
@@ -2086,32 +2084,55 @@ test -L "$@"
 
 === `found-executable-p`
 
-.file::src/found_executable_p.nim
-[source,nim]
+.file::src/found-executable-p.cr
+[source,crystal]
 ----
-import os, strutils
+require "file"
 
-proc showHelp =
-  let (_, thisApp) = getAppFilename().splitPath()
-  echo """Usage: $1 <file>
+def main
+  case
+  when ARGV.size == 0
+    show_help
+    exit(2)
+  when ARGV.size == 1 && ARGV[0] == "--help"
+    show_help
+  when ARGV.size == 1
+    exit(find_executable(ARGV[0]) ? 0 : 1)
+  else
+    show_help(error = true)
+    exit 3
+  end
+end
 
-Returns exit code 0 if the file is an executable and found in the PATH
-environment variable and returns exit code 1 otherwise.""".format(thisApp)
+def show_help(error = false)
+  help_text = <<-EOF
+Usage: found-executable-p <file>
 
+Exits with code 0 if the file is an executable and found in the PATH environment variable and exits code 1 otherwise.
+EOF
+  if error
+    STDERR.puts help_text
+  else
+    puts help_text
+  end
+end
 
-if isMainModule:
-  if paramCount() == 1 and paramStr(1) == "--help":
-    showHelp()
-    quit(0)
-  elif paramCount() == 0:
-    showHelp()
-    quit(2)
-  elif paramCount() != 1:
-    echo "Invalid arguments."
-    showHelp()
-    quit(3)
-  else:
-    quit(if findExe(paramStr(1)) == "": 1 else: 0)
+def find_executable(name)
+  paths = if ENV["PATH"].size != 0
+	ENV["PATH"].split(":")
+  else
+	["/usr/local/bin", "/usr/bin", "/bin"]
+  end
+
+  paths.each do |path|
+    full_path = File.join(path, name)
+    return full_path if File.exists?(full_path) && File.executable?(full_path)
+  end
+
+  false
+end
+
+main
 
 ----
 
