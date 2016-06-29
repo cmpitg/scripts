@@ -632,9 +632,6 @@ instructions to make the setup as painless as possible.</p>
 <div class="paragraph">
 <p>TODO: Make a script to update Docker Compose and Docker Machine</p>
 </div>
-<div class="paragraph">
-<p>TODO: Create a local Nim library based on the helpers/utilities</p>
-</div>
 <div class="listingblock">
 <div class="content">
 <pre class="pygments highlight"><code>https://github.com/docker/compose/releases
@@ -685,7 +682,7 @@ of them.</p>
 <div class="ulist">
 <ul>
 <li>
-<p><a href="http://nim-lang.org/">Nim 0.13+</a></p>
+<p><a href="http://crystal-lang.org/">Crystal 0.18+</a></p>
 </li>
 </ul>
 </div>
@@ -2779,31 +2776,54 @@ xterm -e <span class="tok-s1">&#39;date -R | xsel -b&#39;</span></code></pre>
 <div class="sect2">
 <h3 id="__code_found_executable_p_code">4.63. <code>found-executable-p</code></h3>
 <div class="listingblock">
-<div class="title">file::src/found_executable_p.nim</div>
+<div class="title">file::src/found-executable-p.cr</div>
 <div class="content">
-<pre class="pygments highlight"><code data-lang="nim"><span class="tok-kn">import</span> <span class="tok-n">os</span><span class="tok-p">,</span> <span class="tok-n">strutils</span>
+<pre class="pygments highlight"><code data-lang="crystal">require &quot;file&quot;
 
-<span class="tok-k">proc </span><span class="tok-nf">showHelp</span> <span class="tok-o">=</span>
-  <span class="tok-k">let</span> <span class="tok-p">(</span><span class="tok-err">_, thisApp) = getAppFilename().splitPath()</span>
-  <span class="tok-n">echo</span> <span class="tok-s">&quot;&quot;&quot;Usage: </span><span class="tok-si">$1</span><span class="tok-s"> &lt;file&gt;</span>
+def main
+  case
+  when ARGV.size == 0
+    show_help
+    exit(2)
+  when ARGV.size == 1 &amp;&amp; ARGV[0] == &quot;--help&quot;
+    show_help
+  when ARGV.size == 1
+    exit(find_executable(ARGV[0]) ? 0 : 1)
+  else
+    show_help(error = true)
+    exit 3
+  end
+end
 
-<span class="tok-s">Returns exit code 0 if the file is an executable and found in the PATH</span>
-<span class="tok-s">environment variable and returns exit code 1 otherwise.&quot;&quot;&quot;</span><span class="tok-p">.</span><span class="tok-n">format</span><span class="tok-p">(</span><span class="tok-n">thisApp</span><span class="tok-p">)</span>
+def show_help(error = false)
+  help_text = &lt;&lt;-EOF
+Usage: found-executable-p &lt;file&gt;
 
+Exits with code 0 if the file is an executable and found in the PATH environment variable and exits code 1 otherwise.
+EOF
+  if error
+    STDERR.puts help_text
+  else
+    puts help_text
+  end
+end
 
-<span class="tok-k">if</span> <span class="tok-n">isMainModule</span><span class="tok-p">:</span>
-  <span class="tok-k">if</span> <span class="tok-n">paramCount</span><span class="tok-p">()</span> <span class="tok-o">==</span> <span class="tok-mi">1</span> <span class="tok-ow">and</span> <span class="tok-n">paramStr</span><span class="tok-p">(</span><span class="tok-mi">1</span><span class="tok-p">)</span> <span class="tok-o">==</span> <span class="tok-s">&quot;--help&quot;</span><span class="tok-p">:</span>
-    <span class="tok-n">showHelp</span><span class="tok-p">()</span>
-    <span class="tok-n">quit</span><span class="tok-p">(</span><span class="tok-mi">0</span><span class="tok-p">)</span>
-  <span class="tok-k">elif</span> <span class="tok-n">paramCount</span><span class="tok-p">()</span> <span class="tok-o">==</span> <span class="tok-mi">0</span><span class="tok-p">:</span>
-    <span class="tok-n">showHelp</span><span class="tok-p">()</span>
-    <span class="tok-n">quit</span><span class="tok-p">(</span><span class="tok-mi">2</span><span class="tok-p">)</span>
-  <span class="tok-k">elif</span> <span class="tok-n">paramCount</span><span class="tok-p">()</span> <span class="tok-o">!=</span> <span class="tok-mi">1</span><span class="tok-p">:</span>
-    <span class="tok-n">echo</span> <span class="tok-s">&quot;Invalid arguments.&quot;</span>
-    <span class="tok-n">showHelp</span><span class="tok-p">()</span>
-    <span class="tok-n">quit</span><span class="tok-p">(</span><span class="tok-mi">3</span><span class="tok-p">)</span>
-  <span class="tok-k">else</span><span class="tok-p">:</span>
-    <span class="tok-n">quit</span><span class="tok-p">(</span><span class="tok-k">if</span> <span class="tok-n">findExe</span><span class="tok-p">(</span><span class="tok-n">paramStr</span><span class="tok-p">(</span><span class="tok-mi">1</span><span class="tok-p">))</span> <span class="tok-o">==</span> <span class="tok-s">&quot;&quot;</span><span class="tok-p">:</span> <span class="tok-mi">1</span> <span class="tok-k">else</span><span class="tok-p">:</span> <span class="tok-mi">0</span><span class="tok-p">)</span></code></pre>
+def find_executable(name)
+  paths = if ENV[&quot;PATH&quot;].size != 0
+	ENV[&quot;PATH&quot;].split(&quot;:&quot;)
+  else
+	[&quot;/usr/local/bin&quot;, &quot;/usr/bin&quot;, &quot;/bin&quot;]
+  end
+
+  paths.each do |path|
+    full_path = File.join(path, name)
+    return full_path if File.exists?(full_path) &amp;&amp; File.executable?(full_path)
+  end
+
+  false
+end
+
+main</code></pre>
 </div>
 </div>
 </div>
@@ -2835,167 +2855,167 @@ report-missing-executables aria2c Aria2 wget
 </div>
 </div>
 <div class="listingblock">
-<div class="title">file::src/report_missing_executables.nim</div>
+<div class="title">file::src/report_missing_executables.cr</div>
 <div class="content">
-<pre class="pygments highlight"><code data-lang="nim"><span class="tok-kn">import</span> <span class="tok-n">os</span><span class="tok-p">,</span> <span class="tok-n">strutils</span><span class="tok-p">,</span> <span class="tok-n">lists</span>
+<pre class="pygments highlight"><code data-lang="crystal">import os, strutils, lists
 
-<span class="tok-k">type</span> <span class="tok-n">ExeProg</span> <span class="tok-o">=</span> <span class="tok-k">tuple</span><span class="tok-o">[</span><span class="tok-n">exe</span><span class="tok-p">:</span> <span class="tok-kt">string</span><span class="tok-p">,</span> <span class="tok-n">prog</span><span class="tok-p">:</span> <span class="tok-kt">string</span><span class="tok-o">]</span>
-
-
-<span class="tok-k">proc </span><span class="tok-nf">showHelp</span> <span class="tok-o">=</span>
-  <span class="tok-k">let</span> <span class="tok-p">(</span><span class="tok-err">_, thisApp) = getAppFilename().splitPath()</span>
-  <span class="tok-n">echo</span> <span class="tok-s">&quot;&quot;&quot;Usage: </span><span class="tok-si">$1</span><span class="tok-s"> &lt;file&gt;</span>
-
-<span class="tok-s">Reports missing software by checking if their corresponding executables exist.</span>
-<span class="tok-s">If all executables are found, exit with status 0; otherwise, exit with status</span>
-<span class="tok-s">1.</span>
-
-<span class="tok-s">E.g.</span>
-
-<span class="tok-s">  </span><span class="tok-si">$1</span><span class="tok-s"> aria2c Aria2 wget Wget</span>
-<span class="tok-s">    # aria2c and wget not found</span>
-<span class="tok-s">    # Make sure you have Aria2 and Wget installed</span>
-
-<span class="tok-s">  </span><span class="tok-si">$1</span><span class="tok-s"> aria2c Aria2 wget Wget curl cURL</span>
-<span class="tok-s">    # aria2c, curl, and wget not found</span>
-<span class="tok-s">    # Make sure you have Aria2, Wget, and cURL installed</span>
-
-<span class="tok-s">  </span><span class="tok-si">$1</span><span class="tok-s"> aria2c Aria2 wget</span>
-<span class="tok-s">    # Invalid arguments.  Number of arguments must be even.</span>
-<span class="tok-s">&quot;&quot;&quot;</span><span class="tok-p">.</span><span class="tok-n">format</span><span class="tok-p">(</span><span class="tok-n">thisApp</span><span class="tok-p">)</span>
+type ExeProg = tuple[exe: string, prog: string]
 
 
-<span class="tok-c">#</span>
-<span class="tok-c"># Determines if an executable is found in your `PATH` environment variable.</span>
-<span class="tok-c">#</span>
-<span class="tok-k">proc </span><span class="tok-nf">foundExe</span><span class="tok-p">(</span><span class="tok-n">exe</span><span class="tok-p">:</span> <span class="tok-kt">string</span><span class="tok-p">):</span> <span class="tok-kt">bool</span> <span class="tok-o">=</span> <span class="tok-n">findExe</span><span class="tok-p">(</span><span class="tok-n">exe</span><span class="tok-p">).</span><span class="tok-n">len</span><span class="tok-p">()</span> <span class="tok-o">!=</span> <span class="tok-mi">0</span>
+proc showHelp =
+  let (_, thisApp) = getAppFilename().splitPath()
+  echo &quot;&quot;&quot;Usage: $1 &lt;file&gt;
+
+Reports missing software by checking if their corresponding executables exist.
+If all executables are found, exit with status 0; otherwise, exit with status
+1.
+
+E.g.
+
+  $1 aria2c Aria2 wget Wget
+    # aria2c and wget not found
+    # Make sure you have Aria2 and Wget installed
+
+  $1 aria2c Aria2 wget Wget curl cURL
+    # aria2c, curl, and wget not found
+    # Make sure you have Aria2, Wget, and cURL installed
+
+  $1 aria2c Aria2 wget
+    # Invalid arguments.  Number of arguments must be even.
+&quot;&quot;&quot;.format(thisApp)
 
 
-<span class="tok-c">#</span>
-<span class="tok-c"># Gets missing executables from command line arguments.  The command line</span>
-<span class="tok-c"># arguments is a list of strings of the following format: `&lt;exe&gt; &lt;prog&gt; ...`.</span>
-<span class="tok-c"># This function returns the list of `(exe, prog)` tuples where `exe`</span>
-<span class="tok-c"># executable is not found.</span>
-<span class="tok-c">#</span>
-<span class="tok-k">proc </span><span class="tok-nf">getMissingExes</span><span class="tok-p">():</span> <span class="tok-n">SinglyLinkedList</span><span class="tok-o">[</span><span class="tok-n">ExeProg</span><span class="tok-o">]</span> <span class="tok-o">=</span>
-  <span class="tok-n">result</span> <span class="tok-o">=</span> <span class="tok-n">initSinglyLinkedList</span><span class="tok-o">[</span><span class="tok-n">ExeProg</span><span class="tok-o">]</span><span class="tok-p">()</span>
-
-  <span class="tok-k">for</span> <span class="tok-n">i</span> <span class="tok-ow">in</span> <span class="tok-n">countup</span><span class="tok-p">(</span><span class="tok-mi">1</span><span class="tok-p">,</span> <span class="tok-n">paramCount</span><span class="tok-p">(),</span> <span class="tok-mi">2</span><span class="tok-p">):</span>
-    <span class="tok-k">let</span> <span class="tok-n">exe</span>  <span class="tok-o">=</span> <span class="tok-n">paramStr</span><span class="tok-p">(</span><span class="tok-n">i</span><span class="tok-p">)</span>
-    <span class="tok-k">let</span> <span class="tok-n">prog</span> <span class="tok-o">=</span> <span class="tok-n">paramStr</span><span class="tok-p">(</span><span class="tok-n">i</span> <span class="tok-o">+</span> <span class="tok-mi">1</span><span class="tok-p">)</span>
-
-    <span class="tok-k">if</span> <span class="tok-ow">not</span> <span class="tok-n">foundExe</span><span class="tok-p">(</span><span class="tok-n">exe</span><span class="tok-p">):</span>
-      <span class="tok-n">result</span><span class="tok-p">.</span><span class="tok-n">prepend</span><span class="tok-p">((</span><span class="tok-n">exe</span><span class="tok-p">,</span> <span class="tok-n">prog</span><span class="tok-p">))</span>
-
-  <span class="tok-k">return</span> <span class="tok-n">result</span>
+#
+# Determines if an executable is found in your `PATH` environment variable.
+#
+proc foundExe(exe: string): bool = findExe(exe).len() != 0
 
 
-<span class="tok-c">#</span>
-<span class="tok-c"># Determines if a SinglyLinkedList is empty.</span>
-<span class="tok-c">#</span>
-<span class="tok-k">proc </span><span class="tok-nf">isEmpty</span><span class="tok-o">[</span><span class="tok-n">T</span><span class="tok-o">]</span><span class="tok-p">(</span><span class="tok-n">list</span><span class="tok-p">:</span> <span class="tok-n">SinglyLinkedList</span><span class="tok-o">[</span><span class="tok-n">T</span><span class="tok-o">]</span><span class="tok-p">):</span> <span class="tok-kt">bool</span> <span class="tok-o">=</span> <span class="tok-k">return</span> <span class="tok-n">list</span><span class="tok-p">.</span><span class="tok-n">head</span> <span class="tok-o">==</span> <span class="tok-kp">nil</span>
+#
+# Gets missing executables from command line arguments.  The command line
+# arguments is a list of strings of the following format: `&lt;exe&gt; &lt;prog&gt; ...`.
+# This function returns the list of `(exe, prog)` tuples where `exe`
+# executable is not found.
+#
+proc getMissingExes(): SinglyLinkedList[ExeProg] =
+  result = initSinglyLinkedList[ExeProg]()
+
+  for i in countup(1, paramCount(), 2):
+    let exe  = paramStr(i)
+    let prog = paramStr(i + 1)
+
+    if not foundExe(exe):
+      result.prepend((exe, prog))
+
+  return result
 
 
-<span class="tok-c">#</span>
-<span class="tok-c"># Determines the length of a SinglyLinkedList.</span>
-<span class="tok-c">#</span>
-<span class="tok-k">proc </span><span class="tok-nf">length</span><span class="tok-o">[</span><span class="tok-n">T</span><span class="tok-o">]</span><span class="tok-p">(</span><span class="tok-n">list</span><span class="tok-p">:</span> <span class="tok-n">SinglyLinkedList</span><span class="tok-o">[</span><span class="tok-n">T</span><span class="tok-o">]</span><span class="tok-p">):</span> <span class="tok-kt">int</span> <span class="tok-o">=</span>
-  <span class="tok-kd">var</span> <span class="tok-n">count</span> <span class="tok-o">=</span> <span class="tok-mi">0</span>
-  <span class="tok-k">for</span> <span class="tok-n">item</span> <span class="tok-ow">in</span> <span class="tok-n">list</span><span class="tok-p">:</span>
-    <span class="tok-n">inc</span><span class="tok-p">(</span><span class="tok-n">count</span><span class="tok-p">)</span>
-  <span class="tok-k">return</span> <span class="tok-n">count</span>
-<span class="tok-c"># proc length[T](list: SinglyLinkedList[T]): int = fold(list, a + b, 0)</span>
+#
+# Determines if a SinglyLinkedList is empty.
+#
+proc isEmpty[T](list: SinglyLinkedList[T]): bool = return list.head == nil
 
 
-<span class="tok-c">#</span>
-<span class="tok-c"># Returns the first element of a SinglyLinkedList.</span>
-<span class="tok-c">#</span>
-<span class="tok-k">proc </span><span class="tok-nf">first</span><span class="tok-o">[</span><span class="tok-n">T</span><span class="tok-o">]</span><span class="tok-p">(</span><span class="tok-n">list</span><span class="tok-p">:</span> <span class="tok-n">SinglyLinkedList</span><span class="tok-o">[</span><span class="tok-n">T</span><span class="tok-o">]</span><span class="tok-p">):</span> <span class="tok-n">T</span> <span class="tok-o">=</span>
-  <span class="tok-k">return</span> <span class="tok-n">list</span><span class="tok-p">.</span><span class="tok-n">head</span><span class="tok-p">.</span><span class="tok-n">value</span>
+#
+# Determines the length of a SinglyLinkedList.
+#
+proc length[T](list: SinglyLinkedList[T]): int =
+  var count = 0
+  for item in list:
+    inc(count)
+  return count
+# proc length[T](list: SinglyLinkedList[T]): int = fold(list, a + b, 0)
 
 
-<span class="tok-c">#</span>
-<span class="tok-c"># Reports missing executables, returning true if there is at least one missing</span>
-<span class="tok-c"># and false otherwise.</span>
-<span class="tok-c">#</span>
-<span class="tok-c"># This function takes list of `(string, string)` tuples, representing</span>
-<span class="tok-c"># `(executable, programName)`.</span>
-<span class="tok-c">#</span>
-<span class="tok-k">proc </span><span class="tok-nf">reportMissingExes</span><span class="tok-p">(</span><span class="tok-n">missing</span><span class="tok-p">:</span> <span class="tok-n">SinglyLinkedList</span><span class="tok-o">[</span><span class="tok-n">ExeProg</span><span class="tok-o">]</span><span class="tok-p">):</span> <span class="tok-kt">bool</span> <span class="tok-o">=</span>
-  <span class="tok-k">if</span> <span class="tok-n">isEmpty</span><span class="tok-p">(</span><span class="tok-n">missing</span><span class="tok-p">):</span>
-    <span class="tok-k">return</span> <span class="tok-kp">false</span>
-
-  <span class="tok-k">else</span><span class="tok-p">:</span>
-    <span class="tok-k">let</span> <span class="tok-n">length</span> <span class="tok-o">=</span> <span class="tok-n">length</span><span class="tok-p">(</span><span class="tok-n">missing</span><span class="tok-p">)</span>
-
-    <span class="tok-k">proc </span><span class="tok-nf">printMissingList</span><span class="tok-p">(</span><span class="tok-n">preMessage</span><span class="tok-p">:</span> <span class="tok-kt">string</span><span class="tok-p">,</span>
-                          <span class="tok-n">purposeMessage</span><span class="tok-p">:</span> <span class="tok-kt">string</span><span class="tok-p">,</span>
-                          <span class="tok-n">missing</span><span class="tok-p">:</span> <span class="tok-n">SinglyLinkedList</span><span class="tok-o">[</span><span class="tok-n">ExeProg</span><span class="tok-o">]</span><span class="tok-p">,</span>
-                          <span class="tok-n">extractor</span><span class="tok-p">:</span> <span class="tok-k">proc</span><span class="tok-p">)</span> <span class="tok-o">=</span>
-      <span class="tok-kd">var</span> <span class="tok-n">count</span> <span class="tok-o">=</span> <span class="tok-mi">0</span>
-      <span class="tok-n">stderr</span><span class="tok-p">.</span><span class="tok-n">write</span> <span class="tok-n">preMessage</span>
-
-      <span class="tok-k">for</span> <span class="tok-n">exeProg</span> <span class="tok-ow">in</span> <span class="tok-n">missing</span><span class="tok-p">:</span>
-        <span class="tok-kd">var</span>
-          <span class="tok-n">formatStr</span><span class="tok-p">:</span> <span class="tok-kt">string</span>
-          <span class="tok-n">withNewLine</span><span class="tok-p">:</span> <span class="tok-kt">bool</span>
-
-        <span class="tok-k">if</span> <span class="tok-n">count</span> <span class="tok-o">==</span> <span class="tok-n">length</span> <span class="tok-o">-</span> <span class="tok-mi">1</span><span class="tok-p">:</span>
-          <span class="tok-n">formatStr</span> <span class="tok-o">=</span> <span class="tok-s">&quot;and </span><span class="tok-si">$1</span><span class="tok-s"> </span><span class="tok-si">$2</span><span class="tok-s">&quot;</span><span class="tok-p">.</span><span class="tok-n">format</span><span class="tok-p">(</span><span class="tok-s">&quot;</span><span class="tok-si">$1</span><span class="tok-s">&quot;</span><span class="tok-p">,</span> <span class="tok-n">purposeMessage</span><span class="tok-p">)</span>
-          <span class="tok-n">withNewLine</span> <span class="tok-o">=</span> <span class="tok-kp">true</span>
-        <span class="tok-k">elif</span> <span class="tok-n">length</span> <span class="tok-o">&gt;</span> <span class="tok-mi">2</span><span class="tok-p">:</span>
-          <span class="tok-n">formatStr</span> <span class="tok-o">=</span> <span class="tok-s">&quot;</span><span class="tok-si">$1</span><span class="tok-s">, &quot;</span>
-          <span class="tok-n">withNewLine</span> <span class="tok-o">=</span> <span class="tok-kp">false</span>
-        <span class="tok-k">else</span><span class="tok-p">:</span>
-          <span class="tok-n">formatStr</span> <span class="tok-o">=</span> <span class="tok-s">&quot;</span><span class="tok-si">$1</span><span class="tok-s"> &quot;</span>
-          <span class="tok-n">withNewLine</span> <span class="tok-o">=</span> <span class="tok-kp">false</span>
-
-        <span class="tok-n">stderr</span><span class="tok-p">.</span><span class="tok-n">write</span> <span class="tok-n">formatStr</span><span class="tok-p">.</span><span class="tok-n">format</span><span class="tok-p">(</span><span class="tok-n">extractor</span><span class="tok-p">(</span><span class="tok-n">exeProg</span><span class="tok-p">))</span>
-        <span class="tok-k">if</span> <span class="tok-n">withNewLine</span><span class="tok-p">:</span>
-          <span class="tok-n">stderr</span><span class="tok-p">.</span><span class="tok-n">writeLine</span> <span class="tok-s">&quot;&quot;</span>
-
-        <span class="tok-n">inc</span><span class="tok-p">(</span><span class="tok-n">count</span><span class="tok-p">)</span>
+#
+# Returns the first element of a SinglyLinkedList.
+#
+proc first[T](list: SinglyLinkedList[T]): T =
+  return list.head.value
 
 
-    <span class="tok-k">if</span> <span class="tok-n">length</span> <span class="tok-o">==</span> <span class="tok-mi">1</span><span class="tok-p">:</span>
-      <span class="tok-n">stderr</span><span class="tok-p">.</span><span class="tok-n">writeLine</span> <span class="tok-s">&quot;</span><span class="tok-si">$1</span><span class="tok-s"> not found&quot;</span><span class="tok-p">.</span><span class="tok-n">format</span><span class="tok-p">(</span><span class="tok-n">first</span><span class="tok-p">(</span><span class="tok-n">missing</span><span class="tok-p">).</span><span class="tok-n">exe</span><span class="tok-p">)</span>
-      <span class="tok-n">stderr</span><span class="tok-p">.</span><span class="tok-n">writeLine</span> <span class="tok-s">&quot;Make sure you have </span><span class="tok-si">$1</span><span class="tok-s"> installed&quot;</span><span class="tok-p">.</span><span class="tok-n">format</span><span class="tok-p">(</span><span class="tok-n">first</span><span class="tok-p">(</span><span class="tok-n">missing</span><span class="tok-p">).</span><span class="tok-n">prog</span><span class="tok-p">)</span>
-    <span class="tok-k">else</span><span class="tok-p">:</span>
-      <span class="tok-n">printMissingList</span><span class="tok-p">(</span><span class="tok-n">preMessage</span> <span class="tok-o">=</span> <span class="tok-s">&quot;&quot;</span><span class="tok-p">,</span>
-                       <span class="tok-n">purposeMessage</span> <span class="tok-o">=</span> <span class="tok-s">&quot;not found&quot;</span><span class="tok-p">,</span>
-                       <span class="tok-n">missing</span> <span class="tok-o">=</span> <span class="tok-n">missing</span><span class="tok-p">,</span>
-                       <span class="tok-n">extractor</span> <span class="tok-o">=</span> <span class="tok-k">proc</span><span class="tok-p">(</span><span class="tok-n">e</span><span class="tok-p">:</span> <span class="tok-n">ExeProg</span><span class="tok-p">):</span> <span class="tok-kt">string</span> <span class="tok-o">=</span> <span class="tok-k">return</span> <span class="tok-n">e</span><span class="tok-p">.</span><span class="tok-n">exe</span><span class="tok-p">)</span>
-      <span class="tok-n">printMissingList</span><span class="tok-p">(</span><span class="tok-n">preMessage</span> <span class="tok-o">=</span> <span class="tok-s">&quot;Make sure you have &quot;</span><span class="tok-p">,</span>
-                       <span class="tok-n">purposeMessage</span> <span class="tok-o">=</span> <span class="tok-s">&quot;installed&quot;</span><span class="tok-p">,</span>
-                       <span class="tok-n">missing</span> <span class="tok-o">=</span> <span class="tok-n">missing</span><span class="tok-p">,</span>
-                       <span class="tok-n">extractor</span> <span class="tok-o">=</span> <span class="tok-k">proc</span><span class="tok-p">(</span><span class="tok-n">e</span><span class="tok-p">:</span> <span class="tok-n">ExeProg</span><span class="tok-p">):</span> <span class="tok-kt">string</span> <span class="tok-o">=</span> <span class="tok-k">return</span> <span class="tok-n">e</span><span class="tok-p">.</span><span class="tok-n">prog</span><span class="tok-p">)</span>
+#
+# Reports missing executables, returning true if there is at least one missing
+# and false otherwise.
+#
+# This function takes list of `(string, string)` tuples, representing
+# `(executable, programName)`.
+#
+proc reportMissingExes(missing: SinglyLinkedList[ExeProg]): bool =
+  if isEmpty(missing):
+    return false
 
-    <span class="tok-k">return</span> <span class="tok-kp">true</span>
+  else:
+    let length = length(missing)
+
+    proc printMissingList(preMessage: string,
+                          purposeMessage: string,
+                          missing: SinglyLinkedList[ExeProg],
+                          extractor: proc) =
+      var count = 0
+      stderr.write preMessage
+
+      for exeProg in missing:
+        var
+          formatStr: string
+          withNewLine: bool
+
+        if count == length - 1:
+          formatStr = &quot;and $1 $2&quot;.format(&quot;$1&quot;, purposeMessage)
+          withNewLine = true
+        elif length &gt; 2:
+          formatStr = &quot;$1, &quot;
+          withNewLine = false
+        else:
+          formatStr = &quot;$1 &quot;
+          withNewLine = false
+
+        stderr.write formatStr.format(extractor(exeProg))
+        if withNewLine:
+          stderr.writeLine &quot;&quot;
+
+        inc(count)
 
 
-<span class="tok-c">#</span>
-<span class="tok-c"># Reverses a SinglyLinkedList.</span>
-<span class="tok-c">#</span>
-<span class="tok-k">proc </span><span class="tok-nf">reverse</span><span class="tok-o">[</span><span class="tok-n">T</span><span class="tok-o">]</span><span class="tok-p">(</span><span class="tok-n">list</span><span class="tok-p">:</span> <span class="tok-n">SinglyLinkedList</span><span class="tok-o">[</span><span class="tok-n">T</span><span class="tok-o">]</span><span class="tok-p">):</span> <span class="tok-n">SinglyLinkedList</span><span class="tok-o">[</span><span class="tok-n">T</span><span class="tok-o">]</span> <span class="tok-o">=</span>
-  <span class="tok-n">result</span> <span class="tok-o">=</span> <span class="tok-n">initSinglyLinkedList</span><span class="tok-o">[</span><span class="tok-n">T</span><span class="tok-o">]</span><span class="tok-p">()</span>
-  <span class="tok-k">for</span> <span class="tok-n">item</span> <span class="tok-ow">in</span> <span class="tok-n">list</span><span class="tok-p">:</span>
-    <span class="tok-n">result</span><span class="tok-p">.</span><span class="tok-n">prepend</span><span class="tok-p">(</span><span class="tok-n">item</span><span class="tok-p">)</span>
-  <span class="tok-k">return</span> <span class="tok-n">result</span>
+    if length == 1:
+      stderr.writeLine &quot;$1 not found&quot;.format(first(missing).exe)
+      stderr.writeLine &quot;Make sure you have $1 installed&quot;.format(first(missing).prog)
+    else:
+      printMissingList(preMessage = &quot;&quot;,
+                       purposeMessage = &quot;not found&quot;,
+                       missing = missing,
+                       extractor = proc(e: ExeProg): string = return e.exe)
+      printMissingList(preMessage = &quot;Make sure you have &quot;,
+                       purposeMessage = &quot;installed&quot;,
+                       missing = missing,
+                       extractor = proc(e: ExeProg): string = return e.prog)
+
+    return true
 
 
-<span class="tok-k">if</span> <span class="tok-n">isMainModule</span><span class="tok-p">:</span>
-  <span class="tok-k">if</span> <span class="tok-n">paramCount</span><span class="tok-p">()</span> <span class="tok-o">==</span> <span class="tok-mi">1</span> <span class="tok-ow">and</span> <span class="tok-n">paramStr</span><span class="tok-p">(</span><span class="tok-mi">1</span><span class="tok-p">)</span> <span class="tok-o">==</span> <span class="tok-s">&quot;--help&quot;</span><span class="tok-p">:</span>
-    <span class="tok-n">showHelp</span><span class="tok-p">()</span>
-    <span class="tok-n">quit</span><span class="tok-p">(</span><span class="tok-mi">0</span><span class="tok-p">)</span>
-  <span class="tok-k">elif</span> <span class="tok-n">paramCount</span><span class="tok-p">()</span> <span class="tok-o">==</span> <span class="tok-mi">0</span><span class="tok-p">:</span>
-    <span class="tok-n">showHelp</span><span class="tok-p">()</span>
-    <span class="tok-n">quit</span><span class="tok-p">(</span><span class="tok-mi">2</span><span class="tok-p">)</span>
-  <span class="tok-k">elif</span> <span class="tok-n">paramCount</span><span class="tok-p">()</span> <span class="tok-ow">div</span> <span class="tok-mi">2</span> <span class="tok-o">==</span> <span class="tok-mi">0</span><span class="tok-p">:</span>
-    <span class="tok-n">echo</span> <span class="tok-s">&quot;Invalid arguments.  Number of arguments must be even.&quot;</span>
-    <span class="tok-n">showHelp</span><span class="tok-p">()</span>
-    <span class="tok-n">quit</span><span class="tok-p">(</span><span class="tok-mi">3</span><span class="tok-p">)</span>
-  <span class="tok-k">else</span><span class="tok-p">:</span>
-    <span class="tok-n">quit</span><span class="tok-p">(</span><span class="tok-k">if</span> <span class="tok-n">getMissingExes</span><span class="tok-p">().</span><span class="tok-n">reverse</span><span class="tok-p">().</span><span class="tok-n">reportMissingExes</span><span class="tok-p">():</span> <span class="tok-mi">1</span> <span class="tok-k">else</span><span class="tok-p">:</span> <span class="tok-mi">0</span><span class="tok-p">)</span></code></pre>
+#
+# Reverses a SinglyLinkedList.
+#
+proc reverse[T](list: SinglyLinkedList[T]): SinglyLinkedList[T] =
+  result = initSinglyLinkedList[T]()
+  for item in list:
+    result.prepend(item)
+  return result
+
+
+if isMainModule:
+  if paramCount() == 1 and paramStr(1) == &quot;--help&quot;:
+    showHelp()
+    quit(0)
+  elif paramCount() == 0:
+    showHelp()
+    quit(2)
+  elif paramCount() div 2 == 0:
+    echo &quot;Invalid arguments.  Number of arguments must be even.&quot;
+    showHelp()
+    quit(3)
+  else:
+    quit(if getMissingExes().reverse().reportMissingExes(): 1 else: 0)</code></pre>
 </div>
 </div>
 </div>
@@ -3996,7 +4016,7 @@ a good strong coffee :-).</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2016-06-16 22:04:29 EEST
+Last updated 2016-06-30 00:14:23 EEST
 </div>
 </div>
 </body>
