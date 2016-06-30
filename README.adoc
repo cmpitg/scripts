@@ -2090,18 +2090,19 @@ def main
   when ARGV.size == 1
     exit(find_executable(ARGV[0]) ? 0 : 1)
   else
-    show_help(error = true)
+    show_help(when_error = true)
     exit 3
   end
 end
 
-def show_help(error = false)
+def show_help(when_error = false)
   help_text = <<-EOF
 Usage: found-executable-p <file>
 
-Exits with code 0 if the file is an executable and found in the PATH environment variable and exits code 1 otherwise.
+Exits with code 0 if the file is an executable and found in the PATH
+environment variable and exits code 1 otherwise.
 EOF
-  if error
+  if when_error
     STDERR.puts help_text
   else
     puts help_text
