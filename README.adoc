@@ -25,16 +25,7 @@ instructions to make the setup as painless as possible.
 
 TODO: Tryout Clib to bundle Plan9port with this repository
 
-TODO: Make a script to update Docker Compose and Docker Machine
-
-```
-https://github.com/docker/compose/releases
-
-curl -L https://github.com/docker/compose/releases/download/1.6.0/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
-chmod +x /usr/local/bin/docker-compose
-```
-
-TODO: Explain principal of the following commands:
+TODO: Explain how commands are built the way they are built below:
 * When to pass as argumment?  When to pass into stdin?
 * When to output as text?  Human-readable?
 * What about exit code?
