@@ -1,3 +1,5 @@
+.PHONY: cleanall
+
 all: generate docs
 
 generate: README.adoc
@@ -8,3 +10,7 @@ generate: README.adoc
 
 docs: README.adoc
 	ulqui generate-html --from ./ --to docs/
+
+cleanall:
+	rm -rf bin
+	rm -rf docs
