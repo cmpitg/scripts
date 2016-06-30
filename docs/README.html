@@ -630,18 +630,7 @@ instructions to make the setup as painless as possible.</p>
 <p>TODO: Tryout Clib to bundle Plan9port with this repository</p>
 </div>
 <div class="paragraph">
-<p>TODO: Make a script to update Docker Compose and Docker Machine</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="pygments highlight"><code>https://github.com/docker/compose/releases
-
-curl -L https://github.com/docker/compose/releases/download/1.6.0/docker-compose-`uname -s`-`uname -m` &gt; /usr/local/bin/docker-compose
-chmod +x /usr/local/bin/docker-compose</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>TODO: Explain principal of the following commands:
+<p>TODO: Explain how commands are built the way they are built below:
 * When to pass as argumment?  When to pass into stdin?
 * When to output as text?  Human-readable?
 * What about exit code?</p>
@@ -2790,25 +2779,34 @@ def main
   when ARGV.size == 1
     exit(find_executable(ARGV[0]) ? 0 : 1)
   else
-    show_help(error = true)
+    show_help(when_error = true)
     exit 3
   end
 end
 
-def show_help(error = false)
+def show_help(when_error = false)
   help_text = &lt;&lt;-EOF
 Usage: found-executable-p &lt;file&gt;
 
-Exits with code 0 if the file is an executable and found in the PATH environment variable and exits code 1 otherwise.
+Exits with code 0 if the file is an executable and found in the PATH
+environment variable and exits code 1 otherwise.
 EOF
-  if error
+  if when_error
     STDERR.puts help_text
   else
     puts help_text
   end
 end
 
-def find_executable(name)
+## include::crystal/find-executable
+
+main</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">code::crystal/find-executable</div>
+<div class="content">
+<pre class="pygments highlight"><code data-lang="crystal">def find_executable(name)
   paths = if ENV[&quot;PATH&quot;].size != 0
 	ENV[&quot;PATH&quot;].split(&quot;:&quot;)
   else
@@ -2821,9 +2819,7 @@ def find_executable(name)
   end
 
   false
-end
-
-main</code></pre>
+end</code></pre>
 </div>
 </div>
 </div>
@@ -2855,16 +2851,36 @@ report-missing-executables aria2c Aria2 wget
 </div>
 </div>
 <div class="listingblock">
-<div class="title">file::src/report_missing_executables.cr</div>
+<div class="title">file::src/report-missing-executables.cr</div>
 <div class="content">
-<pre class="pygments highlight"><code data-lang="crystal">import os, strutils, lists
+<pre class="pygments highlight"><code data-lang="crystal">def main
+  case
+  when ARGV.size == 0
+    show_help(when_error = true)
+    exit 2
+  when ARGV.size == 1 &amp;&amp; ARGV[0] == &quot;--help&quot;
+    show_help
+  when ARGV.size % 2 != 0
+    STDERR.puts &quot;Invalid arguments.  Number of arguments must be even.&quot;
+    exit 3
+  else
+    if report_missing_execs get_missing_execs(ARGV).to_a
+      exit 0
+    else
+      exit 1
+    end
+  end
+end
 
-type ExeProg = tuple[exe: string, prog: string]
+## include::crystal/find-executable
 
+def found_executable(name)
+  find_executable(name) != false
+end
 
-proc showHelp =
-  let (_, thisApp) = getAppFilename().splitPath()
-  echo &quot;&quot;&quot;Usage: $1 &lt;file&gt;
+def show_help(when_error = false)
+  help_text = &lt;&lt;-EOF
+Usage: report-missing-executables &lt;file&gt;
 
 Reports missing software by checking if their corresponding executables exist.
 If all executables are found, exit with status 0; otherwise, exit with status
@@ -2872,150 +2888,84 @@ If all executables are found, exit with status 0; otherwise, exit with status
 
 E.g.
 
-  $1 aria2c Aria2 wget Wget
+  report-missing-executables aria2c Aria2 wget Wget
     # aria2c and wget not found
     # Make sure you have Aria2 and Wget installed
 
-  $1 aria2c Aria2 wget Wget curl cURL
+  report-missing-executables aria2c Aria2 wget Wget curl cURL
     # aria2c, curl, and wget not found
     # Make sure you have Aria2, Wget, and cURL installed
 
-  $1 aria2c Aria2 wget
+  report-missing-executables aria2c Aria2 wget
     # Invalid arguments.  Number of arguments must be even.
-&quot;&quot;&quot;.format(thisApp)
-
-
-#
-# Determines if an executable is found in your `PATH` environment variable.
-#
-proc foundExe(exe: string): bool = findExe(exe).len() != 0
-
-
-#
-# Gets missing executables from command line arguments.  The command line
-# arguments is a list of strings of the following format: `&lt;exe&gt; &lt;prog&gt; ...`.
-# This function returns the list of `(exe, prog)` tuples where `exe`
-# executable is not found.
-#
-proc getMissingExes(): SinglyLinkedList[ExeProg] =
-  result = initSinglyLinkedList[ExeProg]()
-
-  for i in countup(1, paramCount(), 2):
-    let exe  = paramStr(i)
-    let prog = paramStr(i + 1)
-
-    if not foundExe(exe):
-      result.prepend((exe, prog))
-
-  return result
-
+EOF
+  if when_error
+    STDERR.puts help_text
+  else
+    puts help_text
+  end
+end
 
 #
-# Determines if a SinglyLinkedList is empty.
+# Gets missing executables from command line arguments.  The argument `args`
+# is an array of strings of the following format: `&lt;executable&gt; &lt;program&gt;
+# ...`.  This function returns the list of `{:executable, :program}` tuples
+# where the corresponding executables are not found.
 #
-proc isEmpty[T](list: SinglyLinkedList[T]): bool = return list.head == nil
+def get_missing_execs(args)
+  (0..args.size - 1)
+    .step(2)
+    .map { |i| { executable: args[i], program: args[i + 1] } }
+    .reject { |exec_prog| found_executable exec_prog[:executable] }
+end
 
+def print_missing_list(pre_msg, purpose_msg, missing, extractor)
+  if missing.size == 1
+    output = &quot;#{extractor.call(missing[0])}&quot;
+  else
+    before_last = butlast(missing).map(&amp;extractor).join(&quot;, &quot;)
+    last        = extractor.call(last(missing))
+    comma       = if missing.size &gt; 2
+                    &quot;,&quot;
+                  else
+                    &quot;&quot;
+                  end
+    output      = &quot;#{before_last}#{comma} and #{last}&quot;
+  end
+
+  puts &quot;#{pre_msg}#{output} #{purpose_msg}&quot;
+end
 
 #
-# Determines the length of a SinglyLinkedList.
+# Reports missing executables, returning `true` if there is at least one
+# missing and `false` otherwise.
 #
-proc length[T](list: SinglyLinkedList[T]): int =
-  var count = 0
-  for item in list:
-    inc(count)
-  return count
-# proc length[T](list: SinglyLinkedList[T]): int = fold(list, a + b, 0)
-
-
-#
-# Returns the first element of a SinglyLinkedList.
-#
-proc first[T](list: SinglyLinkedList[T]): T =
-  return list.head.value
-
-
-#
-# Reports missing executables, returning true if there is at least one missing
-# and false otherwise.
-#
-# This function takes list of `(string, string)` tuples, representing
-# `(executable, programName)`.
-#
-proc reportMissingExes(missing: SinglyLinkedList[ExeProg]): bool =
-  if isEmpty(missing):
+def report_missing_execs(missing_list)
+  case missing_list.size
+  when 0
     return false
+  else
+    print_missing_list(pre_msg = &quot;&quot;,
+                       purpose_msg = &quot;not found&quot;,
+                       missing = missing_list,
+                       extractor = -&gt;(exec_prog: NamedTuple(executable: String, program: String)) { exec_prog[:executable] })
+    print_missing_list(pre_msg = &quot;Make sure you have &quot;,
+                       purpose_msg = &quot;installed&quot;,
+                       missing = missing_list,
+                       extractor = -&gt;(exec_prog: NamedTuple(executable: String, program: String)) { exec_prog[:program] })
+  end
+  true
+end
 
-  else:
-    let length = length(missing)
+def last(array)
+  array[-1]
+end
 
-    proc printMissingList(preMessage: string,
-                          purposeMessage: string,
-                          missing: SinglyLinkedList[ExeProg],
-                          extractor: proc) =
-      var count = 0
-      stderr.write preMessage
+def butlast(array)
+  array[0..-2]
+end
 
-      for exeProg in missing:
-        var
-          formatStr: string
-          withNewLine: bool
-
-        if count == length - 1:
-          formatStr = &quot;and $1 $2&quot;.format(&quot;$1&quot;, purposeMessage)
-          withNewLine = true
-        elif length &gt; 2:
-          formatStr = &quot;$1, &quot;
-          withNewLine = false
-        else:
-          formatStr = &quot;$1 &quot;
-          withNewLine = false
-
-        stderr.write formatStr.format(extractor(exeProg))
-        if withNewLine:
-          stderr.writeLine &quot;&quot;
-
-        inc(count)
-
-
-    if length == 1:
-      stderr.writeLine &quot;$1 not found&quot;.format(first(missing).exe)
-      stderr.writeLine &quot;Make sure you have $1 installed&quot;.format(first(missing).prog)
-    else:
-      printMissingList(preMessage = &quot;&quot;,
-                       purposeMessage = &quot;not found&quot;,
-                       missing = missing,
-                       extractor = proc(e: ExeProg): string = return e.exe)
-      printMissingList(preMessage = &quot;Make sure you have &quot;,
-                       purposeMessage = &quot;installed&quot;,
-                       missing = missing,
-                       extractor = proc(e: ExeProg): string = return e.prog)
-
-    return true
-
-
-#
-# Reverses a SinglyLinkedList.
-#
-proc reverse[T](list: SinglyLinkedList[T]): SinglyLinkedList[T] =
-  result = initSinglyLinkedList[T]()
-  for item in list:
-    result.prepend(item)
-  return result
-
-
-if isMainModule:
-  if paramCount() == 1 and paramStr(1) == &quot;--help&quot;:
-    showHelp()
-    quit(0)
-  elif paramCount() == 0:
-    showHelp()
-    quit(2)
-  elif paramCount() div 2 == 0:
-    echo &quot;Invalid arguments.  Number of arguments must be even.&quot;
-    showHelp()
-    quit(3)
-  else:
-    quit(if getMissingExes().reverse().reportMissingExes(): 1 else: 0)</code></pre>
+main</code></pre>
 </div>
 </div>
 </div>
@@ -4016,7 +3966,7 @@ a good strong coffee :-).</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2016-06-30 00:14:23 EEST
+Last updated 2016-07-01 00:07:06 EEST
 </div>
 </div>
 </body>
