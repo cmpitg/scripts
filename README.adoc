@@ -2162,17 +2162,37 @@ report-missing-executables aria2c Aria2 wget
 
 ----
 
-.file::src/report_missing_executables.nim
-[source,nim]
+.file::src/report-missing-executables.cr
+[source,crystal]
 ----
-import os, strutils, lists
+def main
+  case
+  when ARGV.size == 0
+    show_help(when_error = true)
+    exit 2
+  when ARGV.size == 1 && ARGV[0] == "--help"
+    show_help
+  when ARGV.size % 2 != 0
+    STDERR.puts "Invalid arguments.  Number of arguments must be even."
+    exit 3
+  else
+    if report_missing_execs get_missing_execs(ARGV).to_a
+      exit 0
+    else
+      exit 1
+    end
+  end
+end
 
-type ExeProg = tuple[exe: string, prog: string]
+## include::crystal/find-executable
 
+def found_executable(name)
+  find_executable(name) != false
+end
 
-proc showHelp =
-  let (_, thisApp) = getAppFilename().splitPath()
-  echo """Usage: $1 <file>
+def show_help(when_error = false)
+  help_text = <<-EOF
+Usage: report-missing-executables <file>
 
 Reports missing software by checking if their corresponding executables exist.
 If all executables are found, exit with status 0; otherwise, exit with status
@@ -2180,150 +2200,84 @@ If all executables are found, exit with status 0; otherwise, exit with status
 
 E.g.
 
-  $1 aria2c Aria2 wget Wget
+  report-missing-executables aria2c Aria2 wget Wget
     # aria2c and wget not found
     # Make sure you have Aria2 and Wget installed
 
-  $1 aria2c Aria2 wget Wget curl cURL
+  report-missing-executables aria2c Aria2 wget Wget curl cURL
     # aria2c, curl, and wget not found
     # Make sure you have Aria2, Wget, and cURL installed
 
-  $1 aria2c Aria2 wget
+  report-missing-executables aria2c Aria2 wget
     # Invalid arguments.  Number of arguments must be even.
-""".format(thisApp)
-
-
-#
-# Determines if an executable is found in your `PATH` environment variable.
-#
-proc foundExe(exe: string): bool = findExe(exe).len() != 0
-
-
-#
-# Gets missing executables from command line arguments.  The command line
-# arguments is a list of strings of the following format: `<exe> <prog> ...`.
-# This function returns the list of `(exe, prog)` tuples where `exe`
-# executable is not found.
-#
-proc getMissingExes(): SinglyLinkedList[ExeProg] =
-  result = initSinglyLinkedList[ExeProg]()
-
-  for i in countup(1, paramCount(), 2):
-    let exe  = paramStr(i)
-    let prog = paramStr(i + 1)
-
-    if not foundExe(exe):
-      result.prepend((exe, prog))
-
-  return result
-
+EOF
+  if when_error
+    STDERR.puts help_text
+  else
+    puts help_text
+  end
+end
 
 #
-# Determines if a SinglyLinkedList is empty.
+# Gets missing executables from command line arguments.  The argument `args`
+# is an array of strings of the following format: `<executable> <program>
+# ...`.  This function returns the list of `{:executable, :program}` tuples
+# where the corresponding executables are not found.
 #
-proc isEmpty[T](list: SinglyLinkedList[T]): bool =
-  return list.head == nil
+def get_missing_execs(args)
+  (0..args.size - 1)
+    .step(2)
+    .map { |i| { executable: args[i], program: args[i + 1] } }
+    .reject { |exec_prog| found_executable exec_prog[:executable] }
+end
 
+def print_missing_list(pre_msg, purpose_msg, missing, extractor)
+  if missing.size == 1
+    output = "#{extractor.call(missing[0])}"
+  else
+    before_last = butlast(missing).map(&extractor).join(", ")
+    last        = extractor.call(last(missing))
+    comma       = if missing.size > 2
+                    ","
+                  else
+                    ""
+                  end
+    output      = "#{before_last}#{comma} and #{last}"
+  end
+
+  puts "#{pre_msg}#{output} #{purpose_msg}"
+end
 
 #
-# Determines the length of a SinglyLinkedList.
+# Reports missing executables, returning `true` if there is at least one
+# missing and `false` otherwise.
 #
-proc length[T](list: SinglyLinkedList[T]): int =
-  var count = 0
-  for item in list:
-    inc(count)
-  return count
-
-
-#
-# Returns the first element of a SinglyLinkedList.
-#
-proc first[T](list: SinglyLinkedList[T]): T =
-  return list.head.value
-
-
-#
-# Reports missing executables, returning true if there is at least one missing
-# and false otherwise.
-#
-# This function takes list of `(string, string)` tuples, representing
-# `(executable, programName)`.
-#
-proc reportMissingExes(missing: SinglyLinkedList[ExeProg]): bool =
-  if isEmpty(missing):
+def report_missing_execs(missing_list)
+  case missing_list.size
+  when 0
     return false
+  else
+    print_missing_list(pre_msg = "",
+                       purpose_msg = "not found",
+                       missing = missing_list,
+                       extractor = ->(exec_prog: NamedTuple(executable: String, program: String)) { exec_prog[:executable] })
+    print_missing_list(pre_msg = "Make sure you have ",
+                       purpose_msg = "installed",
+                       missing = missing_list,
+                       extractor = ->(exec_prog: NamedTuple(executable: String, program: String)) { exec_prog[:program] })
+  end
+  true
+end
 
-  else:
-    let length = length(missing)
-    
-    proc printMissingList(preMessage: string,
-                          purposeMessage: string,
-                          missing: SinglyLinkedList[ExeProg],
-                          extractor: proc) =
-      var count = 0
-      stderr.write preMessage
-      
-      for exeProg in missing:
-        var
-          formatStr: string
-          withNewLine: bool
+def last(array)
+  array[-1]
+end
 
-        if count == length - 1:
-          formatStr = "and $1 $2".format("$1", purposeMessage)
-          withNewLine = true
-        elif length > 2:
-          formatStr = "$1, "
-          withNewLine = false
-        else:
-          formatStr = "$1 "
-          withNewLine = false
+def butlast(array)
+  array[0..-2]
+end
 
-        stderr.write formatStr.format(extractor(exeProg))
-        if withNewLine:
-          stderr.writeLine ""
-
-        inc(count)
-      
-
-    if length == 1:
-      stderr.writeLine "$1 not found".format(first(missing).exe)
-      stderr.writeLine "Make sure you have $1 installed".format(first(missing).prog)
-    else:
-      printMissingList(preMessage = "",
-                       purposeMessage = "not found",
-                       missing = missing,
-                       extractor = proc(e: ExeProg): string = return e.exe)
-      printMissingList(preMessage = "Make sure you have ",
-                       purposeMessage = "installed",
-                       missing = missing,
-                       extractor = proc(e: ExeProg): string = return e.prog)
-
-    return true
-
-
-#
-# Reverses a SinglyLinkedList.
-#
-proc reverse[T](list: SinglyLinkedList[T]): SinglyLinkedList[T] =
-  result = initSinglyLinkedList[T]()
-  for item in list:
-    result.prepend(item)
-  return result
-
-
-if isMainModule:
-  if paramCount() == 1 and paramStr(1) == "--help":
-    showHelp()
-    quit(0)
-  elif paramCount() == 0:
-    showHelp()
-    quit(2)
-  elif paramCount() div 2 == 0:
-    echo "Invalid arguments.  Number of arguments must be even."
-    showHelp()
-    quit(3)
-  else:
-    quit(if getMissingExes().reverse().reportMissingExes(): 1 else: 0)
+main
 
 ----
 
