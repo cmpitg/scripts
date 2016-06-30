@@ -2109,6 +2109,15 @@ EOF
   end
 end
 
+## include::crystal/find-executable
+
+main
+
+----
+
+.code::crystal/find-executable
+[source,crystal]
+----
 def find_executable(name)
   paths = if ENV["PATH"].size != 0
 	ENV["PATH"].split(":")
@@ -2124,9 +2133,8 @@ def find_executable(name)
   false
 end
 
-main
-
 ----
+
 
 === `report-missing-executables <bin-1> <software-1> <bin-2> <software-2> ...`
 
