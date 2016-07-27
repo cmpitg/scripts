@@ -29,36 +29,33 @@ newline
 # synclient BottomEdge=5000
 
 # Palm detection
-synclient PalmDetect=1
+## Wed, 27 Jul 2016 23:22:03 +0300 - Disable because it's no longer relevant
+# synclient PalmDetect=1
 
 # Tap
-synclient MaxTapTime=180
-synclient MaxTapMove=221
-synclient MaxDoubleTapTime=100
-synclient SingleTapTimeout=180
-synclient EmulateTwoFingerMinZ=1
-synclient EmulateTwoFingerMinW=7
-synclient VertEdgeScroll=1
-synclient HorizEdgeScroll=1
+## Wed, 27 Jul 2016 23:22:03 +0300 - Disable because it's no longer relevant
+# synclient MaxTapTime=180
+# synclient MaxTapMove=221
+# synclient MaxDoubleTapTime=100
+# synclient SingleTapTimeout=180
+# synclient EmulateTwoFingerMinZ=1
+# synclient EmulateTwoFingerMinW=7
+# synclient VertEdgeScroll=1
+# synclient HorizEdgeScroll=1
 
 # Corner
-synclient RTCornerButton=0
-synclient RBCornerButton=0
-synclient LTCornerButton=1
-synclient LBCornerButton=0
-# synclient TapButton1=3
-# synclient TapButton2=1
-# synclient TapButton3=2
+## Wed, 27 Jul 2016 23:22:03 +0300 - Disable because it's no longer relevant
+# synclient RTCornerButton=0
+# synclient RBCornerButton=0
+# synclient LTCornerButton=1
+# synclient LBCornerButton=0
 # synclient TapButton1=1
-# synclient TapButton2=2
-# synclient TapButton3=3
-synclient TapButton1=1
-synclient TapButton2=3
-synclient TapButton3=2
-synclient ClickFinger1=1
-synclient ClickFinger2=1
-synclient ClickFinger3=2
-synclient CircularScrolling=0
+# synclient TapButton2=3
+# synclient TapButton3=2
+# synclient ClickFinger1=1
+# synclient ClickFinger2=1
+# synclient ClickFinger3=2
+# synclient CircularScrolling=0
 
 # Natural scrolling
 synclient VertScrollDelta=-111
