@@ -556,6 +556,8 @@ Enables natural scrolling and tweaks acceleration profile.
 ----
 #!/bin/zsh
 
+setopt shwordsplit
+
 id_=$( \
 	xinput list 2>/dev/null \
 	| grep "Dual Mode WL Touch Mouse N700" \
@@ -591,6 +593,8 @@ kbd:[Ctrl+X/C/V] works as expected.
 [source,sh]
 ----
 #!/bin/zsh
+
+setopt shwordsplit
 
 id_=$( \
 	xinput list \
@@ -631,6 +635,8 @@ setxkbmap us -device "${id_keyboard_}"
 [source,sh]
 ----
 #!/bin/zsh
+
+setopt shwordsplit
 
 # http://www.x.org/wiki/Development/Documentation/PointerAcceleration/
 
@@ -1021,6 +1027,8 @@ extension.
 [source,sh]
 ----
 #!/bin/zsh
+
+setopt shwordsplit
 
 report-missing-executables ffmpeg Ffmpeg || exit 1
 
