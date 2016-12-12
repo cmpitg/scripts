@@ -558,7 +558,7 @@ Enables natural scrolling and tweaks acceleration profile.
 .file::config-lenovo-n700-mouse
 [source,sh]
 ----
-#!/bin/bash
+#!/bin/zsh
 
 id_=$( \
 	xinput list 2>/dev/null \
@@ -572,12 +572,16 @@ test -z "${id_}" && exit 0
 
 ##############################################################################
 
-do-notify-short "Configuring Dual Mode WL Touch Mouse N700"
+do-notify-short "Configuring Dual Mode WL Touch Mouse N700
+* Set natural scrolling
+* Set pointer acceleration
+"
+{
+	xinput set-prop "${id_}" "Evdev Scrolling Distance" -1, -1, 1
+} || {
+	xinput set-prop "${mouse_}" "libinput Natural Scrolling Enabled" 1
+}
 
-do-notify-short "* Set natural scrolling"
-xinput set-prop "${id_}" "Evdev Scrolling Distance" -1, -1, 1
-
-do-notify-short "* Set pointer acceleration"
 xinput set-prop "${id_}" "Device Accel Profile" 7
 
 ----
@@ -590,7 +594,7 @@ kbd:[Ctrl+X/C/V] works as expected.
 .file::config-logitech-g300-mouse
 [source,sh]
 ----
-#!/bin/bash
+#!/bin/zsh
 
 id_=$( \
 	xinput list \
@@ -601,10 +605,10 @@ id_=$( \
 )
 id_keyboard_=$( \
 	xinput list \
-	 | grep "Logitech Gaming Mouse G300" \
-	 | tail -1 \
-	 | cut -d'=' -f2 \
-	 | awk '{ print $1 }' \
+	| grep "Logitech Gaming Mouse G300" \
+	| tail -1 \
+	| cut -d'=' -f2 \
+	| awk '{ print $1 }' \
 )
 
 test -z "${id_}"          && exit 0
@@ -613,11 +617,14 @@ test -z "${id_keyboard_}" && exit 0
 ##############################################################################
 
 do-notify-short "Configuring Logitech G300 mouse"
-
-do-notify-short "* Set natural scrolling"
-xinput set-prop "${id_}" "Evdev Scrolling Distance" -1, -1, 1
-
-do-notify-short "* Reset keyboard layout"
+* Set natural scrolling
+* Reset keyboard layout
+"
+{
+	xinput set-prop "${mouse_}" "libinput Natural Scrolling Enabled" 1
+} || {
+	xinput set-prop "${mouse_}" "Evdev Scrolling Distance" -1, -1, 1
+}
 setxkbmap us -device "${id_keyboard_}"
 
 ----
@@ -627,7 +634,7 @@ setxkbmap us -device "${id_keyboard_}"
 .file::config-logitech-g502-mouse
 [source,sh]
 ----
-#!/bin/bash
+#!/bin/zsh
 
 # http://www.x.org/wiki/Development/Documentation/PointerAcceleration/
 
@@ -650,16 +657,17 @@ do-notify "Configuring Logitech G502 mouse
 "
 
 for mouse_ in ${ids_}; do
-	xinput set-prop "${mouse_}" "Evdev Scrolling Distance" -1, -1, 1
+	echo "${mouse_}"
+
+	{
+		xinput set-prop "${mouse_}" "libinput Natural Scrolling Enabled" 1
+	} || {
+		xinput set-prop "${mouse_}" "Evdev Scrolling Distance" -1, -1, 1
+	}
+
 	xinput set-prop "${mouse_}" "Device Accel Profile" 7
 	xinput set-prop "${mouse_}" "Device Accel Constant Deceleration" 2
 	xinput set-prop "${mouse_}" "Device Accel Adaptive Deceleration" 1
-
-	# For some damn reasons, Debian updates constantly break...  evdev was
-	# replaced by libinput.  I haven't found this change documented anywhere.
-	# FFS, if you want to change, how hard is it to mark something as
-	# deprecated then warn your users?  Eff you Debian!
-	xinput set-prop "${mouse_}" "libinput Natural Scrolling Enabled" 1
 done
 
 ----
@@ -687,16 +695,16 @@ id_=$( \
 
 test -z "${id_}" && exit 0
 
-# ID     	Hardware Action     	Result                
-# 1 	Large button left 	normal click
-# 2 	Both large buttons 	middle-click  †
-# 3 	Large button right 	right-click
-# 4 	(not a button) 	-
-# 5 	(not a button) 	-
-# 6 	(not a button) 	-
-# 7 	(not a button) 	-
-# 8 	Small button left 	browser back
-# 9 	Small button right 	browser forward
+# ID        Hardware Action         Result
+# 1     Large button left   normal click
+# 2     Both large buttons  middle-click  †
+# 3     Large button right  right-click
+# 4     (not a button)  -
+# 5     (not a button)  -
+# 6     (not a button)  -
+# 7     (not a button)  -
+# 8     Small button left   browser back
+# 9     Small button right  browser forward
 
 
 # * big-left: Primary click
@@ -781,16 +789,16 @@ id_=$( \
 
 test -z "${id_}" && exit 0
 
-# ID     	Hardware Action     	Result                
-# 1 	Large button left 	normal click
-# 2 	Both large buttons 	middle-click  †
-# 3 	Large button right 	right-click
-# 4 	(not a button) 	-
-# 5 	(not a button) 	-
-# 6 	(not a button) 	-
-# 7 	(not a button) 	-
-# 8 	Small button left 	browser back
-# 9 	Small button right 	browser forward
+# ID        Hardware Action         Result
+# 1     Large button left   normal click
+# 2     Both large buttons  middle-click  †
+# 3     Large button right  right-click
+# 4     (not a button)  -
+# 5     (not a button)  -
+# 6     (not a button)  -
+# 7     (not a button)  -
+# 8     Small button left   browser back
+# 9     Small button right  browser forward
 
 
 # * big-left: Primary click
@@ -926,7 +934,6 @@ synclient HorizEdgeScroll=0
 
 ##############################################################################
 
-# Eff Debian!
 xinput set-prop "${id_}" "libinput Tapping Enabled" 0
 xinput set-prop "${id_}" "libinput Natural Scrolling Enabled" 1
 
@@ -1192,7 +1199,7 @@ sbcl --noinform \
 	--no-userinit \
 	--eval $sexp \
 	--eval '(sb-ext:save-lisp-and-die "'^$core_path^'")'
- 
+
 if (test -d $SHELLY_HOME/dumped-cores) {
 	echo '-> Updating Shelly'
 	cp -fv $core_path $shelly_core_path
@@ -1740,7 +1747,7 @@ def fail_if_dmenu_not_found():
 		sys.stdout.write("dmenu not found\n")
 		sys.stdout.write("Make sure you have dmenu installed\n")
 		sys.exit(1)
-	
+
 
 def switch_to_window(chosen, table, cmd):
 	"""Switch to the chosen window."""
@@ -2788,7 +2795,7 @@ echo 'New release (zip)': $opt/elixir/$compressed
 echo
 
 if (! ~ $current_version $latest_version) {
- 	echo Versions mismatch, updating...
+	echo Versions mismatch, updating...
 
 	mkdir -p $opt/elixir
 	cd $opt/elixir
@@ -3230,4 +3237,4 @@ main
 == License
 
 Unless clearly stated, do whatever you want with them.  If you like it, buy me
-a good strong coffee :-).
+a coffee.
