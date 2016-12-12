@@ -4,8 +4,6 @@ all: generate docs
 
 generate: README.adoc
 	ulqui generate-src --from ./ --to bin/
-	cd bin && crystal build --release src/found-executable-p.cr
-	cd bin && crystal build --release src/report-missing-executables.cr
 	chmod +x bin/*
 
 docs: README.adoc
