@@ -39,10 +39,6 @@ For everything to function correctly, you need:
 Some scripts depend on others.  It's best to fulfill the requirements for all
 of them.
 
-=== For development
-
-* http://crystal-lang.org/[Crystal 0.18+]
-
 == Notes
 
 My environment is unusual:
@@ -2065,66 +2061,76 @@ test -L "$@"
 
 === `found-executable-p`
 
-.file::src/found-executable-p.cr
-[source,crystal]
+.file::found-executable-p
+[source,python]
 ----
-require "file"
+#!/usr/bin/env python3
 
-def main
-  case
-  when ARGV.size == 0
-    show_help
-    exit(2)
-  when ARGV.size == 1 && ARGV[0] == "--help"
-    show_help
-  when ARGV.size == 1
-    exit(find_executable(ARGV[0]) ? 0 : 1)
-  else
-    show_help(when_error = true)
-    exit 3
-  end
-end
+import sys
+import os
 
-def show_help(when_error = false)
-  help_text = <<-EOF
-Usage: found-executable-p <file>
+
+def main():
+	if os.environ.get('DOCTEST') == '1':
+		import doctest
+		doctest.testmod()
+		sys.exit(0)
+
+	if len(sys.argv) == 1:
+		show_help(when_error=True)
+		sys.exit(2)
+	elif len(sys.argv) == 2 and sys.argv[1] == "--help":
+		show_help()
+	else:
+		sys.exit(0 if find_executable(sys.argv[1]) != False else 1)
+
+
+def show_help(when_error=False):
+	help_text = """
+Usage:
+  found-executable-p <file>
+  found-executable-p --help
 
 Exits with code 0 if the file is an executable and found in the PATH
-environment variable and exits code 1 otherwise.
-EOF
-  if when_error
-    STDERR.puts help_text
-  else
-    puts help_text
-  end
-end
+environment variable; exits with 1 otherwise.
 
-## include::crystal/find-executable
+Development note: When running with environment variable DOCTEST set to 1,
+runs the Python doctest and exits.
+"""
+	if when_error:
+		sys.stderr.write(help_text)
+	else:
+		sys.stdout.write(help_text)
 
-main
+## include::python/find-executable
 
-----
-
-.code::crystal/find-executable
-[source,crystal]
-----
-def find_executable(name)
-  paths = if ENV["PATH"].size != 0
-	ENV["PATH"].split(":")
-  else
-	["/usr/local/bin", "/usr/bin", "/bin"]
-  end
-
-  paths.each do |path|
-    full_path = File.join(path, name)
-    return full_path if File.exists?(full_path) && File.executable?(full_path)
-  end
-
-  false
-end
+main()
 
 ----
 
+.code::python/find-executable
+[source,python]
+----
+def find_executable(name):
+	"""If `name` is an executable, returns the full path to `name`; otherwise,
+	returns `False`.
+
+	>>> find_executable("ls")
+	'/bin/ls'
+	>>> import uuid
+	>>> find_executable(str(uuid.uuid4()))
+	False
+	"""
+	paths = os.environ.get("PATH", "").split(":")
+
+	for path_dir in paths:
+		full_path = os.path.join(path_dir, name)
+		if (os.path.isfile(full_path) and os.access(full_path, os.X_OK)):
+			return full_path
+
+	return False
+
+----
 
 === `report-missing-executables <bin-1> <software-1> <bin-2> <software-2> ...`
 
@@ -2152,37 +2158,39 @@ report-missing-executables aria2c Aria2 wget
 
 ----
 
-.file::src/report-missing-executables.cr
-[source,crystal]
+.file::report-missing-executables
+[source,python]
 ----
-def main
-  case
-  when ARGV.size == 0
-    show_help(when_error = true)
-    exit 2
-  when ARGV.size == 1 && ARGV[0] == "--help"
-    show_help
-  when ARGV.size % 2 != 0
-    STDERR.puts "Invalid arguments.  Number of arguments must be even."
-    exit 3
-  else
-    if report_missing_execs get_missing_execs(ARGV).to_a
-      exit 0
-    else
-      exit 1
-    end
-  end
-end
+#!/usr/bin/env python3
 
-## include::crystal/find-executable
+import sys
+import os
 
-def found_executable(name)
-  find_executable(name) != false
-end
 
-def show_help(when_error = false)
-  help_text = <<-EOF
-Usage: report-missing-executables <file>
+def main():
+	if os.environ.get('DOCTEST') == '1':
+		import doctest
+		doctest.testmod()
+		sys.exit(0)
+
+	if len(sys.argv) == 1:
+		show_help(when_error=True)
+	elif len(sys.argv) == 2 and sys.argv[1] == "--help":
+		show_help()
+	elif len(sys.argv) % 2 == 0:
+		sys.stderr.write("Invalid arguments.  Number of arguments must be even.\n")
+		sys.exit(3)
+	else:
+		sys.exit(
+			1 if report_missing_execs(get_missing_execs(sys.argv[1:])) else 0
+        )
+
+
+def show_help(when_error=False):
+	help_text = """
+Usage:
+  report-missing-executables <exec-1> <prog-1> ...
+  report-missing-executables --help
 
 Reports missing software by checking if their corresponding executables exist.
 If all executables are found, exit with status 0; otherwise, exit with status
@@ -2200,74 +2208,102 @@ E.g.
 
   report-missing-executables aria2c Aria2 wget
     # Invalid arguments.  Number of arguments must be even.
-EOF
-  if when_error
-    STDERR.puts help_text
-  else
-    puts help_text
-  end
-end
 
-#
-# Gets missing executables from command line arguments.  The argument `args`
-# is an array of strings of the following format: `<executable> <program>
-# ...`.  This function returns the list of `{:executable, :program}` tuples
-# where the corresponding executables are not found.
-#
-def get_missing_execs(args)
-  (0..args.size - 1)
-    .step(2)
-    .map { |i| { executable: args[i], program: args[i + 1] } }
-    .reject { |exec_prog| found_executable exec_prog[:executable] }
-end
+Development note: When running with environment variable DOCTEST set to 1,
+runs the Python doctest and exits.
+"""
+	if when_error:
+		sys.stderr.write(help_text)
+	else:
+		sys.stdout.write(help_text)
 
-def print_missing_list(pre_msg, purpose_msg, missing, extractor)
-  if missing.size == 1
-    output = "#{extractor.call(missing[0])}"
-  else
-    before_last = butlast(missing).map(&extractor).join(", ")
-    last        = extractor.call(last(missing))
-    comma       = if missing.size > 2
-                    ","
-                  else
-                    ""
-                  end
-    output      = "#{before_last}#{comma} and #{last}"
-  end
 
-  puts "#{pre_msg}#{output} #{purpose_msg}"
-end
+def find_executable(name):
+	"""If `name` is an executable, returns the full path to `name`; otherwise,
+	returns `False`.
 
-#
-# Reports missing executables, returning `true` if there is at least one
-# missing and `false` otherwise.
-#
-def report_missing_execs(missing_list)
-  case missing_list.size
-  when 0
-    return false
-  else
-    print_missing_list(pre_msg = "",
-                       purpose_msg = "not found",
-                       missing = missing_list,
-                       extractor = ->(exec_prog: NamedTuple(executable: String, program: String)) { exec_prog[:executable] })
-    print_missing_list(pre_msg = "Make sure you have ",
-                       purpose_msg = "installed",
-                       missing = missing_list,
-                       extractor = ->(exec_prog: NamedTuple(executable: String, program: String)) { exec_prog[:program] })
-  end
-  true
-end
+	>>> find_executable("ls")
+	'/bin/ls'
+	>>> import uuid
+	>>> find_executable(str(uuid.uuid4()))
+	False
+	"""
+	paths = os.environ.get("PATH", "").split(":")
 
-def last(array)
-  array[-1]
-end
+	for path_dir in paths:
+		full_path = os.path.join(path_dir, name)
+		if (os.path.isfile(full_path) and os.access(full_path, os.X_OK)):
+			return full_path
 
-def butlast(array)
-  array[0..-2]
-end
+	return False
 
-main
+
+def found_executable(name):
+	"""Determines if a name is an executable that can be called.
+
+	>>> found_executable("ls")
+	True
+	>>> found_executable("python")
+	True
+	>>> import uuid
+	>>> found_executable(str(uuid.uuid4()))
+	False
+	"""
+	return find_executable(name) != False
+
+
+def get_missing_execs(args):
+	"""Gets missing executables from command line arguments.  The argument `args`
+	is a list of strings `<exec-1> <program-1> <exec-2> <program-2> ...`.
+	Returns the list of dictionaries with `\"executable\"` and `\"program\"`
+	as keys where the corresponding executables are not found.
+
+	>>> get_missing_execs(['ls', 'Binutils', 'python', 'Python', 'aaaSomeCrapaaa', 'Some Crap']) == [{'executable': 'aaaSomeCrapaaa', 'program': 'Some Crap'}]
+	True
+	"""
+	return [
+		dict(executable=args[i], program=args[i + 1])
+		for i in range(0, len(args), 2)
+		if not found_executable(args[i])
+	]
+
+
+def report_missing_execs(missing_list):
+	"""Reports missing executables, returning `True` if there is at least one
+	missing and `False` otherwise.
+
+	"""
+
+	def print_missing_list(pre_msg, post_msg, missing):
+		if len(missing) == 1:
+			output = missing[0]
+		else:
+			missing_butlast = missing[:-1]
+			missing_last    = missing[-1]
+			before_last     = ", ".join(missing_butlast)
+			comma           = "," if len(missing) > 2 else ""
+
+			output = "{}{} and {}".format(before_last, comma, missing_last)
+
+		sys.stdout.write("{}{} {}\n".format(pre_msg, output, post_msg))
+
+	if len(missing_list) == 0:
+		return False
+	else:
+		print_missing_list(
+			pre_msg="",
+			post_msg="not found",
+			missing=[x['executable'] for x in missing_list],
+		)
+		print_missing_list(
+			pre_msg="Make sure you have ",
+			post_msg="installed",
+			missing=[x['program'] for x in missing_list],
+		)
+		return True
+
+
+main()
 
 ----
 
