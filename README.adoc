@@ -1573,7 +1573,7 @@ Runs a Git server.
   $program <git-repo>  :: Take a specific Git repository
 
 By default, the Git server is opened on port 4242.  This could be overriden by
-setting the environment variable GIT_PORT.  For example: run a Git server on 
+setting the environment variable GIT_PORT.  For example: run a Git server on
 port 5454, serving content from Git repo at /m/bin:
 
   GIT_PORT=5454 $program /m/bin
