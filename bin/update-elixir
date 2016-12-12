@@ -49,7 +49,7 @@ echo 'New release (zip)': $opt/elixir/$compressed
 echo
 
 if (! ~ $current_version $latest_version) {
- 	echo Versions mismatch, updating...
+	echo Versions mismatch, updating...
 
 	mkdir -p $opt/elixir
 	cd $opt/elixir

@@ -16,16 +16,16 @@ id_=$( \
 
 test -z "${id_}" && exit 0
 
-# ID     	Hardware Action     	Result                
-# 1 	Large button left 	normal click
-# 2 	Both large buttons 	middle-click  †
-# 3 	Large button right 	right-click
-# 4 	(not a button) 	-
-# 5 	(not a button) 	-
-# 6 	(not a button) 	-
-# 7 	(not a button) 	-
-# 8 	Small button left 	browser back
-# 9 	Small button right 	browser forward
+# ID        Hardware Action         Result
+# 1     Large button left   normal click
+# 2     Both large buttons  middle-click  †
+# 3     Large button right  right-click
+# 4     (not a button)  -
+# 5     (not a button)  -
+# 6     (not a button)  -
+# 7     (not a button)  -
+# 8     Small button left   browser back
+# 9     Small button right  browser forward
 
 
 # * big-left: Primary click

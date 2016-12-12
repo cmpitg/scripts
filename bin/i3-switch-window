@@ -65,7 +65,7 @@ def fail_if_dmenu_not_found():
 		sys.stdout.write("dmenu not found\n")
 		sys.stdout.write("Make sure you have dmenu installed\n")
 		sys.exit(1)
-	
+
 
 def switch_to_window(chosen, table, cmd):
 	"""Switch to the chosen window."""

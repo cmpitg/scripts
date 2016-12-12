@@ -2,6 +2,7 @@
 
 test -z "${DISPLAY}" && exit 0
 
+do-notify-short "Enabling Right Alt as AltGr"
 setxkbmap us -variant dvp -option lv3:ralt_alt
 xmodmap <( cat <<EOF
 ! -*- mode: xmodmap-generic -*-

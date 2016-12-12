@@ -62,7 +62,7 @@ sbcl --noinform \
 	--no-userinit \
 	--eval $sexp \
 	--eval '(sb-ext:save-lisp-and-die "'^$core_path^'")'
- 
+
 if (test -d $SHELLY_HOME/dumped-cores) {
 	echo '-> Updating Shelly'
 	cp -fv $core_path $shelly_core_path

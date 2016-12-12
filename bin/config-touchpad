@@ -58,14 +58,13 @@ newline
 # synclient CircularScrolling=0
 
 # Natural scrolling
-synclient VertScrollDelta=-111
-synclient HorizScrollDelta=-111
-synclient VertEdgeScroll=0
-synclient HorizEdgeScroll=0
+# synclient VertScrollDelta=-111
+# synclient HorizScrollDelta=-111
+# synclient VertEdgeScroll=0
+# synclient HorizEdgeScroll=0
 
 ##############################################################################
 
-# Eff Debian!
 xinput set-prop "${id_}" "libinput Tapping Enabled" 0
 xinput set-prop "${id_}" "libinput Natural Scrolling Enabled" 1
 

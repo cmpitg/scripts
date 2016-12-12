@@ -489,11 +489,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="toc" class="toc">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#_requirements">1. Requirements</a>
-<ul class="sectlevel2">
-<li><a href="#_for_development">1.1. For development</a></li>
-</ul>
-</li>
+<li><a href="#_requirements">1. Requirements</a></li>
 <li><a href="#_notes">2. Notes</a></li>
 <li><a href="#_installation">3. Installation</a></li>
 <li><a href="#_contents">4. Contents</a>
@@ -657,16 +653,6 @@ and start using it yourself.</p>
 <div class="paragraph">
 <p>Some scripts depend on others.  It&#8217;s best to fulfill the requirements for all
 of them.</p>
-</div>
-<div class="sect2">
-<h3 id="_for_development">1.1. For development</h3>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="http://crystal-lang.org/">Crystal 0.18+</a></p>
-</li>
-</ul>
-</div>
 </div>
 </div>
 </div>
@@ -1098,6 +1084,7 @@ prefix <span class="tok-nv">$comment_char</span>^<span class="tok-s1">&#39; &#39
 
 <span class="tok-nb">test</span> -z <span class="tok-s2">&quot;${DISPLAY}&quot;</span> <span class="tok-o">&amp;&amp;</span> <span class="tok-nb">exit </span>0
 
+<span class="tok-k">do</span>-notify-short <span class="tok-s2">&quot;Enabling Right Alt as AltGr&quot;</span>
 setxkbmap us -variant dvp -option lv3:ralt_alt
 xmodmap &lt;<span class="tok-o">(</span> cat <span class="tok-s">&lt;&lt;EOF</span>
 <span class="tok-s">! -*- mode: xmodmap-generic -*-</span>
@@ -1231,7 +1218,7 @@ config-logitech-g502-mouse</code></pre>
 <div class="listingblock">
 <div class="title">file::config-lenovo-n700-mouse</div>
 <div class="content">
-<pre class="pygments highlight"><code data-lang="sh"><span class="tok-c">#!/bin/bash</span>
+<pre class="pygments highlight"><code data-lang="sh"><span class="tok-c">#!/bin/zsh</span>
 
 <span class="tok-nv">id_</span><span class="tok-o">=</span><span class="tok-k">$(</span> <span class="tok-se">\</span>
 	xinput list 2&gt;/dev/null <span class="tok-se">\</span>
@@ -1245,12 +1232,16 @@ config-logitech-g502-mouse</code></pre>
 
 <span class="tok-c">##############################################################################</span>
 
-<span class="tok-k">do</span>-notify-short <span class="tok-s2">&quot;Configuring Dual Mode WL Touch Mouse N700&quot;</span>
+<span class="tok-k">do</span>-notify-short <span class="tok-s2">&quot;Configuring Dual Mode WL Touch Mouse N700</span>
+<span class="tok-s2">* Set natural scrolling</span>
+<span class="tok-s2">* Set pointer acceleration</span>
+<span class="tok-s2">&quot;</span>
+<span class="tok-o">{</span>
+	xinput <span class="tok-nb">set</span>-prop <span class="tok-s2">&quot;${id_}&quot;</span> <span class="tok-s2">&quot;Evdev Scrolling Distance&quot;</span> -1, -1, 1
+<span class="tok-o">}</span> <span class="tok-o">||</span> <span class="tok-o">{</span>
+	xinput <span class="tok-nb">set</span>-prop <span class="tok-s2">&quot;${mouse_}&quot;</span> <span class="tok-s2">&quot;libinput Natural Scrolling Enabled&quot;</span> 1
+<span class="tok-o">}</span>
 
-<span class="tok-k">do</span>-notify-short <span class="tok-s2">&quot;* Set natural scrolling&quot;</span>
-xinput <span class="tok-nb">set</span>-prop <span class="tok-s2">&quot;${id_}&quot;</span> <span class="tok-s2">&quot;Evdev Scrolling Distance&quot;</span> -1, -1, 1
-
-<span class="tok-k">do</span>-notify-short <span class="tok-s2">&quot;* Set pointer acceleration&quot;</span>
 xinput <span class="tok-nb">set</span>-prop <span class="tok-s2">&quot;${id_}&quot;</span> <span class="tok-s2">&quot;Device Accel Profile&quot;</span> 7</code></pre>
 </div>
 </div>
@@ -1264,7 +1255,7 @@ xinput <span class="tok-nb">set</span>-prop <span class="tok-s2">&quot;${id_}&qu
 <div class="listingblock">
 <div class="title">file::config-logitech-g300-mouse</div>
 <div class="content">
-<pre class="pygments highlight"><code data-lang="sh"><span class="tok-c">#!/bin/bash</span>
+<pre class="pygments highlight"><code data-lang="sh"><span class="tok-c">#!/bin/zsh</span>
 
 <span class="tok-nv">id_</span><span class="tok-o">=</span><span class="tok-k">$(</span> <span class="tok-se">\</span>
 	xinput list <span class="tok-se">\</span>
@@ -1275,10 +1266,10 @@ xinput <span class="tok-nb">set</span>-prop <span class="tok-s2">&quot;${id_}&qu
 <span class="tok-k">)</span>
 <span class="tok-nv">id_keyboard_</span><span class="tok-o">=</span><span class="tok-k">$(</span> <span class="tok-se">\</span>
 	xinput list <span class="tok-se">\</span>
-	 <span class="tok-p">|</span> grep <span class="tok-s2">&quot;Logitech Gaming Mouse G300&quot;</span> <span class="tok-se">\</span>
-	 <span class="tok-p">|</span> tail -1 <span class="tok-se">\</span>
-	 <span class="tok-p">|</span> cut -d<span class="tok-s1">&#39;=&#39;</span> -f2 <span class="tok-se">\</span>
-	 <span class="tok-p">|</span> awk <span class="tok-s1">&#39;{ print $1 }&#39;</span> <span class="tok-se">\</span>
+	<span class="tok-p">|</span> grep <span class="tok-s2">&quot;Logitech Gaming Mouse G300&quot;</span> <span class="tok-se">\</span>
+	<span class="tok-p">|</span> tail -1 <span class="tok-se">\</span>
+	<span class="tok-p">|</span> cut -d<span class="tok-s1">&#39;=&#39;</span> -f2 <span class="tok-se">\</span>
+	<span class="tok-p">|</span> awk <span class="tok-s1">&#39;{ print $1 }&#39;</span> <span class="tok-se">\</span>
 <span class="tok-k">)</span>
 
 <span class="tok-nb">test</span> -z <span class="tok-s2">&quot;${id_}&quot;</span>          <span class="tok-o">&amp;&amp;</span> <span class="tok-nb">exit </span>0
@@ -1287,12 +1278,15 @@ xinput <span class="tok-nb">set</span>-prop <span class="tok-s2">&quot;${id_}&qu
 <span class="tok-c">##############################################################################</span>
 
 <span class="tok-k">do</span>-notify-short <span class="tok-s2">&quot;Configuring Logitech G300 mouse&quot;</span>
-
-<span class="tok-k">do</span>-notify-short <span class="tok-s2">&quot;* Set natural scrolling&quot;</span>
-xinput <span class="tok-nb">set</span>-prop <span class="tok-s2">&quot;${id_}&quot;</span> <span class="tok-s2">&quot;Evdev Scrolling Distance&quot;</span> -1, -1, 1
-
-<span class="tok-k">do</span>-notify-short <span class="tok-s2">&quot;* Reset keyboard layout&quot;</span>
-setxkbmap us -device <span class="tok-s2">&quot;${id_keyboard_}&quot;</span></code></pre>
+* Set natural scrolling
+* Reset keyboard layout
+<span class="tok-s2">&quot;</span>
+<span class="tok-s2">{</span>
+<span class="tok-s2">	xinput set-prop &quot;</span><span class="tok-k">${</span><span class="tok-nv">mouse_</span><span class="tok-k">}</span><span class="tok-s2">&quot; &quot;</span>libinput Natural Scrolling Enabled<span class="tok-s2">&quot; 1</span>
+<span class="tok-s2">} || {</span>
+<span class="tok-s2">	xinput set-prop &quot;</span><span class="tok-k">${</span><span class="tok-nv">mouse_</span><span class="tok-k">}</span><span class="tok-s2">&quot; &quot;</span>Evdev Scrolling Distance<span class="tok-s2">&quot; -1, -1, 1</span>
+<span class="tok-s2">}</span>
+<span class="tok-s2">setxkbmap us -device &quot;</span><span class="tok-k">${</span><span class="tok-nv">id_keyboard_</span><span class="tok-k">}</span><span class="tok-err">&quot;</span></code></pre>
 </div>
 </div>
 </div>
@@ -1301,29 +1295,20 @@ setxkbmap us -device <span class="tok-s2">&quot;${id_keyboard_}&quot;</span></co
 <div class="listingblock">
 <div class="title">file::config-logitech-g502-mouse</div>
 <div class="content">
-<pre class="pygments highlight"><code data-lang="sh"><span class="tok-c">#!/bin/bash</span>
+<pre class="pygments highlight"><code data-lang="sh"><span class="tok-c">#!/bin/zsh</span>
 
 <span class="tok-c"># http://www.x.org/wiki/Development/Documentation/PointerAcceleration/</span>
 
 <span class="tok-c">##############################################################################</span>
 
-<span class="tok-nv">id_</span><span class="tok-o">=</span><span class="tok-k">$(</span> <span class="tok-se">\</span>
+<span class="tok-nv">ids_</span><span class="tok-o">=</span><span class="tok-k">$(</span> <span class="tok-se">\</span>
 	xinput list <span class="tok-se">\</span>
 	<span class="tok-p">|</span> grep <span class="tok-s2">&quot;Logitech Gaming Mouse G502&quot;</span> <span class="tok-se">\</span>
-	<span class="tok-p">|</span> head -1 <span class="tok-se">\</span>
-	<span class="tok-p">|</span> cut -d<span class="tok-s1">&#39;=&#39;</span> -f2 <span class="tok-se">\</span>
-	<span class="tok-p">|</span> awk <span class="tok-s1">&#39;{ print $1 }&#39;</span> <span class="tok-se">\</span>
-<span class="tok-k">)</span>
-<span class="tok-nv">id_2_</span><span class="tok-o">=</span><span class="tok-k">$(</span> <span class="tok-se">\</span>
-	xinput list <span class="tok-se">\</span>
-	<span class="tok-p">|</span> grep <span class="tok-s2">&quot;Logitech Gaming Mouse G502&quot;</span> <span class="tok-se">\</span>
-	<span class="tok-p">|</span> tail -1 <span class="tok-se">\</span>
 	<span class="tok-p">|</span> cut -d<span class="tok-s1">&#39;=&#39;</span> -f2 <span class="tok-se">\</span>
 	<span class="tok-p">|</span> awk <span class="tok-s1">&#39;{ print $1 }&#39;</span> <span class="tok-se">\</span>
 <span class="tok-k">)</span>
 
-<span class="tok-nb">test</span> -z <span class="tok-s2">&quot;${id_}&quot;</span>   <span class="tok-o">&amp;&amp;</span> <span class="tok-nb">exit </span>0
-<span class="tok-nb">test</span> -z <span class="tok-s2">&quot;${id_2_}&quot;</span> <span class="tok-o">&amp;&amp;</span> <span class="tok-nb">exit </span>0
+<span class="tok-nb">test</span> -z <span class="tok-s2">&quot;${ids_}&quot;</span>   <span class="tok-o">&amp;&amp;</span> <span class="tok-nb">exit </span>0
 
 <span class="tok-c">##############################################################################</span>
 
@@ -1332,17 +1317,18 @@ setxkbmap us -device <span class="tok-s2">&quot;${id_keyboard_}&quot;</span></co
 <span class="tok-s2">* Tuning mouse movement</span>
 <span class="tok-s2">&quot;</span>
 
-<span class="tok-k">for</span> mouse_ in <span class="tok-s2">&quot;${id_}&quot;</span> <span class="tok-s2">&quot;${id_2_}&quot;</span><span class="tok-p">;</span> <span class="tok-k">do</span>
-	xinput <span class="tok-nb">set</span>-prop <span class="tok-s2">&quot;${mouse_}&quot;</span> <span class="tok-s2">&quot;Evdev Scrolling Distance&quot;</span> -1, -1, 1
+<span class="tok-k">for</span> mouse_ in <span class="tok-k">${</span><span class="tok-nv">ids_</span><span class="tok-k">}</span><span class="tok-p">;</span> <span class="tok-k">do</span>
+	<span class="tok-nb">echo</span> <span class="tok-s2">&quot;${mouse_}&quot;</span>
+
+	<span class="tok-o">{</span>
+		xinput <span class="tok-nb">set</span>-prop <span class="tok-s2">&quot;${mouse_}&quot;</span> <span class="tok-s2">&quot;libinput Natural Scrolling Enabled&quot;</span> 1
+	<span class="tok-o">}</span> <span class="tok-o">||</span> <span class="tok-o">{</span>
+		xinput <span class="tok-nb">set</span>-prop <span class="tok-s2">&quot;${mouse_}&quot;</span> <span class="tok-s2">&quot;Evdev Scrolling Distance&quot;</span> -1, -1, 1
+	<span class="tok-o">}</span>
+
 	xinput <span class="tok-nb">set</span>-prop <span class="tok-s2">&quot;${mouse_}&quot;</span> <span class="tok-s2">&quot;Device Accel Profile&quot;</span> 7
 	xinput <span class="tok-nb">set</span>-prop <span class="tok-s2">&quot;${mouse_}&quot;</span> <span class="tok-s2">&quot;Device Accel Constant Deceleration&quot;</span> 2
 	xinput <span class="tok-nb">set</span>-prop <span class="tok-s2">&quot;${mouse_}&quot;</span> <span class="tok-s2">&quot;Device Accel Adaptive Deceleration&quot;</span> 1
-
-	<span class="tok-c"># For some damn reasons, Debian updates constantly break...  evdev was</span>
-	<span class="tok-c"># replaced by libinput.  I haven&#39;t found this change documented anywhere.</span>
-	<span class="tok-c"># FFS, if you want to change, how hard is it to mark something as</span>
-	<span class="tok-c"># deprecated then warn your users?  Eff you Debian!</span>
-	xinput <span class="tok-nb">set</span>-prop <span class="tok-s2">&quot;${mouse_}&quot;</span> <span class="tok-s2">&quot;libinput Natural Scrolling Enabled&quot;</span> 1
 <span class="tok-k">done</span></code></pre>
 </div>
 </div>
@@ -1370,16 +1356,16 @@ setxkbmap us -device <span class="tok-s2">&quot;${id_keyboard_}&quot;</span></co
 
 <span class="tok-nb">test</span> -z <span class="tok-s2">&quot;${id_}&quot;</span> <span class="tok-o">&amp;&amp;</span> <span class="tok-nb">exit </span>0
 
-<span class="tok-c"># ID     	Hardware Action     	Result</span>
-<span class="tok-c"># 1 	Large button left 	normal click</span>
-<span class="tok-c"># 2 	Both large buttons 	middle-click  †</span>
-<span class="tok-c"># 3 	Large button right 	right-click</span>
-<span class="tok-c"># 4 	(not a button) 	-</span>
-<span class="tok-c"># 5 	(not a button) 	-</span>
-<span class="tok-c"># 6 	(not a button) 	-</span>
-<span class="tok-c"># 7 	(not a button) 	-</span>
-<span class="tok-c"># 8 	Small button left 	browser back</span>
-<span class="tok-c"># 9 	Small button right 	browser forward</span>
+<span class="tok-c"># ID        Hardware Action         Result</span>
+<span class="tok-c"># 1     Large button left   normal click</span>
+<span class="tok-c"># 2     Both large buttons  middle-click  †</span>
+<span class="tok-c"># 3     Large button right  right-click</span>
+<span class="tok-c"># 4     (not a button)  -</span>
+<span class="tok-c"># 5     (not a button)  -</span>
+<span class="tok-c"># 6     (not a button)  -</span>
+<span class="tok-c"># 7     (not a button)  -</span>
+<span class="tok-c"># 8     Small button left   browser back</span>
+<span class="tok-c"># 9     Small button right  browser forward</span>
 
 
 <span class="tok-c"># * big-left: Primary click</span>
@@ -1464,16 +1450,16 @@ xinput <span class="tok-nb">set</span>-prop <span class="tok-s2">&quot;${id_}&qu
 
 <span class="tok-nb">test</span> -z <span class="tok-s2">&quot;${id_}&quot;</span> <span class="tok-o">&amp;&amp;</span> <span class="tok-nb">exit </span>0
 
-<span class="tok-c"># ID     	Hardware Action     	Result</span>
-<span class="tok-c"># 1 	Large button left 	normal click</span>
-<span class="tok-c"># 2 	Both large buttons 	middle-click  †</span>
-<span class="tok-c"># 3 	Large button right 	right-click</span>
-<span class="tok-c"># 4 	(not a button) 	-</span>
-<span class="tok-c"># 5 	(not a button) 	-</span>
-<span class="tok-c"># 6 	(not a button) 	-</span>
-<span class="tok-c"># 7 	(not a button) 	-</span>
-<span class="tok-c"># 8 	Small button left 	browser back</span>
-<span class="tok-c"># 9 	Small button right 	browser forward</span>
+<span class="tok-c"># ID        Hardware Action         Result</span>
+<span class="tok-c"># 1     Large button left   normal click</span>
+<span class="tok-c"># 2     Both large buttons  middle-click  †</span>
+<span class="tok-c"># 3     Large button right  right-click</span>
+<span class="tok-c"># 4     (not a button)  -</span>
+<span class="tok-c"># 5     (not a button)  -</span>
+<span class="tok-c"># 6     (not a button)  -</span>
+<span class="tok-c"># 7     (not a button)  -</span>
+<span class="tok-c"># 8     Small button left   browser back</span>
+<span class="tok-c"># 9     Small button right  browser forward</span>
 
 
 <span class="tok-c"># * big-left: Primary click</span>
@@ -1603,14 +1589,13 @@ newline
 <span class="tok-c"># synclient CircularScrolling=0</span>
 
 <span class="tok-c"># Natural scrolling</span>
-synclient <span class="tok-nv">VertScrollDelta</span><span class="tok-o">=</span>-111
-synclient <span class="tok-nv">HorizScrollDelta</span><span class="tok-o">=</span>-111
-synclient <span class="tok-nv">VertEdgeScroll</span><span class="tok-o">=</span>0
-synclient <span class="tok-nv">HorizEdgeScroll</span><span class="tok-o">=</span>0
+<span class="tok-c"># synclient VertScrollDelta=-111</span>
+<span class="tok-c"># synclient HorizScrollDelta=-111</span>
+<span class="tok-c"># synclient VertEdgeScroll=0</span>
+<span class="tok-c"># synclient HorizEdgeScroll=0</span>
 
 <span class="tok-c">##############################################################################</span>
 
-<span class="tok-c"># Eff Debian!</span>
 xinput <span class="tok-nb">set</span>-prop <span class="tok-s2">&quot;${id_}&quot;</span> <span class="tok-s2">&quot;libinput Tapping Enabled&quot;</span> 0
 xinput <span class="tok-nb">set</span>-prop <span class="tok-s2">&quot;${id_}&quot;</span> <span class="tok-s2">&quot;libinput Natural Scrolling Enabled&quot;</span> 1
 
@@ -2036,7 +2021,7 @@ handling <code>/open/&lt;file-path&gt;</code> URI (i.e. command <code>curl 0:${E
 
 <span class="tok-p">(</span><span class="tok-nb">defun</span> <span class="tok-nv">~ipc-open-file</span> <span class="tok-p">(</span><span class="tok-nv">httpcon</span><span class="tok-p">)</span>
   <span class="tok-p">(</span><span class="tok-k">let</span> <span class="tok-p">((</span><span class="tok-nv">path</span> <span class="tok-p">(</span><span class="tok-nv">emnode:http-get-arg</span> <span class="tok-nv">httpcon</span> <span class="tok-mi">1</span><span class="tok-p">)))</span>
-    <span class="tok-p">(</span><span class="tok-nv">emnode:http-start</span> <span class="tok-nv">httpcon</span> <span class="tok-mi">200</span> <span class="tok-o">&#39;</span><span class="tok-p">(</span><span class="tok-s">&quot;Content-Type&quot;</span> <span class="tok-o">.</span> <span class="tok-s">&quot;text/plain&quot;</span><span class="tok-p">))</span>
+  <span class="tok-p">(</span><span class="tok-nv">emnode:http-start</span> <span class="tok-nv">httpcon</span> <span class="tok-mi">200</span> <span class="tok-o">&#39;</span><span class="tok-p">(</span><span class="tok-s">&quot;Content-Type&quot;</span> <span class="tok-o">.</span> <span class="tok-s">&quot;text/plain&quot;</span><span class="tok-p">))</span>
     <span class="tok-p">(</span><span class="tok-nv">emnode:http-end</span> <span class="tok-nv">httpcon</span> <span class="tok-p">(</span><span class="tok-nb">format</span> <span class="tok-s">&quot;&gt; Opening: %s\n&quot;</span> <span class="tok-nv">path</span><span class="tok-p">))</span>
     <span class="tok-p">(</span><span class="tok-nv">find-file</span> <span class="tok-nv">path</span><span class="tok-p">)))</span>
 
@@ -2754,61 +2739,72 @@ xterm -e <span class="tok-s1">&#39;date -R | xsel -b&#39;</span></code></pre>
 <div class="sect2">
 <h3 id="__code_found_executable_p_code">4.63. <code>found-executable-p</code></h3>
 <div class="listingblock">
-<div class="title">file::src/found-executable-p.cr</div>
+<div class="title">file::found-executable-p</div>
 <div class="content">
-<pre class="pygments highlight"><code data-lang="crystal">require &quot;file&quot;
+<pre class="pygments highlight"><code data-lang="python"><span class="tok-c">#!/usr/bin/env python3</span>
 
-def main
-  case
-  when ARGV.size == 0
-    show_help
-    exit(2)
-  when ARGV.size == 1 &amp;&amp; ARGV[0] == &quot;--help&quot;
-    show_help
-  when ARGV.size == 1
-    exit(find_executable(ARGV[0]) ? 0 : 1)
-  else
-    show_help(when_error = true)
-    exit 3
-  end
-end
+<span class="tok-kn">import</span> <span class="tok-nn">sys</span>
+<span class="tok-kn">import</span> <span class="tok-nn">os</span>
 
-def show_help(when_error = false)
-  help_text = &lt;&lt;-EOF
-Usage: found-executable-p &lt;file&gt;
 
-Exits with code 0 if the file is an executable and found in the PATH
-environment variable and exits code 1 otherwise.
-EOF
-  if when_error
-    STDERR.puts help_text
-  else
-    puts help_text
-  end
-end
+<span class="tok-k">def</span> <span class="tok-nf">main</span><span class="tok-p">():</span>
+	<span class="tok-k">if</span> <span class="tok-n">os</span><span class="tok-o">.</span><span class="tok-n">environ</span><span class="tok-o">.</span><span class="tok-n">get</span><span class="tok-p">(</span><span class="tok-s">&#39;DOCTEST&#39;</span><span class="tok-p">)</span> <span class="tok-o">==</span> <span class="tok-s">&#39;1&#39;</span><span class="tok-p">:</span>
+		<span class="tok-kn">import</span> <span class="tok-nn">doctest</span>
+		<span class="tok-n">doctest</span><span class="tok-o">.</span><span class="tok-n">testmod</span><span class="tok-p">()</span>
+		<span class="tok-n">sys</span><span class="tok-o">.</span><span class="tok-n">exit</span><span class="tok-p">(</span><span class="tok-mi">0</span><span class="tok-p">)</span>
 
-## include::crystal/find-executable
+	<span class="tok-k">if</span> <span class="tok-nb">len</span><span class="tok-p">(</span><span class="tok-n">sys</span><span class="tok-o">.</span><span class="tok-n">argv</span><span class="tok-p">)</span> <span class="tok-o">==</span> <span class="tok-mi">1</span><span class="tok-p">:</span>
+		<span class="tok-n">show_help</span><span class="tok-p">(</span><span class="tok-n">when_error</span><span class="tok-o">=</span><span class="tok-bp">True</span><span class="tok-p">)</span>
+		<span class="tok-n">sys</span><span class="tok-o">.</span><span class="tok-n">exit</span><span class="tok-p">(</span><span class="tok-mi">2</span><span class="tok-p">)</span>
+	<span class="tok-k">elif</span> <span class="tok-nb">len</span><span class="tok-p">(</span><span class="tok-n">sys</span><span class="tok-o">.</span><span class="tok-n">argv</span><span class="tok-p">)</span> <span class="tok-o">==</span> <span class="tok-mi">2</span> <span class="tok-ow">and</span> <span class="tok-n">sys</span><span class="tok-o">.</span><span class="tok-n">argv</span><span class="tok-p">[</span><span class="tok-mi">1</span><span class="tok-p">]</span> <span class="tok-o">==</span> <span class="tok-s">&quot;--help&quot;</span><span class="tok-p">:</span>
+		<span class="tok-n">show_help</span><span class="tok-p">()</span>
+	<span class="tok-k">else</span><span class="tok-p">:</span>
+		<span class="tok-n">sys</span><span class="tok-o">.</span><span class="tok-n">exit</span><span class="tok-p">(</span><span class="tok-mi">0</span> <span class="tok-k">if</span> <span class="tok-n">find_executable</span><span class="tok-p">(</span><span class="tok-n">sys</span><span class="tok-o">.</span><span class="tok-n">argv</span><span class="tok-p">[</span><span class="tok-mi">1</span><span class="tok-p">])</span> <span class="tok-o">!=</span> <span class="tok-bp">False</span> <span class="tok-k">else</span> <span class="tok-mi">1</span><span class="tok-p">)</span>
 
-main</code></pre>
+
+<span class="tok-k">def</span> <span class="tok-nf">show_help</span><span class="tok-p">(</span><span class="tok-n">when_error</span><span class="tok-o">=</span><span class="tok-bp">False</span><span class="tok-p">):</span>
+	<span class="tok-n">help_text</span> <span class="tok-o">=</span> <span class="tok-s">&quot;&quot;&quot;</span>
+<span class="tok-s">Usage:</span>
+<span class="tok-s">  found-executable-p &lt;file&gt;</span>
+<span class="tok-s">  found-executable-p --help</span>
+
+<span class="tok-s">Exits with code 0 if the file is an executable and found in the PATH</span>
+<span class="tok-s">environment variable; exits with 1 otherwise.</span>
+
+<span class="tok-s">Development note: When running with environment variable DOCTEST set to 1,</span>
+<span class="tok-s">runs the Python doctest and exits.</span>
+<span class="tok-s">&quot;&quot;&quot;</span>
+	<span class="tok-k">if</span> <span class="tok-n">when_error</span><span class="tok-p">:</span>
+		<span class="tok-n">sys</span><span class="tok-o">.</span><span class="tok-n">stderr</span><span class="tok-o">.</span><span class="tok-n">write</span><span class="tok-p">(</span><span class="tok-n">help_text</span><span class="tok-p">)</span>
+	<span class="tok-k">else</span><span class="tok-p">:</span>
+		<span class="tok-n">sys</span><span class="tok-o">.</span><span class="tok-n">stdout</span><span class="tok-o">.</span><span class="tok-n">write</span><span class="tok-p">(</span><span class="tok-n">help_text</span><span class="tok-p">)</span>
+
+<span class="tok-c">## include::python/find-executable</span>
+
+<span class="tok-n">main</span><span class="tok-p">()</span></code></pre>
 </div>
 </div>
 <div class="listingblock">
-<div class="title">code::crystal/find-executable</div>
+<div class="title">code::python/find-executable</div>
 <div class="content">
-<pre class="pygments highlight"><code data-lang="crystal">def find_executable(name)
-  paths = if ENV[&quot;PATH&quot;].size != 0
-	ENV[&quot;PATH&quot;].split(&quot;:&quot;)
-  else
-	[&quot;/usr/local/bin&quot;, &quot;/usr/bin&quot;, &quot;/bin&quot;]
-  end
+<pre class="pygments highlight"><code data-lang="python"><span class="tok-k">def</span> <span class="tok-nf">find_executable</span><span class="tok-p">(</span><span class="tok-n">name</span><span class="tok-p">):</span>
+	<span class="tok-sd">&quot;&quot;&quot;If `name` is an executable, returns the full path to `name`; otherwise,</span>
+<span class="tok-sd">	returns `False`.</span>
 
-  paths.each do |path|
-    full_path = File.join(path, name)
-    return full_path if File.exists?(full_path) &amp;&amp; File.executable?(full_path)
-  end
+<span class="tok-sd">	&gt;&gt;&gt; find_executable(&quot;ls&quot;)</span>
+<span class="tok-sd">	&#39;/bin/ls&#39;</span>
+<span class="tok-sd">	&gt;&gt;&gt; import uuid</span>
+<span class="tok-sd">	&gt;&gt;&gt; find_executable(str(uuid.uuid4()))</span>
+<span class="tok-sd">	False</span>
+<span class="tok-sd">	&quot;&quot;&quot;</span>
+	<span class="tok-n">paths</span> <span class="tok-o">=</span> <span class="tok-n">os</span><span class="tok-o">.</span><span class="tok-n">environ</span><span class="tok-o">.</span><span class="tok-n">get</span><span class="tok-p">(</span><span class="tok-s">&quot;PATH&quot;</span><span class="tok-p">,</span> <span class="tok-s">&quot;&quot;</span><span class="tok-p">)</span><span class="tok-o">.</span><span class="tok-n">split</span><span class="tok-p">(</span><span class="tok-s">&quot;:&quot;</span><span class="tok-p">)</span>
 
-  false
-end</code></pre>
+	<span class="tok-k">for</span> <span class="tok-n">path_dir</span> <span class="tok-ow">in</span> <span class="tok-n">paths</span><span class="tok-p">:</span>
+		<span class="tok-n">full_path</span> <span class="tok-o">=</span> <span class="tok-n">os</span><span class="tok-o">.</span><span class="tok-n">path</span><span class="tok-o">.</span><span class="tok-n">join</span><span class="tok-p">(</span><span class="tok-n">path_dir</span><span class="tok-p">,</span> <span class="tok-n">name</span><span class="tok-p">)</span>
+		<span class="tok-k">if</span> <span class="tok-p">(</span><span class="tok-n">os</span><span class="tok-o">.</span><span class="tok-n">path</span><span class="tok-o">.</span><span class="tok-n">isfile</span><span class="tok-p">(</span><span class="tok-n">full_path</span><span class="tok-p">)</span> <span class="tok-ow">and</span> <span class="tok-n">os</span><span class="tok-o">.</span><span class="tok-n">access</span><span class="tok-p">(</span><span class="tok-n">full_path</span><span class="tok-p">,</span> <span class="tok-n">os</span><span class="tok-o">.</span><span class="tok-n">X_OK</span><span class="tok-p">)):</span>
+			<span class="tok-k">return</span> <span class="tok-n">full_path</span>
+
+	<span class="tok-k">return</span> <span class="tok-bp">False</span></code></pre>
 </div>
 </div>
 </div>
@@ -2840,121 +2836,151 @@ report-missing-executables aria2c Aria2 wget
 </div>
 </div>
 <div class="listingblock">
-<div class="title">file::src/report-missing-executables.cr</div>
+<div class="title">file::report-missing-executables</div>
 <div class="content">
-<pre class="pygments highlight"><code data-lang="crystal">def main
-  case
-  when ARGV.size == 0
-    show_help(when_error = true)
-    exit 2
-  when ARGV.size == 1 &amp;&amp; ARGV[0] == &quot;--help&quot;
-    show_help
-  when ARGV.size % 2 != 0
-    STDERR.puts &quot;Invalid arguments.  Number of arguments must be even.&quot;
-    exit 3
-  else
-    if report_missing_execs get_missing_execs(ARGV).to_a
-      exit 0
-    else
-      exit 1
-    end
-  end
-end
+<pre class="pygments highlight"><code data-lang="python"><span class="tok-c">#!/usr/bin/env python3</span>
 
-## include::crystal/find-executable
+<span class="tok-kn">import</span> <span class="tok-nn">sys</span>
+<span class="tok-kn">import</span> <span class="tok-nn">os</span>
 
-def found_executable(name)
-  find_executable(name) != false
-end
 
-def show_help(when_error = false)
-  help_text = &lt;&lt;-EOF
-Usage: report-missing-executables &lt;file&gt;
+<span class="tok-k">def</span> <span class="tok-nf">main</span><span class="tok-p">():</span>
+	<span class="tok-k">if</span> <span class="tok-n">os</span><span class="tok-o">.</span><span class="tok-n">environ</span><span class="tok-o">.</span><span class="tok-n">get</span><span class="tok-p">(</span><span class="tok-s">&#39;DOCTEST&#39;</span><span class="tok-p">)</span> <span class="tok-o">==</span> <span class="tok-s">&#39;1&#39;</span><span class="tok-p">:</span>
+		<span class="tok-kn">import</span> <span class="tok-nn">doctest</span>
+		<span class="tok-n">doctest</span><span class="tok-o">.</span><span class="tok-n">testmod</span><span class="tok-p">()</span>
+		<span class="tok-n">sys</span><span class="tok-o">.</span><span class="tok-n">exit</span><span class="tok-p">(</span><span class="tok-mi">0</span><span class="tok-p">)</span>
 
-Reports missing software by checking if their corresponding executables exist.
-If all executables are found, exit with status 0; otherwise, exit with status
-1.
+	<span class="tok-k">if</span> <span class="tok-nb">len</span><span class="tok-p">(</span><span class="tok-n">sys</span><span class="tok-o">.</span><span class="tok-n">argv</span><span class="tok-p">)</span> <span class="tok-o">==</span> <span class="tok-mi">1</span><span class="tok-p">:</span>
+		<span class="tok-n">show_help</span><span class="tok-p">(</span><span class="tok-n">when_error</span><span class="tok-o">=</span><span class="tok-bp">True</span><span class="tok-p">)</span>
+	<span class="tok-k">elif</span> <span class="tok-nb">len</span><span class="tok-p">(</span><span class="tok-n">sys</span><span class="tok-o">.</span><span class="tok-n">argv</span><span class="tok-p">)</span> <span class="tok-o">==</span> <span class="tok-mi">2</span> <span class="tok-ow">and</span> <span class="tok-n">sys</span><span class="tok-o">.</span><span class="tok-n">argv</span><span class="tok-p">[</span><span class="tok-mi">1</span><span class="tok-p">]</span> <span class="tok-o">==</span> <span class="tok-s">&quot;--help&quot;</span><span class="tok-p">:</span>
+		<span class="tok-n">show_help</span><span class="tok-p">()</span>
+	<span class="tok-k">elif</span> <span class="tok-nb">len</span><span class="tok-p">(</span><span class="tok-n">sys</span><span class="tok-o">.</span><span class="tok-n">argv</span><span class="tok-p">)</span> <span class="tok-o">%</span> <span class="tok-mi">2</span> <span class="tok-o">==</span> <span class="tok-mi">0</span><span class="tok-p">:</span>
+		<span class="tok-n">sys</span><span class="tok-o">.</span><span class="tok-n">stderr</span><span class="tok-o">.</span><span class="tok-n">write</span><span class="tok-p">(</span><span class="tok-s">&quot;Invalid arguments.  Number of arguments must be even.</span><span class="tok-se">\n</span><span class="tok-s">&quot;</span><span class="tok-p">)</span>
+		<span class="tok-n">sys</span><span class="tok-o">.</span><span class="tok-n">exit</span><span class="tok-p">(</span><span class="tok-mi">3</span><span class="tok-p">)</span>
+	<span class="tok-k">else</span><span class="tok-p">:</span>
+		<span class="tok-n">sys</span><span class="tok-o">.</span><span class="tok-n">exit</span><span class="tok-p">(</span>
+			<span class="tok-mi">1</span> <span class="tok-k">if</span> <span class="tok-n">report_missing_execs</span><span class="tok-p">(</span><span class="tok-n">get_missing_execs</span><span class="tok-p">(</span><span class="tok-n">sys</span><span class="tok-o">.</span><span class="tok-n">argv</span><span class="tok-p">[</span><span class="tok-mi">1</span><span class="tok-p">:]))</span> <span class="tok-k">else</span> <span class="tok-mi">0</span>
+        <span class="tok-p">)</span>
 
-E.g.
 
-  report-missing-executables aria2c Aria2 wget Wget
-    # aria2c and wget not found
-    # Make sure you have Aria2 and Wget installed
+<span class="tok-k">def</span> <span class="tok-nf">show_help</span><span class="tok-p">(</span><span class="tok-n">when_error</span><span class="tok-o">=</span><span class="tok-bp">False</span><span class="tok-p">):</span>
+	<span class="tok-n">help_text</span> <span class="tok-o">=</span> <span class="tok-s">&quot;&quot;&quot;</span>
+<span class="tok-s">Usage:</span>
+<span class="tok-s">  report-missing-executables &lt;exec-1&gt; &lt;prog-1&gt; ...</span>
+<span class="tok-s">  report-missing-executables --help</span>
 
-  report-missing-executables aria2c Aria2 wget Wget curl cURL
-    # aria2c, curl, and wget not found
-    # Make sure you have Aria2, Wget, and cURL installed
+<span class="tok-s">Reports missing software by checking if their corresponding executables exist.</span>
+<span class="tok-s">If all executables are found, exit with status 0; otherwise, exit with status</span>
+<span class="tok-s">1.</span>
 
-  report-missing-executables aria2c Aria2 wget
-    # Invalid arguments.  Number of arguments must be even.
-EOF
-  if when_error
-    STDERR.puts help_text
-  else
-    puts help_text
-  end
-end
+<span class="tok-s">E.g.</span>
 
-#
-# Gets missing executables from command line arguments.  The argument `args`
-# is an array of strings of the following format: `&lt;executable&gt; &lt;program&gt;
-# ...`.  This function returns the list of `{:executable, :program}` tuples
-# where the corresponding executables are not found.
-#
-def get_missing_execs(args)
-  (0..args.size - 1)
-    .step(2)
-    .map { |i| { executable: args[i], program: args[i + 1] } }
-    .reject { |exec_prog| found_executable exec_prog[:executable] }
-end
+<span class="tok-s">  report-missing-executables aria2c Aria2 wget Wget</span>
+<span class="tok-s">    # aria2c and wget not found</span>
+<span class="tok-s">    # Make sure you have Aria2 and Wget installed</span>
 
-def print_missing_list(pre_msg, purpose_msg, missing, extractor)
-  if missing.size == 1
-    output = &quot;#{extractor.call(missing[0])}&quot;
-  else
-    before_last = butlast(missing).map(&amp;extractor).join(&quot;, &quot;)
-    last        = extractor.call(last(missing))
-    comma       = if missing.size &gt; 2
-                    &quot;,&quot;
-                  else
-                    &quot;&quot;
-                  end
-    output      = &quot;#{before_last}#{comma} and #{last}&quot;
-  end
+<span class="tok-s">  report-missing-executables aria2c Aria2 wget Wget curl cURL</span>
+<span class="tok-s">    # aria2c, curl, and wget not found</span>
+<span class="tok-s">    # Make sure you have Aria2, Wget, and cURL installed</span>
 
-  puts &quot;#{pre_msg}#{output} #{purpose_msg}&quot;
-end
+<span class="tok-s">  report-missing-executables aria2c Aria2 wget</span>
+<span class="tok-s">    # Invalid arguments.  Number of arguments must be even.</span>
 
-#
-# Reports missing executables, returning `true` if there is at least one
-# missing and `false` otherwise.
-#
-def report_missing_execs(missing_list)
-  case missing_list.size
-  when 0
-    return false
-  else
-    print_missing_list(pre_msg = &quot;&quot;,
-                       purpose_msg = &quot;not found&quot;,
-                       missing = missing_list,
-                       extractor = -&gt;(exec_prog: NamedTuple(executable: String, program: String)) { exec_prog[:executable] })
-    print_missing_list(pre_msg = &quot;Make sure you have &quot;,
-                       purpose_msg = &quot;installed&quot;,
-                       missing = missing_list,
-                       extractor = -&gt;(exec_prog: NamedTuple(executable: String, program: String)) { exec_prog[:program] })
-  end
-  true
-end
+<span class="tok-s">Development note: When running with environment variable DOCTEST set to 1,</span>
+<span class="tok-s">runs the Python doctest and exits.</span>
+<span class="tok-s">&quot;&quot;&quot;</span>
+	<span class="tok-k">if</span> <span class="tok-n">when_error</span><span class="tok-p">:</span>
+		<span class="tok-n">sys</span><span class="tok-o">.</span><span class="tok-n">stderr</span><span class="tok-o">.</span><span class="tok-n">write</span><span class="tok-p">(</span><span class="tok-n">help_text</span><span class="tok-p">)</span>
+	<span class="tok-k">else</span><span class="tok-p">:</span>
+		<span class="tok-n">sys</span><span class="tok-o">.</span><span class="tok-n">stdout</span><span class="tok-o">.</span><span class="tok-n">write</span><span class="tok-p">(</span><span class="tok-n">help_text</span><span class="tok-p">)</span>
 
-def last(array)
-  array[-1]
-end
 
-def butlast(array)
-  array[0..-2]
-end
+<span class="tok-k">def</span> <span class="tok-nf">find_executable</span><span class="tok-p">(</span><span class="tok-n">name</span><span class="tok-p">):</span>
+	<span class="tok-sd">&quot;&quot;&quot;If `name` is an executable, returns the full path to `name`; otherwise,</span>
+<span class="tok-sd">	returns `False`.</span>
 
-main</code></pre>
+<span class="tok-sd">	&gt;&gt;&gt; find_executable(&quot;ls&quot;)</span>
+<span class="tok-sd">	&#39;/bin/ls&#39;</span>
+<span class="tok-sd">	&gt;&gt;&gt; import uuid</span>
+<span class="tok-sd">	&gt;&gt;&gt; find_executable(str(uuid.uuid4()))</span>
+<span class="tok-sd">	False</span>
+<span class="tok-sd">	&quot;&quot;&quot;</span>
+	<span class="tok-n">paths</span> <span class="tok-o">=</span> <span class="tok-n">os</span><span class="tok-o">.</span><span class="tok-n">environ</span><span class="tok-o">.</span><span class="tok-n">get</span><span class="tok-p">(</span><span class="tok-s">&quot;PATH&quot;</span><span class="tok-p">,</span> <span class="tok-s">&quot;&quot;</span><span class="tok-p">)</span><span class="tok-o">.</span><span class="tok-n">split</span><span class="tok-p">(</span><span class="tok-s">&quot;:&quot;</span><span class="tok-p">)</span>
+
+	<span class="tok-k">for</span> <span class="tok-n">path_dir</span> <span class="tok-ow">in</span> <span class="tok-n">paths</span><span class="tok-p">:</span>
+		<span class="tok-n">full_path</span> <span class="tok-o">=</span> <span class="tok-n">os</span><span class="tok-o">.</span><span class="tok-n">path</span><span class="tok-o">.</span><span class="tok-n">join</span><span class="tok-p">(</span><span class="tok-n">path_dir</span><span class="tok-p">,</span> <span class="tok-n">name</span><span class="tok-p">)</span>
+		<span class="tok-k">if</span> <span class="tok-p">(</span><span class="tok-n">os</span><span class="tok-o">.</span><span class="tok-n">path</span><span class="tok-o">.</span><span class="tok-n">isfile</span><span class="tok-p">(</span><span class="tok-n">full_path</span><span class="tok-p">)</span> <span class="tok-ow">and</span> <span class="tok-n">os</span><span class="tok-o">.</span><span class="tok-n">access</span><span class="tok-p">(</span><span class="tok-n">full_path</span><span class="tok-p">,</span> <span class="tok-n">os</span><span class="tok-o">.</span><span class="tok-n">X_OK</span><span class="tok-p">)):</span>
+			<span class="tok-k">return</span> <span class="tok-n">full_path</span>
+
+	<span class="tok-k">return</span> <span class="tok-bp">False</span>
+
+
+<span class="tok-k">def</span> <span class="tok-nf">found_executable</span><span class="tok-p">(</span><span class="tok-n">name</span><span class="tok-p">):</span>
+	<span class="tok-sd">&quot;&quot;&quot;Determines if a name is an executable that can be called.</span>
+
+<span class="tok-sd">	&gt;&gt;&gt; found_executable(&quot;ls&quot;)</span>
+<span class="tok-sd">	True</span>
+<span class="tok-sd">	&gt;&gt;&gt; found_executable(&quot;python&quot;)</span>
+<span class="tok-sd">	True</span>
+<span class="tok-sd">	&gt;&gt;&gt; import uuid</span>
+<span class="tok-sd">	&gt;&gt;&gt; found_executable(str(uuid.uuid4()))</span>
+<span class="tok-sd">	False</span>
+<span class="tok-sd">	&quot;&quot;&quot;</span>
+	<span class="tok-k">return</span> <span class="tok-n">find_executable</span><span class="tok-p">(</span><span class="tok-n">name</span><span class="tok-p">)</span> <span class="tok-o">!=</span> <span class="tok-bp">False</span>
+
+
+<span class="tok-k">def</span> <span class="tok-nf">get_missing_execs</span><span class="tok-p">(</span><span class="tok-n">args</span><span class="tok-p">):</span>
+	<span class="tok-sd">&quot;&quot;&quot;Gets missing executables from command line arguments.  The argument `args`</span>
+<span class="tok-sd">	is a list of strings `&lt;exec-1&gt; &lt;program-1&gt; &lt;exec-2&gt; &lt;program-2&gt; ...`.</span>
+<span class="tok-sd">	Returns the list of dictionaries with `\&quot;executable\&quot;` and `\&quot;program\&quot;`</span>
+<span class="tok-sd">	as keys where the corresponding executables are not found.</span>
+
+<span class="tok-sd">	&gt;&gt;&gt; get_missing_execs([&#39;ls&#39;, &#39;Binutils&#39;, &#39;python&#39;, &#39;Python&#39;, &#39;aaaSomeCrapaaa&#39;, &#39;Some Crap&#39;]) == [{&#39;executable&#39;: &#39;aaaSomeCrapaaa&#39;, &#39;program&#39;: &#39;Some Crap&#39;}]</span>
+<span class="tok-sd">	True</span>
+<span class="tok-sd">	&quot;&quot;&quot;</span>
+	<span class="tok-k">return</span> <span class="tok-p">[</span>
+		<span class="tok-nb">dict</span><span class="tok-p">(</span><span class="tok-n">executable</span><span class="tok-o">=</span><span class="tok-n">args</span><span class="tok-p">[</span><span class="tok-n">i</span><span class="tok-p">],</span> <span class="tok-n">program</span><span class="tok-o">=</span><span class="tok-n">args</span><span class="tok-p">[</span><span class="tok-n">i</span> <span class="tok-o">+</span> <span class="tok-mi">1</span><span class="tok-p">])</span>
+		<span class="tok-k">for</span> <span class="tok-n">i</span> <span class="tok-ow">in</span> <span class="tok-nb">range</span><span class="tok-p">(</span><span class="tok-mi">0</span><span class="tok-p">,</span> <span class="tok-nb">len</span><span class="tok-p">(</span><span class="tok-n">args</span><span class="tok-p">),</span> <span class="tok-mi">2</span><span class="tok-p">)</span>
+		<span class="tok-k">if</span> <span class="tok-ow">not</span> <span class="tok-n">found_executable</span><span class="tok-p">(</span><span class="tok-n">args</span><span class="tok-p">[</span><span class="tok-n">i</span><span class="tok-p">])</span>
+	<span class="tok-p">]</span>
+
+
+<span class="tok-k">def</span> <span class="tok-nf">report_missing_execs</span><span class="tok-p">(</span><span class="tok-n">missing_list</span><span class="tok-p">):</span>
+	<span class="tok-sd">&quot;&quot;&quot;Reports missing executables, returning `True` if there is at least one</span>
+<span class="tok-sd">	missing and `False` otherwise.</span>
+
+<span class="tok-sd">	&quot;&quot;&quot;</span>
+
+	<span class="tok-k">def</span> <span class="tok-nf">print_missing_list</span><span class="tok-p">(</span><span class="tok-n">pre_msg</span><span class="tok-p">,</span> <span class="tok-n">post_msg</span><span class="tok-p">,</span> <span class="tok-n">missing</span><span class="tok-p">):</span>
+		<span class="tok-k">if</span> <span class="tok-nb">len</span><span class="tok-p">(</span><span class="tok-n">missing</span><span class="tok-p">)</span> <span class="tok-o">==</span> <span class="tok-mi">1</span><span class="tok-p">:</span>
+			<span class="tok-n">output</span> <span class="tok-o">=</span> <span class="tok-n">missing</span><span class="tok-p">[</span><span class="tok-mi">0</span><span class="tok-p">]</span>
+		<span class="tok-k">else</span><span class="tok-p">:</span>
+			<span class="tok-n">missing_butlast</span> <span class="tok-o">=</span> <span class="tok-n">missing</span><span class="tok-p">[:</span><span class="tok-o">-</span><span class="tok-mi">1</span><span class="tok-p">]</span>
+			<span class="tok-n">missing_last</span>    <span class="tok-o">=</span> <span class="tok-n">missing</span><span class="tok-p">[</span><span class="tok-o">-</span><span class="tok-mi">1</span><span class="tok-p">]</span>
+			<span class="tok-n">before_last</span>     <span class="tok-o">=</span> <span class="tok-s">&quot;, &quot;</span><span class="tok-o">.</span><span class="tok-n">join</span><span class="tok-p">(</span><span class="tok-n">missing_butlast</span><span class="tok-p">)</span>
+			<span class="tok-n">comma</span>           <span class="tok-o">=</span> <span class="tok-s">&quot;,&quot;</span> <span class="tok-k">if</span> <span class="tok-nb">len</span><span class="tok-p">(</span><span class="tok-n">missing</span><span class="tok-p">)</span> <span class="tok-o">&gt;</span> <span class="tok-mi">2</span> <span class="tok-k">else</span> <span class="tok-s">&quot;&quot;</span>
+
+			<span class="tok-n">output</span> <span class="tok-o">=</span> <span class="tok-s">&quot;{}{} and {}&quot;</span><span class="tok-o">.</span><span class="tok-n">format</span><span class="tok-p">(</span><span class="tok-n">before_last</span><span class="tok-p">,</span> <span class="tok-n">comma</span><span class="tok-p">,</span> <span class="tok-n">missing_last</span><span class="tok-p">)</span>
+
+		<span class="tok-n">sys</span><span class="tok-o">.</span><span class="tok-n">stdout</span><span class="tok-o">.</span><span class="tok-n">write</span><span class="tok-p">(</span><span class="tok-s">&quot;{}{} {}</span><span class="tok-se">\n</span><span class="tok-s">&quot;</span><span class="tok-o">.</span><span class="tok-n">format</span><span class="tok-p">(</span><span class="tok-n">pre_msg</span><span class="tok-p">,</span> <span class="tok-n">output</span><span class="tok-p">,</span> <span class="tok-n">post_msg</span><span class="tok-p">))</span>
+
+	<span class="tok-k">if</span> <span class="tok-nb">len</span><span class="tok-p">(</span><span class="tok-n">missing_list</span><span class="tok-p">)</span> <span class="tok-o">==</span> <span class="tok-mi">0</span><span class="tok-p">:</span>
+		<span class="tok-k">return</span> <span class="tok-bp">False</span>
+	<span class="tok-k">else</span><span class="tok-p">:</span>
+		<span class="tok-n">print_missing_list</span><span class="tok-p">(</span>
+			<span class="tok-n">pre_msg</span><span class="tok-o">=</span><span class="tok-s">&quot;&quot;</span><span class="tok-p">,</span>
+			<span class="tok-n">post_msg</span><span class="tok-o">=</span><span class="tok-s">&quot;not found&quot;</span><span class="tok-p">,</span>
+			<span class="tok-n">missing</span><span class="tok-o">=</span><span class="tok-p">[</span><span class="tok-n">x</span><span class="tok-p">[</span><span class="tok-s">&#39;executable&#39;</span><span class="tok-p">]</span> <span class="tok-k">for</span> <span class="tok-n">x</span> <span class="tok-ow">in</span> <span class="tok-n">missing_list</span><span class="tok-p">],</span>
+		<span class="tok-p">)</span>
+		<span class="tok-n">print_missing_list</span><span class="tok-p">(</span>
+			<span class="tok-n">pre_msg</span><span class="tok-o">=</span><span class="tok-s">&quot;Make sure you have &quot;</span><span class="tok-p">,</span>
+			<span class="tok-n">post_msg</span><span class="tok-o">=</span><span class="tok-s">&quot;installed&quot;</span><span class="tok-p">,</span>
+			<span class="tok-n">missing</span><span class="tok-o">=</span><span class="tok-p">[</span><span class="tok-n">x</span><span class="tok-p">[</span><span class="tok-s">&#39;program&#39;</span><span class="tok-p">]</span> <span class="tok-k">for</span> <span class="tok-n">x</span> <span class="tok-ow">in</span> <span class="tok-n">missing_list</span><span class="tok-p">],</span>
+		<span class="tok-p">)</span>
+		<span class="tok-k">return</span> <span class="tok-bp">True</span>
+
+
+<span class="tok-n">main</span><span class="tok-p">()</span></code></pre>
 </div>
 </div>
 </div>
@@ -3487,7 +3513,7 @@ report-missing-executables lynx Lynx wget Wget <span class="tok-o">||</span> <sp
 <span class="tok-nb">echo</span>
 
 <span class="tok-k">if</span> <span class="tok-o">(</span>! ~ <span class="tok-nv">$current_version</span> <span class="tok-nv">$latest_version</span><span class="tok-o">)</span> <span class="tok-o">{</span>
- 	<span class="tok-nb">echo </span>Versions mismatch, updating...
+	<span class="tok-nb">echo </span>Versions mismatch, updating...
 
 	mkdir -p <span class="tok-nv">$opt</span>/elixir
 	<span class="tok-nb">cd</span> <span class="tok-nv">$opt</span>/elixir
@@ -3948,14 +3974,14 @@ cat /dev/urandom <span class="tok-p">|</span> tr -dc <span class="tok-s1">&#39;a
 <div class="sectionbody">
 <div class="paragraph">
 <p>Unless clearly stated, do whatever you want with them.  If you like it, buy me
-a good strong coffee :-).</p>
+a coffee.</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2016-07-27 23:23:49 EEST
+Last updated 2016-12-12 23:42:06 EET
 </div>
 </div>
 </body>
