@@ -1,5 +1,7 @@
 #!/bin/zsh
 
+setopt shwordsplit
+
 report-missing-executables ffmpeg Ffmpeg || exit 1
 
 file_="$1"

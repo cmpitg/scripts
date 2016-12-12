@@ -1,5 +1,7 @@
 #!/bin/zsh
 
+setopt shwordsplit
+
 # http://www.x.org/wiki/Development/Documentation/PointerAcceleration/
 
 ##############################################################################

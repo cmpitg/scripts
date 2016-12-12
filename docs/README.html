@@ -1220,6 +1220,8 @@ config-logitech-g502-mouse</code></pre>
 <div class="content">
 <pre class="pygments highlight"><code data-lang="sh"><span class="tok-c">#!/bin/zsh</span>
 
+setopt shwordsplit
+
 <span class="tok-nv">id_</span><span class="tok-o">=</span><span class="tok-k">$(</span> <span class="tok-se">\</span>
 	xinput list 2&gt;/dev/null <span class="tok-se">\</span>
 	<span class="tok-p">|</span> grep <span class="tok-s2">&quot;Dual Mode WL Touch Mouse N700&quot;</span> <span class="tok-se">\</span>
@@ -1256,6 +1258,8 @@ xinput <span class="tok-nb">set</span>-prop <span class="tok-s2">&quot;${id_}&qu
 <div class="title">file::config-logitech-g300-mouse</div>
 <div class="content">
 <pre class="pygments highlight"><code data-lang="sh"><span class="tok-c">#!/bin/zsh</span>
+
+setopt shwordsplit
 
 <span class="tok-nv">id_</span><span class="tok-o">=</span><span class="tok-k">$(</span> <span class="tok-se">\</span>
 	xinput list <span class="tok-se">\</span>
@@ -1296,6 +1300,8 @@ xinput <span class="tok-nb">set</span>-prop <span class="tok-s2">&quot;${id_}&qu
 <div class="title">file::config-logitech-g502-mouse</div>
 <div class="content">
 <pre class="pygments highlight"><code data-lang="sh"><span class="tok-c">#!/bin/zsh</span>
+
+setopt shwordsplit
 
 <span class="tok-c"># http://www.x.org/wiki/Development/Documentation/PointerAcceleration/</span>
 
@@ -1691,6 +1697,8 @@ extension.</p>
 <div class="content">
 <pre class="pygments highlight"><code data-lang="sh"><span class="tok-c">#!/bin/zsh</span>
 
+setopt shwordsplit
+
 report-missing-executables ffmpeg Ffmpeg <span class="tok-o">||</span> <span class="tok-nb">exit </span>1
 
 <span class="tok-nv">file_</span><span class="tok-o">=</span><span class="tok-s2">&quot;$1&quot;</span>
@@ -2021,7 +2029,7 @@ handling <code>/open/&lt;file-path&gt;</code> URI (i.e. command <code>curl 0:${E
 
 <span class="tok-p">(</span><span class="tok-nb">defun</span> <span class="tok-nv">~ipc-open-file</span> <span class="tok-p">(</span><span class="tok-nv">httpcon</span><span class="tok-p">)</span>
   <span class="tok-p">(</span><span class="tok-k">let</span> <span class="tok-p">((</span><span class="tok-nv">path</span> <span class="tok-p">(</span><span class="tok-nv">emnode:http-get-arg</span> <span class="tok-nv">httpcon</span> <span class="tok-mi">1</span><span class="tok-p">)))</span>
-  <span class="tok-p">(</span><span class="tok-nv">emnode:http-start</span> <span class="tok-nv">httpcon</span> <span class="tok-mi">200</span> <span class="tok-o">&#39;</span><span class="tok-p">(</span><span class="tok-s">&quot;Content-Type&quot;</span> <span class="tok-o">.</span> <span class="tok-s">&quot;text/plain&quot;</span><span class="tok-p">))</span>
+    <span class="tok-p">(</span><span class="tok-nv">emnode:http-start</span> <span class="tok-nv">httpcon</span> <span class="tok-mi">200</span> <span class="tok-o">&#39;</span><span class="tok-p">(</span><span class="tok-s">&quot;Content-Type&quot;</span> <span class="tok-o">.</span> <span class="tok-s">&quot;text/plain&quot;</span><span class="tok-p">))</span>
     <span class="tok-p">(</span><span class="tok-nv">emnode:http-end</span> <span class="tok-nv">httpcon</span> <span class="tok-p">(</span><span class="tok-nb">format</span> <span class="tok-s">&quot;&gt; Opening: %s\n&quot;</span> <span class="tok-nv">path</span><span class="tok-p">))</span>
     <span class="tok-p">(</span><span class="tok-nv">find-file</span> <span class="tok-nv">path</span><span class="tok-p">)))</span>
 
@@ -3981,7 +3989,7 @@ a coffee.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2016-12-12 23:42:06 EET
+Last updated 2016-12-13 00:38:39 EET
 </div>
 </div>
 </body>

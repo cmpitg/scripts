@@ -1,5 +1,7 @@
 #!/bin/zsh
 
+setopt shwordsplit
+
 id_=$( \
 	xinput list 2>/dev/null \
 	| grep "Dual Mode WL Touch Mouse N700" \
