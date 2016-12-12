@@ -923,10 +923,10 @@ newline
 # synclient CircularScrolling=0
 
 # Natural scrolling
-synclient VertScrollDelta=-111
-synclient HorizScrollDelta=-111
-synclient VertEdgeScroll=0
-synclient HorizEdgeScroll=0
+# synclient VertScrollDelta=-111
+# synclient HorizScrollDelta=-111
+# synclient VertEdgeScroll=0
+# synclient HorizEdgeScroll=0
 
 ##############################################################################
 
