@@ -511,14 +511,15 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#__code_config_keymap_altgr_code_keyboard_layout_programmer_dvorak_right_alt_as_altgr_ctrl_alt_swapped_capslock_escape_swapped">4.15. <code>config-keymap-altgr</code> - keyboard layout: Programmer Dvorak + Right Alt as AltGr + Ctrl-Alt swapped + CapsLock-Escape swapped</a></li>
 <li><a href="#__code_config_keymap_cmpitg_code_keyboard_layout_programmer_dvorak_ctrl_alt_swapped_capslock_escape_swapped">4.16. <code>config-keymap-cmpitg</code> - keyboard layout: Programmer Dvorak + Ctrl-Alt swapped + CapsLock-Escape swapped</a></li>
 <li><a href="#__code_config_keymap_steam_code_keyboard_layout_programmer_dvorak_without_altgr">4.17. <code>config-keymap-steam</code> - keyboard layout: Programmer Dvorak without AltGr</a></li>
-<li><a href="#_config_mouses">4.18. Config mouses</a>
+<li><a href="#_config_mouses_extra_peripherals">4.18. Config mouses &amp; extra peripherals</a>
 <ul class="sectlevel3">
-<li><a href="#__code_config_lenovo_n700_mouse_code">4.18.1. <code>config-lenovo-n700-mouse</code></a></li>
-<li><a href="#__code_config_logitech_g300_mouse_code">4.18.2. <code>config-logitech-g300-mouse</code></a></li>
-<li><a href="#__code_config_logitech_g502_mouse_code">4.18.3. <code>config-logitech-g502-mouse</code></a></li>
-<li><a href="#__code_config_logitech_trackball_marble_lefty_code">4.18.4. <code>config-logitech-trackball-marble-lefty</code></a></li>
-<li><a href="#__code_config_logitech_trackball_marble_righty_code">4.18.5. <code>config-logitech-trackball-marble-righty</code></a></li>
-<li><a href="#__code_config_touchpad_code">4.18.6. <code>config-touchpad</code></a></li>
+<li><a href="#__code_config_extra_peripherals_code">4.18.1. <code>config-extra-peripherals</code></a></li>
+<li><a href="#__code_config_lenovo_n700_mouse_code">4.18.2. <code>config-lenovo-n700-mouse</code></a></li>
+<li><a href="#__code_config_logitech_g300_mouse_code">4.18.3. <code>config-logitech-g300-mouse</code></a></li>
+<li><a href="#__code_config_logitech_g502_mouse_code">4.18.4. <code>config-logitech-g502-mouse</code></a></li>
+<li><a href="#__code_config_logitech_trackball_marble_lefty_code">4.18.5. <code>config-logitech-trackball-marble-lefty</code></a></li>
+<li><a href="#__code_config_logitech_trackball_marble_righty_code">4.18.6. <code>config-logitech-trackball-marble-righty</code></a></li>
+<li><a href="#__code_config_touchpad_code">4.18.7. <code>config-touchpad</code></a></li>
 </ul>
 </li>
 <li><a href="#__code_config_monitors_urt_code_configs_external_monitor_for_a_href_http_www_urbanterror_info_urban_terror_a">4.19. <code>config-monitors-urt</code> - configs external monitor for <a href="http://www.urbanterror.info">Urban Terror</a></a></li>
@@ -1182,9 +1183,8 @@ config-logitech-trackball-marble-righty
 config-logitech-g300-mouse
 config-logitech-g502-mouse
 config-lenovo-mouse
-
 config-touchpad
-config-touchpad</code></pre>
+config-extra-peripherals</code></pre>
 </div>
 </div>
 </div>
@@ -1209,12 +1209,34 @@ config-logitech-g502-mouse</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_config_mouses">4.18. Config mouses</h3>
+<h3 id="_config_mouses_extra_peripherals">4.18. Config mouses &amp; extra peripherals</h3>
 <div class="paragraph">
 <p>Enables natural scrolling and tweaks acceleration profile.</p>
 </div>
 <div class="sect3">
-<h4 id="__code_config_lenovo_n700_mouse_code">4.18.1. <code>config-lenovo-n700-mouse</code></h4>
+<h4 id="__code_config_extra_peripherals_code">4.18.1. <code>config-extra-peripherals</code></h4>
+<div class="listingblock">
+<div class="title">file::config-extra-peripherals</div>
+<div class="content">
+<pre class="pygments highlight"><code data-lang="sh"><span class="tok-c">#!/bin/bash</span>
+
+<span class="tok-k">do</span>-notify <span class="tok-s2">&quot;Setting natural scrolling for Dell mouse&quot;</span>
+xinput <span class="tok-nb">set</span>-prop <span class="tok-s1">&#39;DELL Laser Mouse&#39;</span> <span class="tok-s1">&#39;libinput Natural Scrolling Enabled&#39;</span> 1
+xinput <span class="tok-nb">set</span>-prop <span class="tok-s1">&#39;DELL Laser Mouse&#39;</span> <span class="tok-s1">&#39;Evdev Scrolling Distance&#39;</span> -1, -1, 1
+xinput <span class="tok-nb">set</span>-prop <span class="tok-s1">&#39;DELL Laser Mouse&#39;</span> <span class="tok-s1">&#39;libinput Accel Speed&#39;</span> 0.2
+
+<span class="tok-k">do</span>-notify <span class="tok-s2">&quot;Setting natural scrolling for Evoluent Vertical 4&quot;</span>
+xinput <span class="tok-nb">set</span>-prop <span class="tok-s1">&#39;Kingsis Peripherals Evoluent VerticalMouse 4&#39;</span> <span class="tok-s1">&#39;libinput Natural Scrolling Enabled&#39;</span> 1
+xinput <span class="tok-nb">set</span>-prop <span class="tok-s1">&#39;Kingsis Peripherals Evoluent VerticalMouse 4&#39;</span> <span class="tok-s1">&#39;Evdev Scrolling Distance&#39;</span> -1, -1, 1
+
+<span class="tok-k">do</span>-notify <span class="tok-s2">&quot;Setting natural scrolling for Anker Vertical mouse&quot;</span>
+xinput <span class="tok-nb">set</span>-prop <span class="tok-s1">&#39;MOSART Semi. 2.4G Wireless Mouse&#39;</span> <span class="tok-s1">&#39;libinput Natural Scrolling Enabled&#39;</span> 1
+xinput <span class="tok-nb">set</span>-prop <span class="tok-s1">&#39;MOSART Semi. 2.4G Wireless Mouse&#39;</span> <span class="tok-s1">&#39;Evdev Scrolling Distance&#39;</span> -1, -1, 1</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="__code_config_lenovo_n700_mouse_code">4.18.2. <code>config-lenovo-n700-mouse</code></h4>
 <div class="listingblock">
 <div class="title">file::config-lenovo-n700-mouse</div>
 <div class="content">
@@ -1249,7 +1271,7 @@ xinput <span class="tok-nb">set</span>-prop <span class="tok-s2">&quot;${id_}&qu
 </div>
 </div>
 <div class="sect3">
-<h4 id="__code_config_logitech_g300_mouse_code">4.18.2. <code>config-logitech-g300-mouse</code></h4>
+<h4 id="__code_config_logitech_g300_mouse_code">4.18.3. <code>config-logitech-g300-mouse</code></h4>
 <div class="paragraph">
 <p>Also, resets keyboard layout for G300 back to US QWERTY, so that
 <span class="keyseq"><kbd>Ctrl</kbd>+<kbd>X/C/V</kbd></span> works as expected.</p>
@@ -1295,7 +1317,7 @@ setopt shwordsplit
 </div>
 </div>
 <div class="sect3">
-<h4 id="__code_config_logitech_g502_mouse_code">4.18.3. <code>config-logitech-g502-mouse</code></h4>
+<h4 id="__code_config_logitech_g502_mouse_code">4.18.4. <code>config-logitech-g502-mouse</code></h4>
 <div class="listingblock">
 <div class="title">file::config-logitech-g502-mouse</div>
 <div class="content">
@@ -1340,7 +1362,7 @@ setopt shwordsplit
 </div>
 </div>
 <div class="sect3">
-<h4 id="__code_config_logitech_trackball_marble_lefty_code">4.18.4. <code>config-logitech-trackball-marble-lefty</code></h4>
+<h4 id="__code_config_logitech_trackball_marble_lefty_code">4.18.5. <code>config-logitech-trackball-marble-lefty</code></h4>
 <div class="listingblock">
 <div class="title">file::config-logitech-trackball-marble-lefty</div>
 <div class="content">
@@ -1434,7 +1456,7 @@ xinput <span class="tok-nb">set</span>-prop <span class="tok-s2">&quot;${id_}&qu
 </div>
 </div>
 <div class="sect3">
-<h4 id="__code_config_logitech_trackball_marble_righty_code">4.18.5. <code>config-logitech-trackball-marble-righty</code></h4>
+<h4 id="__code_config_logitech_trackball_marble_righty_code">4.18.6. <code>config-logitech-trackball-marble-righty</code></h4>
 <div class="listingblock">
 <div class="title">file::config-logitech-trackball-marble-righty</div>
 <div class="content">
@@ -1528,7 +1550,7 @@ xinput <span class="tok-nb">set</span>-prop <span class="tok-s2">&quot;${id_}&qu
 </div>
 </div>
 <div class="sect3">
-<h4 id="__code_config_touchpad_code">4.18.6. <code>config-touchpad</code></h4>
+<h4 id="__code_config_touchpad_code">4.18.7. <code>config-touchpad</code></h4>
 <div class="paragraph">
 <p>Lots of tweaks, the code should be self-explanatory though.</p>
 </div>
@@ -3989,7 +4011,7 @@ a coffee.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2016-12-13 00:38:39 EET
+Last updated 2016-12-16 01:07:22 EET
 </div>
 </div>
 </body>
