@@ -2041,8 +2041,9 @@ report-missing-executables trans soimort/translate-shell <span class="tok-o">||<
 <div class="paragraph">
 <p>Quickly opens file with Emacs + <a href="https://github.com/cmpitg/emnode">Emnode</a>
 server.  Emacs has to be setup with Emnode to listen to port <code>EMACS_PORT</code>,
-handling <code>/open/&lt;file-path&gt;</code> URI (i.e. command <code>curl 0:${EMACS_PORT}/open//m/src</code> opens
-<code>/m/src</code> in Emacs).  Sample setup is as followed:</p>
+handling <code>/open/&lt;file-path&gt;</code> URI (i.e. command <code>curl
+0:${EMACS_PORT}/open//m/src</code> opens <code>/m/src</code> in Emacs).  Sample setup is as
+followed:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -2071,7 +2072,7 @@ handling <code>/open/&lt;file-path&gt;</code> URI (i.e. command <code>curl 0:${E
 <div class="paragraph">
 <p>If Emacs is not yet started or not listening on port <code>EMACS_PORT</code>, start one
 with custom Emacs init file stored in environment variable <code>EMACS_INIT</code>.  By
-default, <code>EMACS_INIT</code> is set to <code>"~/emacs-config/src/init.el"</code> and
+default, <code>EMACS_INIT</code> is set to <code>"/m/src/emacs-cmpitg/src/init.el"</code> and
 <code>EMACS_PORT</code> is set to <code>9999</code>.</p>
 </div>
 <div class="listingblock">
@@ -2079,27 +2080,29 @@ default, <code>EMACS_INIT</code> is set to <code>"~/emacs-config/src/init.el"</c
 <div class="content">
 <pre class="pygments highlight"><code data-lang="sh"><span class="tok-c">#!/bin/bash</span>
 
-<span class="tok-nb">export </span><span class="tok-nv">GPG_TTY</span><span class="tok-o">=</span><span class="tok-k">$(</span>tty<span class="tok-k">)</span>
+<span class="tok-c"># export GPG_TTY=$(tty)</span>
 
-<span class="tok-k">if</span> <span class="tok-o">[[</span> -z <span class="tok-s2">&quot;$EMACS_INIT&quot;</span> <span class="tok-o">]]</span><span class="tok-p">;</span> <span class="tok-k">then</span>
-	<span class="tok-nv">EMACS_INIT</span><span class="tok-o">=</span><span class="tok-s2">&quot;~/emacs-config/src/init.el&quot;</span>
-<span class="tok-k">fi</span>
+<span class="tok-c"># if [[ -z &quot;$EMACS_INIT&quot; ]]; then</span>
+<span class="tok-c"># 	EMACS_INIT=&quot;~/emacs-config/src/init.el&quot;</span>
+<span class="tok-c"># fi</span>
 
-<span class="tok-k">if</span> <span class="tok-o">[[</span> -z <span class="tok-s2">&quot;$EMACS_PORT&quot;</span> <span class="tok-o">]]</span><span class="tok-p">;</span> <span class="tok-k">then</span>
-	<span class="tok-nv">EMACS_PORT</span><span class="tok-o">=</span>9999
-<span class="tok-k">fi</span>
+<span class="tok-c"># if [[ -z &quot;$EMACS_PORT&quot; ]]; then</span>
+<span class="tok-c"># 	EMACS_PORT=9999</span>
+<span class="tok-c"># fi</span>
 
-<span class="tok-o">(</span>curl 0:<span class="tok-nv">$EMACS_PORT</span> <span class="tok-p">&amp;</span>&gt;/dev/null<span class="tok-o">)</span> <span class="tok-o">&amp;&amp;</span> <span class="tok-nv">server_running_p_</span><span class="tok-o">=</span><span class="tok-m">1</span> <span class="tok-o">||</span> <span class="tok-nv">server_running_p_</span><span class="tok-o">=</span>0
+<span class="tok-c"># (curl 0:$EMACS_PORT &amp;&gt;/dev/null) &amp;&amp; server_running_p_=1 || server_running_p_=0</span>
 
-<span class="tok-k">if</span> <span class="tok-o">[[</span> <span class="tok-s2">&quot;${server_running_p_}&quot;</span> -eq <span class="tok-s2">&quot;1&quot;</span> <span class="tok-o">]]</span> <span class="tok-p">;</span> <span class="tok-k">then</span>
-	<span class="tok-k">if</span> <span class="tok-o">[[</span> <span class="tok-s2">&quot;$1&quot;</span> <span class="tok-o">==</span> /* <span class="tok-o">]]</span> <span class="tok-p">;</span> <span class="tok-k">then</span>
-		curl <span class="tok-s2">&quot;0:${EMACS_PORT}/open/$1&quot;</span>
-	<span class="tok-k">else</span>
-		curl <span class="tok-s2">&quot;0:${EMACS_PORT}/open/$PWD/$1&quot;</span>
-	<span class="tok-k">fi</span>
-<span class="tok-k">else</span>
-	emacs -Q -l <span class="tok-s2">&quot;${EMACS_INIT}&quot;</span> <span class="tok-s2">&quot;$@&quot;</span>
-<span class="tok-k">fi</span></code></pre>
+<span class="tok-c"># if [[ &quot;${server_running_p_}&quot; -eq &quot;1&quot; ]] ; then</span>
+<span class="tok-c"># 	if [[ &quot;$1&quot; == /* ]] ; then</span>
+<span class="tok-c"># 		curl &quot;0:${EMACS_PORT}/open/$1&quot;</span>
+<span class="tok-c"># 	else</span>
+<span class="tok-c"># 		curl &quot;0:${EMACS_PORT}/open/$PWD/$1&quot;</span>
+<span class="tok-c"># 	fi</span>
+<span class="tok-c"># else</span>
+<span class="tok-c"># 	emacs -Q -l &quot;${EMACS_INIT}&quot; &quot;$@&quot;</span>
+<span class="tok-c"># fi</span>
+
+remacs edit <span class="tok-s2">&quot;$@&quot;</span></code></pre>
 </div>
 </div>
 </div>
@@ -4011,7 +4014,7 @@ a coffee.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2016-12-16 01:07:22 EET
+Last updated 2016-12-18 19:48:14 EET
 </div>
 </div>
 </body>
