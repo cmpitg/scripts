@@ -1233,6 +1233,22 @@ if (test -d $SHELLY_HOME/dumped-cores) {
 
 ----
 
+=== `sbcl-cmpitg`
+
+.file::sbcl-cmpitg
+[source,sh]
+----
+#!/bin/bash
+
+#
+# Note that --no-userinit should be after "$@", at the position of
+# `user-options'.  Consult `sbcl --help' for further information.
+#
+
+sbcl --noinform --core /m/opt/sbcl-images/sbcl-base.core "$@" --no-userinit
+
+----
+
 === `json-post` - makes a JSON POST
 
 .file::json-post
