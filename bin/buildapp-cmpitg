@@ -5,5 +5,5 @@ if (~ $manifest '') {
 }
 
 buildapp --manifest-file $manifest \
-	--load /m/Toolbox/SBCL/sbcl-cmpitg-base.lisp \
+	--load /m/config/common-lisp/sbcl-base.lisp \
 	$*

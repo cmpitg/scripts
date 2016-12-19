@@ -980,7 +980,7 @@ environment variable.  By default, <code>manifest</code> is set to
 <span class="tok-o">}</span>
 
 buildapp --manifest-file <span class="tok-nv">$manifest</span> <span class="tok-se">\</span>
-	--load /m/Toolbox/SBCL/sbcl-cmpitg-base.lisp <span class="tok-se">\</span>
+	--load /m/config/common-lisp/sbcl-base.lisp <span class="tok-se">\</span>
 	<span class="tok-nv">$*</span></code></pre>
 </div>
 </div>
@@ -1847,9 +1847,9 @@ ctags <span class="tok-s2">&quot;$@&quot;</span> -f <span class="tok-s2">&quot;$
 <span class="tok-s">Options:</span>
 
 <span class="tok-s">--core-path :: Path to SBCL core file to dump to, default value:</span>
-<span class="tok-s">               &#39;/m/opt/sbcl-images/sbcl-$USER.core&#39;.</span>
+<span class="tok-s">               &#39;/m/opt/sbcl-images/sbcl-base.core&#39;.</span>
 <span class="tok-s">--eval      :: The Sexp to evaluate before dumping, default value:</span>
-<span class="tok-s">               &#39;(load &quot;/m/Toolbox/SBCL/sbcl-$USER-base.lisp&quot;)&#39;.</span>
+<span class="tok-s">               &#39;(load &quot;/m/config/common-lisp/sbcl-base.lisp&quot;)&#39;.</span>
 <span class="tok-s">EOF</span>
 
 <span class="tok-c">##############################################################################</span>
@@ -1871,10 +1871,10 @@ fn try_set_vars <span class="tok-o">{</span>
 	<span class="tok-o">}</span>
 
 	<span class="tok-k">if</span> <span class="tok-o">(</span>~ <span class="tok-nv">$core_path</span> <span class="tok-s1">&#39;&#39;</span><span class="tok-o">)</span> <span class="tok-o">{</span>
-		<span class="tok-nv">core_path</span><span class="tok-o">=</span>/m/opt/sbcl-images/sbcl-<span class="tok-nv">$USER</span>.core
+		<span class="tok-nv">core_path</span><span class="tok-o">=</span>/m/opt/sbcl-images/sbcl-base.core
 	<span class="tok-o">}</span>
 	<span class="tok-k">if</span> <span class="tok-o">(</span>~ <span class="tok-nv">$sexp</span> <span class="tok-s1">&#39;&#39;</span><span class="tok-o">)</span> <span class="tok-o">{</span>
-		<span class="tok-nv">sexp</span><span class="tok-o">=</span><span class="tok-s1">&#39;(load &quot;/m/Toolbox/SBCL/sbcl-&#39;</span><span class="tok-nv">$USER</span><span class="tok-s1">&#39;-base.lisp&quot;)&#39;</span>
+		<span class="tok-nv">sexp</span><span class="tok-o">=</span><span class="tok-s1">&#39;(load &quot;/m/config/common-lisp/sbcl-base.lisp&quot;)&#39;</span>
 	<span class="tok-o">}</span>
 <span class="tok-o">}</span>
 
@@ -2023,11 +2023,7 @@ report-missing-executables trans soimort/translate-shell <span class="tok-o">||<
 <span class="tok-c"># soimort/translate-shell tool.</span>
 <span class="tok-c">#</span>
 
-<span class="tok-k">if</span> <span class="tok-o">(</span>! which trans &gt;/dev/null &gt;<span class="tok-o">[</span><span class="tok-nv">2</span><span class="tok-o">=</span>1<span class="tok-o">])</span> <span class="tok-o">{</span>
-	<span class="tok-nb">echo </span>trans <span class="tok-nb">command </span>not found &gt;<span class="tok-o">[</span><span class="tok-nv">1</span><span class="tok-o">=</span>2<span class="tok-o">]</span>
-	<span class="tok-nb">echo </span>Make sure you have soimort/translate-shell installed &gt;<span class="tok-o">[</span><span class="tok-nv">1</span><span class="tok-o">=</span>2<span class="tok-o">]</span>
-	<span class="tok-nb">exit </span>1
-<span class="tok-o">}</span>
+report-missing-executables trans soimort/translate-shell <span class="tok-o">||</span> <span class="tok-nb">exit </span>1
 
 <span class="tok-nv">TARGET_LANG</span><span class="tok-o">=</span>en gtranslate <span class="tok-nv">$*</span></code></pre>
 </div>
@@ -2079,28 +2075,6 @@ default, <code>EMACS_INIT</code> is set to <code>"/m/src/emacs-cmpitg/src/init.e
 <div class="title">file::ff</div>
 <div class="content">
 <pre class="pygments highlight"><code data-lang="sh"><span class="tok-c">#!/bin/bash</span>
-
-<span class="tok-c"># export GPG_TTY=$(tty)</span>
-
-<span class="tok-c"># if [[ -z &quot;$EMACS_INIT&quot; ]]; then</span>
-<span class="tok-c"># 	EMACS_INIT=&quot;~/emacs-config/src/init.el&quot;</span>
-<span class="tok-c"># fi</span>
-
-<span class="tok-c"># if [[ -z &quot;$EMACS_PORT&quot; ]]; then</span>
-<span class="tok-c"># 	EMACS_PORT=9999</span>
-<span class="tok-c"># fi</span>
-
-<span class="tok-c"># (curl 0:$EMACS_PORT &amp;&gt;/dev/null) &amp;&amp; server_running_p_=1 || server_running_p_=0</span>
-
-<span class="tok-c"># if [[ &quot;${server_running_p_}&quot; -eq &quot;1&quot; ]] ; then</span>
-<span class="tok-c"># 	if [[ &quot;$1&quot; == /* ]] ; then</span>
-<span class="tok-c"># 		curl &quot;0:${EMACS_PORT}/open/$1&quot;</span>
-<span class="tok-c"># 	else</span>
-<span class="tok-c"># 		curl &quot;0:${EMACS_PORT}/open/$PWD/$1&quot;</span>
-<span class="tok-c"># 	fi</span>
-<span class="tok-c"># else</span>
-<span class="tok-c"># 	emacs -Q -l &quot;${EMACS_INIT}&quot; &quot;$@&quot;</span>
-<span class="tok-c"># fi</span>
 
 remacs edit <span class="tok-s2">&quot;$@&quot;</span></code></pre>
 </div>
@@ -4014,7 +3988,7 @@ a coffee.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2016-12-18 19:48:14 EET
+Last updated 2016-12-20 00:31:41 EET
 </div>
 </div>
 </body>

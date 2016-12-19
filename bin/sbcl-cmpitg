@@ -5,4 +5,4 @@
 # `user-options'.  Consult `sbcl --help' for further information.
 #
 
-sbcl --noinform --core /m/opt/sbcl-images/sbcl-cmpitg.core "$@" --no-userinit
+sbcl --noinform --core /m/opt/sbcl-images/sbcl-base.core "$@" --no-userinit
