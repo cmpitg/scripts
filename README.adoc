@@ -321,7 +321,7 @@ if (~ $manifest '') {
 }
 
 buildapp --manifest-file $manifest \
-	--load /m/Toolbox/SBCL/sbcl-cmpitg-base.lisp \
+	--load /m/config/common-lisp/sbcl-base.lisp \
 	$*
 
 ----
@@ -1173,9 +1173,9 @@ Usage: $0 [--core-path core-file] [--eval sexp]
 Options:
 
 --core-path :: Path to SBCL core file to dump to, default value:
-               '/m/opt/sbcl-images/sbcl-$USER.core'.
+               '/m/opt/sbcl-images/sbcl-base.core'.
 --eval      :: The Sexp to evaluate before dumping, default value:
-               '(load "/m/Toolbox/SBCL/sbcl-$USER-base.lisp")'.
+               '(load "/m/config/common-lisp/sbcl-base.lisp")'.
 EOF
 
 ##############################################################################
@@ -1197,10 +1197,10 @@ fn try_set_vars {
 	}
 
 	if (~ $core_path '') {
-		core_path=/m/opt/sbcl-images/sbcl-$USER.core
+		core_path=/m/opt/sbcl-images/sbcl-base.core
 	}
 	if (~ $sexp '') {
-		sexp='(load "/m/Toolbox/SBCL/sbcl-'$USER'-base.lisp")'
+		sexp='(load "/m/config/common-lisp/sbcl-base.lisp")'
 	}
 }
 
