@@ -9,15 +9,15 @@
 
 :toc:
 
-A collection of my scripts.  I wrote most but not all of them.  Many of them
-are written in http://doc.cat-v.org/plan_9/4th_edition/papers/rc[Rc shell],
-for Bourne-or-Bash-compatible shell suffers from many design flaws, making it
+A collection of my scripts.  Many of them are written in
+http://doc.cat-v.org/plan_9/4th_edition/papers/rc[Rc shell], for
+Bourne-or-Bash-compatible shell suffers from many design flaws, making it
 difficult to maintain.
 
 This document is written in literate programming style.  To generate scripts
 and documentation, you need latest stable version of
 https://github.com/cmpitg/ulquikit[Ulquikit].  You could also clone the repo
-and start using it yourself.
+and start using it yourself.  All executables are in `bin/`.
 
 TODO: Explain how commands are built the way they are built below:
 * When to pass as argumment?  When to pass into stdin?
@@ -27,6 +27,8 @@ TODO: Explain how commands are built the way they are built below:
 TODO: Add script to verify checksum
 
 TODO: Verify checksums for downloaded files
+
+TODO: ASDF integration
 
 == Requirements
 
@@ -71,9 +73,9 @@ never stay in `/m`.
 +
 Symlinks are very useful if used appropriately (examples include the
 https://nixos.org/nix/[Nix package manager]).  For me, using `/m/src` is much
-more effective and unified than `~/src` for what `~` depends on what your
-current user is.  I could also re-symlink `/m/src` whenever I want with very
-simple commands.
+more effective and unified than `~/src` for `~` depends on what your current
+user is.  I could also re-symlink `/m/src` whenever I with minimal effects on
+other parts of the system.
 +
 [source]
 ----
@@ -108,7 +110,7 @@ Most directories should speak for themselves.  Exceptions include:
 For installation of Plan9port, please refer to
 https://github.com/9fans/plan9port[its original documentation].
 
-To be written...
+TODO: To be written...
 
 ''''
 
