@@ -28,8 +28,8 @@ import subprocess
 import sys
 
 
-# dmenu_options      = '-b -i -l 40 -fn "Droid Sans-10" -nf "#ffa077" -nb "#202020"'
-dmenu_options      = '-p Window -i -l 40 -fn "Droid Sans-10" -nf "#ffa077" -nb "#202020"'
+# dmenu_options      = '-b -i -l 40 -fn "Noto Sans-10" -nf "#ffa077" -nb "#202020"'
+dmenu_options      = '-p Window -i -l 40 -fn "Noto Sans-10" -nf "#ffa077" -nb "#202020"'
 title_format       = "{} — {}"
 cmd_get_tree       = "i3-msg -t get_tree"
 cmd_switch_window  = "i3-msg '[con_id={}] focus'"

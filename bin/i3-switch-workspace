@@ -27,8 +27,8 @@ import json
 import subprocess
 
 
-dmenu_options         = '-p Workspace -i -l 30 -fn "Droid Sans-10" -nf "#ffa077" -nb "#202020"'
-# dmenu_options         = '-p Workspace -b -i -l 30 -fn "Droid Sans-10" -nf "#ffa077" -nb "#202020"'
+dmenu_options         = '-p Workspace -i -l 30 -fn "Noto Sans-10" -nf "#ffa077" -nb "#202020"'
+# dmenu_options         = '-p Workspace -b -i -l 30 -fn "Noto Sans-10" -nf "#ffa077" -nb "#202020"'
 cmd_get_workspaces    = "i3-msg -t get_workspaces"
 cmd_switch_workspace  = "i3-msg 'workspace {}'"
 

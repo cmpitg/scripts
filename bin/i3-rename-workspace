@@ -1,6 +1,6 @@
 #!/bin/bash
 
 i3-input \
-	-f 'pango:Droid Sans 10' \
+	-f 'pango:Noto Sans 10' \
 	-F 'rename workspace to "%s"' \
 	-P 'Rename workspace: ' %s

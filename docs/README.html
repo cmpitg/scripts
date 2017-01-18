@@ -651,10 +651,13 @@ and start using it yourself.  All executables are in <code>bin/</code>.</p>
 <p><a href="https://github.com/9fans/plan9port">Plan 9 from User Space</a> (Plan9port)</p>
 </li>
 <li>
-<p>GNU Emacs 24+</p>
+<p>GNU Emacs 25+</p>
 </li>
 <li>
 <p>Python 3</p>
+</li>
+<li>
+<p><a href="https://www.google.com/get/noto/">Noto Font</a></p>
 </li>
 </ul>
 </div>
@@ -801,9 +804,10 @@ lrwxrwxrwx  1 cmpitg cmpitg   18 Nov 28 20:35 www -&gt; /m/cmpitg/WWW/</code></p
 
 <span class="tok-nb">export</span> <span class="tok-nv">SHELL</span><span class="tok-o">=</span>rc
 <span class="tok-nb">export</span> <span class="tok-nv">TERM</span><span class="tok-o">=</span>9term
-<span class="tok-nb">export</span> <span class="tok-nv">font</span><span class="tok-o">=</span><span class="tok-s1">&#39;/m/9p-fonts/Droid Sans Mono/11a/font&#39;</span>
+<span class="tok-nb">export</span> <span class="tok-nv">font</span><span class="tok-o">=</span><span class="tok-s1">&#39;/m/9p-fonts/Noto Mono/11a/font&#39;</span>
 
 mkdir -p <span class="tok-si">${</span><span class="tok-nv">TEMP9</span><span class="tok-si">}</span>
+mkdir -p /m/9p-fonts
 
 running-p plumber <span class="tok-o">||</span> plumber
 running-p fontsrv <span class="tok-o">||</span> <span class="tok-se">\</span>
@@ -846,7 +850,7 @@ running-p fontsrv <span class="tok-o">||</span> <span class="tok-se">\</span>
 <h3 id="__code_acme_code_runs_plan9port_acme_with_code_9_code">4.4. <code>acme</code> - runs Plan9port Acme with <code>9</code></h3>
 <div class="paragraph">
 <p>Font can be chosen by setting the <code>font</code> environment variable.  By default, it
-is set to <code>/m/9p-fonts/Droid Sans Mono/11a/font</code>.</p>
+is set to <code>/m/9p-fonts/Noto Mono/11a/font</code>.</p>
 </div>
 <div class="listingblock">
 <div class="title">file::acme</div>
@@ -859,8 +863,10 @@ is set to <code>/m/9p-fonts/Droid Sans Mono/11a/font</code>.</p>
 <span class="tok-c1">#</span>
 
 <span class="tok-k">if</span> <span class="tok-o">(</span>~ <span class="tok-nv">$font</span> <span class="tok-s1">&#39;&#39;</span><span class="tok-o">)</span> <span class="tok-o">{</span>
-	<span class="tok-nv">font</span><span class="tok-o">=</span><span class="tok-s1">&#39;/m/9p-fonts/Droid Sans Mono/11a/font&#39;</span>
+	<span class="tok-nv">font</span><span class="tok-o">=</span><span class="tok-s1">&#39;/m/9p-fonts/Noto Mono/11a/font&#39;</span>
 <span class="tok-o">}</span>
+
+mkdir -p /m/acme
 
 acme -a <span class="tok-se">\</span>
 	-m /m/acme <span class="tok-se">\</span>
@@ -2330,7 +2336,7 @@ report-missing-executables lynx Lynx <span class="tok-o">||</span> <span class="
 <div class="content">
 <pre class="pygments highlight"><code data-lang="sh"><span class="tok-ch">#!/bin/bash</span>
 
-i3-input -f <span class="tok-s1">&#39;pango:Droid Sans 10&#39;</span> <span class="tok-s2">&quot;</span><span class="tok-nv">$@</span><span class="tok-s2">&quot;</span></code></pre>
+i3-input -f <span class="tok-s1">&#39;pango:Noto Sans 10&#39;</span> <span class="tok-s2">&quot;</span><span class="tok-nv">$@</span><span class="tok-s2">&quot;</span></code></pre>
 </div>
 </div>
 </div>
@@ -2342,7 +2348,7 @@ i3-input -f <span class="tok-s1">&#39;pango:Droid Sans 10&#39;</span> <span clas
 <pre class="pygments highlight"><code data-lang="sh"><span class="tok-ch">#!/bin/bash</span>
 
 i3-input <span class="tok-se">\</span>
-	-f <span class="tok-s1">&#39;pango:Droid Sans 10&#39;</span> <span class="tok-se">\</span>
+	-f <span class="tok-s1">&#39;pango:Noto Sans 10&#39;</span> <span class="tok-se">\</span>
 	-F <span class="tok-s1">&#39;move workspace &quot;%s&quot;&#39;</span> <span class="tok-se">\</span>
 	-P <span class="tok-s1">&#39;Move window to workspace: &#39;</span> %s</code></pre>
 </div>
@@ -2356,7 +2362,7 @@ i3-input <span class="tok-se">\</span>
 <pre class="pygments highlight"><code data-lang="sh"><span class="tok-ch">#!/bin/bash</span>
 
 i3-input <span class="tok-se">\</span>
-	-f <span class="tok-s1">&#39;pango:Droid Sans 10&#39;</span> <span class="tok-se">\</span>
+	-f <span class="tok-s1">&#39;pango:Noto Sans 10&#39;</span> <span class="tok-se">\</span>
 	-F <span class="tok-s1">&#39;rename workspace to &quot;%s&quot;&#39;</span> <span class="tok-se">\</span>
 	-P <span class="tok-s1">&#39;Rename workspace: &#39;</span> %s</code></pre>
 </div>
@@ -2400,8 +2406,8 @@ i3-input <span class="tok-se">\</span>
 <span class="tok-kn">import</span> <span class="tok-nn">sys</span>
 
 
-<span class="tok-c1"># dmenu_options      = &#39;-b -i -l 40 -fn &quot;Droid Sans-10&quot; -nf &quot;#ffa077&quot; -nb &quot;#202020&quot;&#39;</span>
-<span class="tok-n">dmenu_options</span>      <span class="tok-o">=</span> <span class="tok-s1">&#39;-p Window -i -l 40 -fn &quot;Droid Sans-10&quot; -nf &quot;#ffa077&quot; -nb &quot;#202020&quot;&#39;</span>
+<span class="tok-c1"># dmenu_options      = &#39;-b -i -l 40 -fn &quot;Noto Sans-10&quot; -nf &quot;#ffa077&quot; -nb &quot;#202020&quot;&#39;</span>
+<span class="tok-n">dmenu_options</span>      <span class="tok-o">=</span> <span class="tok-s1">&#39;-p Window -i -l 40 -fn &quot;Noto Sans-10&quot; -nf &quot;#ffa077&quot; -nb &quot;#202020&quot;&#39;</span>
 <span class="tok-n">title_format</span>       <span class="tok-o">=</span> <span class="tok-s2">&quot;{} — {}&quot;</span>
 <span class="tok-n">cmd_get_tree</span>       <span class="tok-o">=</span> <span class="tok-s2">&quot;i3-msg -t get_tree&quot;</span>
 <span class="tok-n">cmd_switch_window</span>  <span class="tok-o">=</span> <span class="tok-s2">&quot;i3-msg &#39;[con_id={}] focus&#39;&quot;</span>
@@ -2556,8 +2562,8 @@ i3-input <span class="tok-se">\</span>
 <span class="tok-kn">import</span> <span class="tok-nn">subprocess</span>
 
 
-<span class="tok-n">dmenu_options</span>         <span class="tok-o">=</span> <span class="tok-s1">&#39;-p Workspace -i -l 30 -fn &quot;Droid Sans-10&quot; -nf &quot;#ffa077&quot; -nb &quot;#202020&quot;&#39;</span>
-<span class="tok-c1"># dmenu_options         = &#39;-p Workspace -b -i -l 30 -fn &quot;Droid Sans-10&quot; -nf &quot;#ffa077&quot; -nb &quot;#202020&quot;&#39;</span>
+<span class="tok-n">dmenu_options</span>         <span class="tok-o">=</span> <span class="tok-s1">&#39;-p Workspace -i -l 30 -fn &quot;Noto Sans-10&quot; -nf &quot;#ffa077&quot; -nb &quot;#202020&quot;&#39;</span>
+<span class="tok-c1"># dmenu_options         = &#39;-p Workspace -b -i -l 30 -fn &quot;Noto Sans-10&quot; -nf &quot;#ffa077&quot; -nb &quot;#202020&quot;&#39;</span>
 <span class="tok-n">cmd_get_workspaces</span>    <span class="tok-o">=</span> <span class="tok-s2">&quot;i3-msg -t get_workspaces&quot;</span>
 <span class="tok-n">cmd_switch_workspace</span>  <span class="tok-o">=</span> <span class="tok-s2">&quot;i3-msg &#39;workspace {}&#39;&quot;</span>
 
@@ -2635,7 +2641,7 @@ i3-input <span class="tok-se">\</span>
 <div class="content">
 <pre class="pygments highlight"><code data-lang="sh"><span class="tok-ch">#!/bin/bash</span>
 
-i3-input -f <span class="tok-s1">&#39;pango:Droid Sans 10&#39;</span> -F <span class="tok-s1">&#39;workspace &quot;%s&quot;&#39;</span> -P <span class="tok-s1">&#39;Go to workspace: &#39;</span> %s</code></pre>
+i3-input -f <span class="tok-s1">&#39;pango:Noto Sans 10&#39;</span> -F <span class="tok-s1">&#39;workspace &quot;%s&quot;&#39;</span> -P <span class="tok-s1">&#39;Go to workspace: &#39;</span> %s</code></pre>
 </div>
 </div>
 </div>
@@ -4000,7 +4006,7 @@ a coffee.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-01-18 15:40:13 EET
+Last updated 2017-01-18 15:47:00 EET
 </div>
 </div>
 </body>

@@ -6,8 +6,10 @@
 #
 
 if (~ $font '') {
-	font='/m/9p-fonts/Droid Sans Mono/11a/font'
+	font='/m/9p-fonts/Noto Mono/11a/font'
 }
+
+mkdir -p /m/acme
 
 acme -a \
 	-m /m/acme \
