@@ -28,8 +28,6 @@ TODO: Add script to verify checksum
 
 TODO: Verify checksums for downloaded files
 
-TODO: ASDF integration
-
 == Requirements
 
 For everything to function correctly, you need:
