@@ -33,8 +33,9 @@ TODO: Verify checksums for downloaded files
 For everything to function correctly, you need:
 
 * https://github.com/9fans/plan9port[Plan 9 from User Space] (Plan9port)
-* GNU Emacs 24+
+* GNU Emacs 25+
 * Python 3
+* https://www.google.com/get/noto/[Noto Font]
 
 Some scripts depend on others.  It's best to fulfill the requirements for all
 of them.
