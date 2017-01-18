@@ -139,7 +139,7 @@ export PATH=${PLAN9}/bin:${PATH}
 
 export SHELL=rc
 export TERM=9term
-export font='/m/9p-fonts/Droid Sans Mono/11a/font'
+export font='/m/9p-fonts/Noto Mono/11a/font'
 
 mkdir -p ${TEMP9}
 
@@ -182,7 +182,7 @@ exec 9 rc "$@"
 === `acme` - runs Plan9port Acme with `9`
 
 Font can be chosen by setting the `font` environment variable.  By default, it
-is set to `/m/9p-fonts/Droid Sans Mono/11a/font`.
+is set to `/m/9p-fonts/Noto Mono/11a/font`.
 
 .file::acme
 [source,sh]
@@ -195,7 +195,7 @@ is set to `/m/9p-fonts/Droid Sans Mono/11a/font`.
 #
 
 if (~ $font '') {
-	font='/m/9p-fonts/Droid Sans Mono/11a/font'
+	font='/m/9p-fonts/Noto Mono/11a/font'
 }
 
 acme -a \
@@ -1649,7 +1649,7 @@ exec lynx -dump -stdin "$@"
 ----
 #!/bin/bash
 
-i3-input -f 'pango:Droid Sans 10' "$@"
+i3-input -f 'pango:Noto Sans 10' "$@"
 
 ----
 
@@ -1661,7 +1661,7 @@ i3-input -f 'pango:Droid Sans 10' "$@"
 #!/bin/bash
 
 i3-input \
-	-f 'pango:Droid Sans 10' \
+	-f 'pango:Noto Sans 10' \
 	-F 'move workspace "%s"' \
 	-P 'Move window to workspace: ' %s
 
@@ -1675,7 +1675,7 @@ i3-input \
 #!/bin/bash
 
 i3-input \
-	-f 'pango:Droid Sans 10' \
+	-f 'pango:Noto Sans 10' \
 	-F 'rename workspace to "%s"' \
 	-P 'Rename workspace: ' %s
 
@@ -1718,8 +1718,8 @@ import subprocess
 import sys
 
 
-# dmenu_options      = '-b -i -l 40 -fn "Droid Sans-10" -nf "#ffa077" -nb "#202020"'
-dmenu_options      = '-p Window -i -l 40 -fn "Droid Sans-10" -nf "#ffa077" -nb "#202020"'
+# dmenu_options      = '-b -i -l 40 -fn "Noto Sans-10" -nf "#ffa077" -nb "#202020"'
+dmenu_options      = '-p Window -i -l 40 -fn "Noto Sans-10" -nf "#ffa077" -nb "#202020"'
 title_format       = "{} — {}"
 cmd_get_tree       = "i3-msg -t get_tree"
 cmd_switch_window  = "i3-msg '[con_id={}] focus'"
@@ -1873,8 +1873,8 @@ import json
 import subprocess
 
 
-dmenu_options         = '-p Workspace -i -l 30 -fn "Droid Sans-10" -nf "#ffa077" -nb "#202020"'
-# dmenu_options         = '-p Workspace -b -i -l 30 -fn "Droid Sans-10" -nf "#ffa077" -nb "#202020"'
+dmenu_options         = '-p Workspace -i -l 30 -fn "Noto Sans-10" -nf "#ffa077" -nb "#202020"'
+# dmenu_options         = '-p Workspace -b -i -l 30 -fn "Noto Sans-10" -nf "#ffa077" -nb "#202020"'
 cmd_get_workspaces    = "i3-msg -t get_workspaces"
 cmd_switch_workspace  = "i3-msg 'workspace {}'"
 
@@ -1952,7 +1952,7 @@ if __name__ == '__main__':
 ----
 #!/bin/bash
 
-i3-input -f 'pango:Droid Sans 10' -F 'workspace "%s"' -P 'Go to workspace: ' %s
+i3-input -f 'pango:Noto Sans 10' -F 'workspace "%s"' -P 'Go to workspace: ' %s
 
 ----
 
