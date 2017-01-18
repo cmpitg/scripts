@@ -1418,18 +1418,7 @@ default, `EMACS_INIT` is set to `"/m/src/emacs-cmpitg/src/init.el"` and
 ----
 #!/bin/bash
 
-remacs edit "$@"
-
-----
-
-=== `ffb` - quickly open `/m/bin/<file>` with <<ff,`ff`>>
-
-.file::ffb
-[source,sh]
-----
-#!/bin/bash
-
-ff "/m/bin/$@"
+rmacs edit "$@"
 
 ----
 
