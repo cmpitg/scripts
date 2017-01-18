@@ -142,6 +142,7 @@ export TERM=9term
 export font='/m/9p-fonts/Noto Mono/11a/font'
 
 mkdir -p ${TEMP9}
+mkdir -p /m/9p-fonts
 
 running-p plumber || plumber
 running-p fontsrv || \
@@ -197,6 +198,8 @@ is set to `/m/9p-fonts/Noto Mono/11a/font`.
 if (~ $font '') {
 	font='/m/9p-fonts/Noto Mono/11a/font'
 }
+
+mkdir -p /m/acme
 
 acme -a \
 	-m /m/acme \
