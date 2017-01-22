@@ -3,5 +3,6 @@
 report-missing-executables ffmpeg Ffmpeg || exit 1
 
 for (f in $*) {
-	ffmpeg -i $f -vn -aq 1 `{echo $f | replace-extension ogg}
+	new_name=`{echo $f | replace-extension ogg}
+	ffmpeg -i $f -vn -aq 1 $"new_name
 }

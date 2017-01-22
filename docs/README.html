@@ -632,6 +632,12 @@ and start using it yourself.  All executables are in <code>bin/</code>.</p>
 * What about exit code?</p>
 </div>
 <div class="paragraph">
+<p>TODO: Help text for all commands</p>
+</div>
+<div class="paragraph">
+<p>TODO: fzf integration; use cases: convert-to-* + fzf</p>
+</div>
+<div class="paragraph">
 <p>TODO: Add script to verify checksum</p>
 </div>
 <div class="paragraph">
@@ -1759,8 +1765,9 @@ ffmpeg -i <span class="tok-s2">&quot;</span><span class="tok-si">${</span><span 
 report-missing-executables ffmpeg Ffmpeg <span class="tok-o">||</span> <span class="tok-nb">exit</span> <span class="tok-m">1</span>
 
 <span class="tok-k">for</span> <span class="tok-o">(</span>f in <span class="tok-nv">$*</span><span class="tok-o">)</span> <span class="tok-o">{</span>
-	ffmpeg -i <span class="tok-nv">$f</span> -vn -aq <span class="tok-m">1</span> <span class="tok-sb">`</span><span class="tok-o">{</span><span class="tok-nb">echo</span> <span class="tok-nv">$f</span> <span class="tok-p">|</span> replace-extension mp3<span class="tok-o">}</span>
-<span class="tok-o">}</span></code></pre>
+	<span class="tok-nv">new_name</span><span class="tok-o">=</span><span class="tok-sb">`</span><span class="tok-o">{</span><span class="tok-nb">echo</span> <span class="tok-nv">$f</span> <span class="tok-p">|</span> replace-extension mp3<span class="tok-o">}</span>
+	ffmpeg -i <span class="tok-nv">$f</span> -vn -aq <span class="tok-m">1</span> $<span class="tok-s2">&quot;new_name</span>
+<span class="tok-s2">}</span></code></pre>
 </div>
 </div>
 </div>
@@ -1777,8 +1784,9 @@ report-missing-executables ffmpeg Ffmpeg <span class="tok-o">||</span> <span cla
 report-missing-executables ffmpeg Ffmpeg <span class="tok-o">||</span> <span class="tok-nb">exit</span> <span class="tok-m">1</span>
 
 <span class="tok-k">for</span> <span class="tok-o">(</span>f in <span class="tok-nv">$*</span><span class="tok-o">)</span> <span class="tok-o">{</span>
-	ffmpeg -i <span class="tok-nv">$f</span> -vn -aq <span class="tok-m">1</span> <span class="tok-sb">`</span><span class="tok-o">{</span><span class="tok-nb">echo</span> <span class="tok-nv">$f</span> <span class="tok-p">|</span> replace-extension ogg<span class="tok-o">}</span>
-<span class="tok-o">}</span></code></pre>
+	<span class="tok-nv">new_name</span><span class="tok-o">=</span><span class="tok-sb">`</span><span class="tok-o">{</span><span class="tok-nb">echo</span> <span class="tok-nv">$f</span> <span class="tok-p">|</span> replace-extension ogg<span class="tok-o">}</span>
+	ffmpeg -i <span class="tok-nv">$f</span> -vn -aq <span class="tok-m">1</span> $<span class="tok-s2">&quot;new_name</span>
+<span class="tok-s2">}</span></code></pre>
 </div>
 </div>
 </div>
@@ -4009,7 +4017,7 @@ a coffee.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-01-23 00:40:53 EET
+Last updated 2017-01-23 00:47:25 EET
 </div>
 </div>
 </body>
