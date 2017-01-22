@@ -1777,7 +1777,7 @@ report-missing-executables ffmpeg Ffmpeg <span class="tok-o">||</span> <span cla
 report-missing-executables ffmpeg Ffmpeg <span class="tok-o">||</span> <span class="tok-nb">exit</span> <span class="tok-m">1</span>
 
 <span class="tok-k">for</span> <span class="tok-o">(</span>f in <span class="tok-nv">$*</span><span class="tok-o">)</span> <span class="tok-o">{</span>
-	ffmpeg -i <span class="tok-nv">$f</span> -vn -aq <span class="tok-m">1</span> <span class="tok-sb">`</span><span class="tok-o">{</span><span class="tok-nb">echo</span> <span class="tok-nv">$f</span> <span class="tok-p">|</span> replace-extension mp3<span class="tok-o">}</span>
+	ffmpeg -i <span class="tok-nv">$f</span> -vn -aq <span class="tok-m">1</span> <span class="tok-sb">`</span><span class="tok-o">{</span><span class="tok-nb">echo</span> <span class="tok-nv">$f</span> <span class="tok-p">|</span> replace-extension ogg<span class="tok-o">}</span>
 <span class="tok-o">}</span></code></pre>
 </div>
 </div>
@@ -4009,7 +4009,7 @@ a coffee.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-01-18 15:51:50 EET
+Last updated 2017-01-23 00:40:53 EET
 </div>
 </div>
 </body>
