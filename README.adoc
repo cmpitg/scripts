@@ -24,6 +24,10 @@ TODO: Explain how commands are built the way they are built below:
 * When to output as text?  Human-readable?
 * What about exit code?
 
+TODO: Help text for all commands
+
+TODO: fzf integration; use cases: convert-to-* + fzf
+
 TODO: Add script to verify checksum
 
 TODO: Verify checksums for downloaded files
