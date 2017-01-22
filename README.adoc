@@ -28,6 +28,8 @@ TODO: Help text for all commands
 
 TODO: fzf integration; use cases: convert-to-* + fzf
 
+TODO: GNU parallel integration
+
 TODO: Add script to verify checksum
 
 TODO: Verify checksums for downloaded files
