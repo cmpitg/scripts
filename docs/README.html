@@ -638,6 +638,9 @@ and start using it yourself.  All executables are in <code>bin/</code>.</p>
 <p>TODO: fzf integration; use cases: convert-to-* + fzf</p>
 </div>
 <div class="paragraph">
+<p>TODO: GNU parallel integration</p>
+</div>
+<div class="paragraph">
 <p>TODO: Add script to verify checksum</p>
 </div>
 <div class="paragraph">
@@ -769,10 +772,29 @@ lrwxrwxrwx  1 cmpitg cmpitg   18 Nov 28 20:35 www -&gt; /m/cmpitg/WWW/</code></p
 <div class="sectionbody">
 <div class="paragraph">
 <p>For installation of Plan9port, please refer to
-<a href="https://github.com/9fans/plan9port">its original documentation</a>.</p>
+<a href="https://github.com/9fans/plan9port">its original documentation</a>.  Below is one
+example session for Debian-based distros:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="sh">sudo apt install -y build-essential libfreetype6-dev libx11-dev libx11-xcb-dev git libxt-dev xorg-dev xserver-xorg-dev
+<span class="tok-nb">cd</span> /path/to/src/
+git clone https://github.com/9fans/plan9port.git
+<span class="tok-nb">cd</span> plan9port
+./INSTALL
+
+<span class="tok-c1"># No need to add plan9port/bin to PATH as the `9` script below is used to</span>
+<span class="tok-c1"># invoke Plan 9 applications</span></code></pre>
+</div>
 </div>
 <div class="paragraph">
-<p>TODO: To be written&#8230;&#8203;</p>
+<p>For Emacs, Python, and Noto Font, please consult your distro&#8217;s documentation.
+Example with Debian:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="sh">sudo apt install python3 fonts-noto emacs25</code></pre>
+</div>
 </div>
 <hr>
 </div>
@@ -4017,7 +4039,7 @@ a coffee.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-01-23 00:47:25 EET
+Last updated 2017-01-25 14:51:34 EET
 </div>
 </div>
 </body>

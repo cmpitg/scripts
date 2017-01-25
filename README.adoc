@@ -125,6 +125,9 @@ cd /path/to/src/
 git clone https://github.com/9fans/plan9port.git
 cd plan9port
 ./INSTALL
+
+# No need to add plan9port/bin to PATH as the `9` script below is used to
+# invoke Plan 9 applications
 ----
 
 For Emacs, Python, and Noto Font, please consult your distro's documentation.
