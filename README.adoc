@@ -115,11 +115,27 @@ Most directories should speak for themselves.  Exceptions include:
 == Installation
 
 For installation of Plan9port, please refer to
-https://github.com/9fans/plan9port[its original documentation].
+https://github.com/9fans/plan9port[its original documentation].  Below is one
+example session for Debian-based distros:
 
-TODO: To be written...
+[source,sh]
+----
+sudo apt install -y build-essential libfreetype6-dev libx11-dev libx11-xcb-dev git libxt-dev xorg-dev xserver-xorg-dev
+cd /path/to/src/
+git clone https://github.com/9fans/plan9port.git
+cd plan9port
+./INSTALL
+----
 
-''''
+For Emacs, Python, and Noto Font, please consult your distro's documentation.
+Example with Debian:
+
+[source,sh]
+----
+sudo apt install python3 fonts-noto emacs25
+----
+
+'''''
 
 == Contents
 
