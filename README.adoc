@@ -1489,7 +1489,7 @@ emacs --batch --eval $"sexpr $* >[2]/dev/null
 #
 # Retrieves information of the currently connected monitors and outputs as
 # followed:
-# * First name: <number of monitors>
+# * First line: <number of monitors>
 # * Second line: <monitor> <mode> <rate>
 #
 
