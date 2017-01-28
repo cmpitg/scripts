@@ -932,6 +932,16 @@ id_=$( \
 	| awk '{ print $1 }' \
 )
 
+scrolling_distance_2_=$(xinput list-props 13 \
+	| grep 'Synaptics Scrolling Distance' \
+	| gnu-awk '{ print $NF }' \
+)
+scrolling_distance_1_=$(xinput list-props 13 \
+	| grep 'Synaptics Scrolling Distance' \
+	| gnu-awk '{ print $(NF - 1) }' \
+	| cut -d',' -f1\
+)
+
 ##############################################################################
 
 do-notify-short """Configuring touchpad
@@ -990,6 +1000,7 @@ newline
 
 xinput set-prop "${id_}" "libinput Tapping Enabled" 0
 xinput set-prop "${id_}" "libinput Natural Scrolling Enabled" 1
+xinput set-prop "${id_}" "Synaptics Scrolling Distance" "-${scrolling_distance_1_}" "-${scrolling_distance_2_}"
 
 # xinput get-button-map "SynPS/2 Synaptics TouchPad" 1 2 3 4 5 6 7 8 9 10 11 12
 
