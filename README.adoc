@@ -1460,6 +1460,8 @@ default, `EMACS_INIT` is set to `"/m/src/emacs-cmpitg/src/init.el"` and
 ----
 #!/bin/bash
 
+report-missing-executables emacs "GNU Emacs" rmacs Rmacs || exit 1
+
 rmacs edit "$@"
 
 ----
