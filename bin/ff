@@ -1,3 +1,5 @@
 #!/bin/bash
 
+report-missing-executables emacs "GNU Emacs" rmacs Rmacs || exit 1
+
 rmacs edit "$@"

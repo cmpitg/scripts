@@ -2142,6 +2142,8 @@ default, <code>EMACS_INIT</code> is set to <code>"/m/src/emacs-cmpitg/src/init.e
 <div class="content">
 <pre class="pygments highlight"><code data-lang="sh"><span class="tok-c">#!/bin/bash</span>
 
+report-missing-executables emacs <span class="tok-s2">&quot;GNU Emacs&quot;</span> rmacs Rmacs <span class="tok-o">||</span> <span class="tok-nb">exit </span>1
+
 rmacs edit <span class="tok-s2">&quot;$@&quot;</span></code></pre>
 </div>
 </div>
@@ -4043,7 +4045,7 @@ a coffee.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-01-28 12:54:44 EET
+Last updated 2017-01-29 11:55:59 EET
 </div>
 </div>
 </body>
