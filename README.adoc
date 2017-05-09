@@ -146,6 +146,19 @@ sudo apt install python3 fonts-noto emacs25
 
 == Contents
 
+=== `run-with-new-env` - runs a command with a brand-new environment
+
+Using Dash due to its speed & lightweight characteristics.
+
+.file::run-with-new-env
+[source,sh]
+----
+#!/bin/dash
+
+SHELL=/bin/dash . ~/.env
+exec "$@"
+----
+
 === `9` - sets up the environment for Plan9port applications
 
 * Starts and mounts 9p font server to `/m/9p-fonts`
@@ -1416,6 +1429,8 @@ TARGET_LANG=fi gtranslate $*
 report-missing-executables trans soimort/translate-shell || exit 1
 
 TARGET_LANG=en gtranslate $*
+
+----
 
 === `format-text` - formats text from stdin using Emacs's `fill-paragraph`
 
