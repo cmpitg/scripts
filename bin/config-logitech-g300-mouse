@@ -17,7 +17,7 @@ keyboard_=$( \
 	| awk '{ print $1 }' \
 )
 
-test -z "${mouse_}"          && exit 0
+test -z "${mouse_}"    && exit 0
 test -z "${keyboard_}" && exit 0
 
 ##############################################################################
