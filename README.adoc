@@ -546,7 +546,7 @@ test -z "${DISPLAY}" && exit 0
 
 ##############################################################################
 
-do-notify-short "Setting specialized keylayout"
+do-notify-short "Setting cmpitg's keyboard layout"
 newline
 setxkbmap us -variant dvp -option lv3:ralt_alt
 if (test -e ~/.Xmodmap); then
@@ -591,7 +591,7 @@ config-logitech-trackball-marble-righty
 # config-logitech-trackball-marble-lefty
 config-logitech-g300-mouse
 config-logitech-g502-mouse
-config-lenovo-mouse
+config-lenovo-n700-mouse
 config-touchpad
 config-extra-peripherals
 
@@ -627,18 +627,33 @@ Enables natural scrolling and tweaks acceleration profile.
 ----
 #!/bin/bash
 
-do-notify "Setting natural scrolling for Dell mouse"
-xinput set-prop 'DELL Laser Mouse' 'libinput Natural Scrolling Enabled' 1
-xinput set-prop 'DELL Laser Mouse' 'Evdev Scrolling Distance' -1, -1, 1
-xinput set-prop 'DELL Laser Mouse' 'libinput Accel Speed' 0.2
+check-xinput 'DELL Laser Mouse' && (
+	do-notify "Setting natural scrolling for Dell mouse"
+	(
+    	xinput set-prop 'DELL Laser Mouse' 'libinput Natural Scrolling Enabled' 1 &>/dev/null
+		xinput set-prop 'DELL Laser Mouse' 'libinput Accel Speed' 0.2 &>/dev/null
+	) || (
+		xinput set-prop 'DELL Laser Mouse' 'Evdev Scrolling Distance' -1, -1, 1 &>/dev/null
+	)
+)
 
-do-notify "Setting natural scrolling for Evoluent Vertical 4"
-xinput set-prop 'Kingsis Peripherals Evoluent VerticalMouse 4' 'libinput Natural Scrolling Enabled' 1
-xinput set-prop 'Kingsis Peripherals Evoluent VerticalMouse 4' 'Evdev Scrolling Distance' -1, -1, 1
+check-xinput 'Kingsis Peripherals Evoluent VerticalMouse 4' && (
+	do-notify "Setting natural scrolling for Evoluent Vertical 4"
+	(
+		xinput set-prop 'Kingsis Peripherals Evoluent VerticalMouse 4' 'libinput Natural Scrolling Enabled' 1 &>/dev/null
+	) || (
+		xinput set-prop 'Kingsis Peripherals Evoluent VerticalMouse 4' 'Evdev Scrolling Distance' -1, -1, 1 &>/dev/null
+	)
+)
 
-do-notify "Setting natural scrolling for Anker Vertical mouse"
-xinput set-prop 'MOSART Semi. 2.4G Wireless Mouse' 'libinput Natural Scrolling Enabled' 1
-xinput set-prop 'MOSART Semi. 2.4G Wireless Mouse' 'Evdev Scrolling Distance' -1, -1, 1
+check-xinput 'MOSART Semi. 2.4G Wireless Mouse' && (
+	do-notify "Setting natural scrolling for Anker Vertical mouse"
+	(
+		xinput set-prop 'MOSART Semi. 2.4G Wireless Mouse' 'libinput Natural Scrolling Enabled' 1 &>/dev/null
+	) || (
+		xinput set-prop 'MOSART Semi. 2.4G Wireless Mouse' 'Evdev Scrolling Distance' -1, -1, 1 &>/dev/null
+	)
+)
 
 ----
 
@@ -668,9 +683,9 @@ do-notify-short "Configuring Dual Mode WL Touch Mouse N700
 * Set pointer acceleration
 "
 {
-	xinput set-prop "${id_}" "Evdev Scrolling Distance" -1, -1, 1
+	xinput set-prop "${id_}" "Evdev Scrolling Distance" -1, -1, 1 &>/dev/null
 } || {
-	xinput set-prop "${mouse_}" "libinput Natural Scrolling Enabled" 1
+	xinput set-prop "${mouse_}" "libinput Natural Scrolling Enabled" 1 &>/dev/null
 }
 
 xinput set-prop "${id_}" "Device Accel Profile" 7
@@ -714,9 +729,9 @@ do-notify-short "Configuring Logitech G300 mouse
 * Reset keyboard layout
 "
 {
-	xinput set-prop "${mouse_}" "libinput Natural Scrolling Enabled" 1 2>/dev/null
+	xinput set-prop "${mouse_}" "libinput Natural Scrolling Enabled" 1 &>/dev/null
 } || {
-	xinput set-prop "${mouse_}" "Evdev Scrolling Distance" -1, -1, 1 2>/dev/null
+	xinput set-prop "${mouse_}" "Evdev Scrolling Distance" -1, -1, 1 &>/dev/null
 }
 setxkbmap us -device "${keyboard_}"
 
@@ -742,22 +757,21 @@ ids_=$( \
 	| awk '{ print $1 }' \
 )
 
-test -z "${ids_}"   && exit 0
+test -z "${ids_}" && exit 0
 
 ##############################################################################
 
 do-notify "Configuring Logitech G502 mouse
 * Set natural scrolling
-* Tuning mouse movement
-"
+* Tuning mouse movement"
 
 for mouse_ in ${ids_}; do
 	echo "${mouse_}"
 
 	{
-		xinput set-prop "${mouse_}" "libinput Natural Scrolling Enabled" 1
+		xinput set-prop "${mouse_}" "libinput Natural Scrolling Enabled" 1 &>/dev/null
 	} || {
-		xinput set-prop "${mouse_}" "Evdev Scrolling Distance" -1, -1, 1
+		xinput set-prop "${mouse_}" "Evdev Scrolling Distance" -1, -1, 1 &>/dev/null
 	}
 
 	xinput set-prop "${mouse_}" "Device Accel Profile" 7

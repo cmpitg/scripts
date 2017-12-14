@@ -4,7 +4,7 @@ test -z "${DISPLAY}" && exit 0
 
 ##############################################################################
 
-do-notify-short "Setting specialized keylayout"
+do-notify-short "Setting cmpitg's keyboard layout"
 newline
 setxkbmap us -variant dvp -option lv3:ralt_alt
 if (test -e ~/.Xmodmap); then
@@ -49,6 +49,6 @@ config-logitech-trackball-marble-righty
 # config-logitech-trackball-marble-lefty
 config-logitech-g300-mouse
 config-logitech-g502-mouse
-config-lenovo-mouse
+config-lenovo-n700-mouse
 config-touchpad
 config-extra-peripherals

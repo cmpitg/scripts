@@ -19,9 +19,9 @@ do-notify-short "Configuring Dual Mode WL Touch Mouse N700
 * Set pointer acceleration
 "
 {
-	xinput set-prop "${id_}" "Evdev Scrolling Distance" -1, -1, 1
+	xinput set-prop "${id_}" "Evdev Scrolling Distance" -1, -1, 1 &>/dev/null
 } || {
-	xinput set-prop "${mouse_}" "libinput Natural Scrolling Enabled" 1
+	xinput set-prop "${mouse_}" "libinput Natural Scrolling Enabled" 1 &>/dev/null
 }
 
 xinput set-prop "${id_}" "Device Accel Profile" 7
