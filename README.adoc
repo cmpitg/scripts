@@ -374,6 +374,20 @@ buildapp --manifest-file $manifest \
 
 ----
 
+=== `check-xinput` - checks if a device appears in `xinput list`
+
+.file::check-xinput
+[source,sh]
+----
+#!/bin/bash
+
+set -o nounset
+
+DISPLAY=${DISPLAY:-:0}
+
+exec xinput list | grep "$@" >/dev/null 2>&1
+----
+
 === `chmod-default [dir]` - fixes permissions
 
 `chmod` a directory recursively, 755 for files and 644 for directories.  By
