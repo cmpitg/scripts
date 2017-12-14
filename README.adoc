@@ -251,6 +251,16 @@ acme -a \
 
 ----
 
+=== `newline`
+
+.file::newline
+[source,sh]
+----
+#!/bin/dash
+
+printf "\n"
+----
+
 === `gnu-awk` - specifically calls the GNU implementation of Awk
 
 .file::gnu-awk
