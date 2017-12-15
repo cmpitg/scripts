@@ -547,7 +547,6 @@ test -z "${DISPLAY}" && exit 0
 ##############################################################################
 
 do-notify-short "Setting cmpitg's keyboard layout"
-newline
 setxkbmap us -variant dvp -option lv3:ralt_alt
 if (test -e ~/.Xmodmap); then
 	xmodmap ~/.Xmodmap
@@ -587,6 +586,16 @@ EOF
 )
 fi
 
+----
+
+=== `config-inputs-cmpitg` - config keyboards, mice, ... all input devices
+
+.file::config-inputs-cmpitg
+[source,sh]
+----
+#!/bin/bash
+
+config-keymap-cmpitg
 config-logitech-trackball-marble-righty
 # config-logitech-trackball-marble-lefty
 config-logitech-g300-mouse
