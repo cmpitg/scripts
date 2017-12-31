@@ -9,12 +9,12 @@ id_=$( \
 	| awk '{ print $1 }' \
 )
 
-scrolling_distance_2_=$(xinput list-props 13 \
+scrolling_distance_2_=$(xinput list-props ${id_} \
 	| grep 'Synaptics Scrolling Distance' \
 	| gnu-awk '{ print $NF }' \
 	| sed 's/-//g' \
 )
-scrolling_distance_1_=$(xinput list-props 13 \
+scrolling_distance_1_=$(xinput list-props ${id_} \
 	| grep 'Synaptics Scrolling Distance' \
 	| gnu-awk '{ print $(NF - 1) }' \
 	| cut -d',' -f1 \
