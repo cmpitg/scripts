@@ -1,0 +1,7 @@
+#!/bin/dash
+
+current_shell_="${SHELL}"
+SHELL=/bin/dash . ~/.env
+export SHELL="${current_shell_}"
+unset current_shell_
+exec "$@"
