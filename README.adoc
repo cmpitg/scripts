@@ -163,12 +163,38 @@ exec "$@"
 
 ----
 
+=== `dash-with-guix` - runs in Dash with Guix environment
+
+Runs shell/command in Dash with Guix environment.  This script sets necessary environment variables to prioritize commands installed with Guix over the host environment.
+
+.file::dash-with-guix
+[source,sh]
+----
+#!/bin/dash
+
+export LC_ALL=${LC_ALL:-en_US.UTF-8}
+
+export GUIX_LOCPATH="${HOME}/.guix-profile/lib/locale"
+export GUIX_PROFILE="${HOME}/.guix-profile"
+. "${GUIX_PROFILE}/etc/profile"
+
+export GUIX_LD_WRAPPER_ALLOW_IMPURITIES=y
+export INFOPATH="/home/hdn/.guix-profile/share/info${INFOPATH:+:}$INFOPATH"
+export PATH="${HOME}/.guix-profile/bin:${PATH}"
+
+XDG_DATA_DIRS="${XDG_DATA_DIRS:-${HOME}/.local/share}"
+XDG_DATA_DIRS="${XDG_DATA_DIRS}:/usr/share:/usr/local/share:${HOME}/.local/share"
+export XDG_DATA_DIRS
+
+exec "$@"
+
+----
+
 === `9` - sets up the environment for Plan9port applications
 
 * Starts and mounts 9p font server to `/m/9p-fonts`
 * Creates temporary directory: `/tmp/9-${USER}`
-* And executes a command in a Plan9port environment in `${PLAN9}/bin`.  If
-  `PLAN9` variable is not set, it is set to `/m/opt/plan9port` by default.
+* And executes a command in a Plan9port environment in `${PLAN9}/bin`.  If `PLAN9` variable is not set, it is set to `/m/opt/plan9port` by default.
 
 .file::9
 [source,sh]
