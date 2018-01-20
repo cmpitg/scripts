@@ -281,6 +281,17 @@ acme -a \
 
 ----
 
+=== `term-emu` - wrapper for terminal emulator
+
+.file::term-emu
+[source,sh]
+----
+#!/bin/dash
+
+exec terminator "$@"
+
+----
+
 === `newline`
 
 .file::newline
