@@ -156,7 +156,7 @@ Using Dash due to its speed & lightweight characteristics.
 #!/bin/zsh
 
 current_shell_="${SHELL}"
-SHELL=/bin/zsh . ~/.env
+SHELL=/bin/dash . ~/.env
 export SHELL="${current_shell_}"
 unset current_shell_
 exec "$@"
