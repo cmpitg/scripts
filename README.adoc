@@ -153,10 +153,10 @@ Using Dash due to its speed & lightweight characteristics.
 .file::run-with-new-env
 [source,sh]
 ----
-#!/bin/dash
+#!/bin/zsh
 
 current_shell_="${SHELL}"
-SHELL=/bin/dash . ~/.env
+SHELL=/bin/zsh . ~/.env
 export SHELL="${current_shell_}"
 unset current_shell_
 exec "$@"
