@@ -425,6 +425,31 @@ buildapp --manifest-file $manifest \
 
 ----
 
+=== `start-vpn` - connects to a VPN
+
+Connects to a VPN using OpenVPN, taking the first argument as the path to the directory that contains the VPN configuration.  This script will automatically start the client VPN process in a Tmux session if not run in a TTY.
+
+.file::start-vpn
+[source,sh]
+----
+#!/bin/dash
+
+vpn_dir_="${1:-${HOME}}"
+vpn_path_=$(zenity --file-selection --multiple --filename="${vpn_dir_}")
+
+if [ -n "${vpn_path_}" ]; then
+	start_vpn_cmd_="sudo openvpn --config ${vpn_path_}"
+    cd "$(dirname ${vpn_path_})"
+
+	if [ -t 0 ]; then
+		eval "${start_vpn_cmd_}"
+	else
+		term-emu -e "tmux new-session 'bash -c \"${start_vpn_cmd_}\"'"
+	fi
+fi
+
+----
+
 === `check-xinput` - checks if a device appears in `xinput list`
 
 .file::check-xinput
