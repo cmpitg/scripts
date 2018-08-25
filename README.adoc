@@ -724,6 +724,15 @@ check-xinput 'MOSART Semi. 2.4G Wireless Mouse' && (
 	)
 )
 
+check-xinput 'TPPS/2 IBM TrackPoint' && (
+	do-notify "Setting natural scrolling for TPPS/2 IBM TrackPoint"
+	(
+		xinput set-prop 'TPPS/2 IBM TrackPoint' 'libinput Natural Scrolling Enabled' 1 &>/dev/null
+	) || (
+		xinput set-prop 'TPPS/2 IBM TrackPoint' 'Evdev Scrolling Distance' -1, -1, 1 &>/dev/null
+	)
+)
+
 ----
 
 ==== `config-lenovo-n700-mouse`
