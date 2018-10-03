@@ -706,6 +706,20 @@ check-xinput 'DELL Laser Mouse' && (
 	)
 )
 
+check-xinput 'Logitech USB Optical Mouse' && (
+	do-notify 'Setting accel profile for Logitech USB Optical Mouse'
+	# Polynomial - very usable, recommended
+	xinput set-prop 'PS/2 Synaptics TouchPad' 'Device Accel Profile' 2
+	xinput set-prop 'Logitech USB Optical Mouse' 'Device Accel Profile' 2
+
+	do-notify "Setting natural scrolling for Logitech USB Optical Mouse"
+	(
+		xinput set-prop 'Logitech USB Optical Mouse' 'libinput Natural Scrolling Enabled' 1 &>/dev/null
+	) || (
+		xinput set-prop 'Logitech USB Optical Mouse' 'Evdev Scrolling Distance' -1, -1, 1
+	)
+)
+
 check-xinput 'Kingsis Peripherals Evoluent VerticalMouse 4' && (
 	do-notify "Setting natural scrolling for Evoluent Vertical 4"
 	(
@@ -734,9 +748,11 @@ check-xinput 'TPPS/2 IBM TrackPoint' && (
 )
 
 check-xinput 'PS/2 Synaptics TouchPad' && (
-	do-notify "Setting natural scrolling for PS/2 Synaptics TouchPad"
+	do-notify 'Setting accel profile for PS/2 Synaptics TouchPad'
 	# Polynomial - very usable, recommended
-	xinput set-prop "PS/2 Synaptics TouchPad" "Device Accel Profile" 2
+	xinput set-prop 'PS/2 Synaptics TouchPad' 'Device Accel Profile' 2
+
+	do-notify 'Setting natural scrolling for PS/2 Synaptics TouchPad'
 	(
 		xinput set-prop 'PS/2 Synaptics TouchPad' 'libinput Natural Scrolling Enabled' 1 &>/dev/null
 	) || (
