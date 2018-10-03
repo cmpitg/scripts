@@ -3,7 +3,7 @@
 check-xinput 'DELL Laser Mouse' && (
 	do-notify "Setting natural scrolling for Dell mouse"
 	(
-    	xinput set-prop 'DELL Laser Mouse' 'libinput Natural Scrolling Enabled' 1 &>/dev/null
+		xinput set-prop 'DELL Laser Mouse' 'libinput Natural Scrolling Enabled' 1 &>/dev/null
 		xinput set-prop 'DELL Laser Mouse' 'libinput Accel Speed' 0.2 &>/dev/null
 	) || (
 		xinput set-prop 'DELL Laser Mouse' 'Evdev Scrolling Distance' -1, -1, 1 &>/dev/null
@@ -34,5 +34,18 @@ check-xinput 'TPPS/2 IBM TrackPoint' && (
 		xinput set-prop 'TPPS/2 IBM TrackPoint' 'libinput Natural Scrolling Enabled' 1 &>/dev/null
 	) || (
 		xinput set-prop 'TPPS/2 IBM TrackPoint' 'Evdev Scrolling Distance' -1, -1, 1 &>/dev/null
+	)
+)
+
+check-xinput 'PS/2 Synaptics TouchPad' && (
+	do-notify "Setting natural scrolling for PS/2 Synaptics TouchPad"
+	# Polynomial - very usable, recommended
+	xinput set-prop "PS/2 Synaptics TouchPad" "Device Accel Profile" 2
+	(
+		xinput set-prop 'PS/2 Synaptics TouchPad' 'libinput Natural Scrolling Enabled' 1 &>/dev/null
+	) || (
+		xinput set-prop 'PS/2 Synaptics TouchPad' 'Evdev Wheel Emulation' 1
+		xinput set-prop 'PS/2 Synaptics TouchPad' 'Evdev Wheel Emulation Button' 2
+		xinput set-prop 'PS/2 Synaptics TouchPad' 'Evdev Wheel Emulation Axes' 0, 0, 5, 4
 	)
 )
