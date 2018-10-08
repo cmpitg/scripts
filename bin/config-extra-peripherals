@@ -65,3 +65,16 @@ check-xinput 'PS/2 Synaptics TouchPad' && (
 		xinput set-prop 'PS/2 Synaptics TouchPad' 'Evdev Wheel Emulation Axes' 0, 0, 5, 4
 	)
 )
+
+check-xinput 'Logitech MX Vertical Advanced Ergonomic Mouse' && (
+	do-notify 'Setting accel profile for Logitech MX Vertical Advanced Ergonomic Mouse'
+	# Polynomial - very usable, recommended
+	xinput set-prop 'Logitech MX Vertical Advanced Ergonomic Mouse' 'Device Accel Profile' 2
+
+	do-notify 'Setting natural scrolling for Logitech MX Vertical Advanced Ergonomic Mouse'
+	(
+		xinput set-prop 'Logitech MX Vertical Advanced Ergonomic Mouse' 'libinput Natural Scrolling Enabled' 1 &>/dev/null
+	) || (
+		xinput set-prop 'Logitech MX Vertical Advanced Ergonomic Mouse' 'Evdev Scrolling Distance' -1, -1, -1
+	)
+)
