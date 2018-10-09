@@ -34,6 +34,10 @@ check-xinput 'Kingsis Peripherals Evoluent VerticalMouse 4' && (
 )
 
 check-xinput 'MOSART Semi. 2.4G Wireless Mouse' && (
+	do-notify 'Setting accel profile for Anker Vertical Mouse'
+	# Polynomial - very usable, recommended
+	xinput set-prop 'MOSART Semi. 2.4G Wireless Mouse' 'Device Accel Profile' 2
+
 	do-notify "Setting natural scrolling for Anker Vertical mouse"
 	(
 		xinput set-prop 'MOSART Semi. 2.4G Wireless Mouse' 'libinput Natural Scrolling Enabled' 1 &>/dev/null
@@ -43,6 +47,10 @@ check-xinput 'MOSART Semi. 2.4G Wireless Mouse' && (
 )
 
 check-xinput 'MOSART Semi. 2.4G Wireless Mouse Mouse' && (
+	do-notify 'Setting accel profile for Anker Vertical Mouse'
+	# Polynomial - very usable, recommended
+	xinput set-prop 'MOSART Semi. 2.4G Wireless Mouse Mouse' 'Device Accel Profile' 2
+
 	do-notify "Setting natural scrolling for Anker Vertical mouse"
 	(
 		xinput set-prop 'MOSART Semi. 2.4G Wireless Mouse Mouse' 'libinput Natural Scrolling Enabled' 1 &>/dev/null
