@@ -95,3 +95,16 @@ check-xinput 'Logitech MX Vertical Advanced Ergonomic Mouse' && (
 		xinput set-prop 'Logitech MX Vertical Advanced Ergonomic Mouse' 'Evdev Scrolling Distance' -1, -1, -1
 	)
 )
+
+check-xinput 'Logitech MX Vertical' && (
+	do-notify 'Setting accel profile for Logitech MX Vertical'
+	# Polynomial - very usable, recommended
+	xinput set-prop 'Logitech MX Vertical' 'Device Accel Profile' 2
+
+	do-notify 'Setting natural scrolling for Logitech MX Vertical'
+	(
+		xinput set-prop 'Logitech MX Vertical' 'libinput Natural Scrolling Enabled' 1 &>/dev/null
+	) || (
+		xinput set-prop 'Logitech MX Vertical' 'Evdev Scrolling Distance' -1, -1, -1
+	)
+)
