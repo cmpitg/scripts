@@ -1,0 +1,3 @@
+#!/bin/dash
+
+run-chrome --app=https://web.whatsapp.com/

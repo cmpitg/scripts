@@ -1,0 +1,3 @@
+#!/bin/dash
+
+run-chrome --app=https://calendar.google.com

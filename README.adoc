@@ -2161,6 +2161,43 @@ i3-input -f 'pango:Noto Sans 10' -F 'workspace "%s"' -P 'Go to workspace: ' %s
 
 ----
 
+=== Running applications
+
+==== `run-chrome`
+
+Chrome is run with remote debugging support:
+
+.file::run-chrome
+[source,sh]
+----
+#!/bin/dash
+
+google-chrome --remote-debugging-port=${CHROME_REMOTE_DEBUGGING_PORT:-9222} "$@"
+
+----
+
+==== `run-whatsapp`
+
+.file::run-whatsapp
+[source,sh]
+----
+#!/bin/dash
+
+run-chrome --app=https://web.whatsapp.com/
+
+----
+
+==== `run-calendar`
+
+.file::run-calendar
+[source,sh]
+----
+#!/bin/dash
+
+run-chrome --app=https://calendar.google.com
+
+----
+
 === `join-lines`
 
 Joins all lines using Plan 9's tr.
