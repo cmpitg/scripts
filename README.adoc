@@ -2163,6 +2163,17 @@ i3-input -f 'pango:Noto Sans 10' -F 'workspace "%s"' -P 'Go to workspace: ' %s
 
 === Running applications
 
+==== `run-app-launcher`
+
+.file::run-app-launcher
+[source,sh]
+----
+#!/bin/dash
+
+rofi -modi run,drun -show run "$@"
+
+----
+
 ==== `run-chrome`
 
 Chrome is run with remote debugging support:

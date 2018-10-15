@@ -1,0 +1,3 @@
+#!/bin/dash
+
+rofi -modi run,drun -show run "$@"
