@@ -1,1 +1,1 @@
-xset -display :0 dpms force off
+exec xset -display :0 dpms force off

@@ -2170,7 +2170,7 @@ i3-input -f 'pango:Noto Sans 10' -F 'workspace "%s"' -P 'Go to workspace: ' %s
 ----
 #!/bin/dash
 
-rofi -modi run,drun -show run "$@"
+exec rofi -modi run,drun -show run "$@"
 
 ----
 
@@ -2183,7 +2183,7 @@ Chrome is run with remote debugging support:
 ----
 #!/bin/dash
 
-google-chrome --remote-debugging-port=${CHROME_REMOTE_DEBUGGING_PORT:-9222} "$@"
+exec google-chrome --remote-debugging-port=${CHROME_REMOTE_DEBUGGING_PORT:-9222} "$@"
 
 ----
 
@@ -2194,7 +2194,7 @@ google-chrome --remote-debugging-port=${CHROME_REMOTE_DEBUGGING_PORT:-9222} "$@"
 ----
 #!/bin/dash
 
-run-chrome --app=https://web.whatsapp.com/
+exec run-chrome --app=https://web.whatsapp.com/
 
 ----
 
@@ -2205,7 +2205,7 @@ run-chrome --app=https://web.whatsapp.com/
 ----
 #!/bin/dash
 
-run-chrome --app=https://calendar.google.com
+exec run-chrome --app=https://calendar.google.com
 
 ----
 
@@ -2222,7 +2222,7 @@ Joins all lines using Plan 9's tr.
 # Joins all lines into one using Plan 9's tr.
 #
 
-tr '
+exec tr '
 ' ' '
 ----
 
@@ -2254,7 +2254,7 @@ fi
 
 report-missing-executables nc Netcat || exit 1
 
-nc -z 127.0.0.1 "$1"
+exec nc -z 127.0.0.1 "$1"
 
 ----
 
@@ -2277,7 +2277,7 @@ xscreensaver-command -lock \
 .file::monitor-off
 [source,sh]
 ----
-xset -display :0 dpms force off
+exec xset -display :0 dpms force off
 
 ----
 

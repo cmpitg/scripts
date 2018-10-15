@@ -4,5 +4,5 @@
 # Joins all lines into one using Plan 9's tr.
 #
 
-tr '
+exec tr '
 ' ' '
