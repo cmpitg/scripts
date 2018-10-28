@@ -2182,7 +2182,110 @@ i3-input -f 'pango:Noto Sans 10' -F 'workspace "%s"' -P 'Go to workspace: ' %s
 
 === Running applications
 
-==== `run-app-launcher`
+==== Clipboard manager
+
+.file::run-clipboard-manager
+[source,sh]
+----
+#!/bin/dash
+
+pidof clipit >/dev/null 2>&1 || exec clipit
+
+----
+
+==== Power manager
+
+.file::run-power-manager
+[source,sh]
+----
+#!/bin/dash
+
+pkill xfce4-power-manager
+exec xfce4-power-manager --no-daemon
+
+----
+
+==== Volume daemon
+
+.file::run-volumed
+[source,sh]
+----
+#!/bin/dash
+
+pkill xfce4-volumed
+exec xfce4-volumed --no-daemon
+
+----
+
+==== Input method daemon with Ibus
++
+.file::run-ibus-daemon
+[source,sh]
+----
+#!/bin/dash
+
+exec ibus-daemon -xvr
+
+----
+
+==== Screenshot manager
+
+.file::run-screenshot-manager
+[source,sh]
+----
+#!/bin/dash
+
+pkill shutter
+exec shutter --min_at_startup
+
+----
+
+==== Screensaver daemon
+
+.file::run-screensaverd
+[source,sh]
+----
+#!/bin/dash
+
+pidof xscreensaver >/dev/null 2>&1 || exec xscreensaver
+
+----
+
+==== Network manager
+
+.file::run-network-manager
+[source,sh]
+----
+#!/bin/dash
+
+pkill nm-applet
+exec nm-applet --sm-disable
+
+----
+
+==== GNOME settings daemon
+
+.file::run-gnome-settings-daemon
+[source,sh]
+----
+#!/bin/dash
+
+pidof gnome-settings-daemon >/dev/null 2>&1 || exec gnome-settings-daemon
+
+----
+
+==== Insync
+
+.file::run-insync
+[source,sh]
+----
+#!/bin/dash
+
+pidof insync >/dev/null 2>&1 || exec insync start
+
+----
+
+==== Application launcher
 
 .file::run-app-launcher
 [source,sh]
@@ -2193,7 +2296,7 @@ exec rofi -modi run,drun -show run "$@"
 
 ----
 
-==== `run-chrome`
+==== Google Chrome
 
 Chrome is run with remote debugging support:
 
@@ -2206,7 +2309,7 @@ exec google-chrome --remote-debugging-port=${CHROME_REMOTE_DEBUGGING_PORT:-9222}
 
 ----
 
-==== `run-whatsapp`
+==== Whatsapp
 
 .file::run-whatsapp
 [source,sh]
@@ -2217,7 +2320,7 @@ exec run-chrome --app=https://web.whatsapp.com/
 
 ----
 
-==== `run-calendar`
+==== Desktop calendar
 
 .file::run-calendar
 [source,sh]

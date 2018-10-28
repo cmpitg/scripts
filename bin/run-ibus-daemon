@@ -1,0 +1,3 @@
+#!/bin/dash
+
+exec ibus-daemon -xvr

@@ -1,0 +1,4 @@
+#!/bin/dash
+
+pkill xfce4-power-manager
+exec xfce4-power-manager --no-daemon

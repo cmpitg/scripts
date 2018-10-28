@@ -1,0 +1,4 @@
+#!/bin/dash
+
+pkill nm-applet
+exec nm-applet --sm-disable
