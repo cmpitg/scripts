@@ -1,0 +1,9 @@
+#!/bin/dash
+
+dir_=$(readlink -f "${1:-.}")
+
+for file_ in "${dir_}/"*; do
+    if [ ! -e "${file_}" ]; then
+        echo "${file_}"
+    fi
+done
