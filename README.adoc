@@ -2331,6 +2331,17 @@ exec run-chrome --app=https://calendar.google.com
 
 ----
 
+=== `disable-x-bell`
+
+.file::disable-x-bell
+[source,sh]
+----
+#!/bin/dash
+
+exec xset b off
+
+----
+
 === `join-lines`
 
 Joins all lines using Plan 9's tr.
