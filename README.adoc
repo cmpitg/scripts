@@ -2316,7 +2316,10 @@ exec google-chrome --remote-debugging-port=${CHROME_REMOTE_DEBUGGING_PORT:-9222}
 ----
 #!/bin/dash
 
-exec run-chrome --app=https://web.whatsapp.com/
+exec run-chrome --app=https://web.whatsapp.com/ "$@"
+
+----
+
 ==== Drop-down terminal emulator
 
 .file::run-drop-down-term-emu
@@ -2335,7 +2338,7 @@ exec guake "$@"
 ----
 #!/bin/dash
 
-exec run-chrome --app=https://calendar.google.com
+exec run-chrome --app=https://calendar.google.com "$@"
 
 ----
 
