@@ -675,8 +675,8 @@ fi
 #!/bin/bash
 
 config-keymap-cmpitg
-config-logitech-trackball-marble-righty
-# config-logitech-trackball-marble-lefty
+# config-logitech-trackball-marble-righty
+config-logitech-trackball-marble-lefty
 config-logitech-g300-mouse
 config-logitech-g502-mouse
 config-lenovo-n700-mouse
@@ -989,9 +989,9 @@ test -z "${id_}" && exit 0
 # * big-right: Secondary click
 # * small-left: Scrolling
 # * small-right: Middle click
-do-notify-short """Config buttons for righties:
-   large-left  [1]: Left click
-   large-right [3]: Right click
+do-notify-short """Config buttons for lefties:
+   large-left  [1]: Right click
+   large-right [3]: Left click
    small-left  [8]: Middle click
    small-right [9]: Scrolling + Middle click"""
 newline
