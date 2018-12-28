@@ -349,7 +349,32 @@ fi
 
 ----
 
-=== `cat-which <executable>` - `cat $(which executable)`
+=== `upcase` - upcase a string (read from stdin)
+
+.file::upcase
+[source,sh]
+----
+#!/bin/bash
+
+report-missing-executables tr tr || exit 1
+
+exec tr '[:lower:]' '[:upper:]'
+
+----
+
+=== `downcase` - downcase a string (read from stdin)
+
+.file::downcase
+[source,sh]
+----
+#!/bin/bash
+
+report-missing-executables tr tr || exit 1
+
+exec tr '[:upper:]' '[:lower:]'
+
+----
+
 
 .file::cat-which
 [source,sh]

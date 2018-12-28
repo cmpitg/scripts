@@ -1,0 +1,5 @@
+#!/bin/bash
+
+report-missing-executables tr tr || exit 1
+
+exec tr '[:lower:]' '[:upper:]'
