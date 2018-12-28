@@ -1905,6 +1905,21 @@ i3-input \
 
 ----
 
+=== `switch-window` - window switcher
+
+Requirement: `rofi`.
+
+.file::switch-window
+[source,sh]
+----
+#!/bin/dash
+
+report-missing-executables rofi Rofi || exit 1
+
+exec rofi -modi window -show window
+
+----
+
 === `i3-switch-window` - window switcher for http://i3wm.org/[i3]
 
 Requirement: `dmenu`.

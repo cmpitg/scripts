@@ -1,0 +1,5 @@
+#!/bin/dash
+
+report-missing-executables rofi Rofi || exit 1
+
+exec rofi -modi window -show window
