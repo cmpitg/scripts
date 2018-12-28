@@ -375,6 +375,7 @@ exec tr '[:upper:]' '[:lower:]'
 
 ----
 
+=== `cat-which <executable>` - `cat $(which executable-1 [executable-2] [...])`
 
 .file::cat-which
 [source,sh]
