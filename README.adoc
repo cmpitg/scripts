@@ -1920,162 +1920,6 @@ exec rofi -modi window -show window
 
 ----
 
-=== `i3-switch-window` - window switcher for http://i3wm.org/[i3]
-
-Requirement: `dmenu`.
-
-.file::i3-switch-window
-[source,python]
-----
-#!/usr/bin/env python3
-
-#
-# Copyright (C) 2015-2016  Ha-Duong Nguyen <cmpitg@gmail.com>
-#
-# i3-switch-window is free software: you can redistribute it and/or modify it
-# under the terms of the GNU General Public License as published by the Free
-# Software Foundation, either version 3 of the License, or (at your option)
-# any later version.
-#
-# i3-switch-window is distributed in the hope that it will be useful, but
-# WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
-# or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-# more details.
-#
-# You should have received a copy of the GNU General Public License along with
-# i3-switch-window.  If not, see <http://www.gnu.org/licenses/>.
-#
-
-#
-# Requirements:
-#   Python 3
-#   dmenu with Xft patch
-#
-
-import json
-import subprocess
-import sys
-
-
-# dmenu_options      = '-b -i -l 40 -fn "Noto Sans-10" -nf "#ffa077" -nb "#202020"'
-dmenu_options      = '-p Window -i -l 40 -fn "Noto Sans-10" -nf "#ffa077" -nb "#202020"'
-title_format       = "{} — {}"
-cmd_get_tree       = "i3-msg -t get_tree"
-cmd_switch_window  = "i3-msg '[con_id={}] focus'"
-
-
-def main():
-	fail_if_dmenu_not_found()
-
-	global dmenu_options
-	global cmd_get_tree
-	global cmd_switch_window
-
-	tree = json.loads(subprocess.check_output(
-		cmd_get_tree,
-		stderr=subprocess.STDOUT,
-		shell=True
-	).decode('utf-8'))
-
-	windows       = get_all_windows(tree)
-	lookup_table  = build_lookup_table(windows)
-	chosen        = dmenu(itemize(windows), dmenu_options)
-
-	switch_to_window(
-		chosen=chosen,
-		table=lookup_table,
-		cmd=cmd_switch_window
-	)
-
-
-def fail_if_dmenu_not_found():
-	"""Check if dmenu exists and exit if it doesn't."""
-	if subprocess.call("which dmenu", shell=True) != 0:
-		sys.stdout.write("dmenu not found\n")
-		sys.stdout.write("Make sure you have dmenu installed\n")
-		sys.exit(1)
-
-
-def switch_to_window(chosen, table, cmd):
-	"""Switch to the chosen window."""
-	window_id = table.get(chosen, -1)
-	if window_id != -1:
-		subprocess.check_call(cmd.format(window_id), shell=True)
-
-
-def window_as_string(with_id=False):
-	global title_format
-
-	def helper(window):
-		title = title_format.format(window['class'], window['title'])
-		if with_id:
-			return title, window['id']
-		else:
-			return title
-
-	return helper
-
-
-def build_lookup_table(windows):
-	stringifized = map(window_as_string(with_id=True), windows)
-	return dict(stringifized)
-
-
-def itemize(windows):
-	"""Itemize windows list for dmenu."""
-	return "\n".join(map(window_as_string(with_id=False), windows))
-
-
-def get_all_windows(tree):
-	"""Extracts all windows from i3 tree."""
-	# Add current window
-	if is_window(tree):
-		result = [standardize_window(tree)]
-	else:
-		result = []
-
-	# Add child windows
-	children = []
-	for window in tree['nodes']:
-		children += get_all_windows(window)
-
-	return result + children
-
-
-def is_window(tree):
-	"""Determines if a tree is a window."""
-	return tree['window'] \
-		and tree['window_properties']['class'].lower().find('panel') == -1
-
-
-def standardize_window(window):
-	"""Extracts necessary information for a window."""
-	return {
-		'id':       window['id'],
-		'title':    window['window_properties']['title'],
-		'class':    window['window_properties']['class'],
-		'instance': window['window_properties']['instance']
-	}
-
-
-def dmenu(items, dmenu_options):
-	"""Calls dmenu to display and menu for window switching."""
-	cmd = subprocess.Popen(
-		"dmenu {}".format(dmenu_options),
-		shell=True,
-		stdin=subprocess.PIPE,
-		stdout=subprocess.PIPE,
-		stderr=subprocess.PIPE
-	)
-	stdout, _ = cmd.communicate(items.encode('utf-8'))
-	return stdout.decode('utf-8').strip('\n')
-
-
-if __name__ == '__main__':
-	main()
-
-----
-
 === `i3-switch-workspace` - workspace switcher for http://i3wm.org/[i3]
 
 Requirement: `dmenu`.
@@ -3449,9 +3293,163 @@ cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w ${length_} | head -n 1
 
 == Legacy/Unused scripts
 
+=== `i3-switch-window` - window switcher for http://i3wm.org/[i3]
+
+Requirement: `dmenu`.
+
+[source,python]
+----
+#!/usr/bin/env python3
+
+#
+# Copyright (C) 2015-2016  Ha-Duong Nguyen <cmpitg@gmail.com>
+#
+# i3-switch-window is free software: you can redistribute it and/or modify it
+# under the terms of the GNU General Public License as published by the Free
+# Software Foundation, either version 3 of the License, or (at your option)
+# any later version.
+#
+# i3-switch-window is distributed in the hope that it will be useful, but
+# WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+# or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+# more details.
+#
+# You should have received a copy of the GNU General Public License along with
+# i3-switch-window.  If not, see <http://www.gnu.org/licenses/>.
+#
+
+#
+# Requirements:
+#   Python 3
+#   dmenu with Xft patch
+#
+
+import json
+import subprocess
+import sys
+
+
+# dmenu_options      = '-b -i -l 40 -fn "Noto Sans-10" -nf "#ffa077" -nb "#202020"'
+dmenu_options      = '-p Window -i -l 40 -fn "Noto Sans-10" -nf "#ffa077" -nb "#202020"'
+title_format       = "{} — {}"
+cmd_get_tree       = "i3-msg -t get_tree"
+cmd_switch_window  = "i3-msg '[con_id={}] focus'"
+
+
+def main():
+	fail_if_dmenu_not_found()
+
+	global dmenu_options
+	global cmd_get_tree
+	global cmd_switch_window
+
+	tree = json.loads(subprocess.check_output(
+		cmd_get_tree,
+		stderr=subprocess.STDOUT,
+		shell=True
+	).decode('utf-8'))
+
+	windows       = get_all_windows(tree)
+	lookup_table  = build_lookup_table(windows)
+	chosen        = dmenu(itemize(windows), dmenu_options)
+
+	switch_to_window(
+		chosen=chosen,
+		table=lookup_table,
+		cmd=cmd_switch_window
+	)
+
+
+def fail_if_dmenu_not_found():
+	"""Check if dmenu exists and exit if it doesn't."""
+	if subprocess.call("which dmenu", shell=True) != 0:
+		sys.stdout.write("dmenu not found\n")
+		sys.stdout.write("Make sure you have dmenu installed\n")
+		sys.exit(1)
+
+
+def switch_to_window(chosen, table, cmd):
+	"""Switch to the chosen window."""
+	window_id = table.get(chosen, -1)
+	if window_id != -1:
+		subprocess.check_call(cmd.format(window_id), shell=True)
+
+
+def window_as_string(with_id=False):
+	global title_format
+
+	def helper(window):
+		title = title_format.format(window['class'], window['title'])
+		if with_id:
+			return title, window['id']
+		else:
+			return title
+
+	return helper
+
+
+def build_lookup_table(windows):
+	stringifized = map(window_as_string(with_id=True), windows)
+	return dict(stringifized)
+
+
+def itemize(windows):
+	"""Itemize windows list for dmenu."""
+	return "\n".join(map(window_as_string(with_id=False), windows))
+
+
+def get_all_windows(tree):
+	"""Extracts all windows from i3 tree."""
+	# Add current window
+	if is_window(tree):
+		result = [standardize_window(tree)]
+	else:
+		result = []
+
+	# Add child windows
+	children = []
+	for window in tree['nodes']:
+		children += get_all_windows(window)
+
+	return result + children
+
+
+def is_window(tree):
+	"""Determines if a tree is a window."""
+	return tree['window'] \
+		and tree['window_properties']['class'].lower().find('panel') == -1
+
+
+def standardize_window(window):
+	"""Extracts necessary information for a window."""
+	return {
+		'id':       window['id'],
+		'title':    window['window_properties']['title'],
+		'class':    window['window_properties']['class'],
+		'instance': window['window_properties']['instance']
+	}
+
+
+def dmenu(items, dmenu_options):
+	"""Calls dmenu to display and menu for window switching."""
+	cmd = subprocess.Popen(
+		"dmenu {}".format(dmenu_options),
+		shell=True,
+		stdin=subprocess.PIPE,
+		stdout=subprocess.PIPE,
+		stderr=subprocess.PIPE
+	)
+	stdout, _ = cmd.communicate(items.encode('utf-8'))
+	return stdout.decode('utf-8').strip('\n')
+
+
+if __name__ == '__main__':
+	main()
+
+----
+
 === `update-sbcl.ruby`
 
-.file::update-sbcl.ruby
 [source,ruby]
 ----
 #!/usr/bin/env ruby
