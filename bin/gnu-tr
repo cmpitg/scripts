@@ -1,0 +1,12 @@
+#!/bin/bash
+
+report-missing-executables tar "GNU tr" || exit 1
+
+if (/bin/tr --version 2>/dev/null | head -1 | grep tr &>/dev/null); then
+	exec /bin/tr "$@"
+elif (/usr/bin/tr --version 2>/dev/null | head -1 | grep tr &>/dev/null); then
+	exec /usr/bin/tr "$@"
+else
+	echo You don\'t have GNU tr installed. >&2
+	exit 1
+fi

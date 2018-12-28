@@ -1,5 +1,5 @@
 #!/bin/bash
 
-report-missing-executables tr tr || exit 1
+report-missing-executables tr "GNU tr" || exit 1
 
-exec tr '[:lower:]' '[:upper:]'
+exec gnu-tr '[:lower:]' '[:upper:]'
