@@ -2,9 +2,9 @@
 
 report-missing-executables tar "GNU tar" || exit 1
 
-if (/bin/tar --version | head -1 | grep tar &>/dev/null); then
+if (/bin/tar --version 2>/dev/null | head -1 | grep tar &>/dev/null); then
 	exec /bin/tar "$@"
-elif (tar --version | head -1 | grep tar &>/dev/null); then
+elif (tar --version 2>/dev/null | head -1 | grep tar &>/dev/null); then
 	exec tar "$@"
 else
 	echo You don\'t have GNU tar installed. >&2

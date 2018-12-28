@@ -2,9 +2,9 @@
 
 report-missing-executables sed "GNU sed" || exit 1
 
-if (/bin/sed --version | head -1 | grep sed &>/dev/null); then
+if (/bin/sed --version 2>/dev/null | head -1 | grep sed &>/dev/null); then
 	exec /bin/sed "$@"
-elif (sed --version | head -1 | grep sed &>/dev/null); then
+elif (sed --version 2>/dev/null | head -1 | grep sed &>/dev/null); then
 	exec sed "$@"
 else
 	echo You don\'t have GNU sed installed. >&2
