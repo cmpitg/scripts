@@ -1,0 +1,8 @@
+#!/bin/dash
+
+checksum_tool_="${1}"
+shift
+
+report-missing-executables curl cURL "${checksum_tool_}" "${checksum_tool_}" || exit 1
+
+exec curl --silent --location "$@" | "${checksum_tool_}" | cut -d ' ' -f 1

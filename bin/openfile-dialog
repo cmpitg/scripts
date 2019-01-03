@@ -2,5 +2,4 @@
 
 report-missing-executables zenity Zenity || exit 1
 
-zenity --file-selection \
-	--filename `pwd` "$@" 2>/dev/null
+zenity --file-selection --filename `pwd` "$@" 2>/dev/null

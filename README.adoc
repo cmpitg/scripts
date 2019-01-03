@@ -3339,8 +3339,31 @@ echo Display: $DISPLAY
 
 report-missing-executables zenity Zenity || exit 1
 
-zenity --file-selection \
-	--filename `pwd` "$@" 2>/dev/null
+zenity --file-selection --filename `pwd` "$@" 2>/dev/null
+
+----
+
+=== `compute-checksum-url` - computes checksum for remote file
+
+`compute-checksum-url <checksum-tool> <uri> [curl-options] ...`
+
+E.g.
+
+* Compute MD5 sum for https://picsum.photos/200: `compute-checksum-url md5sum https://picsum.photos/200`
+
+* Compute SHA1 sum for https://picsum.photos/200: `compute-checksum-url sha1sum https://picsum.photos/200`
+
+.file::compute-checksum-url
+[source,sh]
+----
+#!/bin/dash
+
+checksum_tool_="${1}"
+shift
+
+report-missing-executables curl cURL "${checksum_tool_}" "${checksum_tool_}" || exit 1
+
+exec curl --silent --location "$@" | "${checksum_tool_}" | cut -d ' ' -f 1
 
 ----
 
