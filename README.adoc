@@ -3375,6 +3375,158 @@ exec "${download_tool_}" "$@"
 
 ----
 
+=== `smart-download` - downloads file, prompts overwriting, and compares checksums
+
+Downloads a file, compares checksums, and prompts overwriting when necessary.  This script returns the download destination as the last line upon a successful download with exit code 0.  In case of error or checksums not matching, a non-zero exit code is returned.
+
+E.g.
+
+* Download to a temporary file:
++
+[source,sh]
+----
+smart-download https://picsum.photos/200
+----
+
+* Download to `/tmp/aoeu`, prompt overwriting:
++
+[source,sh]
+----
+smart-download --destination /tmp/aoeu https://picsum.photos/200
+----
+
+* If the current MD5 sum of `/tmp/aoeu` doesn't match `ABC`, download and overwrite it, then compute and the check the MD5 sum for the downloaded file; otherwise, skip the download:
++
+[source,sh]
+----
+smart-download --destination /tmp/aoeu --md5sum ABC https://picsum.photos/200
+----
+
+* Same as the previous example except that the SHA1 sum is taken into account along with the MD5 sum:
++
+[source,sh]
+----
+smart-download --destination /tmp/aoeu --md5sum ABC --sha1sum DEF https://picsum.photos/200
+----
+
+.file::smart-download
+[source,tcl]
+----
+#!/usr/bin/env tclsh
+
+package require Tcl 8.2
+package require fileutil
+package require md5
+package require sha1
+package require sha256
+
+try {
+	array set args [::cmdline::getoptions ::argv {
+		{destination.arg "" "(optional) The download destination"}
+		{md5sum.arg      "" "(optional) The MD5 checksum"}
+		{sha1sum.arg     "" "(optional) The SHA1 checksum"}
+		{sha256sum.arg   "" "(optional) The SHA256 checksum"}
+	} {[options] <uri>
+
+Download a file, compare checksum if necessary, and return the path to the downloaded file.  If the download destination is not specified, a temporary path is returned.
+}]
+} trap {CMDLINE USAGE} {msg _o} {
+	puts $msg
+	exit 0
+}
+
+proc getDestination {dest} {
+	if {$dest eq ""} {
+		set path [::fileutil::tempfile]
+		file delete -- $path
+		return $path
+	} else {
+		return $dest
+	}
+}
+
+proc getURI {uri} {
+	if {$uri eq ""} {
+		puts stderr "URI must be provided"
+		exit 1
+	} else {
+		return $uri
+	}
+}
+
+proc checksumsMatched {path checksumDict} {
+	proc checksumMatched {path type checksum} {
+		set checksum [string toupper $checksum]
+		if {$checksum eq ""} {
+			return 1
+		} else {
+			switch $type {
+				md5 {
+					return [expr {$checksum eq [string toupper [::md5::md5 -hex -file $path]]}]
+				}
+				sha1 {
+					return [expr {$checksum eq [string toupper [::sha1::sha1 -hex -file $path]]}]
+				}
+				sha256 {
+					return [expr {$checksum eq [string toupper [::sha256::sha256 -hex -file $path]]}]
+				}
+				default {
+					return 0
+				}
+			}
+		}
+	}
+	return [expr {[checksumMatched $path md5 [dict get $checksumDict md5sum]]
+				  && [checksumMatched $path sha1 [dict get $checksumDict sha1sum]]
+				  && [checksumMatched $path sha256 [dict get $checksumDict sha256sum]]}]
+}
+
+proc downloadFile {destDir destFile uri} {
+	return [exec aria2c --dir $destDir --out $destFile $uri >@ stdout 2>@ stderr]
+}
+
+set dest [getDestination $args(destination)]
+set destDir [file dirname $dest]
+set destFile [file tail $dest]
+set uri [getURI [lindex $::argv 0]]
+set checksumDict [dict create md5sum $args(md5sum) sha1sum $args(sha1sum) sha256sum $args(sha256sum)]
+
+if {[lindex [array get ::env VERBOSE] 1] == 1} {
+	# Be verbose
+	parray args
+	puts "Destination: $dest"
+	puts "URI: $uri"
+}
+
+exec report-missing-executables aria2c Aria2c >@ stdout 2>@ stderr
+
+if {[file exists $dest]} {
+	if {[dict values $checksumDict] == {{} {} {}}} {
+		try {
+			exec prompt-y-n "$dest exists, would you like continue and overwrite it?" y <@ stdin >@ stdout 2>@ stderr
+			file delete -- $dest
+			downloadFile $destDir $destFile $uri
+		} trap CHILDSTATUS {_msg _options} {}
+	} elseif {![checksumsMatched $dest $checksumDict]} {
+		file delete -- $dest
+		downloadFile $destDir $destFile $uri
+	}
+} else {
+	downloadFile $destDir $destFile $uri
+}
+
+if {![checksumsMatched $dest $checksumDict]} {
+	exit 1
+} else {
+	puts $dest
+}
+
+# Local Variables:
+# indent-tabs-mode: t
+# End:
+
+----
+
 === `random-string` - generates a random alphanumeric string
 
 .file::random-string
