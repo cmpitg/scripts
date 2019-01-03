@@ -2446,11 +2446,22 @@ def find_executable(name):
 
 ----
 
+=== `executable-exists <exec-file>` - checks if an executable exists in `PATH`
+
+Checks whether an executable exists in one of the `PATH`s, returning exit code 0 if it does and 127 otherwise.
+
+.file::executable-exists
+[source,sh]
+----
+#!/bin/dash
+
+command -v "$@" >/dev/null 2>&1
+
+----
+
 === `report-missing-executables <bin-1> <software-1> <bin-2> <software-2> ...`
 
-Reports missing software by checking if their corresponding executables exist.
-If all executables are found, exit with status 0; otherwise, exit with
-status 1.
+Reports missing software by checking if their corresponding executables exist.  If all executables are found, exit with status 0; otherwise, exit with status 1.
 
 Sample usage:
 
