@@ -1,0 +1,31 @@
+#!/usr/bin/env tclsh
+
+proc getDefaultChoice {choice} {
+	if {[string equal "" $choice]} {
+		return "y"
+	} else {
+		return $choice
+	}
+}
+
+proc getAnswer {default} {
+	set answer [gets stdin]
+	if {[string equal "" $answer]} {
+		return $default
+	} else {
+		return $answer
+	}
+}
+
+set prompt [lindex $argv 0]
+set defaultChoice [getDefaultChoice [lindex $argv 1]]
+
+puts -nonewline "$prompt \[y/n\] ($defaultChoice) "
+flush stdout
+
+set answer [getAnswer $defaultChoice]
+if {[string equal "y" $answer]} {
+	exit 0
+} else {
+	exit 1
+}

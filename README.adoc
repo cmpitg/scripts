@@ -2446,6 +2446,47 @@ def find_executable(name):
 
 ----
 
+=== `prompt-y-n` - prompts for a yes/no answer
+
+Prompts a yes/no answer, exiting with code 0 for yes and non-zero for no.
+
+.file::prompt-y-n
+[source,tcl]
+----
+#!/usr/bin/env tclsh
+
+proc getDefaultChoice {choice} {
+	if {[string equal "" $choice]} {
+		return "y"
+	} else {
+		return $choice
+	}
+}
+
+proc getAnswer {default} {
+	set answer [gets stdin]
+	if {[string equal "" $answer]} {
+		return $default
+	} else {
+		return $answer
+	}
+}
+
+set prompt [lindex $argv 0]
+set defaultChoice [getDefaultChoice [lindex $argv 1]]
+
+puts -nonewline "$prompt \[y/n\] ($defaultChoice) "
+flush stdout
+
+set answer [getAnswer $defaultChoice]
+if {[string equal "y" $answer]} {
+	exit 0
+} else {
+	exit 1
+}
+
+----
+
 === `executable-exists <exec-file>` - checks if an executable exists in `PATH`
 
 Checks whether an executable exists in one of the `PATH`s, returning exit code 0 if it does and 127 otherwise.
