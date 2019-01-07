@@ -13,6 +13,8 @@ Script collection.  Many of them are written in http://doc.cat-v.org/plan_9/4th_
 
 This document is written in literate programming style.  To generate scripts and documentation, you need latest stable version of https://github.com/cmpitg/ulquikit[Ulquikit].  You could also clone the repo and start using it yourself.  All executables are in `bin/`.
 
+TODO: Script to display a persistent notification for current desktop
+
 TODO: report-missing-executables supports --notify-desktop
 
 TODO: Arg parser → env vars
