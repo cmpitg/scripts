@@ -288,6 +288,22 @@ exec terminator "$@"
 
 ----
 
+=== `run-with-term-emu` - runs a command in a termimal emulator
+
+TODO:
+* `SHELL` variable and description of this command
+* `--detach`
+
+.file::run-with-term-emu
+[source,sh]
+----
+#!/bin/dash
+
+exec term-emu -e "tmux new-session '${SHELL} -c \"$@\"'"
+# exec term-emu -e "tmux new-session '${SHELL} -c \"$@\"' \; detach"
+
+----
+
 === `newline`
 
 .file::newline

@@ -1,0 +1,4 @@
+#!/bin/dash
+
+exec term-emu -e "tmux new-session '${SHELL} -c \"$@\"'"
+# exec term-emu -e "tmux new-session '${SHELL} -c \"$@\"' \; detach"
