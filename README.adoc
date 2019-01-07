@@ -371,7 +371,7 @@ fi
 
 ----
 
-=== `upcase` - upcase a string (read from stdin)
+=== `upcase` - upcases a string (read from stdin)
 
 .file::upcase
 [source,sh]
@@ -384,7 +384,7 @@ exec gnu-tr '[:lower:]' '[:upper:]'
 
 ----
 
-=== `downcase` - downcase a string (read from stdin)
+=== `downcase` - downcases a string (read from stdin)
 
 .file::downcase
 [source,sh]
