@@ -1,0 +1,8 @@
+#!/usr/bin/env tclsh
+
+set page [lindex $::argv 0]
+
+exec rmacs --new-frame eval "(let ((frame (selected-frame)))
+  (man \"$page\")
+  (delete-frame frame)
+  (setq-local local/delete-frame-on-close t))" <@ stdin >@ stdout 2>@ stderr

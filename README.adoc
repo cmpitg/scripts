@@ -397,6 +397,22 @@ exec gnu-tr '[:upper:]' '[:lower:]'
 
 ----
 
+=== `view-man` - views a Man page in a GUI pager (Rmacs)
+
+.file::view-man
+[source,sh]
+----
+#!/usr/bin/env tclsh
+
+set page [lindex $::argv 0]
+
+exec rmacs --new-frame eval "(let ((frame (selected-frame)))
+  (man \"$page\")
+  (delete-frame frame)
+  (setq-local local/delete-frame-on-close t))" <@ stdin >@ stdout 2>@ stderr
+
+----
+
 === `cat-which <executable>` - `cat $(which executable-1 [executable-2] [...])`
 
 .file::cat-which
