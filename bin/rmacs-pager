@@ -1,0 +1,15 @@
+#!/usr/bin/env tclsh
+
+package require Tcl 8
+package require fileutil 1.15
+
+set tempPath [::fileutil::tempfile]
+set tempBufferName [exec random-string]
+exec cat > $tempPath <@ stdin
+exec rmacs --new-frame eval "(with-current-buffer (get-buffer-create \"$tempBufferName\")
+  (insert-file \"$tempPath\")
+  (delete-file \"$tempPath\" nil)
+  (setq-local local/delete-frame-on-close t)
+  (Man-cleanup-manpage)
+  ;; (Man-fontify-manpage)
+  (switch-to-buffer (current-buffer)))" >@ stdout 2>@ stderr
