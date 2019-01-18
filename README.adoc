@@ -1841,20 +1841,6 @@ git ls-files --deleted | xargs git rm --cached
 
 ----
 
-=== `nix` - runs a command with Nix (if exists)
-
-.file::nix
-[source,sh]
-----
-#!/bin/bash
-
-export NIX_PATH=$(ls -d -1 /m/opt/nix-1.10 | head -1)
-
-. ${NIX_PATH}/scripts/nix-profile.sh
-exec "$@"
-
-----
-
 === `uri-github2ssh` - converts Github URI to `git+ssh` style
 
 .file::uri-github2ssh
