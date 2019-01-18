@@ -159,11 +159,11 @@ exec "$@"
 
 ----
 
-=== `dash-with-guix` - runs in Dash with Guix environment
+=== `dash-guix` - runs in Dash with Guix environment
 
 Runs shell/command in Dash with Guix environment.  This script sets necessary environment variables to prioritize commands installed with Guix over the host environment.
 
-.file::dash-with-guix
+.file::dash-guix
 [source,sh]
 ----
 #!/bin/dash
