@@ -2,9 +2,6 @@
 
 package require Tcl 8.2
 package require fileutil
-package require md5
-package require sha1
-package require sha256
 
 try {
 	array set args [::cmdline::getoptions ::argv {
@@ -48,16 +45,16 @@ proc checksumsMatched {path checksumDict} {
 		} else {
 			switch $type {
 				md5 {
-					return [expr {$checksum eq [string toupper [::md5::md5 -hex -file $path]]}]
+					return [expr {$checksum eq [string toupper [exec md5sum $path | cut -f1 -d " "]]}]
 				}
 				sha1 {
-					return [expr {$checksum eq [string toupper [::sha1::sha1 -hex -file $path]]}]
+					return [expr {$checksum eq [string toupper [exec sha1sum $path | cut -f1 -d " "]]}]
 				}
 				sha256 {
-					return [expr {$checksum eq [string toupper [::sha256::sha256 -hex -file $path]]}]
+					return [expr {$checksum eq [string toupper [exec sha256sum $path | cut -f1 -d " "]]}]
 				}
 				default {
-					return 0
+					return 1
 				}
 			}
 		}
@@ -84,7 +81,7 @@ if {[lindex [array get ::env VERBOSE] 1] == 1} {
 	puts "URI: $uri"
 }
 
-exec report-missing-executables aria2c Aria2c >@ stdout 2>@ stderr
+exec report-missing-executables aria2c Aria2c md5sum Coreutils sha1sum Coreutils sha256sum Coreutils >@ stdout 2>@ stderr
 
 if {[file exists $dest]} {
 	if {[dict values $checksumDict] == {{} {} {}}} {
