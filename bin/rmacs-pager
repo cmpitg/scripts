@@ -9,7 +9,7 @@ exec cat > $tempPath <@ stdin
 exec rmacs --new-frame eval "(with-current-buffer (get-buffer-create \"$tempBufferName\")
   (insert-file \"$tempPath\")
   (delete-file \"$tempPath\" nil)
-  (setq-local local/delete-frame-on-close t)
+  (setq-local local/delete-frame-on-close (selected-frame))
   (Man-cleanup-manpage)
   ;; (Man-fontify-manpage)
   (switch-to-buffer (current-buffer)))" >@ stdout 2>@ stderr
