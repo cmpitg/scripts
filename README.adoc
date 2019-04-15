@@ -2163,8 +2163,11 @@ exec xfce4-power-manager --no-daemon
 ----
 #!/bin/dash
 
-pkill xfce4-volumed
-exec xfce4-volumed --no-daemon
+# pkill xfce4-volumed
+# exec xfce4-volumed --no-daemon
+
+pkill pasystray
+exec pasystray
 
 ----
 
