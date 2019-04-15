@@ -277,6 +277,17 @@ exec term-emu -e "tmux new-session '${SHELL} -c \"$@\"'"
 
 ----
 
+=== `run-with-termux` - runs a command with a terminal multiplexer
+
+.file::run-with-termux
+[source,sh]
+----
+#!/bin/dash
+
+exec tmux new-session "$@"
+
+----
+
 === `newline`
 
 .file::newline
