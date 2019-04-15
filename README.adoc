@@ -2234,14 +2234,13 @@ exec rofi -modi run,drun -show run "$@"
 
 ==== Google Chrome
 
-Chrome is run with remote debugging support:
-
 .file::run-chrome
 [source,sh]
 ----
 #!/bin/dash
 
-exec google-chrome --remote-debugging-port=${CHROME_REMOTE_DEBUGGING_PORT:-9222} "$@"
+# exec google-chrome --remote-debugging-port=${CHROME_REMOTE_DEBUGGING_PORT:-9222} "$@"
+exec google-chrome "$@"
 
 ----
 
