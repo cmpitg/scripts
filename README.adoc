@@ -2221,6 +2221,27 @@ pidof insync >/dev/null 2>&1 || exec insync start
 
 ----
 
+==== Menu program
+
+.file::run-menu
+[source,sh]
+----
+#!/bin/dash
+
+exec rofi -lines 30 \
+	-width 60 \
+	-kb-row-select Tab \
+	-kb-row-tab "" \
+	-kb-row-up Super+c,Up,Control+p \
+	-kb-row-down Super+t,Down,Control+n \
+	-kb-row-left Super+h,Left,Control+b \
+	-kb-row-right Super+n,Right,Control+f \
+	-kb-move-front Super+d,Control+a \
+	-kb-move-end Super+D,Control+e \
+	"$@"
+
+----
+
 ==== Application launcher
 
 .file::run-app-launcher
@@ -2228,7 +2249,7 @@ pidof insync >/dev/null 2>&1 || exec insync start
 ----
 #!/bin/dash
 
-exec rofi -modi run,drun -show run "$@"
+exec run-menu -modi run,drun -show run -sidebar-mode "$@"
 
 ----
 
