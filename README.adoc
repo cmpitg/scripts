@@ -1700,6 +1700,21 @@ tail -n +$n_lines
 
 ----
 
+=== `in_epoch2datetime` - converts the epoch from read from stdin to local date time
+
+This script is particularly helpful when using with Emacs/Acme, e.g. called with a text selection.
+
+.file::in_epoch2datetime
+[source,sh]
+----
+#!/bin/dash
+
+epoch_=$(cat)
+
+exec date --date="@${epoch_}" -R
+
+----
+
 === `en2fi` - translates from English to Finnish
 
 .file::en2fi

@@ -1,0 +1,5 @@
+#!/bin/dash
+
+epoch_=$(cat)
+
+exec date --date="@${epoch_}" -R
