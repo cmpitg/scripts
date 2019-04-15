@@ -1,0 +1,74 @@
+#!/usr/bin/env tclsh
+
+package require Tcl 8
+package require cmdline
+package require struct::list 1.8
+
+try {
+	array set cmdArgs [::cmdline::getoptions ::argv {
+		{max-history.arg 1000 "Maximum number of items stored in the history"}
+	} {[--max-history <max-history>] <history-file-path>
+
+TODO: Documentation
+}]} trap {CMDLINE USAGE} {msg _o} {
+	if {[llength $::argv] == 0} {
+		puts $msg
+		exit 0
+	} else {
+		puts stderr $msg
+		exit 127
+	}
+}
+
+# TODO: Handle errors or missing arguments
+
+set maxHistory $cmdArgs(max-history)
+set filePath [lindex $::argv 0]
+
+##############################################################################
+# Helpers
+##############################################################################
+
+proc slurpIntoLines {path} {
+	set fd [open $path r]
+	set res [read $fd]
+	close $fd
+	return [::struct::list filterfor x [split $res "\n"] {[string trim $x] ne ""}]
+}
+
+proc readLineFromStdin {} {
+	gets stdin line
+	return [string trim $line]
+}
+
+proc writeLines {path lines} {
+	set fd [open $path w]
+	puts $fd [join $lines "\n"]
+	close $fd
+}
+
+##############################################################################
+# Main
+##############################################################################
+
+if {![file exists $filePath]} {
+	set baseDir [file dirname $filePath]
+	if {![file exists $baseDir]} {
+		file mkdir $baseDir
+	}
+
+	# Create the empty file
+	close [open $filePath w]
+
+	set lines {}
+} else {
+	set lines [slurpIntoLines $filePath]
+}
+
+set newLine [readLineFromStdin]
+set newLines [concat [list $newLine] [::struct::list filterfor x $lines {$x ne $newLine}]]
+set finalLines [lrange $newLines 0 [expr {$maxHistory - 1}]]
+
+writeLines $filePath $finalLines
+
+puts $newLine
