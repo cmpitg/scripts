@@ -420,7 +420,7 @@ exec rmacs --new-frame eval "(let ((frame (selected-frame)))
 TODO: Description and potential improvement
 
 .file::rmacs-pager
-[source,sh]
+[source,tcl]
 ----
 #!/usr/bin/env tclsh
 
