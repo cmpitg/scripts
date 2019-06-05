@@ -161,6 +161,85 @@ exec "$@"
 
 ----
 
+=== `bash-pure` - runs Bash in a clean environment
+
+.file::bash-pure
+[source,sh]
+----
+#!/bin/sh
+
+# exec env --ignore-environment - HOME="${HOME}" USER="${USER}" DISPLAY="${DISPLAY}" bash --login --noprofile --norc "$@"
+exec bash --login --noprofile --norc "$@"
+
+----
+
+=== `with-bash-pure` - runs a command under `bash-pure`
+
+.file::with-bash-pure
+[source,sh]
+----
+#!/usr/bin/env bash-pure
+
+exec "$@"
+
+----
+
+=== `bash-user` - runs Bash with the current user's environment
+
+.file::bash-user
+[source,sh]
+----
+#!/usr/bin/env bash-pure
+
+exec bash --login "$@"
+
+----
+
+=== `with-bash-user` - runs a command under `bash-user`
+
+.file::with-bash-user
+[source,sh]
+----
+#!/usr/bin/env bash-user
+
+exec "$@"
+
+----
+
+=== `bash-guix` - runs Bash with a pure Guix environment
+
+.file::bash-guix
+[source,sh]
+----
+#!/usr/bin/env bash-user
+
+set +x
+
+export GUIX_PROFILE="${HOME}/.guix-profile"
+. "${GUIX_PROFILE}/etc/profile"
+
+export GUIX_LOCPATH="${HOME}/.guix-profile/lib/locale"
+export GUIX_LD_WRAPPER_ALLOW_IMPURITIES=n
+
+XDG_DATA_DIRS="${XDG_DATA_DIRS:-${HOME}/.local/share}"
+XDG_DATA_DIRS="${XDG_DATA_DIRS}:/usr/share:/usr/local/share:${HOME}/.local/share"
+export XDG_DATA_DIRS
+
+exec bash "$@"
+
+----
+
+=== `with-bash-guix` - runs a command under `bash-guix`
+
+.file::with-bash-guix
+[source,sh]
+----
+#!/usr/bin/env bash-guix
+
+exec "$@"
+
+----
+
 === `9` - sets up the environment for Plan9port applications
 
 * Starts and mounts 9p font server to `/m/9p-fonts`
