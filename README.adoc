@@ -240,6 +240,18 @@ exec "$@"
 
 ----
 
+=== `with-pause` - runs a command, then pause and wait for user to input Enter to exit
+
+.file::with-pause
+[source,sh]
+----
+#!/usr/bin/env bash
+
+"$@"
+read -p "Press Enter to exit..."
+
+----
+
 === `9` - sets up the environment for Plan9port applications
 
 * Starts and mounts 9p font server to `/m/9p-fonts`
