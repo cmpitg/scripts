@@ -904,8 +904,8 @@ fi
 #!/bin/bash
 
 config-keymap-cmpitg
-# config-logitech-trackball-marble-righty
-config-logitech-trackball-marble-lefty
+config-logitech-trackball-marble-righty
+# config-logitech-trackball-marble-lefty
 config-logitech-g300-mouse
 config-logitech-g502-mouse
 config-lenovo-n700-mouse
@@ -1362,7 +1362,8 @@ newline
 # xinput set-prop "${id_}" "Device Accel Profile" 6
 xinput set-prop "${id_}" "Device Accel Profile" 2
 # Debian
-xinput set-prop "${id_}" "Device Accel Velocity Scaling" 1.5
+xinput set-prop "${id_}" "Device Accel Velocity Scaling" 5
+# xinput set-prop "${id_}" "Device Accel Velocity Scaling" 1.5
 # xinput set-prop "${id_}" "Device Accel Velocity Scaling" 1
 
 ----
@@ -2384,8 +2385,8 @@ pidof insync >/dev/null 2>&1 || exec insync start
 ----
 #!/bin/dash
 
-exec rofi -lines 30 \
-	-width 60 \
+exec rofi -lines 40 \
+	-width 85 \
 	-kb-row-select Tab \
 	-kb-row-tab "" \
 	-kb-row-up Super+c,Up,Control+p \
@@ -2428,7 +2429,8 @@ exec google-chrome "$@"
 ----
 #!/bin/dash
 
-exec run-chrome --app=https://web.whatsapp.com/ "$@"
+# exec run-chrome --app=https://web.whatsapp.com/ "$@"
+exec chromium --app=https://web.whatsapp.com/ "$@"
 
 ----
 
