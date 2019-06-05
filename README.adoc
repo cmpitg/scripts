@@ -2404,9 +2404,11 @@ exec rofi -lines 40 \
 .file::run-app-launcher
 [source,sh]
 ----
-#!/bin/dash
+#!/usr/bin/env dash
 
-exec run-menu -modi run,drun -show run -sidebar-mode "$@"
+exec wihack -type toolbar rmacs --shape utils --new-frame eval '(rocket:show-command-runner-with-dedicated-frame)'
+# exec rmacs --shape utils --new-frame eval '(prog1 (rocket:show-command-runner-with-dedicated-frame) (~wmii/set-frame-floating))'
+# exec run-menu -modi run,drun -show run -sidebar-mode "$@"
 
 ----
 
