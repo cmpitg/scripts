@@ -82,5 +82,6 @@ newline
 # xinput set-prop "${id_}" "Device Accel Profile" 6
 xinput set-prop "${id_}" "Device Accel Profile" 2
 # Debian
-xinput set-prop "${id_}" "Device Accel Velocity Scaling" 1.5
+xinput set-prop "${id_}" "Device Accel Velocity Scaling" 5
+# xinput set-prop "${id_}" "Device Accel Velocity Scaling" 1.5
 # xinput set-prop "${id_}" "Device Accel Velocity Scaling" 1

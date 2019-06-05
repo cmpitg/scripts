@@ -1,8 +1,8 @@
 #!/bin/bash
 
 config-keymap-cmpitg
-# config-logitech-trackball-marble-righty
-config-logitech-trackball-marble-lefty
+config-logitech-trackball-marble-righty
+# config-logitech-trackball-marble-lefty
 config-logitech-g300-mouse
 config-logitech-g502-mouse
 config-lenovo-n700-mouse

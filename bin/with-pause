@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+"$@"
+read -p "Press Enter to exit..."

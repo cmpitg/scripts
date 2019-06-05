@@ -1,7 +1,7 @@
 #!/bin/dash
 
-exec rofi -lines 30 \
-	-width 60 \
+exec rofi -lines 40 \
+	-width 85 \
 	-kb-row-select Tab \
 	-kb-row-tab "" \
 	-kb-row-up Super+c,Up,Control+p \

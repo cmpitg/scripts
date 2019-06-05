@@ -1,0 +1,15 @@
+#!/usr/bin/env bash-user
+
+set +x
+
+export GUIX_PROFILE="${HOME}/.guix-profile"
+. "${GUIX_PROFILE}/etc/profile"
+
+export GUIX_LOCPATH="${HOME}/.guix-profile/lib/locale"
+export GUIX_LD_WRAPPER_ALLOW_IMPURITIES=n
+
+XDG_DATA_DIRS="${XDG_DATA_DIRS:-${HOME}/.local/share}"
+XDG_DATA_DIRS="${XDG_DATA_DIRS}:/usr/share:/usr/local/share:${HOME}/.local/share"
+export XDG_DATA_DIRS
+
+exec bash "$@"

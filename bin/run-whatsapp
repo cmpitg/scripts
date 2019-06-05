@@ -1,3 +1,4 @@
 #!/bin/dash
 
-exec run-chrome --app=https://web.whatsapp.com/ "$@"
+# exec run-chrome --app=https://web.whatsapp.com/ "$@"
+exec chromium --app=https://web.whatsapp.com/ "$@"
