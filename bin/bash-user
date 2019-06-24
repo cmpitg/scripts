@@ -1,3 +1,7 @@
 #!/usr/bin/env bash-pure
 
+if [ -f "~/.env" ]; then
+	. ~/.env
+fi
+
 exec bash --login "$@"
