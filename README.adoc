@@ -3970,6 +3970,36 @@ foreach dir [glob -nocomplain $supervisedPath/*] {
 
 ----
 
+==== `sv-tail-log` - tails a log file for a daemon
+
+.file::sv-tail-log
+[source,tcl]
+----
+#!/usr/bin/env tclsh
+
+package require Tclx
+
+# TODO: matching -h/--help
+# TODO: help text
+# TODO: command line arguments
+
+set serviceName [lindex $::argv 0]
+set logFile [lindex $::argv 1]
+
+if {$::env(USER) eq "root"} {
+    set supervisedPath /etc/service
+} else {
+    if {[info exists ::env(MY_DAEMON_DIR)]} {
+        set supervisedPath $::env(MY_DAEMON_DIR)/enabled
+    } else {
+        set supervisedPath [file normalize ~/daemon/enabled]
+    }
+}
+
+execl tail [list "-f" $supervisedPath/$serviceName/log/main/$logFile]
+
+----
+
 == Legacy/Unused scripts
 
 === `i3-switch-window` - window switcher for http://i3wm.org/[i3]
