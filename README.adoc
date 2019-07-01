@@ -3918,6 +3918,31 @@ exec symlink $servicePath $enablePath <@ stdin >@ stdout 2>@ stderr
 
 ----
 
+==== `sv-disable` - disables a daemon
+
+.file::sv-disable
+[source,tcl]
+----
+#!/usr/bin/env tclsh
+
+# TODO: matching -h/--help
+# TODO: help text
+
+set serviceName [lindex $argv 0]
+if {[info exists ::env(MY_DAEMON_DIR)]} {
+    set userDaemonPath $::env(MY_DAEMON_DIR)
+} else {
+    set userDaemonPath [file normalize ~/daemon]
+}
+
+set enablePath [glob -nocomplain $userDaemonPath/enabled/$serviceName]
+
+if {$enablePath ne ""} {
+    file delete $enablePath
+}
+
+----
+
 
 == Legacy/Unused scripts
 
