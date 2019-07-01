@@ -1,0 +1,19 @@
+#!/usr/bin/env sh
+
+if [ "$#" -eq 1 ] && [ "${1}" = "--help" ]; then
+	echo "Usage: ${0} <source> <destination>
+
+Symlink <source> to <destination>.  If <destination> exists, prompt for overwriting.  In case that <source> is a symlink, it is not followed."
+	exit 0
+fi
+
+if [ "$#" -ne 2 ]; then
+	echo "${0} requires 2 arguments: <source> and <destination>" >&2
+	exit 2
+fi
+
+if [ -d "${2}" ] && [ ! -L "${2}" ]; then
+	exec ln --interactive --verbose --symbolic "${1}" "${2}"
+else
+	exec ln --interactive --verbose --symbolic --no-target-directory "${1}" "${2}"
+fi

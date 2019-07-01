@@ -655,6 +655,33 @@ buildapp --manifest-file $manifest \
 
 ----
 
+=== `symlink` - symlinks, prompting for overwriting if destination exists
+
+.file::symlink
+[source,sh]
+----
+#!/usr/bin/env sh
+
+if [ "$#" -eq 1 ] && [ "${1}" = "--help" ]; then
+	echo "Usage: ${0} <source> <destination>
+
+Symlink <source> to <destination>.  If <destination> exists, prompt for overwriting.  In case that <source> is a symlink, it is not followed."
+	exit 0
+fi
+
+if [ "$#" -ne 2 ]; then
+	echo "${0} requires 2 arguments: <source> and <destination>" >&2
+	exit 2
+fi
+
+if [ -d "${2}" ] && [ ! -L "${2}" ]; then
+	exec ln --interactive --verbose --symbolic "${1}" "${2}"
+else
+	exec ln --interactive --verbose --symbolic --no-target-directory "${1}" "${2}"
+fi
+
+----
+
 === `start-vpn` - connects to a VPN
 
 Connects to a VPN using OpenVPN, taking the first argument as the path to the directory that contains the VPN configuration.  This script will automatically start the client VPN process in a Tmux session if not run in a TTY.
