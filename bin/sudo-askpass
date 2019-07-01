@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+
+if ! sudo --help >/dev/null 2>&1; then
+	echo "sudo not found, please install sudo" >&2
+	exit 1
+fi
+
+export SUDO_ASKPASS=${SUDO_ASKPASS:-$(which ssh-askpass)}
+export DISPLAY=${DISPLAY:-":0"}
+
+exec sudo --askpass -tt -E env "PATH=${PATH}" "$@"
