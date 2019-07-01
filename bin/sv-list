@@ -1,0 +1,19 @@
+#!/usr/bin/env tclsh
+
+# TODO: matching -h/--help
+# TODO: help text
+# TODO: command line arguments
+
+if {$::env(USER) eq "root"} {
+    set supervisedPath /etc/service
+} else {
+    if {[info exists ::env(MY_DAEMON_DIR)]} {
+        set supervisedPath $::env(MY_DAEMON_DIR)/enabled
+    } else {
+        set supervisedPath [file normalize ~/daemon/enabled]
+    }
+}
+
+foreach dir [glob -nocomplain $supervisedPath/*] {
+    puts [file tail $dir]
+}
