@@ -3889,6 +3889,35 @@ cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w ${length_} | head -n 1
 
 ----
 
+==== `sv-enable` - enables a daemon
+
+.file::sv-enable
+[source,tcl]
+----
+#!/usr/bin/env tclsh
+
+# TODO: matching -h/--help
+# TODO: help text
+
+set serviceName [lindex $argv 0]
+if {[info exists ::env(MY_DAEMON_DIR)]} {
+    set userDaemonPath $::env(MY_DAEMON_DIR)
+} else {
+    set userDaemonPath [file normalize ~/daemon]
+}
+
+set servicePath [glob -nocomplain $userDaemonPath/available/$serviceName]
+set enablePath $userDaemonPath/enabled/$serviceName
+
+if {$servicePath eq ""} {
+    puts stderr "Error: $servicePath doesn't exist"
+    exit 1
+}
+
+exec symlink $servicePath $enablePath <@ stdin >@ stdout 2>@ stderr
+
+----
+
 
 == Legacy/Unused scripts
 
