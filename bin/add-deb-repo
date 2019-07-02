@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+usage() {
+	cat <<EOF
+add-deb-repo <sources-repo.list> <dest-repo.list>
+
+Add a Debian-compatible sources.list file to global repository.  Should there be a command to run after adding, put it as a comment on the first line of the sources.list file.
+EOF
+}
+
+if [[ "${1}" = "--help" ]]; then
+	usage
+	exit 0
+fi
+
+if [[ "$#" -ne 2 ]]; then
+	usage >&2
+	exit 1
+fi
+
+repo_path_="${1}"
+dest_="/etc/apt/sources.list.d/${2}"
+
+with-sudo symlink "${repo_path_}" "${dest_}"
+
+if [[ "$(cat ${repo_path_})" == "#"* ]]; then
+	eval $(head -1 "${repo_path_}" | cut -d'#' -f2)
+fi
