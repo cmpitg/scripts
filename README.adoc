@@ -665,7 +665,7 @@ buildapp --manifest-file $manifest \
 if [ "$#" -eq 1 ] && [ "${1}" = "--help" ]; then
 	echo "Usage: ${0} <source> <destination>
 
-Symlink <source> to <destination>.  If <destination> exists, prompt for overwriting.  In case that <source> is a symlink, it is not followed."
+Symlink <source> to <destination>.  If <destination> ends with a slash (/), it indicates a directory and the symlink is put in the directory.  Otherwise, prompt for overwriting <destination> if exists.  In case that <source> is a symlink, it is not followed."
 	exit 0
 fi
 
