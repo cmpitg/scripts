@@ -41,7 +41,7 @@ TODO: Write about shell design flaws
 For everything to function correctly, you need:
 
 * https://github.com/9fans/plan9port[Plan 9 from User Space] (Plan9port)
-* GNU Emacs 25+
+* GNU Emacs 26+
 * Python 3
 * https://www.google.com/get/noto/[Noto Font]
 
