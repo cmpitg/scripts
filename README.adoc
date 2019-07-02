@@ -3177,6 +3177,22 @@ key-mon --decorated --meta --theme modern "$@"
 
 ----
 
+=== `with-sudo` - runs `sudo` with some environment variables preserved
+
+.file::with-sudo
+[source,sh]
+----
+#!/usr/bin/env sh
+
+if ! sudo --help >/dev/null 2>&1; then
+	echo "sudo not found, please install sudo" >&2
+	exit 1
+fi
+
+exec sudo -E env "PATH=${PATH}" "$@"
+
+----
+
 === `sudo-askpass` - runs `sudo` with a graphical askpass program, also preserving some environment variables
 
 .file::sudo-askpass
