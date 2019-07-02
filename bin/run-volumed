@@ -1,4 +1,4 @@
-#!/bin/dash
+#!/usr/bin/env sh
 
 # pkill xfce4-volumed
 # exec xfce4-volumed --no-daemon

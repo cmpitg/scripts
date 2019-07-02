@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env sh
 
 # exec env --ignore-environment - HOME="${HOME}" USER="${USER}" DISPLAY="${DISPLAY}" bash --login --noprofile --norc "$@"
 exec bash --login --noprofile --norc "$@"

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # pgrep lightdm && gdmflexiserver || gnome-screensaver-command -l
 xscreensaver-command -lock \

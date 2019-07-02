@@ -166,7 +166,7 @@ exec "$@"
 .file::bash-pure
 [source,sh]
 ----
-#!/bin/sh
+#!/usr/bin/env sh
 
 # exec env --ignore-environment - HOME="${HOME}" USER="${USER}" DISPLAY="${DISPLAY}" bash --login --noprofile --norc "$@"
 exec bash --login --noprofile --norc "$@"
@@ -268,7 +268,7 @@ read -p "Press Enter to exit..."
 .file::9
 [source,sh]
 ----
-#!/bin/bash
+#!/usr/bin/env bash
 
 ##
 ## Sets up the environment for Plan9port applications:
@@ -317,7 +317,7 @@ exec ${PLAN9}/bin/9 "$@"
 .file::rc
 [source,sh]
 ----
-#!/bin/bash
+#!/usr/bin/env bash
 
 exec 9 rc "$@"
 
@@ -355,7 +355,7 @@ acme -a \
 .file::term-emu
 [source,sh]
 ----
-#!/bin/dash
+#!/usr/bin/env sh
 
 # Terminator has some memory leaks, throws GTK error messages to the console
 # GNOME terminal doesn't handle mouse scrolling well
@@ -368,7 +368,7 @@ exec xfce4-terminal "$@"
 .file::run-with-term-emu
 [source,sh]
 ----
-#!/bin/dash
+#!/usr/bin/env sh
 
 exec term-emu -e "tmux new-session '${SHELL} -c \"$@\"'"
 
@@ -379,7 +379,7 @@ exec term-emu -e "tmux new-session '${SHELL} -c \"$@\"'"
 .file::run-with-term-emu-detach
 [source,sh]
 ----
-#!/bin/dash
+#!/usr/bin/env sh
 
 exec term-emu -e "tmux new-session '${SHELL} -c \"$@\"' \; detach"
 
@@ -390,7 +390,7 @@ exec term-emu -e "tmux new-session '${SHELL} -c \"$@\"' \; detach"
 .file::run-with-termux
 [source,sh]
 ----
-#!/bin/dash
+#!/usr/bin/env sh
 
 exec tmux new-session "$@"
 
@@ -401,7 +401,7 @@ exec tmux new-session "$@"
 .file::newline
 [source,sh]
 ----
-#!/bin/dash
+#!/usr/bin/env sh
 
 printf "\n"
 ----
@@ -411,7 +411,7 @@ printf "\n"
 .file::gnu-awk
 [source,sh]
 ----
-#!/bin/bash
+#!/usr/bin/env bash
 
 report-missing-executables gawk "GNU Awk" || exit 1
 
@@ -424,7 +424,7 @@ exec gawk "$@"
 .file::gnu-sed
 [source,sh]
 ----
-#!/bin/bash
+#!/usr/bin/env bash
 
 report-missing-executables sed "GNU sed" || exit 1
 
@@ -444,7 +444,7 @@ fi
 .file::gnu-tar
 [source,sh]
 ----
-#!/bin/bash
+#!/usr/bin/env bash
 
 report-missing-executables tar "GNU tar" || exit 1
 
@@ -464,7 +464,7 @@ fi
 .file::gnu-tr
 [source,sh]
 ----
-#!/bin/bash
+#!/usr/bin/env bash
 
 report-missing-executables tar "GNU tr" || exit 1
 
@@ -484,7 +484,7 @@ fi
 .file::upcase
 [source,sh]
 ----
-#!/bin/bash
+#!/usr/bin/env bash
 
 report-missing-executables tr "GNU tr" || exit 1
 
@@ -497,7 +497,7 @@ exec gnu-tr '[:lower:]' '[:upper:]'
 .file::downcase
 [source,sh]
 ----
-#!/bin/bash
+#!/usr/bin/env bash
 
 report-missing-executables tr "GNU tr" || exit 1
 
@@ -590,7 +590,7 @@ file delete $tempPath
 .file::cat-which
 [source,sh]
 ----
-#!/bin/bash
+#!/usr/bin/env bash
 
 #
 # Finds full path executables and displays the content.
@@ -612,7 +612,7 @@ done
 .file::check-broken-symlinks
 [source,sh]
 ----
-#!/bin/bash
+#!/usr/bin/env bash
 
 #
 # Checks for broken symlinks.
@@ -689,7 +689,7 @@ Connects to a VPN using OpenVPN, taking the first argument as the path to the di
 .file::start-vpn
 [source,sh]
 ----
-#!/bin/dash
+#!/usr/bin/env sh
 
 vpn_dir_="${1:-${HOME}}"
 vpn_path_=$(zenity --file-selection --multiple --filename="${vpn_dir_}")
@@ -714,7 +714,7 @@ TODO: `--help`
 .file::list-broken-symlinks
 [source,sh]
 ----
-#!/bin/dash
+#!/usr/bin/env sh
 
 dir_=$(readlink -f "${1:-.}")
 
@@ -731,7 +731,7 @@ done
 .file::check-xinput
 [source,sh]
 ----
-#!/bin/bash
+#!/usr/bin/env bash
 
 set -o nounset
 
@@ -748,7 +748,7 @@ default, `dir` is current working directory.
 .file::chmod-default
 [source,sh]
 ----
-#!/bin/bash
+#!/usr/bin/env bash
 
 test -z "$1" && dir_="." || dir_="$1"
 
@@ -832,7 +832,7 @@ prefix $comment_char^' '
 .file::config-keymap-altgr
 [source,sh]
 ----
-#!/bin/bash
+#!/usr/bin/env bash
 
 test -z "${DISPLAY}" && exit 0
 
@@ -882,7 +882,7 @@ EOF
 .file::config-keymap-cmpitg
 [source,sh]
 ----
-#!/bin/bash
+#!/usr/bin/env bash
 
 test -z "${DISPLAY}" && exit 0
 
@@ -935,7 +935,7 @@ fi
 .file::config-inputs-cmpitg
 [source,sh]
 ----
-#!/bin/bash
+#!/usr/bin/env bash
 
 config-keymap-cmpitg
 config-logitech-trackball-marble-righty
@@ -955,7 +955,7 @@ Because Steam doesn't work with swapped modifiers.
 .file::config-keymap-steam
 [source,sh]
 ----
-#!/bin/bash
+#!/usr/bin/env bash
 
 test -z "${DISPLAY}" && exit 0
 
@@ -976,7 +976,7 @@ Enables natural scrolling and tweaks acceleration profile.
 .file::config-extra-peripherals
 [source,sh]
 ----
-#!/bin/bash
+#!/usr/bin/env bash
 
 check-xinput 'DELL Laser Mouse' && (
 	do-notify "Setting natural scrolling for Dell mouse"
@@ -1218,7 +1218,7 @@ done
 .file::config-logitech-trackball-marble-lefty
 [source,sh]
 ----
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Sources:
 #   https://wiki.archlinux.org/index.php/Logitech_Marble_Mouse
@@ -1312,7 +1312,7 @@ xinput set-prop "${id_}" "Device Accel Velocity Scaling" 5
 .file::config-logitech-trackball-marble-righty
 [source,sh]
 ----
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Sources:
 #   https://wiki.archlinux.org/index.php/Logitech_Marble_Mouse
@@ -1409,7 +1409,7 @@ Lots of tweaks, the code should be self-explanatory though.
 .file::config-touchpad
 [source,sh]
 ----
-#!/bin/bash
+#!/usr/bin/env bash
 
 check-xinput -i "touchpad" || exit 0
 
@@ -1637,7 +1637,7 @@ for (f in $*) {
 .file::count-monitors
 [source,sh]
 ----
-#!/bin/bash
+#!/usr/bin/env bash
 
 xrandr | grep " connected" | wc -l
 
@@ -1650,7 +1650,7 @@ Returns the average CPU usage measured in 3 consecutive seconds, using `mpstat`.
 .file::cpu-usage
 [source,sh]
 ----
-#!/bin/bash
+#!/usr/bin/env bash
 
 #
 # Using `mpstat', calculates average CPU usage in 3 seconds.
@@ -1667,7 +1667,7 @@ mpstat 3 1 | tail -1 | gawk '$12 ~ /[0-9.]+/ { print 100 - $12"%" }'
 .file::create-ctags
 [source,sh]
 ----
-#!/bin/bash
+#!/usr/bin/env bash
 
 #
 # Creates a tags file named TAGS using ctags.
@@ -1776,7 +1776,7 @@ if (test -d $SHELLY_HOME/dumped-cores) {
 .file::sbcl-cmpitg
 [source,sh]
 ----
-#!/bin/bash
+#!/usr/bin/env bash
 
 #
 # Note that --no-userinit should be after "$@", at the position of
@@ -1839,7 +1839,7 @@ if (which notify-send >/dev/null >[2=1]) {
 .file::docker-remove-orphaned-containers
 [source,sh]
 ----
-#!/bin/bash
+#!/usr/bin/env bash
 
 docker rm $(docker ps -aq)
 
@@ -1850,7 +1850,7 @@ docker rm $(docker ps -aq)
 .file::docker-remove-unnamed-images
 [source,sh]
 ----
-#!/bin/bash
+#!/usr/bin/env bash
 
 docker images -a | grep "<none>" | awk '{ print $3 }' | xargs docker rmi
 
@@ -1880,7 +1880,7 @@ This script is particularly helpful when using with Emacs/Acme, e.g. called with
 .file::in_epoch2datetime
 [source,sh]
 ----
-#!/bin/dash
+#!/usr/bin/env sh
 
 epoch_=$(cat)
 
@@ -2009,7 +2009,7 @@ echo $input | rev | sed 's/^[^.]*\./'$rev_replacement'./' | rev
 .file::git-rm-orphaned
 [source,sh]
 ----
-#!/bin/bash
+#!/usr/bin/env bash
 
 git ls-files --deleted | xargs git rm --cached
 
@@ -2119,7 +2119,7 @@ trans $* -brief $"input
 .file::html2text
 [source,sh]
 ----
-#!/bin/bash
+#!/usr/bin/env bash
 
 #
 # Converts HTML to text.  HTML is read from stdin.
@@ -2136,7 +2136,7 @@ exec lynx -dump -stdin "$@"
 .file::i3-exec-command
 [source,sh]
 ----
-#!/bin/bash
+#!/usr/bin/env bash
 
 i3-input -f 'pango:Noto Sans 10' "$@"
 
@@ -2147,7 +2147,7 @@ i3-input -f 'pango:Noto Sans 10' "$@"
 .file::i3-move-to-workspace
 [source,sh]
 ----
-#!/bin/bash
+#!/usr/bin/env bash
 
 i3-input \
 	-f 'pango:Noto Sans 10' \
@@ -2161,7 +2161,7 @@ i3-input \
 .file::i3-rename-workspace
 [source,sh]
 ----
-#!/bin/bash
+#!/usr/bin/env bash
 
 i3-input \
 	-f 'pango:Noto Sans 10' \
@@ -2177,7 +2177,7 @@ Requirement: `rofi`.
 .file::switch-window
 [source,sh]
 ----
-#!/bin/dash
+#!/usr/bin/env sh
 
 report-missing-executables rofi Rofi || exit 1
 
@@ -2298,7 +2298,7 @@ if __name__ == '__main__':
 .file::i3-to-workspace
 [source,sh]
 ----
-#!/bin/bash
+#!/usr/bin/env bash
 
 i3-input -f 'pango:Noto Sans 10' -F 'workspace "%s"' -P 'Go to workspace: ' %s
 
@@ -2311,7 +2311,7 @@ i3-input -f 'pango:Noto Sans 10' -F 'workspace "%s"' -P 'Go to workspace: ' %s
 .file::run-clipboard-manager
 [source,sh]
 ----
-#!/bin/dash
+#!/usr/bin/env sh
 
 pidof clipit >/dev/null 2>&1 || exec clipit
 
@@ -2322,7 +2322,7 @@ pidof clipit >/dev/null 2>&1 || exec clipit
 .file::run-power-manager
 [source,sh]
 ----
-#!/bin/dash
+#!/usr/bin/env sh
 
 pkill xfce4-power-manager
 exec xfce4-power-manager --no-daemon
@@ -2334,7 +2334,7 @@ exec xfce4-power-manager --no-daemon
 .file::run-volumed
 [source,sh]
 ----
-#!/bin/dash
+#!/usr/bin/env sh
 
 # pkill xfce4-volumed
 # exec xfce4-volumed --no-daemon
@@ -2349,7 +2349,7 @@ exec pasystray
 .file::run-ibus-daemon
 [source,sh]
 ----
-#!/bin/dash
+#!/usr/bin/env sh
 
 exec ibus-daemon -xvr
 
@@ -2360,7 +2360,7 @@ exec ibus-daemon -xvr
 .file::run-screenshot-manager
 [source,sh]
 ----
-#!/bin/dash
+#!/usr/bin/env sh
 
 pkill shutter
 exec shutter --min_at_startup
@@ -2372,7 +2372,7 @@ exec shutter --min_at_startup
 .file::run-screensaverd
 [source,sh]
 ----
-#!/bin/dash
+#!/usr/bin/env sh
 
 pidof xscreensaver >/dev/null 2>&1 || exec xscreensaver
 
@@ -2383,7 +2383,7 @@ pidof xscreensaver >/dev/null 2>&1 || exec xscreensaver
 .file::run-network-manager
 [source,sh]
 ----
-#!/bin/dash
+#!/usr/bin/env sh
 
 pkill nm-applet
 exec nm-applet --sm-disable
@@ -2395,7 +2395,7 @@ exec nm-applet --sm-disable
 .file::run-gnome-settings-daemon
 [source,sh]
 ----
-#!/bin/dash
+#!/usr/bin/env sh
 
 pidof gnome-settings-daemon >/dev/null 2>&1 || exec gnome-settings-daemon
 
@@ -2406,7 +2406,7 @@ pidof gnome-settings-daemon >/dev/null 2>&1 || exec gnome-settings-daemon
 .file::run-insync
 [source,sh]
 ----
-#!/bin/dash
+#!/usr/bin/env sh
 
 pidof insync >/dev/null 2>&1 || exec insync start
 
@@ -2417,7 +2417,7 @@ pidof insync >/dev/null 2>&1 || exec insync start
 .file::run-menu
 [source,sh]
 ----
-#!/bin/dash
+#!/usr/bin/env sh
 
 exec rofi -lines 40 \
 	-width 85 \
@@ -2451,7 +2451,7 @@ exec wihack -type toolbar rmacs --shape utils --new-frame eval '(rocket:show-com
 .file::run-chrome
 [source,sh]
 ----
-#!/bin/dash
+#!/usr/bin/env sh
 
 # exec google-chrome --remote-debugging-port=${CHROME_REMOTE_DEBUGGING_PORT:-9222} "$@"
 exec google-chrome "$@"
@@ -2463,7 +2463,7 @@ exec google-chrome "$@"
 .file::run-whatsapp
 [source,sh]
 ----
-#!/bin/dash
+#!/usr/bin/env sh
 
 # exec run-chrome --app=https://web.whatsapp.com/ "$@"
 exec chromium --app=https://web.whatsapp.com/ "$@"
@@ -2475,7 +2475,7 @@ exec chromium --app=https://web.whatsapp.com/ "$@"
 .file::run-drop-down-term-emu
 [source,sh]
 ----
-#!/bin/dash
+#!/usr/bin/env sh
 
 exec guake "$@"
 
@@ -2486,7 +2486,7 @@ exec guake "$@"
 .file::run-calendar
 [source,sh]
 ----
-#!/bin/dash
+#!/usr/bin/env sh
 
 exec run-chrome --app=https://calendar.google.com "$@"
 
@@ -2497,7 +2497,7 @@ exec run-chrome --app=https://calendar.google.com "$@"
 .file::disable-x-bell
 [source,sh]
 ----
-#!/bin/dash
+#!/usr/bin/env sh
 
 exec xset b off
 
@@ -2609,7 +2609,7 @@ exec tr '
 .file::all-dev-debs
 [source,sh]
 ----
-#!/bin/bash
+#!/usr/bin/env bash
 
 dpkg-query -l '*dev' | grep "^.i" | awk '{ print $2 }' | grep "\-dev$"
 
@@ -2620,7 +2620,7 @@ dpkg-query -l '*dev' | grep "^.i" | awk '{ print $2 }' | grep "\-dev$"
 .file::local-tcp-open-p
 [source,sh]
 ----
-#!/bin/bash
+#!/usr/bin/env bash
 
 if (test $# -eq 0); then
 	cat <<EOF
@@ -2641,7 +2641,7 @@ exec nc -z 127.0.0.1 "$1"
 .file::lockscreen
 [source,sh]
 ----
-#!/bin/bash
+#!/usr/bin/env bash
 
 # pgrep lightdm && gdmflexiserver || gnome-screensaver-command -l
 xscreensaver-command -lock \
@@ -2680,7 +2680,7 @@ exec /bin/date '+%Y-%m-%d_%H-%M-%S'
 .file::now-to-clipboard
 [source,sh]
 ----
-#!/bin/bash
+#!/usr/bin/env bash
 
 xterm -e 'date -R | xsel -b'
 
@@ -2691,7 +2691,7 @@ xterm -e 'date -R | xsel -b'
 .file::symlink-p
 [source,sh]
 ----
-#!/bin/sh
+#!/usr/bin/env sh
 
 #
 # Determines if a file is a symbolic link
@@ -2823,7 +2823,7 @@ Checks whether an executable exists in one of the `PATH`s, returning exit code 0
 .file::executable-exists
 [source,sh]
 ----
-#!/bin/dash
+#!/usr/bin/env sh
 
 command -v "$@" >/dev/null 2>&1
 
@@ -3027,7 +3027,7 @@ prefix=$1 {
 .file::pretty-print-json
 [source,sh]
 ----
-#!/bin/bash
+#!/usr/bin/env bash
 
 python -m json.tool "$@"
 
@@ -3038,7 +3038,7 @@ python -m json.tool "$@"
 .file::psx
 [source,sh]
 ----
-#!/bin/bash
+#!/usr/bin/env bash
 
 ps -ef | grep --color "$@"
 
@@ -3052,7 +3052,7 @@ environment variable.  By default, it uses `python2-full-debian` as its name.
 .file::py2
 [source,sh]
 ----
-#!/bin/bash
+#!/usr/bin/env bash
 
 virtualenv_=${VIRTUAL_ENV:-python2-full-debian}
 
@@ -3069,7 +3069,7 @@ environment variable.  By default, it uses `python2-full-debian` as its name.
 .file::py3
 [source,sh]
 ----
-#!/bin/bash
+#!/usr/bin/env bash
 
 virtualenv_=${VIRTUAL_ENV:-python2-full-debian}
 
@@ -3122,7 +3122,7 @@ display $tmpfile
 .file::rackjure
 [source,sh]
 ----
-#!/bin/bash
+#!/usr/bin/env bash
 
 racket -I rackjure "$@"
 
@@ -3133,7 +3133,7 @@ racket -I rackjure "$@"
 .file::system-temperature
 [source,sh]
 ----
-#!/bin/bash
+#!/usr/bin/env bash
 
 echo "-> Starting HDDTemp if necessary"
 nc localhost 7634 &>/dev/null || (
@@ -3154,7 +3154,7 @@ sensors
 .file::running-p
 [source,sh]
 ----
-#!/bin/bash
+#!/usr/bin/env bash
 
 #
 # Determines if a process is running using pgrep.
@@ -3169,7 +3169,7 @@ exec pgrep "$@" &>/dev/null
 .file::show-keyboard
 [source,sh]
 ----
-#!/bin/bash
+#!/usr/bin/env bash
 
 report-missing-executables key-mon key-mon || exit 1
 
@@ -3201,7 +3201,7 @@ exec sudo --askpass -tt -E env "PATH=${PATH}" "$@"
 .file::suspend-me
 [source,sh]
 ----
-#!/bin/bash
+#!/usr/bin/env bash
 
 # exec sudo pm-suspend && lockscreen
 exec sudo pm-suspend
@@ -3626,7 +3626,7 @@ if not {
 .file::wget-site
 [source,sh]
 ----
-#!/bin/bash
+#!/usr/bin/env bash
 
 wget \
 	--recursive \
@@ -3660,7 +3660,7 @@ TODO: Help text
 .file::start-xephyr
 [source,sh]
 ----
-#!/bin/bash
+#!/usr/bin/env bash
 
 report-missing-executables Xephyr Xephyr || exit 1
 
@@ -3683,7 +3683,7 @@ echo Display: $DISPLAY
 .file::openfile-dialog
 [source,sh]
 ----
-#!/bin/bash
+#!/usr/bin/env bash
 
 report-missing-executables zenity Zenity || exit 1
 
@@ -3704,7 +3704,7 @@ E.g.
 .file::compute-checksum-url
 [source,sh]
 ----
-#!/bin/dash
+#!/usr/bin/env sh
 
 checksum_tool_="${1}"
 shift
@@ -3728,7 +3728,7 @@ If one tool is not found, the next one is tried.
 .file::download
 [source,sh]
 ----
-#!/bin/bash
+#!/usr/bin/env bash
 
 if found-executable-p aria2c; then
 	download_tool_=aria2c
@@ -3900,7 +3900,7 @@ if {![checksumsMatched $dest $checksumDict]} {
 .file::random-string
 [source,sh]
 ----
-#!/bin/bash
+#!/usr/bin/env bash
 
 length_=${1:-32}
 

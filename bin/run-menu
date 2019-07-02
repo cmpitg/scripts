@@ -1,4 +1,4 @@
-#!/bin/dash
+#!/usr/bin/env sh
 
 exec rofi -lines 40 \
 	-width 85 \

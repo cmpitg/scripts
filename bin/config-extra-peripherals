@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 check-xinput 'DELL Laser Mouse' && (
 	do-notify "Setting natural scrolling for Dell mouse"

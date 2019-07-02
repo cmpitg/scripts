@@ -1,4 +1,4 @@
-#!/bin/dash
+#!/usr/bin/env sh
 
 # Terminator has some memory leaks, throws GTK error messages to the console
 # GNOME terminal doesn't handle mouse scrolling well

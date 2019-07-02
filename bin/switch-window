@@ -1,4 +1,4 @@
-#!/bin/dash
+#!/usr/bin/env sh
 
 report-missing-executables rofi Rofi || exit 1
 

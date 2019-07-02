@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 report-missing-executables tr "GNU tr" || exit 1
 

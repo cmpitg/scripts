@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Sources:
 #   https://wiki.archlinux.org/index.php/Logitech_Marble_Mouse

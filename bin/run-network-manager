@@ -1,4 +1,4 @@
-#!/bin/dash
+#!/usr/bin/env sh
 
 pkill nm-applet
 exec nm-applet --sm-disable

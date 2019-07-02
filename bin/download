@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 if found-executable-p aria2c; then
 	download_tool_=aria2c

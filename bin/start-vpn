@@ -1,4 +1,4 @@
-#!/bin/dash
+#!/usr/bin/env sh
 
 vpn_dir_="${1:-${HOME}}"
 vpn_path_=$(zenity --file-selection --multiple --filename="${vpn_dir_}")

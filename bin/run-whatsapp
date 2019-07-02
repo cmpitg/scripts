@@ -1,4 +1,4 @@
-#!/bin/dash
+#!/usr/bin/env sh
 
 # exec run-chrome --app=https://web.whatsapp.com/ "$@"
 exec chromium --app=https://web.whatsapp.com/ "$@"

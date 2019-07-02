@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 test -z "$1" && dir_="." || dir_="$1"
 

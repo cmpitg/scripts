@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 report-missing-executables key-mon key-mon || exit 1
 

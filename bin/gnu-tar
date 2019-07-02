@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 report-missing-executables tar "GNU tar" || exit 1
 

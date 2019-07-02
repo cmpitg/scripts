@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 #
 # Using `mpstat', calculates average CPU usage in 3 seconds.

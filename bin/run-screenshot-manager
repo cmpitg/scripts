@@ -1,4 +1,4 @@
-#!/bin/dash
+#!/usr/bin/env sh
 
 pkill shutter
 exec shutter --min_at_startup

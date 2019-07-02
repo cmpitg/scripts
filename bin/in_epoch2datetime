@@ -1,4 +1,4 @@
-#!/bin/dash
+#!/usr/bin/env sh
 
 epoch_=$(cat)
 
