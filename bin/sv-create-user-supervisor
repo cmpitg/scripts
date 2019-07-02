@@ -1,0 +1,89 @@
+#!/usr/bin/env tclsh
+
+package require Tclx
+
+# TODO: matching -h/--help
+# TODO: help text
+# TODO: command line arguments
+
+## include::tcl-helpers
+
+##############################################################################
+# Helpers
+##############################################################################
+
+proc getRunsvdirLogContent {servicePath} {
+    return [format {#!/usr/bin/env sh
+
+mkdir -p %s/log/main
+exec svlogd -ttt %s/log/main
+} $servicePath $servicePath]
+}
+
+proc getRunsvdirContent {user userDaemonEnableDir} {
+    return [format {#!/usr/bin/env sh
+
+exec 2>&1
+exec sudo -H -E -u %s runsvdir -P %s
+} $user $userDaemonEnableDir]
+}
+
+proc createExecutableAsRoot {path content} {
+    if {[file exists $path]} {
+        puts -nonewline "$path exists, remove it? \[y/N\] "
+        flush stdout
+        set answer [string tolower [string trim [gets stdin]]]
+        if {$answer eq "y"} {
+            execCmd with-sudo rm -rvI $path
+        } else {
+            exit 0
+        }
+    }
+
+    file tempfile tempFile /tmp/tempfile
+
+    set f [open $tempFile w]
+    puts $f $content
+    close $f
+
+    execCmd with-sudo mv $tempFile $path
+    execCmd with-sudo chmod +x $path
+}
+
+##############################################################################
+# Main
+##############################################################################
+
+if {$argc == 0} {
+    set user $::env(USER)
+} else {
+    set user [lindex $argv 0]
+}
+
+if {[info exists ::env(MY_DAEMON_DIR)]} {
+    set userDaemonDir $::env(MY_DAEMON_DIR)
+} else {
+    set userDaemonDir /home/$user/daemon
+}
+
+set userDaemonEnableDir $userDaemonDir/enabled
+set userDaemonAvailableDir $userDaemonDir/available
+set serviceName runsvdir-$user
+set servicePath /etc/sv/$serviceName
+
+puts "User: $user"
+puts "Supervisor service path: $servicePath"
+puts "User service path (available): $userDaemonAvailableDir"
+puts "User service path (enabled): $userDaemonEnableDir"
+puts ""
+
+execCmd with-sudo mkdir -p $servicePath/log/main
+file mkdir $userDaemonAvailableDir
+file mkdir $userDaemonEnableDir
+
+createExecutableAsRoot $servicePath/run     [getRunsvdirContent $user $userDaemonEnableDir]
+createExecutableAsRoot $servicePath/log/run [getRunsvdirLogContent $servicePath]
+
+exec with-sudo symlink $servicePath /etc/service/$serviceName
+
+puts "Done, please restart the Runit service"
