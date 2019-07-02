@@ -3229,6 +3229,40 @@ exec sudo -E env "PATH=${PATH}" "$@"
 
 ----
 
+=== `with-all-x-displays` - runs a command with all X displays
+
+.file::with-all-x-displays
+[source,tcl]
+----
+#!/usr/bin/env tclsh
+
+if {[catch {exec report-missing-executables awk Awk ag Ag} msg]} {
+    puts stderr $msg
+    exit 3
+}
+
+proc usage {{outFD stdout}} {
+    puts $outFD {with-all-x-displays <command> [args...]
+
+Run a command with all Xorg displays.}
+}
+
+if {$::argc == 0} {
+    usage stderr
+    exit 1
+} elseif {[lindex $::argv 0] eq "--help"} {
+    usage
+    exit 0
+}
+
+set displays [string trim [exec w | awk {{ print $3 }} | sort | uniq | ag {^:} <@ stdin]]
+
+foreach display $displays {
+    exec env "DISPLAY=$display" {*}$::argv <@ stdin >@ stdout 2>@ stderr
+}
+
+----
+
 === `sudo-askpass` - runs `sudo` with a graphical askpass program, also preserving some environment variables
 
 .file::sudo-askpass
