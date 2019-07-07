@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+CONDA_PATH="${CONDA_PATH:-/m/opt/miniconda3}"
+export PATH="${CONDA_PATH}/bin:${PATH}"
+
+exec "$@"
