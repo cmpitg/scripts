@@ -257,6 +257,8 @@ exec "$@"
 CONDA_PATH="${CONDA_PATH:-/m/opt/miniconda3}"
 export PATH="${CONDA_PATH}/bin:${PATH}"
 
+eval "$(${CONDA_PATH}/bin/conda shell.bash hook)"
+
 exec "$@"
 
 ----
