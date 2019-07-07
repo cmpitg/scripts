@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+export JAVA_HOME=/m/opt/graalvm
+export PATH="${JAVA_HOME}/bin:${PATH}"
+
+exec "$@"

@@ -261,6 +261,20 @@ exec "$@"
 
 ----
 
+=== `with-graalvm` - runs a command with Java from https://www.graalvm.org/[GraalVM]
+
+.file::with-graalvm
+[source,sh]
+----
+#!/usr/bin/env bash
+
+export JAVA_HOME=/m/opt/graalvm
+export PATH="${JAVA_HOME}/bin:${PATH}"
+
+exec "$@"
+
+----
+
 === `with-pause` - runs a command, then pause and wait for user to input Enter to exit
 
 .file::with-pause
