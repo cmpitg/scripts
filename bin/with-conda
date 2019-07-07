@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+if ! report-missing-executables conda Conda; then
+	exit 1
+fi
+
+
 CONDA_PATH="${CONDA_PATH:-/m/opt/miniconda3}"
 export PATH="${CONDA_PATH}/bin:${PATH}"
 
