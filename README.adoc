@@ -274,8 +274,8 @@ exec "$@"
 ----
 #!/usr/bin/env bash
 
-if [[ -z "${RUBY_VERSION}" ]]; then
-	echo "RUBY_VERSION not defined, aborting..." >&2
+if [[ -z "${RUBY_CHRUBY_VERSION}" ]]; then
+	echo "RUBY_CHRUBY_VERSION not defined, aborting..." >&2
 	exit 3
 fi
 
@@ -283,7 +283,8 @@ fi
 if [[ -n "${BASH}" || -n "${ZSH_NAME}" ]]; then
 	. /usr/local/share/chruby/chruby.sh
 	. /usr/local/share/chruby/auto.sh
-	chruby ${RUBY_VERSION}
+	export -f chruby
+	chruby ${RUBY_CHRUBY_VERSION}
 fi
 
 exec "$@"
