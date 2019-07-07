@@ -1,9 +1,5 @@
 #!/usr/bin/env bash
 
-if ! report-missing-executables chruby chruby; then
-	exit 1
-fi
-
 if [[ -z "${CHRUBY_VERSION}" ]]; then
 	echo "CHRUBY_VERSION not defined, aborting..." >&2
 	exit 3

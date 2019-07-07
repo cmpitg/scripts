@@ -254,13 +254,12 @@ exec "$@"
 ----
 #!/usr/bin/env bash
 
+CONDA_PATH="${CONDA_PATH:-/m/opt/miniconda3}"
+export PATH="${CONDA_PATH}/bin:${PATH}"
+
 if ! report-missing-executables conda Conda; then
 	exit 1
 fi
-
-
-CONDA_PATH="${CONDA_PATH:-/m/opt/miniconda3}"
-export PATH="${CONDA_PATH}/bin:${PATH}"
 
 eval "$(${CONDA_PATH}/bin/conda shell.bash hook)"
 
@@ -274,10 +273,6 @@ exec "$@"
 [source,sh]
 ----
 #!/usr/bin/env bash
-
-if ! report-missing-executables chruby chruby; then
-	exit 1
-fi
 
 if [[ -z "${CHRUBY_VERSION}" ]]; then
 	echo "CHRUBY_VERSION not defined, aborting..." >&2
