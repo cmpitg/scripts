@@ -263,6 +263,33 @@ exec "$@"
 
 ----
 
+=== `with-chruby` - runs a command in a https://github.com/postmodern/chruby[`chruby`] environment
+
+.file::with-chruby
+[source,sh]
+----
+#!/usr/bin/env bash
+
+if ! report-missing-executables chruby chruby; then
+	exit 1
+fi
+
+if [[ -z "${CHRUBY_VERSION}" ]]; then
+	echo "CHRUBY_VERSION not defined, aborting..." >&2
+	exit 3
+fi
+
+# Only run with Bash or Zsh
+if [[ -n "${BASH}" -o -n "${ZSH_NAME}" ]]; then
+	. /usr/local/share/chruby/chruby.sh
+	. /usr/local/share/chruby/auto.sh
+	chruby ${CHRUBY_VERSION}
+fi
+
+exec "$@"
+
+----
+
 === `with-graalvm` - runs a command with Java from https://www.graalvm.org/[GraalVM]
 
 .file::with-graalvm
