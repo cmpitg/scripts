@@ -7,4 +7,4 @@ if [ -f "~/.env-prog" ]; then
 	. ~/.env-prog
 fi
 
-exec bash --login "$@"
+exec bash "$@"

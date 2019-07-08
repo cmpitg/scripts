@@ -150,7 +150,7 @@ sudo apt install python3 fonts-noto emacs25
 #!/usr/bin/env sh
 
 # exec env --ignore-environment - HOME="${HOME}" USER="${USER}" DISPLAY="${DISPLAY}" bash --login --noprofile --norc "$@"
-exec bash --login --noprofile --norc "$@"
+exec bash --noprofile --norc "$@"
 
 ----
 
@@ -179,7 +179,7 @@ if [ -f "~/.env-prog" ]; then
 	. ~/.env-prog
 fi
 
-exec bash --login "$@"
+exec bash "$@"
 
 ----
 
