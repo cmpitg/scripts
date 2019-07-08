@@ -142,25 +142,6 @@ sudo apt install python3 fonts-noto emacs25
 
 == Contents
 
-=== `run-with-new-env` - runs a command with a brand-new environment
-
-# TODO: Rename this
-
-Using Dash due to its speed & lightweight characteristics.
-
-.file::run-with-new-env
-[source,sh]
-----
-#!/bin/zsh
-
-current_shell_="${SHELL}"
-SHELL=/bin/dash . ~/.env
-export SHELL="${current_shell_}"
-unset current_shell_
-exec "$@"
-
-----
-
 === `bash-pure` - runs Bash in a clean environment
 
 .file::bash-pure
