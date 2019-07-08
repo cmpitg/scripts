@@ -428,7 +428,7 @@ exec xfce4-terminal "$@"
 ----
 #!/usr/bin/env sh
 
-exec term-emu -e "tmux new-session '/usr/bin/env with-bash-user -c \"$@\"'"
+exec term-emu -x run-with-termux "/usr/bin/env with-bash-user $*"
 
 ----
 
@@ -439,7 +439,7 @@ exec term-emu -e "tmux new-session '/usr/bin/env with-bash-user -c \"$@\"'"
 ----
 #!/usr/bin/env sh
 
-exec term-emu -e "tmux new-session '/usr/bin/env with-bash-user -c \"$@\"' \; detach"
+exec term-emu -x run-with-termux "/usr/bin/env with-bash-user -c $*" \; detach
 
 ----
 
