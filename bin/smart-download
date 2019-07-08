@@ -9,6 +9,7 @@ try {
 		{md5sum.arg      "" "(optional) The MD5 checksum"}
 		{sha1sum.arg     "" "(optional) The SHA1 checksum"}
 		{sha256sum.arg   "" "(optional) The SHA256 checksum"}
+		{sha512sum.arg   "" "(optional) The SHA512 checksum"}
 	} {[options] <uri>
 
 Download a file, compare checksum if necessary, and return the path to the downloaded file.  If the download destination is not specified, a temporary path is returned.
@@ -53,6 +54,9 @@ proc checksumsMatched {path checksumDict} {
 				sha256 {
 					return [expr {$checksum eq [string toupper [exec sha256sum $path | cut -f1 -d " "]]}]
 				}
+				sha512 {
+					return [expr {$checksum eq [string toupper [exec sha512sum $path | cut -f1 -d " "]]}]
+				}
 				default {
 					return 1
 				}
@@ -61,7 +65,8 @@ proc checksumsMatched {path checksumDict} {
 	}
 	return [expr {[checksumMatched $path md5 [dict get $checksumDict md5sum]]
 				  && [checksumMatched $path sha1 [dict get $checksumDict sha1sum]]
-				  && [checksumMatched $path sha256 [dict get $checksumDict sha256sum]]}]
+				  && [checksumMatched $path sha256 [dict get $checksumDict sha256sum]]
+				  && [checksumMatched $path sha512 [dict get $checksumDict sha512sum]]}]
 }
 
 proc downloadFile {destDir destFile uri} {
@@ -81,7 +86,7 @@ if {[lindex [array get ::env VERBOSE] 1] == 1} {
 	puts "URI: $uri"
 }
 
-exec report-missing-executables aria2c Aria2c md5sum Coreutils sha1sum Coreutils sha256sum Coreutils >@ stdout 2>@ stderr
+exec report-missing-executables aria2c Aria2c >@ stdout 2>@ stderr
 
 if {[file exists $dest]} {
 	if {[dict values $checksumDict] == {{} {} {}}} {
