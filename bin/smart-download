@@ -77,7 +77,7 @@ set dest [getDestination $args(destination)]
 set destDir [file dirname $dest]
 set destFile [file tail $dest]
 set uri [getURI [lindex $::argv 0]]
-set checksumDict [dict create md5sum $args(md5sum) sha1sum $args(sha1sum) sha256sum $args(sha256sum)]
+set checksumDict [dict create md5sum $args(md5sum) sha1sum $args(sha1sum) sha256sum $args(sha256sum) sha512sum $args(sha512sum)]
 
 if {[lindex [array get ::env VERBOSE] 1] == 1} {
 	# Be verbose
