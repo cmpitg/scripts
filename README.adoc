@@ -154,9 +154,9 @@ exec bash --login --noprofile --norc "$@"
 
 ----
 
-=== `with-bash-pure` - runs a command under `bash-pure`
+=== `with-env-pure` - runs a command under `bash-pure`
 
-.file::with-bash-pure
+.file::with-env-pure
 [source,sh]
 ----
 #!/usr/bin/env bash-pure
@@ -183,9 +183,9 @@ exec bash --login "$@"
 
 ----
 
-=== `with-bash-user` - runs a command under `bash-user`
+=== `with-env-user` - runs a command under `bash-user`
 
-.file::with-bash-user
+.file::with-env-user
 [source,sh]
 ----
 #!/usr/bin/env bash-user
@@ -217,9 +217,9 @@ exec bash "$@"
 
 ----
 
-=== `with-bash-guix` - runs a command under `bash-guix`
+=== `with-env-guix` - runs a command under `bash-guix`
 
-.file::with-bash-guix
+.file::with-env-guix
 [source,sh]
 ----
 #!/usr/bin/env bash-guix
@@ -402,31 +402,31 @@ exec xfce4-terminal "$@"
 
 ----
 
-=== `run-with-term-emu` - runs a command in a termimal emulator
+=== `with-term-emu` - runs a command in a termimal emulator
 
-.file::run-with-term-emu
+.file::with-term-emu
 [source,sh]
 ----
 #!/usr/bin/env sh
 
-exec term-emu -x run-with-termux "/usr/bin/env with-bash-user $*"
+exec term-emu -x with-termux "/usr/bin/env with-env-user $*"
 
 ----
 
-=== `run-with-term-emu-detach` - runs and detachs a command in a termimal emulator
+=== `with-term-emu-detach` - runs and detachs a command in a termimal emulator
 
-.file::run-with-term-emu-detach
+.file::with-term-emu-detach
 [source,sh]
 ----
 #!/usr/bin/env sh
 
-exec term-emu -x run-with-termux "/usr/bin/env with-bash-user $*" \; detach
+exec term-emu -x with-termux "/usr/bin/env with-env-user $*" \; detach
 
 ----
 
-=== `run-with-termux` - runs a command with a terminal multiplexer
+=== `with-termux` - runs a command with a terminal multiplexer
 
-.file::run-with-termux
+.file::with-termux
 [source,sh]
 ----
 #!/usr/bin/env sh

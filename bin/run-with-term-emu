@@ -1,3 +1,0 @@
-#!/usr/bin/env sh
-
-exec term-emu -x run-with-termux "/usr/bin/env with-bash-user $*"
