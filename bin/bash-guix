@@ -6,6 +6,7 @@ export GUIX_LOCPATH="${HOME}/.guix-profile/lib/locale"
 export GUIX_LD_WRAPPER_ALLOW_IMPURITIES=n
 
 export PATH="${HOME}/.config/guix/current/bin:${PATH}"
+export INFOPATH="${HOME}/.config/guix/current/share/info:${INFOPATH}"
 export GUIX_PROFILE="${HOME}/.guix-profile"
 . "${HOME}/.config/guix/current/etc/profile"
 . "${HOME}/.guix-profile/etc/profile"
