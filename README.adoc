@@ -203,12 +203,13 @@ exec "$@"
 
 set +x
 
-export PATH="${HOME}/.config/guix/current/bin:${PATH}"
-export GUIX_PROFILE="${HOME}/.guix-profile"
-. "${GUIX_PROFILE}/etc/profile"
-
 export GUIX_LOCPATH="${HOME}/.guix-profile/lib/locale"
 export GUIX_LD_WRAPPER_ALLOW_IMPURITIES=n
+
+export PATH="${HOME}/.config/guix/current/bin:${PATH}"
+export GUIX_PROFILE="${HOME}/.guix-profile"
+. "${HOME}/.config/guix/current/etc/profile"
+. "${HOME}/.guix-profile/etc/profile"
 
 XDG_DATA_DIRS="${XDG_DATA_DIRS:-${HOME}/.local/share}"
 XDG_DATA_DIRS="${XDG_DATA_DIRS}:/usr/share:/usr/local/share:${HOME}/.local/share"
