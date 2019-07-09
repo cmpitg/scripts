@@ -203,6 +203,7 @@ exec "$@"
 
 set +x
 
+export PATH="${HOME}/.config/guix/current/bin:${PATH}"
 export GUIX_PROFILE="${HOME}/.guix-profile"
 . "${GUIX_PROFILE}/etc/profile"
 
