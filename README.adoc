@@ -878,12 +878,13 @@ prefix $comment_char^' '
 
 test -z "${DISPLAY}" && exit 0
 
-do-notify-short "Enabling Right Alt as AltGr"
+do-notify-short "Setting cmpitg's keyboard layout with Right Alt as AltGr"
 setxkbmap us -variant dvp -option lv3:ralt_alt
 xmodmap <( cat <<EOF
 ! -*- mode: xmodmap-generic -*-
-! No modifier map for mod5
+! Clear modifier map for mod5 for now
 clear mod5
+
 add mod4 = Super_R
 
 ! Swap Escape and Capslock
@@ -919,9 +920,9 @@ EOF
 
 ----
 
-=== `config-keymap-cmpitg` - keyboard layout: Programmer Dvorak + Ctrl-Alt swapped + CapsLock-Escape swapped
+=== `config-keymap-standard` - keyboard layout: Programmer Dvorak + Ctrl-Alt swapped + CapsLock-Escape swapped
 
-.file::config-keymap-cmpitg
+.file::config-keymap-standard
 [source,sh]
 ----
 #!/usr/bin/env bash
@@ -932,10 +933,7 @@ test -z "${DISPLAY}" && exit 0
 
 do-notify-short "Setting cmpitg's keyboard layout"
 setxkbmap us -variant dvp -option lv3:ralt_alt
-if (test -e ~/.Xmodmap); then
-	xmodmap ~/.Xmodmap
-else
-	xmodmap <( cat <<EOF
+xmodmap <( cat <<EOF
 ! -*- mode: xmodmap-generic -*-
 ! No modifier map for mod5
 clear mod5
@@ -968,7 +966,6 @@ add control = Control_R
 
 EOF
 )
-fi
 
 ----
 
@@ -979,7 +976,8 @@ fi
 ----
 #!/usr/bin/env bash
 
-config-keymap-cmpitg
+# config-keymap-standard
+config-keymap-altgr
 config-logitech-trackball-marble-righty
 # config-logitech-trackball-marble-lefty
 config-logitech-g300-mouse

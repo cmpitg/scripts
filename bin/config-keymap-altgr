@@ -2,12 +2,13 @@
 
 test -z "${DISPLAY}" && exit 0
 
-do-notify-short "Enabling Right Alt as AltGr"
+do-notify-short "Setting cmpitg's keyboard layout with Right Alt as AltGr"
 setxkbmap us -variant dvp -option lv3:ralt_alt
 xmodmap <( cat <<EOF
 ! -*- mode: xmodmap-generic -*-
-! No modifier map for mod5
+! Clear modifier map for mod5 for now
 clear mod5
+
 add mod4 = Super_R
 
 ! Swap Escape and Capslock
