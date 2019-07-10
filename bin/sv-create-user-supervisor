@@ -12,6 +12,10 @@ package require Tclx
 # Helpers
 ##############################################################################
 
+proc execCmd {args} {
+     return [exec {*}$args <@ stdin >@ stdout 2>@ stderr]
+}
+
 proc getRunsvdirLogContent {servicePath} {
     return [format {#!/usr/bin/env sh
 
