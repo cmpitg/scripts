@@ -4098,5 +4098,4 @@ if __name__ == '__main__':
 
 == License
 
-Unless clearly stated, do whatever you want with them.  If you like it, buy me
-a coffee.
+This project is released under the terms of the FreeBSD license.  See `LICENSE` for further information.
