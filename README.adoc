@@ -438,6 +438,17 @@ exec tmux new-session "$@"
 
 ----
 
+=== `note-taker` - runs a note taker
+
+.file::note-taker
+[source,sh]
+----
+#!/usr/bin/env sh
+
+exec chromium --app=https://notion.so "$@"
+
+----
+
 === `newline`
 
 .file::newline
