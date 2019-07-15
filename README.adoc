@@ -416,7 +416,8 @@ exec "${term_emu_}" "$@"
 ----
 #!/usr/bin/env sh
 
-exec term-emu -x with-termux "/usr/bin/env with-env-user $*"
+# exec term-emu -x with-termux "/usr/bin/env with-env-user $*"
+exec term-emu -e with-termux "/usr/bin/env with-env-user $*"
 
 ----
 
@@ -427,7 +428,8 @@ exec term-emu -x with-termux "/usr/bin/env with-env-user $*"
 ----
 #!/usr/bin/env sh
 
-exec term-emu -x with-termux "/usr/bin/env with-env-user $*" \; detach
+# exec term-emu -x with-termux "/usr/bin/env with-env-user $*" \; detach
+exec term-emu -e with-termux "/usr/bin/env with-env-user $*" \; detach
 
 ----
 

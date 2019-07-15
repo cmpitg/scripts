@@ -1,3 +1,4 @@
 #!/usr/bin/env sh
 
-exec term-emu -x with-termux "/usr/bin/env with-env-user $*"
+# exec term-emu -x with-termux "/usr/bin/env with-env-user $*"
+exec term-emu -e with-termux "/usr/bin/env with-env-user $*"
