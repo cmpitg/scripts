@@ -2755,7 +2755,7 @@ exec xset -display :0 dpms force off
 
 report-missing-executables date Coreutils tr Coreutils || exit 1
 
-exec date --rfc-3339=second | tr ' ' '-'
+exec date --rfc-3339=second | tr ' ' '_'
 
 ----
 
