@@ -2751,14 +2751,11 @@ exec xset -display :0 dpms force off
 .file::now-standardized
 [source,sh]
 ----
-#!/usr/bin/env rc
+#!/usr/bin/env sh
 
-#
-# This script depends directly on `date' command, taking no addition argument,
-# thus original sh is enough.
-#
+report-missing-executables date Coreutils tr Coreutils || exit 1
 
-exec /bin/date '+%Y-%m-%d_%H-%M-%S'
+exec date --rfc-3339=second | tr ' ' '-'
 
 ----
 
