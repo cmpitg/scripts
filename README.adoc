@@ -324,7 +324,7 @@ export PATH=${PLAN9}/bin:${PATH}
 
 export SHELL=rc
 export TERM=9term
-export font='/m/9p-fonts/Noto Mono/11a/font'
+export font='/m/9p-fonts/GoMono/11a/font'
 
 mkdir -p ${TEMP9}
 mkdir -p /m/9p-fonts
