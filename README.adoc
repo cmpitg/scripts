@@ -1866,13 +1866,12 @@ curl -i -H 'Content-Type: application/json' -X POST $*
 .file::do-notify
 [source,sh]
 ----
-#!/usr/bin/env rc
+#!/usr/bin/env bash
 
-echo $*
+report-missing-executables notify-send Libnotify || exit 1
 
-if (which notify-send >/dev/null >[2=1]) {
-	notify-send $*
-}
+echo "$@"
+exec notify-send "$@"
 
 ----
 
@@ -1881,13 +1880,12 @@ if (which notify-send >/dev/null >[2=1]) {
 .file::do-notify-short
 [source,sh]
 ----
-#!/usr/bin/env rc
+#!/usr/bin/env bash
 
-echo $*
+report-missing-executables notify-send Libnotify || exit 1
 
-if (which notify-send >/dev/null >[2=1]) {
-	notify-send -t 2000 $*
-}
+echo "$@"
+exec notify-send -t 2000 "$@"
 
 ----
 

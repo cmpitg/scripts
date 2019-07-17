@@ -1,7 +1,6 @@
-#!/usr/bin/env rc
+#!/usr/bin/env bash
 
-echo $*
+report-missing-executables notify-send Libnotify || exit 1
 
-if (which notify-send >/dev/null >[2=1]) {
-	notify-send $*
-}
+echo "$@"
+exec notify-send "$@"
