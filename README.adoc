@@ -345,13 +345,13 @@ exec ${PLAN9}/bin/9 "$@"
 .file::9-term
 [source,sh]
 ----
-#!/usr/bin/env rc
+#!/usr/bin/env sh
 
 #
 # Starts 9term within an Rc environment.
 #
 
-9term $*
+exec 9 9term $*
 
 ----
 === `rc` - runs RC shell with Plan 9 Port environment

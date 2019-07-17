@@ -1,7 +1,7 @@
-#!/usr/bin/env rc
+#!/usr/bin/env sh
 
 #
 # Starts 9term within an Rc environment.
 #
 
-9term $*
+exec 9 9term $*
