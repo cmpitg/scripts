@@ -6,7 +6,7 @@
 #
 
 if (~ $font '') {
-	font='/m/9p-fonts/Go Mono/11a/font'
+	font='/m/9p-fonts/GoMono/11a/font'
 }
 
 mkdir -p /m/acme
