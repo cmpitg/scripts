@@ -2540,6 +2540,101 @@ exec rofi -lines 40 \
 ==== Application launcher
 
 .file::run-app-launcher
+[source,tcl]
+----
+#!/usr/bin/env tclsh
+
+package require Tcl 8
+package require Tclx
+package require cmdline
+
+if {[catch {exec report-missing-executables get-all-execs get-all-execs run-menu run-menu add-to-history add-to-history <@ stdin >@ stdout 2>@ stderr}]} {
+    exit 1
+}
+
+try {
+    array set cmdArgs [::cmdline::getoptions ::argv {
+        {history-file.arg "~/.local/app-runner-history" "Application history file"}
+        {max-history.arg  256                           "Maximum number of entries in the history"}
+        {prefix.arg       ""                            "String with which each executable is prefixed"}
+    } {[--history-file <app-runner-history>] [--prefix <prefix>]
+    
+Run a fuzzy searcher tool with all the executables found in the PATH environment variable and from a history file.  The result of the search is then executed based on predefined patterns as follows.
+
+* '!@ <command> [args...]' :: Run the command in a terminal emulator
+* '!! <command> [args...]' :: Run the command in a terminal emulator, pause and prompt for exiting when after the command finishes
+* '<url>' :: Open the URL with 'web-browser-gui'
+* '<file-path>' :: Open the file path with a text editor
+* 'dir:<dir-path>'  :: Open the directory using 'dir-browser-gui'
+
+TODO: More patterns are later supported using Plan9port's Plumber.
+}]} trap {CMDLINE USAGE} {msg _o} {
+    if {[llength $::argv] == 0} {
+        puts $msg
+        exit 0
+    } else {
+        puts stderr $msg
+        exit 1
+    }
+}
+
+proc readHistory {path} {
+    if {[file exists $path]} {
+        set fd [open $path r]
+        set data [read $fd]
+        close $fd
+        return $data
+    } else {
+        return ""
+    }
+}
+
+proc addToHistory {path maxHistory text} {
+    set fd [open "| add-to-history --max-history $maxHistory $path" w]
+    puts $fd $text
+    close $fd
+}
+
+proc getChoice {history execs} {
+    set fd [open "| run-menu -dmenu -p \"Text: \" " r+]
+    puts -nonewline $fd $history
+    puts -nonewline $fd $execs
+    set res [read $fd]
+    return [string trim $res]
+}
+
+set historyFile [file normalize $cmdArgs(history-file)]
+set maxHistory $cmdArgs(max-history)
+set prefix $cmdArgs(prefix)
+
+set execs [exec get-all-execs | sed "s/^/$prefix/g"]
+set history [readHistory $historyFile]
+set choice [getChoice $history $execs]
+
+if {$choice ne ""} {
+    addToHistory $historyFile $maxHistory $choice
+    switch -glob $choice {
+        "!@*" {
+            set cmd [string replace $choice 0 1]
+            execl with-term-emu {*}$cmd
+        }
+        "!!!*" {
+            set cmd [string replace $choice 0 1]
+            execl with-term-emu-detach [list with-pause {*}$cmd]
+        }
+        "!!*" {
+            set cmd [string replace $choice 0 1]
+            execl with-term-emu [list with-pause {*}$cmd]
+        }
+        default {
+            execl run-menu [list "-e" "Error: Unrecoginzed pattern: $choice"]
+        }
+    }
+}
+
+----
+
+.file::run-rmacs-rocket
 [source,sh]
 ----
 #!/usr/bin/env dash
