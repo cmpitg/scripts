@@ -2058,7 +2058,6 @@ echo $input | rev | sed 's/^[^.]*\./'$rev_replacement'./' | rev
 
 ----
 
-
 === `git-rm-orphaned` - removes orphaned files from Git
 
 .file::git-rm-orphaned
@@ -2144,6 +2143,51 @@ USAGE
 (test $#1        -eq 0) && git_path='.'  || git_path=$1
 
 exec git daemon --reuseaddr '--base-path='$git_path --export-all --verbose '--port='$git_port
+
+----
+
+=== `get-all-execs` - gets all executables, optionally prefixed with a string and history support
+
+.file::get-all-execs
+[source,tcl]
+----
+#!/usr/bin/env tclsh
+
+package require Tcl 8
+package require cmdline
+
+if {[catch {exec report-missing-executables find "GNU Find" sort Coreutils <@ stdin >@ stdout 2>@ stderr}]} {
+    exit 1
+}
+
+proc usage {{fd stdout}} {
+    puts $fd {get-all-execs
+
+Get all executables from the PATH environment variables, sort in ascending order, deduplicate, and return them one line per entry.}
+}
+
+proc getAccessiblePaths {} {
+    set rawPaths [exec echo $::env(PATH) | sed {s/:/\n/g} | sort | uniq]
+    set res {}
+    foreach path $rawPaths {
+        if {[file exists $path]} {
+            lappend res "$path/"
+        }
+    }
+    return $res
+}
+
+if {$::argv == "--help"} {
+    usage
+}
+if {$::argc != 0} {
+    usage stderr
+    exit 1
+}
+
+set paths [getAccessiblePaths]
+set execs [exec find {*}$paths -maxdepth 1 -type f,l -executable | awk {FS="/" { print $NF }} | sort -u]
+catch {puts $execs}
 
 ----
 
