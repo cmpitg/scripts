@@ -2520,14 +2520,19 @@ pidof insync >/dev/null 2>&1 || exec insync start
 
 exec rofi -lines 40 \
 	-width 85 \
+	-font "Go Mono 11" \
 	-kb-row-select Tab \
 	-kb-row-tab "" \
+	-kb-accept-alt "" \
 	-kb-row-up Super+c,Up,Control+p \
 	-kb-row-down Super+t,Down,Control+n \
 	-kb-row-left Super+h,Left,Control+b \
 	-kb-row-right Super+n,Right,Control+f \
 	-kb-move-front Super+d,Control+a \
 	-kb-move-end Super+D,Control+e \
+	-kb-move-word-back Super+g,Alt+b \
+	-kb-move-word-forward Super+r,Alt+f \
+	-kb-accept-custom Shift+Return \
 	"$@"
 
 ----
