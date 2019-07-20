@@ -12,7 +12,7 @@ try {
     array set cmdArgs [::cmdline::getoptions ::argv {
         {history-file.arg "~/.local/app-runner-history" "Application history file"}
         {max-history.arg  256                           "Maximum number of entries in the history"}
-        {prefix.arg       ""                            "String with which each executable is prefixed"}
+        {prefix.arg       "!@ "                         "String with which each executable is prefixed"}
     } {[--history-file <app-runner-history>] [--prefix <prefix>]
     
 Run a fuzzy searcher tool with all the executables found in the PATH environment variable and from a history file.  The result of the search is then executed based on predefined patterns as follows.
