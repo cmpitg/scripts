@@ -17,8 +17,6 @@ TODO: Script to display a persistent notification for current desktop
 
 TODO: report-missing-executables supports --notify-desktop
 
-TODO: Arg parser → env vars
-
 TODO: Explain how commands are built the way they are built below:
 * When to pass as argumment?  When to pass into stdin?
 * When to output as text?  Human-readable?
@@ -29,10 +27,6 @@ TODO: Help text for all commands
 TODO: fzf integration; use cases: convert-to-* + fzf
 
 TODO: GNU parallel integration
-
-TODO: Add script to verify checksum
-
-TODO: Verify checksums for downloaded files
 
 TODO: Write about shell design flaws
 
