@@ -2610,11 +2610,11 @@ if {$choice ne ""} {
     switch -glob $choice {
         "!@*" {
             set cmd [string replace $choice 0 1]
-            execl with-term-emu {*}$cmd
+            execl with-term-emu-detach {*}$cmd
         }
         "!!!*" {
             set cmd [string replace $choice 0 1]
-            execl with-term-emu-detach [list with-pause {*}$cmd]
+            execl with-term-emu [list {*}$cmd]
         }
         "!!*" {
             set cmd [string replace $choice 0 1]
