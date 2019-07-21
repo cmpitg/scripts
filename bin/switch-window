@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
 
-report-missing-executables rofi Rofi || exit 1
+report-missing-executables run-menu run-menu || exit 1
 
-exec rofi -modi window -show window
+exec run-menu -modi window -show window

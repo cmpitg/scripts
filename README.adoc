@@ -2296,11 +2296,6 @@ Requirement: `rofi`.
 ----
 #!/usr/bin/env sh
 
-report-missing-executables rofi Rofi || exit 1
-
-exec rofi -modi window -show window
-
-----
 
 === `set-1-monitor-default`
 
@@ -2324,6 +2319,7 @@ set cmd [list "--output" $primaryMonitor "--auto"]
 foreach monitor $otherMonitors {
     set cmd [list {*}$cmd "--output" $monitor "--off"]
 }
+report-missing-executables run-menu run-menu || exit 1
 
 execl "xrandr" $cmd
 
