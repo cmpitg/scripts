@@ -2140,6 +2140,19 @@ exec git daemon --reuseaddr '--base-path='$git_path --export-all --verbose '--po
 
 ----
 
+=== `get-all-randr-outputs` - gets all RandR outputs
+
+.file::get-all-randr-outputs
+[source,sh]
+----
+#!/usr/bin/env bash
+
+report-missing-executables xrandr XRandR ag Ag awk "GNU Awk" || exit 1
+
+xrandr | ag connected | awk '{ print $1 }'
+
+----
+
 === `get-all-execs` - gets all executables, optionally prefixed with a string and history support
 
 .file::get-all-execs
