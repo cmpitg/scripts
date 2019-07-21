@@ -1551,6 +1551,19 @@ newline
 
 ----
 
+=== `config-monitors-default` - configs all monitors with default settings from XRandR
+
+.file::config-monitors-default
+[source,sh]
+----
+#!/usr/bin/env bash
+
+report-missing-executables xrandr XRandR get-all-randr-outputs get-all-randr-outputs sed "GNU Sed" tr Coreutils || exit 1
+
+get-all-randr-outputs | sed 's/$/ --auto/g; s/^/--output /g' | tr "\n" " " | xargs xrandr
+
+----
+
 === `config-monitors-urt` - configs external monitor for http://www.urbanterror.info[Urban Terror]
 
 Disables laptop monitor and increases brightness, as the brightness option
