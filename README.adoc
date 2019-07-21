@@ -2331,6 +2331,59 @@ execl "xrandr" $cmd
 
 ----
 
+=== `set-only-monitors` - sets and configs only certain monitors, all others are off
+
+.file::set-only-monitors
+[source,tcl]
+----
+#!/usr/bin/env tclsh
+
+package require Tcl 8
+package require Tclx
+
+if {[catch {exec report-missing-executables get-all-randr-outputs get-all-randr-outputs >@ stdout 2>@ stderr}]} {
+   exit 1
+}
+
+proc getSetMonitors {} {
+    set res {}
+    set takeNow 0
+    foreach cmdArg $::argv {
+        # We take the argument right after the --output argument
+        if {$cmdArg eq "--output"} {
+            set takeNow 1
+        } elseif {$takeNow} {
+            lappend res $cmdArg
+            set takeNow 0
+        }
+    }
+    return $res
+}
+
+proc filterMonitors {setMonitors monitors} {
+    set res {}
+    foreach monitor $monitors {
+        if {[lsearch $setMonitors $monitor] == -1} {
+            lappend res $monitor
+        }
+    }
+    return $res
+}
+
+set setMonitors [getSetMonitors]
+set allMonitors [string trim [exec get-all-randr-outputs]]
+set monitors [filterMonitors $setMonitors $allMonitors]
+
+set cmd [list {*}$::argv]
+foreach monitor $monitors {
+    set cmd [list {*}$cmd "--output" $monitor "--off"]
+}
+
+puts "xrandr $cmd"
+execl "xrandr" $cmd
+
+----
+
 === `i3-switch-workspace` - workspace switcher for http://i3wm.org/[i3]
 
 Requirement: `dmenu`.
