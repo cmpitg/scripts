@@ -3030,12 +3030,24 @@ test -L "$@"
 
 ----
 
+=== `filter-broken-symlinks [path1] [path2] [...]`
 
+TODO: `--help`
 
+.file::filter-broken-symlinks
+[source,sh]
 ----
+#!/usr/bin/env bash
 
+#
+# Filter broken symlinks from the argument list
+#
 
-	return False
+for file_ in "$@" ; do
+    if [ ! -e "${file_}" ]; then
+        echo "${file_}"
+    fi
+done
 
 ----
 
