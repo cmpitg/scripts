@@ -2561,9 +2561,6 @@ exec ibus-daemon -xvr
 ----
 #!/usr/bin/env sh
 
-pkill shutter
-exec shutter --min_at_startup
-
 ----
 
 ==== Screensaver daemon
