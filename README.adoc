@@ -2588,7 +2588,7 @@ exec nm-applet --sm-disable
 
 ==== GNOME settings daemon
 
-.file::run-gnome-settings-daemon
+.file::run-settings-daemon
 [source,sh]
 ----
 #!/usr/bin/env sh
