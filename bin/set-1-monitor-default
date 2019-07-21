@@ -1,0 +1,19 @@
+#!/usr/bin/env tclsh
+
+package require Tcl 8
+package require Tclx
+
+if {[catch {report-missing-executables get-all-randr-outputs get-all-randr-outputs >@ stdout 2>@ stderr}]} {
+   exit 1
+}
+
+set monitors [string trim [exec get-all-randr-outputs]]
+set primaryMonitor [lindex $monitors 0]
+set otherMonitors [lrange $monitors 1 end]
+
+set cmd [list "--output" $primaryMonitor "--auto"]
+foreach monitor $otherMonitors {
+    set cmd [list {*}$cmd "--output" $monitor "--off"]
+}
+
+execl "xrandr" $cmd
