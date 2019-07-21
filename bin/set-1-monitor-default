@@ -3,7 +3,7 @@
 package require Tcl 8
 package require Tclx
 
-if {[catch {report-missing-executables get-all-randr-outputs get-all-randr-outputs >@ stdout 2>@ stderr}]} {
+if {[catch {exec report-missing-executables get-all-randr-outputs get-all-randr-outputs >@ stdout 2>@ stderr}]} {
    exit 1
 }
 

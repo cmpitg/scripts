@@ -19,6 +19,10 @@ Download a file, compare checksum if necessary, and return the path to the downl
 	exit 0
 }
 
+if {[catch {exec report-missing-executables aria2c Aria2c >@ stdout 2>@ stderr}]} {
+	exit 1
+}
+
 proc getDestination {dest} {
 	if {$dest eq ""} {
 		set path [::fileutil::tempfile]
@@ -85,8 +89,6 @@ if {[lindex [array get ::env VERBOSE] 1] == 1} {
 	puts "Destination: $dest"
 	puts "URI: $uri"
 }
-
-exec report-missing-executables aria2c Aria2c >@ stdout 2>@ stderr
 
 if {[file exists $dest]} {
 	if {[dict values $checksumDict] == {{} {} {}}} {

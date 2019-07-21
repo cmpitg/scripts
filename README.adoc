@@ -2314,7 +2314,7 @@ exec rofi -modi window -show window
 package require Tcl 8
 package require Tclx
 
-if {[catch {report-missing-executables get-all-randr-outputs get-all-randr-outputs >@ stdout 2>@ stderr}]} {
+if {[catch {exec report-missing-executables get-all-randr-outputs get-all-randr-outputs >@ stdout 2>@ stderr}]} {
    exit 1
 }
 
@@ -2342,7 +2342,7 @@ package require Tcl 8
 package require Tclx
 
 if {[catch {exec report-missing-executables get-all-randr-outputs get-all-randr-outputs >@ stdout 2>@ stderr}]} {
-   exit 1
+    exit 1
 }
 
 proc getSetMonitors {} {
@@ -3476,9 +3476,8 @@ exec sudo -E env "PATH=${PATH}" "$@"
 ----
 #!/usr/bin/env tclsh
 
-if {[catch {exec report-missing-executables awk Awk ag Ag >@ stdout 2>@ stderr} msg]} {
-    puts stderr $msg
-    exit 3
+if {[catch {exec report-missing-executables awk Awk ag Ag >@ stdout 2>@ stderr}]} {
+    exit 1
 }
 
 proc usage {{outFD stdout}} {
@@ -3785,6 +3784,10 @@ Download a file, compare checksum if necessary, and return the path to the downl
 	exit 0
 }
 
+if {[catch {exec report-missing-executables aria2c Aria2c >@ stdout 2>@ stderr}]} {
+	exit 1
+}
+
 proc getDestination {dest} {
 	if {$dest eq ""} {
 		set path [::fileutil::tempfile]
@@ -3851,8 +3854,6 @@ if {[lindex [array get ::env VERBOSE] 1] == 1} {
 	puts "Destination: $dest"
 	puts "URI: $uri"
 }
-
-exec report-missing-executables aria2c Aria2c >@ stdout 2>@ stderr
 
 if {[file exists $dest]} {
 	if {[dict values $checksumDict] == {{} {} {}}} {

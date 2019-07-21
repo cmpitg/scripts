@@ -1,8 +1,7 @@
 #!/usr/bin/env tclsh
 
-if {[catch {exec report-missing-executables awk Awk ag Ag >@ stdout 2>@ stderr} msg]} {
-    puts stderr $msg
-    exit 3
+if {[catch {exec report-missing-executables awk Awk ag Ag >@ stdout 2>@ stderr}]} {
+    exit 1
 }
 
 proc usage {{outFD stdout}} {
