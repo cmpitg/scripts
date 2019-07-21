@@ -15,8 +15,6 @@ This document is written in literate programming style.  To generate scripts and
 
 TODO: Script to display a persistent notification for current desktop
 
-TODO: report-missing-executables supports --notify-desktop
-
 TODO: Explain how commands are built the way they are built below:
 * When to pass as argumment?  When to pass into stdin?
 * When to output as text?  Human-readable?
@@ -3258,6 +3256,9 @@ def report_missing_execs(missing_list):
 
 		sys.stdout.write("{}{} {}\n".format(pre_msg, output, post_msg))
 
+	def notify_missing(missing):
+		os.system("notify-send --urgency=critical 'Missing Software' 'Missing execs: {}'".format(', '.join(missing)))
+
 	if len(missing_list) == 0:
 		return False
 	else:
@@ -3271,6 +3272,7 @@ def report_missing_execs(missing_list):
 			post_msg="installed",
 			missing=[x['program'] for x in missing_list],
 		)
+		notify_missing(x['executable'] for x in missing_list)
 		return True
 
 

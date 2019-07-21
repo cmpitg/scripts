@@ -124,6 +124,9 @@ def report_missing_execs(missing_list):
 
 		sys.stdout.write("{}{} {}\n".format(pre_msg, output, post_msg))
 
+	def notify_missing(missing):
+		os.system("notify-send --urgency=critical 'Missing Software' 'Missing execs: {}'".format(', '.join(missing)))
+
 	if len(missing_list) == 0:
 		return False
 	else:
@@ -137,6 +140,7 @@ def report_missing_execs(missing_list):
 			post_msg="installed",
 			missing=[x['program'] for x in missing_list],
 		)
+		notify_missing(x['executable'] for x in missing_list)
 		return True
 
 
