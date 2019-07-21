@@ -1,0 +1,18 @@
+#!/usr/bin/env tclsh
+
+package require Tcl 8
+package require Tclx
+
+if {[catch {exec report-missing-executables set-only-monitors set-only-monitors >@ stdout 2>@ stderr}]} {
+   exit 1
+}
+
+if {[info exists ::env(MY_MAIN_MONITOR_OUTPUT)]} {
+    set mainMonitor $::env(MY_MAIN_MONITOR_OUTPUT)
+    set mainMode $::env(MY_MAIN_MONITOR_MODE)
+} else {
+    set mainMonitor [lindex $monitors 0]
+    set mainMode [lindex $monitors 1]
+}
+
+execl "set-only-monitors" [list "--output" $mainMonitor "--mode" $mainMode]

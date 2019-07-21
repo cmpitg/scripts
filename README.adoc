@@ -1549,19 +1549,6 @@ newline
 
 ----
 
-=== `config-monitors-default` - configs all monitors with default settings from XRandR
-
-.file::config-monitors-default
-[source,sh]
-----
-#!/usr/bin/env bash
-
-report-missing-executables xrandr XRandR get-all-randr-outputs get-all-randr-outputs sed "GNU Sed" tr Coreutils || exit 1
-
-get-all-randr-outputs | sed 's/$/ --auto/g; s/^/--output /g' | tr "\n" " " | xargs xrandr
-
-----
-
 === `config-monitors-urt` - configs external monitor for http://www.urbanterror.info[Urban Terror]
 
 Disables laptop monitor and increases brightness, as the brightness option
@@ -2296,32 +2283,9 @@ Requirement: `rofi`.
 ----
 #!/usr/bin/env sh
 
-
-=== `set-1-monitor-default`
-
-.file::set-1-monitor-default
-[source,tcl]
-----
-#!/usr/bin/env tclsh
-
-package require Tcl 8
-package require Tclx
-
-if {[catch {exec report-missing-executables get-all-randr-outputs get-all-randr-outputs >@ stdout 2>@ stderr}]} {
-   exit 1
-}
-
-set monitors [string trim [exec get-all-randr-outputs]]
-set primaryMonitor [lindex $monitors 0]
-set otherMonitors [lrange $monitors 1 end]
-
-set cmd [list "--output" $primaryMonitor "--auto"]
-foreach monitor $otherMonitors {
-    set cmd [list {*}$cmd "--output" $monitor "--off"]
-}
 report-missing-executables run-menu run-menu || exit 1
 
-execl "xrandr" $cmd
+exec run-menu -modi window -show window
 
 ----
 
@@ -2378,17 +2342,42 @@ execl "xrandr" $cmd
 
 ----
 
+=== `set-monitors-auto` - configs all monitors with default settings from XRandR
+
+.file::set-monitors-auto
+[source,sh]
+----
+#!/usr/bin/env bash
+
+report-missing-executables xrandr XRandR get-all-randr-outputs get-all-randr-outputs sed "GNU Sed" tr Coreutils || exit 1
+
+get-all-randr-outputs | sed 's/$/ --auto/g; s/^/--output /g' | tr "\n" " " | xargs xrandr
 
 ----
 
+=== `set-1-monitor`
 
-
-
-
+.file::set-1-monitor
+[source,tcl]
 ----
+#!/usr/bin/env tclsh
 
+package require Tcl 8
+package require Tclx
 
+if {[catch {exec report-missing-executables set-only-monitors set-only-monitors >@ stdout 2>@ stderr}]} {
+   exit 1
+}
 
+if {[info exists ::env(MY_MAIN_MONITOR_OUTPUT)]} {
+    set mainMonitor $::env(MY_MAIN_MONITOR_OUTPUT)
+    set mainMode $::env(MY_MAIN_MONITOR_MODE)
+} else {
+    set mainMonitor [lindex $monitors 0]
+    set mainMode [lindex $monitors 1]
+}
+
+execl "set-only-monitors" [list "--output" $mainMonitor "--mode" $mainMode]
 
 ----
 
