@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-
-i3-input -f 'pango:Noto Sans 10' -F 'workspace "%s"' -P 'Go to workspace: ' %s

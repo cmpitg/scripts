@@ -2378,122 +2378,17 @@ execl "xrandr" $cmd
 
 ----
 
-=== `i3-switch-workspace` - workspace switcher for http://i3wm.org/[i3]
-
-Requirement: `dmenu`.
-
-.file::i3-switch-workspace
-[source,python]
-----
-#!/usr/bin/env python3
-
-#
-# Copyright (C) 2015-2016  Ha-Duong Nguyen <cmpitg@gmail.com>
-#
-# i3-switch-window is free software: you can redistribute it and/or modify it
-# under the terms of the GNU General Public License as published by the Free
-# Software Foundation, either version 3 of the License, or (at your option)
-# any later version.
-#
-# i3-switch-window is distributed in the hope that it will be useful, but
-# WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
-# or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-# more details.
-#
-# You should have received a copy of the GNU General Public License along with
-# i3-switch-window.  If not, see <http://www.gnu.org/licenses/>.
-#
-
-#
-# Requirements:
-#   Python 3
-#   dmenu with Xft patch
-#
-
-import json
-import subprocess
-
-
-dmenu_options         = '-p Workspace -i -l 30 -fn "Noto Sans-10" -nf "#ffa077" -nb "#202020"'
-# dmenu_options         = '-p Workspace -b -i -l 30 -fn "Noto Sans-10" -nf "#ffa077" -nb "#202020"'
-cmd_get_workspaces    = "i3-msg -t get_workspaces"
-cmd_switch_workspace  = "i3-msg 'workspace {}'"
-
-
-def main():
-	fail_if_dmenu_not_found()
-
-	global dmenu_options
-	global cmd_get_workspaces
-	global cmd_switch_workspace
-
-	workspaces = filter_workspaces(json.loads(subprocess.check_output(
-		cmd_get_workspaces,
-		stderr=subprocess.STDOUT,
-		shell=True
-	).decode('utf-8')))
-
-	chosen = dmenu(itemize(workspaces), dmenu_options)
-
-	if chosen.strip() != "":
-		switch_to_workspace(
-			chosen=chosen,
-			cmd=cmd_switch_workspace
-		)
-
-
-def fail_if_dmenu_not_found():
-	"""Check if dmenu exists and exit if it doesn't."""
-	if subprocess.call("which dmenu", shell=True) != 0:
-		sys.stdout.write("dmenu not found\n")
-		sys.stdout.write("Make sure you have dmenu installed\n")
-		sys.exit(1)
-
-
-def switch_to_workspace(chosen, cmd):
-	"""Switch to a chosen workspace."""
-	subprocess.check_call(cmd.format(chosen), shell=True)
-
-
-def filter_workspaces(workspaces):
-	"""Filter out current workspace."""
-	return [
-		w
-		for w in workspaces
-		if not w.get('focused', False)
-	]
-
-
-def itemize(workspaces):
-	"""Itemize workspaces list for dmenu."""
-	return "\n".join(map(lambda w: w['name'], workspaces))
-
-
-def dmenu(items, dmenu_options):
-	cmd = subprocess.Popen(
-		"dmenu {}".format(dmenu_options),
-		shell=True,
-		stdin=subprocess.PIPE,
-		stdout=subprocess.PIPE,
-		stderr=subprocess.PIPE
-	)
-	stdout, _ = cmd.communicate(items.encode('utf-8'))
-	return stdout.decode('utf-8').strip('\n')
-
-
-if __name__ == '__main__':
-	main()
 
 ----
 
-=== `i3-to-workspace` - jumps to a workspace by name in http://i3wm.org/[i3]
 
-.file::i3-to-workspace
-[source,sh]
+
+
+
 ----
-#!/usr/bin/env bash
 
-i3-input -f 'pango:Noto Sans 10' -F 'workspace "%s"' -P 'Go to workspace: ' %s
+
+
 
 ----
 
