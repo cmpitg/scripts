@@ -3715,37 +3715,6 @@ exec curl --silent --location "$@" | "${checksum_tool_}" | cut -d ' ' -f 1
 
 ----
 
-=== `download` - downloads using Aria2, Axel, or Wget
-
-Tries downloading using one of the following tools:
-
-* Aria2
-* Axel
-* Wget
-
-If one tool is not found, the next one is tried.
-
-.file::download
-[source,sh]
-----
-#!/usr/bin/env bash
-
-if found-executable-p aria2c; then
-	download_tool_=aria2c
-elif found-executable-p axel; then
-	download_tool_=axel
-elif found-executable-p wget; then
-	download_tool_=wget
-else
-	echo aria2c, axel, and wget not found >&2
-	echo You need one of the following tools: Aria2, Axel, or Wget >&2
-	exit 1
-fi
-
-exec "${download_tool_}" "$@"
-
-----
-
 === `smart-download` - downloads file, prompts overwriting, and compares checksums
 
 Downloads a file, compares checksums, and prompts overwriting when necessary.  This script returns the download destination as the last line upon a successful download with exit code 0.  In case of error or checksums not matching, a non-zero exit code is returned.  This script leverages the MD5 sum, SHA1 sum, SHA256 sum from Coreutils.
