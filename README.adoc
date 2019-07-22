@@ -2591,10 +2591,10 @@ if {$choice ne ""} {
     switch -glob $choice {
         "!@*" {
             set cmd [string replace $choice 0 1]
-            execl with-term-emu-detach {*}$cmd
+            execl with-term-emu-detach [list {*}$cmd]
         }
         "!!!*" {
-            set cmd [string replace $choice 0 1]
+            set cmd [string replace $choice 0 2]
             execl with-term-emu [list {*}$cmd]
         }
         "!!*" {
