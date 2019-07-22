@@ -71,15 +71,15 @@ if {$choice ne ""} {
     addToHistory $historyFile $maxHistory $choice
     switch -glob $choice {
         "!@*" {
-            set cmd [string replace $choice 0 1]
+            set cmd [string range $choice 2 end]
             execl with-term-emu-detach [list {*}$cmd]
         }
         "!!!*" {
-            set cmd [string replace $choice 0 2]
+            set cmd [string range $choice 3 end]
             execl with-term-emu [list {*}$cmd]
         }
         "!!*" {
-            set cmd [string replace $choice 0 1]
+            set cmd [string range $choice 2 end]
             execl with-term-emu [list with-pause {*}$cmd]
         }
         default {
