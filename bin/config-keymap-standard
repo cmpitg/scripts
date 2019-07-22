@@ -5,37 +5,80 @@ test -z "${DISPLAY}" && exit 0
 ##############################################################################
 
 do-notify-short "Setting cmpitg's keyboard layout"
-setxkbmap us -variant dvp -option lv3:ralt_alt
+setxkbmap us -variant dvp
 xmodmap <( cat <<EOF
 ! -*- mode: xmodmap-generic -*-
-! No modifier map for mod5
-clear mod5
-add mod4 = Super_R
+!
+! Notes:
+!
+! * Press a button -> kernel generates a keycode -> maps to a keysym
+! 
+! * 'clear', 'add', and 'remove' are for modifiers
+! 
+! * To remap modifiers, first we need to remove the old keysyms, then assign them again.  That's why swapping is three-step:
+!   - Remove current mapping for modifiers
+!   - Swap the keysyms
+!   - Re-add the same mapping for modifiers
+!
+! * 'keysym' is to map keysym.  Generally, it's better to only touch keysyms.
+!
+! * Modifiers:
+!   - 'control' is for Control
+!   - 'mod1' is for Alt/Meta
+!   - 'mod2' is for NumLock
+!   - 'mod4' is for Super
+!   - 'mod5' is for ISO 3rd Level or Mode Switch
+!
+!            |  Keycode |    Keysym
+!------------|----------|-----------
+! Left  CTRL |       37 | Control_L
+! Left   ALT |       64 |     Alt_L
+! Right CTRL |      105 | Control_R
+! Right  ALT |      108 |     Alt_R
+!   Capslock |       66 | Caps_Lock
+!     Escape |        9 |    Escape
+!
 
-! Swap Escape and Capslock
+!
+! No mod5 by default
+!
+
+clear mod5
+
+!
+! Swap Escape and Capslock keysyms
+!
+
 remove Lock = Caps_Lock
-add Lock = Escape
 keysym Caps_Lock = Escape
 keysym Escape = Caps_Lock
+add Lock = Caps_Lock
 
-! Swap left Control and Alt
+!
+! Swap left Ctrl and Alt
+!
+
 remove control = Control_L
-remove mod1 = Alt_L
-remove mod1 = Meta_L
-keysym Control_L = Meta_L
+remove mod1 = Alt_L Meta_L
 keysym Control_L = Alt_L
 keysym Alt_L = Control_L
-add mod1 = Meta_L
-add mod1 = Alt_L
 add control = Control_L
+add mod1 = Alt_L
 
-! Swap right Control and Alt
+!
+! Swap right Ctrl and Alt
+!
+
 remove control = Control_R
-remove mod1 = Alt_R
+remove mod1 = Alt_R Meta_R
 keysym Control_R = Alt_R
 keysym Alt_R = Control_R
-add mod1 = Alt_R
 add control = Control_R
+add mod1 = Alt_R
+
+! Local Variables:
+! comment-start: "!"
+! End:
 
 EOF
 )
