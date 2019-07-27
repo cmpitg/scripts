@@ -2605,6 +2605,8 @@ exec rofi -lines 40 \
 	-kb-row-select Tab \
 	-kb-row-tab "" \
 	-kb-accept-alt "" \
+	-kb-row-left "" \
+	-kb-row-right "" \
 	-kb-row-up Super+c,Up,Control+p \
 	-kb-row-down Super+t,Down,Control+n \
 	-kb-row-left Super+h,Left,Control+b \
