@@ -2522,8 +2522,7 @@ exec xfce4-power-manager --no-daemon
 
 pidof kmix >/dev/null 2>&1 || kmix
 
-pkill pasystray
-exec pasystray
+pkill pasystray ; pasystray
 
 ----
 
