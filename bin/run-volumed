@@ -3,5 +3,7 @@
 # pkill xfce4-volumed
 # exec xfce4-volumed --no-daemon
 
+pidof kmix >/dev/null 2>&1 || kmix
+
 pkill pasystray
 exec pasystray
