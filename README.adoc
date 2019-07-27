@@ -2282,6 +2282,24 @@ catch {puts $execs}
 
 ----
 
+=== `get-sensors-data` - gets meaningful sensors data
+
+.file::get-sensors-data
+[source,tcl]
+----
+#!/usr/bin/env tclsh
+
+if {[catch {exec report-missing-executables sensors lm-sensors >@ stdout 2>@ stderr}]} {
+    exit 1
+}
+
+set coreTemps [split [exec sensors coretemp-isa-0000 | ag Core | awk { { print $3 } }] "\n"]
+set coreTempsText "Cores: [join $coreTemps {, }]"
+
+puts $coreTempsText
+
+----
+
 === `gtranslate` - translates from stdin with Google Translate
 
 .file::gtranslate
