@@ -2699,15 +2699,15 @@ if {$choice ne ""} {
     switch -glob $choice {
         "!@*" {
             set cmd [string range $choice 2 end]
-            execl with-term-emu-detach [list {*}$cmd]
+            execl with-env-user [list with-term-emu-detach {*}$cmd]
         }
         "!!!*" {
             set cmd [string range $choice 3 end]
-            execl with-term-emu [list {*}$cmd]
+            execl with-env-user [list with-term-emu {*}$cmd]
         }
         "!!*" {
             set cmd [string range $choice 2 end]
-            execl with-term-emu [list with-pause {*}$cmd]
+            execl with-env-user [list with-term-emu with-pause {*}$cmd]
         }
         default {
             execl run-menu [list "-e" "Error: Unrecoginzed pattern: $choice"]
