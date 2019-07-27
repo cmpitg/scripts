@@ -2575,9 +2575,14 @@ exec nm-applet --sm-disable
 .file::run-settings-daemon
 [source,sh]
 ----
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
-pidof gnome-settings-daemon >/dev/null 2>&1 || exec gnome-settings-daemon
+report-missing-executables gnome-settings-daemon gnome-settings-daemon && (
+	pidof gnome-settings-daemon >/dev/null 2>&1 || gnome-settings-daemon
+)
+[[ -e /usr/lib/gnome-settings-daemon/gsd-xsettings ]] && (
+	pidof gsd-xsettings >/dev/null 2>&1 || /usr/lib/gnome-settings-daemon/gsd-xsettings
+)
 
 ----
 
