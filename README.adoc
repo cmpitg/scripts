@@ -2713,7 +2713,7 @@ proc addToHistory {path maxHistory text} {
 }
 
 proc getChoice {history execs} {
-    set fd [open "| run-menu -dmenu -p \"Text: \" " r+]
+    set fd [open "| run-menu -dmenu -p Text " r+]
     puts -nonewline $fd $history
     puts -nonewline $fd $execs
     flush $fd
