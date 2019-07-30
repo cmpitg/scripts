@@ -394,22 +394,29 @@ acme -a \
 # Terminator has some memory leaks, throws GTK error messages to the console
 # GNOME terminal doesn't handle mouse scrolling well
 # XFCE4 terminal crashes randomly (under load?)
+# konsole -e <cmd>
+# xfce4-terminal -x <cmd>
 
 term_emu_="${MY_TERM_EMU:-konsole}"
 
-exec "${term_emu_}" "$@"
+exec "${term_emu_}" -e "$@"
 
 ----
 
 === `with-term-emu` - runs a command in a termimal emulator
+
+TODO: Document: with/out termux
 
 .file::with-term-emu
 [source,sh]
 ----
 #!/usr/bin/env sh
 
-# exec term-emu -x with-termux "/usr/bin/env with-env-user $*"
-exec term-emu -e with-termux "/usr/bin/env with-env-user $*"
+if [ "${WITHOUT_TERMUX}" = "1" ]; then
+	exec term-emu "/usr/bin/env with-env-user $*"
+else
+	exec term-emu with-termux "/usr/bin/env with-env-user $*"
+fi
 
 ----
 
@@ -752,7 +759,7 @@ if [ -n "${vpn_path_}" ]; then
 	if [ -t 0 ]; then
 		eval "${start_vpn_cmd_}"
 	else
-		term-emu -e "tmux new-session 'bash -c \"${start_vpn_cmd_}\"'"
+		term-emu "tmux new-session 'bash -c \"${start_vpn_cmd_}\"'"
 	fi
 fi
 
