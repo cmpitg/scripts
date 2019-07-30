@@ -449,6 +449,17 @@ exec tmux new-session "$@"
 
 ----
 
+=== `bring-termux-session` - brings a terminal emulator session here
+
+.file::bring-termux-session
+[source,sh]
+----
+#!/usr/bin/env sh
+
+exec env WITHOUT_TERMUX=1 with-term-emu tmux attach -t "$@"
+
+----
+
 === `note-taker` - runs a note taker
 
 .file::note-taker

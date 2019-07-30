@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+exec env WITHOUT_TERMUX=1 with-term-emu tmux attach -t "$@"
