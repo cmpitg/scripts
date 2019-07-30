@@ -407,6 +407,11 @@ exec "${term_emu_}" -e "$@"
 
 TODO: Document: with/out termux
 TODO: Document: session & window naming
+TODO: Document: must use double quoting:
+* This works: awesome-client "'get_something'"
+* Does this doesn't: awesome-client "'get_something'"
+How to prevent the double quoting?
+`with-env-user "$@"` works but cannot chain shell commands since everything becomes the argument for with-env-user, not part of the shell
 
 .file::with-term-emu
 [source,sh]
@@ -416,12 +421,12 @@ TODO: Document: session & window naming
 if [ "${WITHOUT_TERMUX}" = "1" ]; then
 	exec term-emu "/usr/bin/env with-env-user $*"
 else
-	session_name_="$*"
+	session_name_=$(echo "$@" | sed "s/:/COLON/g ; s/\./DOT/g ; s/(/OPEN/g ; s/)/CLOSE/g")
 	window_name_="${session_name_}"
 	if [ "${DETACH_TERMUX}" = "1" ]; then
-		exec term-emu with-termux -s "${session_name_}" -n "${window_name_}" "/usr/bin/env with-env-user $*" \; detach
+		exec term-emu with-termux -s "${session_name_}" -n "${window_name_}" "with-env-user $*" \; detach
 	else
-		exec term-emu with-termux -s "${session_name_}" -n "${window_name_}" "/usr/bin/env with-env-user $*"
+		exec term-emu with-termux -s "${session_name_}" -n "${window_name_}" "with-env-user $*"
 	fi
 fi
 
