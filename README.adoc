@@ -434,7 +434,7 @@ fi
 ----
 #!/usr/bin/env sh
 
-exec term-emu with-termux "/usr/bin/env with-env-user $*" \; detach
+exec env WITHOUT_TERMUX="${WITHOUT_TERMUX}" DETACH_TERMUX=1 with-term-emu "$@"
 
 ----
 
