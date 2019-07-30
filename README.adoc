@@ -2909,6 +2909,22 @@ if {$choice ne ""} {
 
 ----
 
+=== `run-omni-switcher` - displays a window + Tmux session switcher
+
+TODO: Help
+TODO: Note on standard input
+
+.file::run-omni-switcher
+[source,sh]
+----
+#!/usr/bin/env bash
+
+report-missing-executables run-menu-and-dispatch run-menu-and-dispatch tmux Tmux || exit 1
+
+cat -s - <(tmux list-sessions -F "#{session_name}" | sed "s/^/tmux :: /g") | exec run-menu-and-dispatch "Switch to"
+
+----
+
 === `add-to-history`
 
 TODO: Add description
