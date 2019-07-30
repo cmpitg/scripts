@@ -1,0 +1,52 @@
+#!/usr/bin/env tclsh
+
+# TODO: Documentation
+# TODO: Help
+# TODO: Read stdin?
+# TODO: report-missing-executables
+# TODO: Declarative configuration?
+
+package require Tclx
+
+##############################################################################
+# Helpers
+##############################################################################
+
+## TODO: Documentation
+proc stripPrefix {text prefix} {
+    return [string range $text [string length $prefix] end]
+}
+
+##############################################################################
+# Main
+##############################################################################
+
+set text [string trim [join $::argv " "]]
+
+if {$text ne ""} {
+    switch -glob $text {
+        "!@*" {
+            set cmd [stripPrefix $text {!@}]
+            execl with-env-user [list with-term-emu-detach {*}$cmd]
+        }
+        "!!!*" {
+            set cmd [stripPrefix $text {!!!}]
+            execl with-env-user [list with-term-emu {*}$cmd]
+        }
+        "!!*" {
+            set cmd [stripPrefix $text {!!}]
+            execl with-env-user [list with-term-emu with-pause {*}$cmd]
+        }
+        "tmux ::*" {
+            set tmuxSessionName [string trim [stripPrefix $text "tmux ::"]]
+            execl bring-termux-session $tmuxSessionName
+        }
+        "wind ::*" {
+            # TODO: Check current window manager?  Or write wrapper?
+            execl awesome-client [list "display_client_menu_by_actionable_title('[string trim $text]')"]
+        }
+        default {
+            execl run-menu [list "-e" "Error: Unrecoginzed pattern: $text"]
+        }
+    }
+}
