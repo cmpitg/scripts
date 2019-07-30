@@ -2865,6 +2865,50 @@ if {$text ne ""} {
 
 ----
 
+=== `run-menu-and-dispatch` - runs a menu program, allowing user to choose an item/input custom string, then dispatch an action based on the output
+
+TODO: Documentation
+
+.file::run-menu-and-dispatch
+[source,tcl]
+----
+#!/usr/bin/env tclsh
+
+package require Tcl 8
+package require Tclx
+
+if {[catch {exec report-missing-executables run-menu run-menu <@ stdin >@ stdout 2>@ stderr}]} {
+    exit 1
+}
+
+proc spitToTempFile {input} {
+    file tempfile tempPath
+    set fd [open $tempPath w+]
+    puts -nonewline $fd $input
+    close $fd
+    return $tempPath
+}
+
+proc getChoice {prompt input} {
+    set tempPath [spitToTempFile $input]
+
+    set choice {}
+    catch {set choice [string trim [exec run-menu -dmenu -p $prompt < $tempPath]]}
+    file delete $tempPath
+
+    return $choice
+}
+
+set prompt [lindex $::argv 0]
+set input [read stdin]
+set choice [getChoice $prompt $input]
+
+if {$choice ne ""} {
+    execl dispatch-action [list $choice]
+}
+
+----
+
 === `add-to-history`
 
 TODO: Add description
