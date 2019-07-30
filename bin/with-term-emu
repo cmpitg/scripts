@@ -3,5 +3,11 @@
 if [ "${WITHOUT_TERMUX}" = "1" ]; then
 	exec term-emu "/usr/bin/env with-env-user $*"
 else
-	exec term-emu with-termux "/usr/bin/env with-env-user $*"
+	session_name_="$*"
+	window_name_="${session_name_}"
+	if [ "${DETACH_TERMUX}" = "1" ]; then
+		exec term-emu with-termux -s "${session_name_}" -n "${window_name_}" "/usr/bin/env with-env-user $*" \; detach
+	else
+		exec term-emu with-termux -s "${session_name_}" -n "${window_name_}" "/usr/bin/env with-env-user $*"
+	fi
 fi
