@@ -2868,6 +2868,8 @@ if {$text ne ""} {
 === `run-menu-and-dispatch` - runs a menu program, allowing user to choose an item/input custom string, then dispatch an action based on the output
 
 TODO: Documentation
+TODO: Support history file
+TODO: Make run-app-launcher depend on this
 
 .file::run-menu-and-dispatch
 [source,tcl]
