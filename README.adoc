@@ -2605,6 +2605,7 @@ pidof insync >/dev/null 2>&1 || exec insync start
 
 exec rofi -lines 40 \
 	-width 85 \
+	-i \
 	-font "Go Mono 11" \
 	-kb-row-select Tab \
 	-kb-row-tab "" \
