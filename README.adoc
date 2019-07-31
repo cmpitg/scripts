@@ -2320,14 +2320,20 @@ catch {puts $execs}
 ----
 #!/usr/bin/env tclsh
 
-if {[catch {exec report-missing-executables sensors lm-sensors >@ stdout 2>@ stderr}]} {
+if {[catch {exec report-missing-executables sensors lm-sensors acpi acpi >@ stdout 2>@ stderr}]} {
     exit 1
 }
 
-set coreTemps [split [exec sensors coretemp-isa-0000 | ag Core | awk { { print $3 } }] "\n"]
-set coreTempsText "Cores: [join $coreTemps {, }]"
+set coreTemps [exec sensors -u coretemp-isa-0000 | ag {temp.*input} | awk {{ printf("%.1f°C, ", $2) }} | sed {s/, $//}]
+set coreTempsText "Cores: $coreTemps"
 
-puts $coreTempsText
+set fanStats [exec sensors -u thinkpad-isa-0000 | ag {fan.*input} | awk {{ printf("%.0f RPMs, ", $2) }} | sed {s/, $//}]
+set fanStatsText "Fans: $fanStats"
+
+set batStats [join [exec acpi -b | awk {{ print $4, $3 }} | sed {s/[:,]//g ; s/ Charging/+/g ; s/ Unknown//g}]]
+set batStatsText "Bats: [join $batStats {, }]"
+
+puts "$coreTempsText | $fanStatsText | $batStatsText"
 
 ----
 
