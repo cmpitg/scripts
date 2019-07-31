@@ -2510,7 +2510,7 @@ if {[info exists ::env(MY_MAIN_MONITOR_OUTPUT)]} {
     set mainMode [lindex $monitors 1]
 }
 
-execl "set-only-monitors" [list "--output" $mainMonitor "--mode" $mainMode]
+execl "set-only-monitors" [list "--output" $mainMonitor "--mode" $mainMode "--primary"]
 
 ----
 
