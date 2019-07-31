@@ -2330,7 +2330,7 @@ set coreTempsText "Cores: $coreTemps"
 set fanStats [exec sensors -u thinkpad-isa-0000 | ag {fan.*input} | awk {{ printf("%.0f RPMs, ", $2) }} | sed {s/, $//}]
 set fanStatsText "Fans: $fanStats"
 
-set batStats [join [exec acpi -b | awk {{ print $4, $3 }} | sed {s/[:,]//g ; s/ Charging/+/g ; s/ Unknown//g}]]
+set batStats [join [exec acpi -b | awk {{ print $4, $3 }} | sed {s/[:,]//g ; s/ Charging/+/g ; s/ Discharging/-/g ; s/ Unknown//g}]]
 set batStatsText "Bats: [join $batStats {, }]"
 
 puts "$coreTempsText | $fanStatsText | $batStatsText"
