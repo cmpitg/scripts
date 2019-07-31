@@ -2525,7 +2525,17 @@ execl "set-only-monitors" [list "--output" $mainMonitor "--mode" $mainMode "--pr
 ----
 #!/usr/bin/env sh
 
-pidof clipit >/dev/null 2>&1 || exec clipit
+# pidof clipit >/dev/null 2>&1 || exec clipit
+pidof greenclip >/dev/null 2>&1 || exec greenclip daemon
+
+----
+
+.file::display-clipboard
+[source,sh]
+----
+#!/usr/bin/env sh
+
+exec run-menu -modi "clipboard:greenclip print" -show clipboard -run-command '{cmd}'
 
 ----
 

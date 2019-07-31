@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+exec run-menu -modi "clipboard:greenclip print" -show clipboard -run-command '{cmd}'

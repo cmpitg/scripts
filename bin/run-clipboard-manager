@@ -1,3 +1,4 @@
 #!/usr/bin/env sh
 
-pidof clipit >/dev/null 2>&1 || exec clipit
+# pidof clipit >/dev/null 2>&1 || exec clipit
+pidof greenclip >/dev/null 2>&1 || exec greenclip daemon
