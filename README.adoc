@@ -2736,7 +2736,7 @@ proc getChoice {history execs} {
     puts -nonewline $fd $execs
     flush $fd
     set res [read $fd]
-    close $fd
+    catch {close $fd}
     return [string trim $res]
 }
 
