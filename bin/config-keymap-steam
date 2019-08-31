@@ -7,3 +7,4 @@ newline
 setxkbmap us -variant dvp -option lv3:ralt_alt
 
 config-logitech-g502-mouse
+config-logitech-mx-ergo-right
