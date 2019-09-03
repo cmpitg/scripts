@@ -3923,7 +3923,7 @@ exec curl --silent --location "$@" | "${checksum_tool_}" | cut -d ' ' -f 1
 
 ----
 
-=== `smart-download` - downloads file, prompts overwriting, and compares checksums
+=== `safe-download` - downloads file, prompts overwriting, and compares checksums
 
 Downloads a file, compares checksums, and prompts overwriting when necessary.  This script returns the download destination as the last line upon a successful download with exit code 0.  In case of error or checksums not matching, a non-zero exit code is returned.  This script leverages the MD5 sum, SHA1 sum, SHA256 sum from Coreutils.
 
@@ -3933,31 +3933,31 @@ E.g.
 +
 [source,sh]
 ----
-smart-download https://picsum.photos/200
+safe-download https://picsum.photos/200
 ----
 
 * Download to `/tmp/aoeu`, prompt overwriting:
 +
 [source,sh]
 ----
-smart-download --destination /tmp/aoeu https://picsum.photos/200
+safe-download --destination /tmp/aoeu https://picsum.photos/200
 ----
 
 * If the current MD5 sum of `/tmp/aoeu` doesn't match `ABC`, download and overwrite it, then compute and the check the MD5 sum for the downloaded file; otherwise, skip the download:
 +
 [source,sh]
 ----
-smart-download --destination /tmp/aoeu --md5sum ABC https://picsum.photos/200
+safe-download --destination /tmp/aoeu --md5sum ABC https://picsum.photos/200
 ----
 
 * Same as the previous example except that the SHA1 sum is taken into account along with the MD5 sum:
 +
 [source,sh]
 ----
-smart-download --destination /tmp/aoeu --md5sum ABC --sha1sum DEF https://picsum.photos/200
+safe-download --destination /tmp/aoeu --md5sum ABC --sha1sum DEF https://picsum.photos/200
 ----
 
-.file::smart-download
+.file::safe-download
 [source,tcl]
 ----
 #!/usr/bin/env tclsh
