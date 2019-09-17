@@ -2901,6 +2901,73 @@ proc stripPrefix {text prefix} {
     return [string range $text [string length $prefix] end]
 }
 
+#
+# Try opening a file.  TODO: Documentation for file pattern.
+#
+# \(~file-pattern? \"/tmp/aoeu\"\)                                        ⇒ t
+# \(~file-pattern? \"/tmp/aoeu:10\"\)                                     ⇒ t
+# \(~file-pattern? \"/tmp/aoeu:/hello world/\"\)                          ⇒ t
+# \(~file-pattern? \"/tmp/non-existent\"\)                                ⇒ nil
+
+# /tmp/aoeu -> /tmp/aoeu
+# /tmp/aoeu:10
+# /tmp/aoeu /hello/
+# /tmp/aoeu:10 /hello/
+# /tmp/aoeu +10 /hello/
+proc tryOpeningFile {editor rest} {
+    # Visit a file and return its buffer
+    proc visitFile {path} {
+        return [exec rmacs --client-opts --alternate-editor=vim --name edit --no-wait visit $path <@ stdin 2>@ stderr]
+    }
+    
+    proc gotoLine {buffer number} {
+        return [exec rmacs --client-opts --alternate-editor=vim --name edit --with-buffer $buffer eval "(goto-line $number)" <@ stdin >@ stdout 2>@ stderr]
+    }
+    
+    proc gotoPattern {buffer pattern} {
+        return [exec rmacs --client-opts --alternate-editor=vim --name edit --with-buffer $buffer eval "(re-search-forward \"$pattern\")" <@ stdin >@ stdout 2>@ stderr]
+    }
+
+    set possiblePath [file normalize [lindex $rest 0]]
+    if {[file exists $possiblePath]} {
+        set buffer [visitFile $possiblePath]
+    } else {
+        set lastSepIndex [string last ":" $possiblePath]
+        if {$lastSepIndex == -1} {
+            return 0
+        }
+
+        set possibleRealPath [string range $possiblePath 0 $lastSepIndex-1]
+        if {![file exists $possibleRealPath]} {
+            return 0
+        }
+        set buffer [visitFile $possibleRealPath]
+        set lineNumber [string range $possiblePath $lastSepIndex+1 end]
+        set possiblePath $possibleRealPath
+        catch {gotoLine $buffer $lineNumber}
+    }
+
+    foreach arg [lrange $rest 1 end] {
+        switch -glob $arg {
+            "+*" {
+                set lineNumber [stripPrefix $arg {+}]
+                catch {gotoLine $buffer $lineNumber}
+            }
+            "/*/" {
+                set pattern [string range $arg 1 end-1]
+                catch {gotoPattern $buffer $pattern}
+            }
+            default {
+                puts stderr "Error: Unrecognized pattern for file path: $arg"
+            }
+        }
+    }
+
+    exec rmacs --client-opts --alternate-editor=vim --name edit --new-frame open $possiblePath <@ stdin >@ stdout 2>@ stderr
+
+    return 1
+}
+
 ##############################################################################
 # Main
 ##############################################################################
@@ -2930,7 +2997,14 @@ if {$text ne ""} {
             execl awesome-client [list "display_client_menu_by_actionable_title('[string trim $text]')"]
         }
         default {
-            execl run-menu [list "-e" "Error: Unrecoginzed pattern: $text"]
+            if {[info exists ::env(EDITOR)]} {
+                set editor $::env(EDITOR)
+            } else {
+                set editor "ffn"
+            }
+            if {![tryOpeningFile $editor $::argv]} {
+                execl run-menu [list "-e" "Error: Unrecognized pattern: $text"]
+            }
         }
     }
 }
