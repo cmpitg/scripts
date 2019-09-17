@@ -79,7 +79,7 @@ proc tryOpeningFile {editor rest} {
         }
     }
 
-    exec rmacs --client-opts --alternate-editor=vim --name edit --new-frame open $possiblePath <@ stdin >@ stdout 2>@ stderr
+    exec rmacs --client-opts --alternate-editor=vim --name edit open $possiblePath <@ stdin >@ stdout 2>@ stderr
 
     return 1
 }
