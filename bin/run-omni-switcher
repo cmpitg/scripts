@@ -4,5 +4,5 @@ report-missing-executables run-menu-and-dispatch run-menu-and-dispatch tmux Tmux
 
 cat -s - \
 	<(tmux list-sessions -F "#{session_name}" | sed "s/^/tmux :: /g") \
-	<(print $(emacsclient --socket-name edit --eval "(~format-opened-files)") | sed "s/^/file :: /g") \
+	<(print $(rmacs --name edit eval "(~format-opened-files)") | sed 's/^"//; s/"$//; s/^/file :: /g') \
 	| exec run-menu-and-dispatch "Switch to"
