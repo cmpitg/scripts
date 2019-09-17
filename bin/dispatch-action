@@ -30,23 +30,23 @@ proc stripPrefix {text prefix} {
 # /tmp/aoeu /hello/
 # /tmp/aoeu:10 /hello/
 # /tmp/aoeu +10 /hello/
-proc tryOpeningFile {editor rest} {
+proc tryOpeningFile {serverName inNewFrameP rest} {
     # Visit a file and return its buffer
-    proc visitFile {path} {
-        return [exec rmacs --client-opts --alternate-editor=vim --name edit --no-wait visit $path <@ stdin 2>@ stderr]
+    proc visitFile {serverName path} {
+        return [exec rmacs --client-opts --alternate-editor=vim --name $serverName --no-wait visit $path <@ stdin 2>@ stderr]
     }
-    
-    proc gotoLine {buffer number} {
-        return [exec rmacs --client-opts --alternate-editor=vim --name edit --with-buffer $buffer eval "(goto-line $number)" <@ stdin >@ stdout 2>@ stderr]
+
+    proc gotoLine {serverName buffer number} {
+        return [exec rmacs --client-opts --alternate-editor=vim --name $serverName --with-buffer $buffer eval "(goto-line $number)" <@ stdin >@ stdout 2>@ stderr]
     }
-    
-    proc gotoPattern {buffer pattern} {
-        return [exec rmacs --client-opts --alternate-editor=vim --name edit --with-buffer $buffer eval "(re-search-forward \"$pattern\")" <@ stdin >@ stdout 2>@ stderr]
+
+    proc gotoPattern {serverName buffer pattern} {
+        return [exec rmacs --client-opts --alternate-editor=vim --name $serverName --with-buffer $buffer eval "(re-search-forward \"$pattern\")" <@ stdin >@ stdout 2>@ stderr]
     }
 
     set possiblePath [file normalize [lindex $rest 0]]
     if {[file exists $possiblePath]} {
-        set buffer [visitFile $possiblePath]
+        set buffer [visitFile $serverName $possiblePath]
     } else {
         set lastSepIndex [string last ":" $possiblePath]
         if {$lastSepIndex == -1} {
@@ -57,21 +57,21 @@ proc tryOpeningFile {editor rest} {
         if {![file exists $possibleRealPath]} {
             return 0
         }
-        set buffer [visitFile $possibleRealPath]
+        set buffer [visitFile $serverName $possibleRealPath]
         set lineNumber [string range $possiblePath $lastSepIndex+1 end]
         set possiblePath $possibleRealPath
-        catch {gotoLine $buffer $lineNumber}
+        catch {gotoLine $serverName $buffer $lineNumber}
     }
 
     foreach arg [lrange $rest 1 end] {
         switch -glob $arg {
             "+*" {
                 set lineNumber [stripPrefix $arg {+}]
-                catch {gotoLine $buffer $lineNumber}
+                catch {gotoLine $serverName $buffer $lineNumber}
             }
             "/*/" {
                 set pattern [string range $arg 1 end-1]
-                catch {gotoPattern $buffer $pattern}
+                catch {gotoPattern $serverName $buffer $pattern}
             }
             default {
                 puts stderr "Error: Unrecognized pattern for file path: $arg"
@@ -79,7 +79,11 @@ proc tryOpeningFile {editor rest} {
         }
     }
 
-    exec rmacs --client-opts --alternate-editor=vim --name edit open $possiblePath <@ stdin >@ stdout 2>@ stderr
+    if {$inNewFrameP} {
+        execl rmacs [list --client-opts --alternate-editor=vim --name $serverName --new-frame open $possiblePath]
+    } else {
+        exec rmacs --client-opts --alternate-editor=vim --name $serverName open $possiblePath <@ stdin >@ stdout 2>@ stderr
+    }
 
     return 1
 }
@@ -89,6 +93,12 @@ proc tryOpeningFile {editor rest} {
 ##############################################################################
 
 set text [string trim [join $::argv " "]]
+
+if {[info exists ::env(RMACS_NAME)]} {
+    set rmacsServerName $::env(RMACS_NAME)
+} else {
+    set rmacsServerName "edit"
+}
 
 if {$text ne ""} {
     switch -glob $text {
@@ -112,13 +122,12 @@ if {$text ne ""} {
             # TODO: Check current window manager?  Or write wrapper?
             execl awesome-client [list "display_client_menu_by_actionable_title('[string trim $text]')"]
         }
+        "file ::*" {
+            set path [string trim [stripPrefix $text {file ::}]]
+            tryOpeningFile $rmacsServerName 1 [list $path]
+        }
         default {
-            if {[info exists ::env(EDITOR)]} {
-                set editor $::env(EDITOR)
-            } else {
-                set editor "ffn"
-            }
-            if {![tryOpeningFile $editor $::argv]} {
+            if {![tryOpeningFile $rmacsServerName 0 $::argv]} {
                 execl run-menu [list "-e" "Error: Unrecognized pattern: $text"]
             }
         }
