@@ -1,5 +1,8 @@
-#!/usr/bin/env bash
+#!/usr/bin/env zsh
 
 report-missing-executables run-menu-and-dispatch run-menu-and-dispatch tmux Tmux || exit 1
 
-cat -s - <(tmux list-sessions -F "#{session_name}" | sed "s/^/tmux :: /g") | exec run-menu-and-dispatch "Switch to"
+cat -s - \
+	<(tmux list-sessions -F "#{session_name}" | sed "s/^/tmux :: /g") \
+	<(print $(emacsclient --socket-name edit --eval "(~format-opened-files)") | sed "s/^/file :: /g") \
+	| exec run-menu-and-dispatch "Switch to"
