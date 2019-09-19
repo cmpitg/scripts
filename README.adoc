@@ -829,6 +829,33 @@ DISPLAY=${DISPLAY:-:0}
 exec xinput list | grep "$@" >/dev/null 2>&1
 ----
 
+=== `wait-for-xinput` - waits until an xinput device is available
+
+TODO: Docstring
+
+.file::wait-for-xinput
+[source,sh]
+----
+#!/usr/bin/env bash
+
+set -o nounset
+
+DISPLAY=${DISPLAY:-:0}
+
+timeout_=${TIMEOUT:-0.1}
+times_=${TIMES:-50}
+counter_=0
+
+while ! $(check-xinput "$@"); do
+	counter_=$((counter_ + 1))
+	if [[ "${counter_}" = "${times_}" ]]; then
+		exit 1
+	fi
+	sleep "${timeout_}"
+done
+
+----
+
 === `chmod-default [dir]` - fixes permissions
 
 `chmod` a directory recursively, 755 for files and 644 for directories.  By
