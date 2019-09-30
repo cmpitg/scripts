@@ -21,6 +21,8 @@ do-notify "Configuring Logitech MX Ergo
 * Set natural scrolling
 * Tuning mouse movement"
 
+# Ref: https://www.x.org/wiki/Development/Documentation/PointerAcceleration/
+
 for mouse_ in ${ids_}; do
 	echo "${mouse_}"
 
@@ -31,7 +33,7 @@ for mouse_ in ${ids_}; do
 		xinput set-prop "${mouse_}" "Evdev Axis Inversion" 1, 1 &>/dev/null
 	}
 
-	# xinput set-prop "${mouse_}" "Device Accel Profile" 7
-	# xinput set-prop "${mouse_}" "Device Accel Constant Deceleration" 2
-	# xinput set-prop "${mouse_}" "Device Accel Adaptive Deceleration" 1
+	xinput set-prop "${mouse_}" "Device Accel Profile" 7
+	xinput set-prop "${mouse_}" "Device Accel Constant Deceleration" 2
+	xinput set-prop "${mouse_}" "Device Accel Adaptive Deceleration" 1
 done
