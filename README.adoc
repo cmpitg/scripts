@@ -2442,6 +2442,17 @@ trans $* -brief $"input
 
 ----
 
+=== `guile-source` - runs Guile with load-source-code mode
+
+.file::guile-load-source
+[source,sh]
+----
+#!/usr/bin/env sh
+
+exec guile -s "$@"
+
+----
+
 === `html2text`
 
 .file::html2text
