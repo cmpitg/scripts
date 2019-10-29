@@ -4439,7 +4439,70 @@ execl tail [list "-f" $supervisedPath/$serviceName/log/main/$logFile]
 
 ----
 
-== Legacy/Unused scripts
+== High-level "Fingertip" executables
+
+=== `wenv` - shorthand to execute a command in an environment or in a subdirectory in `PATH`
+
+TODO: Help text
+
+TODO: Note on the rationale of this executable - To modularize scripting/shelling
+
+.file::wenv
+[source,tcl]
+----
+#!/usr/bin/env tclsh
+
+package require Tclx
+
+# TODO: Check argv length
+
+# TODO: Help text
+
+set envName [lindex $::argv 0]
+set args [lrange $::argv 1 end]
+
+proc addSuffixToPaths {paths suffix} {
+    set res {}
+    foreach e $paths {
+        lappend res "$e$suffix"
+    }
+    return [list {*}$res {*}paths]
+}
+
+switch $envName {
+    pure {
+        execl with-env-pure $args
+    }
+    user -
+    u {
+        execl with-env-user $args
+    }
+    guix -
+    g {
+        execl with-env-guix $args
+    }
+    ruby {
+        execl with-chruby $args
+    }
+    python -
+    conda -
+    py {
+        execl with-conda $args
+    }
+    graalvm -
+    graal {
+        execl with-graalvm $args
+    }
+    default {
+        set paths [split $::env(PATH) ":"]
+        set newPaths [addSuffixToPaths $paths "/$envName"]
+        execl [lindex $args 0] [lrange $args 1 end]
+    }
+}
+
+----
+
+== Legacy/Unused executables
 
 === `i3-switch-window` - window switcher for http://i3wm.org/[i3]
 
