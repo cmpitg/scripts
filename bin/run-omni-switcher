@@ -1,8 +1,17 @@
 #!/usr/bin/env zsh
 
-report-missing-executables run-menu-and-dispatch run-menu-and-dispatch tmux Tmux || exit 1
+report-missing-executables grep Grep run-menu-and-dispatch run-menu-and-dispatch tmux Tmux || exit 1
+
+rmacs_server_name_=edit
+if rmacs list 2>&1 | grep "${rmacs_server_name_}" >/dev/null 2>&1; then
+	rmacs_server_alive_p_=1
+else
+	rmacs_server_alive_p_=0
+fi
 
 cat -s - \
 	<(tmux list-sessions -F "#{session_name}" | sed "s/^/tmux :: /g") \
-	<(print $(rmacs --name edit eval "(~format-opened-files)") | sed 's/^"//; s/"$//; s/^/file :: /g') \
+	<([[ "${rmacs_server_alive_p_}" = 1 ]] \
+		&& print $(rmacs --name "${rmacs_server_name_}" eval "(~format-opened-files)") | sed 's/^"//; s/"$//; s/^/file :: /g') \
+	| grep -v -e '^$' \
 	| exec run-menu-and-dispatch "Switch to"
