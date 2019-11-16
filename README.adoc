@@ -3046,6 +3046,13 @@ if {$text ne ""} {
             # TODO: Check current window manager?  Or write wrapper?
             execl awesome-client [list "display_client_menu_by_actionable_title('[string trim $text]')"]
         }
+        "wind-awesome ::*" {
+            execl awesome-client [list "display_client_menu_by_actionable_title('[string trim $text]')"]
+        }
+        "wind-i3 ::*" {
+            set nodeID [lindex [split [string trim $text] " "] end]
+            execl wenv [list wm/i3 call-node-menu $nodeID]
+        }
         "file ::*" {
             set path [string trim [stripPrefix $text {file ::}]]
             tryOpeningFile $rmacsServerName 1 [list $path]
