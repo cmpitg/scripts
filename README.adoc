@@ -4048,6 +4048,17 @@ zenity --file-selection --filename `pwd` "$@" 2>/dev/null
 
 ----
 
+=== `edit-which` - `${EDITOR} $(which <executable>)`
+
+.file::edit-which
+[source,sh]
+----
+#!/usr/bin/env dash
+
+exec "${EDITOR}" $(which "${1}") "@$"
+
+----
+
 === `compute-checksum-url` - computes checksum for remote file
 
 `compute-checksum-url <checksum-tool> <uri> [curl-options] ...`
