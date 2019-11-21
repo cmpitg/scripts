@@ -1,0 +1,8 @@
+#!/usr/bin/env dash
+
+# TODO: Help text
+
+commander_path_=${1:-/m/scratch/commander}
+emacs_socket_name_=${EMACS_SOCKET_NAME:-edit}
+
+exec emacsclient --socket-name="${emacs_socket_name_}" --no-wait --create-frame --eval "(~smart-open-file \"${commander_path_}\")"

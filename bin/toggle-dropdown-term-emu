@@ -1,0 +1,5 @@
+#!/usr/bin/env dash
+
+report-missing-executables tdrop tdrop || exit 1
+
+exec tdrop --auto-detect-wm --monitor-aware konsole

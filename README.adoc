@@ -2906,6 +2906,52 @@ exec run-chrome --app=https://calendar.google.com "$@"
 
 ----
 
+=== Desktop utilities
+
+==== `emacsclient-commander-for-dropdown` - helper to display a commander window with Emacsclient
+
+This executable is supposed to be used with https://github.com/noctuid/tdrop[tdrop], which, in turn, uses the executable name to perform various hacks in order to set X window properties.  Hence, its name is prefixed with `emacsclient`.
+
+.file::emacsclient-commander-for-dropdown
+[source,sh]
+----
+#!/usr/bin/env dash
+
+# TODO: Help text
+
+commander_path_=${1:-/m/scratch/commander}
+emacs_socket_name_=${EMACS_SOCKET_NAME:-edit}
+
+exec emacsclient --socket-name="${emacs_socket_name_}" --no-wait --create-frame --eval "(~smart-open-file \"${commander_path_}\")"
+
+----
+
+==== `toggle-dropdown-term-emu` - toggles a dropdown terminal emulator
+
+.file::toggle-dropdown-term-emu
+[source,sh]
+----
+#!/usr/bin/env dash
+
+report-missing-executables tdrop tdrop || exit 1
+
+exec tdrop --auto-detect-wm --monitor-aware konsole
+
+----
+
+==== `toggle-dropdown-commander` - toggles a dropdown commander window
+
+.file::toggle-dropdown-commander
+[source,sh]
+----
+#!/usr/bin/env dash
+
+report-missing-executables emacsclient-commander-for-dropdown emacsclient-commander-for-dropdown || exit 1
+
+exec tdrop --auto-detect-wm --monitor-aware emacsclient-commander-for-dropdown
+
+----
+
 === `disable-x-bell`
 
 .file::disable-x-bell

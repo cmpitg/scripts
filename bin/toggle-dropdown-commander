@@ -1,0 +1,5 @@
+#!/usr/bin/env dash
+
+report-missing-executables emacsclient-commander-for-dropdown emacsclient-commander-for-dropdown || exit 1
+
+exec tdrop --auto-detect-wm --monitor-aware emacsclient-commander-for-dropdown
