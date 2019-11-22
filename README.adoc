@@ -3172,7 +3172,7 @@ TODO: Note on standard input
 report-missing-executables grep Grep run-menu-and-dispatch run-menu-and-dispatch tmux Tmux || exit 1
 
 rmacs_server_name_=edit
-if rmacs list 2>&1 | grep "${rmacs_server_name_}" >/dev/null 2>&1; then
+if rmacs list 2>&1 | grep -e "^${rmacs_server_name_}$" >/dev/null 2>&1; then
 	rmacs_server_alive_p_=1
 else
 	rmacs_server_alive_p_=0
