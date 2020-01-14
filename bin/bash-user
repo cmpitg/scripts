@@ -1,10 +1,10 @@
 #!/usr/bin/env bash-pure
 
-if [ -f "~/.env" ]; then
-	. ~/.env
-fi
-if [ -f "~/.env-prog" ]; then
-	. ~/.env-prog
-fi
+# if [ -f "~/.env" ]; then
+# 	. ~/.env
+# fi
+# if [ -f "~/.env-prog" ]; then
+# 	. ~/.env-prog
+# fi
 
 exec bash "$@"
