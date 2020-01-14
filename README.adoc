@@ -195,6 +195,9 @@ exec "$@"
 
 set +x
 
+# Do not re-read user env
+export _READ_USER_ENV_=0
+
 export GUIX_LOCPATH="${HOME}/.guix-profile/lib/locale"
 export GUIX_LD_WRAPPER_ALLOW_IMPURITIES=n
 
