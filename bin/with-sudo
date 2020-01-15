@@ -1,8 +1,31 @@
-#!/usr/bin/env sh
+#!/usr/bin/env tclsh
 
-if ! sudo --help >/dev/null 2>&1; then
-	echo "sudo not found, please install sudo" >&2
-	exit 1
-fi
+if {[catch {exec report-missing-executables sudo sudo <@ stdin >@ stdout 2>@ stderr}]} {
+    exit 1
+}
 
-exec sudo -E env "PATH=${PATH}" "$@"
+package require Tclx
+
+if {[lsearch $::argv "-"] == -1} {
+    set args [list "-" {*}$::argv]
+} else {
+    set args $::argv
+}
+
+set sudoArgs {}
+set cmd {}
+set beforeDash 1
+foreach arg $args {
+    if {$arg eq "-"} {
+        set beforeDash 0
+        continue
+    }
+    
+    if {$beforeDash == 1} {
+        lappend sudoArgs $arg
+    } else {
+        lappend cmd $arg
+    }
+}
+
+execl sudo [list {*}$sudoArgs -E env "PATH=$::env(PATH)" {*}$cmd]
