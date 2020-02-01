@@ -284,6 +284,20 @@ exec "$@"
 
 ----
 
+=== `with-inferno` - runs a command with Inferno OS environment
+
+.file::with-inferno
+[source,sh]
+----
+#!/usr/bin/env bash
+
+export INFERNO_OS_ROOT="${INFERNO_OS_ROOT:-/m/opt/inferno-os}"
+export PATH="${INFERNO_OS_ROOT}/Linux/386/bin:${PATH}"
+
+exec "$@"
+
+----
+
 === `with-pause` - runs a command, then pause and wait for user to input Enter to exit
 
 .file::with-pause
@@ -4618,6 +4632,9 @@ switch $envName {
     graalvm -
     graal {
         execl with-graalvm $args
+    }
+    inferno {
+        execl with-inferno $args
     }
     default {
         set paths [split $::env(PATH) ":"]
