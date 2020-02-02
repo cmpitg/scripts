@@ -246,9 +246,11 @@ exec "$@"
 
 ----
 
-=== `with-chruby` - runs a command in a https://github.com/postmodern/chruby[`chruby`] environment
+=== `chruby/` - utils for https://github.com/postmodern/chruby[`chruby`]
 
-.file::with-chruby
+==== `with-env` - runs a command in `chruby` environment
+
+.file::chruby/with-env
 [source,sh]
 ----
 #!/usr/bin/env bash
@@ -270,9 +272,11 @@ fi
 
 ----
 
-=== `with-graalvm` - runs a command with Java from https://www.graalvm.org/[GraalVM]
+=== `graalvm/` - utils for https://www.graalvm.org/[GraalVM]
 
-.file::with-graalvm
+==== `with-env` - runs a command with Java from GraalVM
+
+.file::graalvm/with-env
 [source,sh]
 ----
 #!/usr/bin/env bash
@@ -4628,13 +4632,6 @@ switch $envName {
     conda -
     py {
         execl with-conda $args
-    }
-    graalvm -
-    graal {
-        execl with-graalvm $args
-    }
-    inferno {
-        execl with-inferno $args
     }
     default {
         set paths [split $::env(PATH) ":"]

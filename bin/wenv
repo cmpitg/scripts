@@ -37,13 +37,6 @@ switch $envName {
     py {
         execl with-conda $args
     }
-    graalvm -
-    graal {
-        execl with-graalvm $args
-    }
-    inferno {
-        execl with-inferno $args
-    }
     default {
         set paths [split $::env(PATH) ":"]
         set newPaths [addSuffixToPaths $paths "/$envName"]
