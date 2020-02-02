@@ -288,17 +288,36 @@ exec "$@"
 
 ----
 
-=== `with-inferno` - runs a command with Inferno OS environment
+=== `inferno/` - utils for http://www.vitanuova.com/inferno/[Inferno OS]
 
-.file::with-inferno
+==== `with-env` - runs a command with Inferno OS environment
+
+.file::inferno/with-env
 [source,sh]
 ----
 #!/usr/bin/env bash
 
-export INFERNO_OS_ROOT="${INFERNO_OS_ROOT:-/m/opt/inferno-os}"
+set -o nounset
+
+export EMU='-g800x600 -c1'
 export PATH="${INFERNO_OS_ROOT}/Linux/386/bin:${PATH}"
 
 exec "$@"
+
+----
+
+==== `start-emu` - starts the emulator with some config
+
+.file::inferno/start-wm
+[source,sh]
+----
+#!/usr/bin/env sh
+
+set -o nounset
+
+export user=cmpitg
+
+exec emu /dis/wm/wm.dis wm/logon -n "/usr/${user}/namespace" -u "${user}" "$@"
 
 ----
 

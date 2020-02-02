@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+
+set -o nounset
+
+export user=cmpitg
+
+exec emu /dis/wm/wm.dis wm/logon -n "/usr/${user}/namespace" -u "${user}" "$@"

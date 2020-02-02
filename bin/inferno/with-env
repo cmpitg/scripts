@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+set -o nounset
+
+export EMU='-g800x600 -c1'
+export PATH="${INFERNO_OS_ROOT}/Linux/386/bin:${PATH}"
+
+exec "$@"
