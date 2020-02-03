@@ -25,13 +25,6 @@ switch $envName {
     u {
         execl with-env-user $args
     }
-    guix -
-    g {
-        execl with-env-guix $args
-    }
-    ruby {
-        execl with-chruby $args
-    }
     python -
     conda -
     py {
