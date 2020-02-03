@@ -18,4 +18,6 @@ XDG_DATA_DIRS="${XDG_DATA_DIRS:-${HOME}/.local/share}"
 XDG_DATA_DIRS="${XDG_DATA_DIRS}:/usr/share:/usr/local/share:${HOME}/.local/share"
 export XDG_DATA_DIRS
 
-exec bash "$@"
+unset _READ_USER_ENV_
+
+exec "$@"

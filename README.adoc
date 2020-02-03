@@ -186,9 +186,31 @@ exec "$@"
 
 ----
 
-=== `bash-guix` - runs Bash with a pure Guix environment
+=== `with-conda` - runs a command with Python from https://docs.conda.io/en/latest/[Conda] environment
 
-.file::bash-guix
+.file::with-conda
+[source,sh]
+----
+#!/usr/bin/env bash
+
+CONDA_PATH="${CONDA_PATH:-/m/opt/miniconda3}"
+export PATH="${CONDA_PATH}/bin:${PATH}"
+
+if ! report-missing-executables conda Conda; then
+	exit 1
+fi
+
+eval "$(${CONDA_PATH}/bin/conda shell.bash hook)"
+
+exec "$@"
+
+----
+
+=== `guix/` - utils for http://guix.gnu.org/[the Guix package manager]
+
+==== `guix/with-env` - runs a command in Guix environment
+
+.file::guix/with-env
 [source,sh]
 ----
 #!/usr/bin/env bash-user
@@ -211,36 +233,7 @@ XDG_DATA_DIRS="${XDG_DATA_DIRS:-${HOME}/.local/share}"
 XDG_DATA_DIRS="${XDG_DATA_DIRS}:/usr/share:/usr/local/share:${HOME}/.local/share"
 export XDG_DATA_DIRS
 
-exec bash "$@"
-
-----
-
-=== `with-env-guix` - runs a command under `bash-guix`
-
-.file::with-env-guix
-[source,sh]
-----
-#!/usr/bin/env bash-guix
-
-exec "$@"
-
-----
-
-=== `with-conda` - runs a command with Python from https://docs.conda.io/en/latest/[Conda] environment
-
-.file::with-conda
-[source,sh]
-----
-#!/usr/bin/env bash
-
-CONDA_PATH="${CONDA_PATH:-/m/opt/miniconda3}"
-export PATH="${CONDA_PATH}/bin:${PATH}"
-
-if ! report-missing-executables conda Conda; then
-	exit 1
-fi
-
-eval "$(${CONDA_PATH}/bin/conda shell.bash hook)"
+unset _READ_USER_ENV_
 
 exec "$@"
 
