@@ -3844,6 +3844,23 @@ if {[catch {exec kwalletcli -f $folder -e $entry >@ stdout <@ stdin}]} {
 
 ----
 
+==== `query-sudo-password` - queries Sudo password with `query-password`
+
+The password is printed to stdout without an end-of-line character.
+
+TODO: Help text
+
+.file::query-sudo-password
+[source,tcl]
+----
+#!/usr/bin/env sh
+
+report-missing-executables query-password query-password || exit 1
+
+exec query-password Sandwich
+
+----
+
 === `qrcode` - creates QR code from a string
 
 .file::qrcode
@@ -3971,6 +3988,56 @@ foreach arg $args {
 }
 
 execl sudo [list {*}$sudoArgs -E env "PATH=$::env(PATH)" {*}$cmd]
+
+----
+
+=== `with-sudo-wallet` - runs `with-sudo`, uses a password manager to manage the Sudo password
+
+TODO: Help text
+
+.file::with-sudo-wallet
+[source,tcl]
+----
+#!/usr/bin/env tclsh
+
+if {[catch {exec report-missing-executables sudo sudo query-sudo-password query-sudo-password <@ stdin >@ stdout 2>@ stderr}]} {
+    exit 1
+}
+
+package require Tclx
+
+if {[lsearch $::argv "-"] == -1} {
+    set args [list "-" {*}$::argv]
+} else {
+    set args $::argv
+}
+
+set sudoArgs {}
+set cmd {}
+set beforeDash 1
+foreach arg $args {
+    if {$arg eq "-i"} {
+        puts stderr "Cannot run interactive sudo (-i) with this command"
+        exit 2
+    }
+
+    if {$arg eq "-"} {
+        set beforeDash 0
+        continue
+    }
+    
+    if {$beforeDash == 1} {
+        lappend sudoArgs $arg
+    } else {
+        lappend cmd $arg
+    }
+}
+
+set fd [open [list | query-sudo-password Sandwich] r]
+set password [read $fd]
+close $fd
+
+exec echo $password | with-sudo -k --stdin --prompt "" {*}$sudoArgs - {*}$cmd <@ stdin >@ stdout 2>@ stderr
 
 ----
 
