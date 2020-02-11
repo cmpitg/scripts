@@ -3931,6 +3931,8 @@ key-mon --decorated --meta --theme modern "$@"
 
 === `with-sudo` - runs `sudo` with some environment variables preserved
 
+TODO: Help text
+
 .file::with-sudo
 [source,sh]
 ----
@@ -3952,6 +3954,10 @@ set sudoArgs {}
 set cmd {}
 set beforeDash 1
 foreach arg $args {
+    if {$arg eq "-i"} {
+        execl sudo [list -i]
+    }
+
     if {$arg eq "-"} {
         set beforeDash 0
         continue

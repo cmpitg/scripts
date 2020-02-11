@@ -16,6 +16,10 @@ set sudoArgs {}
 set cmd {}
 set beforeDash 1
 foreach arg $args {
+    if {$arg eq "-i"} {
+        execl sudo [list -i]
+    }
+
     if {$arg eq "-"} {
         set beforeDash 0
         continue
