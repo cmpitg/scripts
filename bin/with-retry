@@ -1,0 +1,24 @@
+#!/usr/bin/env tclsh
+
+set timeout [lindex $::argv 0]
+set times [lindex $::argv 1]
+set cmd [lrange $::argv 2 end]
+
+proc execCmd {cmd} {
+    return [exec {*}$cmd <@ stdin >@ stdout 2>@ stderr]
+}
+
+if {[catch {execCmd $cmd}]} {
+    while {$times > 0} {
+        puts stderr [format "Command failed, retrying (times=%s) after %sms" $times $timeout...]
+        after $timeout
+        if {[catch {execCmd $cmd}]} {
+            incr times -1
+        } else {
+            exit 0
+        }
+    }
+    exit 1
+} else {
+    exit 0
+}
