@@ -1,0 +1,29 @@
+#!/usr/bin/env tclsh
+
+proc slurp {cmds} {
+    set fd [open [list | {*}$cmds] r]
+    set data [read $fd]
+    close $fd
+
+    return $data
+}
+
+set separatorPos [lsearch $::argv "-"]
+set TIMEOUT [lindex $::argv 0]
+set GET_STATE_CMD [lrange $::argv 1 [expr {$separatorPos - 1}]]
+set TRIGGER_CMD [lrange $::argv [expr {$separatorPos + 1}] end]
+
+if {$TIMEOUT eq "" || $GET_STATE_CMD eq "" || $TRIGGER_CMD eq ""} {
+    puts stderr "Timeout, get-state, and trigger must exist"
+    exit 2
+}
+
+set state [slurp $GET_STATE_CMD]
+while {1} {
+    after $TIMEOUT
+    set newState [slurp $GET_STATE_CMD]
+    if {$newState ne $state} {
+        catch {exec {*}$TRIGGER_CMD <@ stdin >@ stdout 2>@ stderr}
+    }
+    set state $newState
+}

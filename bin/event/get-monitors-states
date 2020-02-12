@@ -1,0 +1,19 @@
+#!/usr/bin/env tclsh
+
+# /sys/class/drm/*/status
+
+proc slurp {cmds} {
+    set fd [open [list | {*}$cmds] r]
+    set data [read $fd]
+    close $fd
+
+    return $data
+}
+
+proc getCurrentState {} {
+    set paths [glob /sys/class/drm/*/status]
+    set statuses [slurp [list cat {*}$paths]]
+    return "{$paths} {$statuses}"
+}
+
+puts [getCurrentState]
