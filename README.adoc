@@ -2475,13 +2475,13 @@ if {[catch {exec report-missing-executables sensors lm-sensors acpi acpi >@ stdo
     exit 1
 }
 
-set coreTemps [exec sensors -u coretemp-isa-0000 | ag {temp.*input} | awk {{ printf("%.1f°C, ", $2) }} | sed {s/, $//}]
+set coreTemps [exec sensors -u coretemp-isa-0000 | ag {temp.*input} | awk {{ printf("%.1f°C, ", $2) }} | sed {s/, $//} 2> /dev/null]
 set coreTempsText "Cores: $coreTemps"
 
-set fanStats [exec sensors -u thinkpad-isa-0000 | ag {fan.*input} | awk {{ printf("%.0f RPMs, ", $2) }} | sed {s/, $//}]
+set fanStats [exec sensors -u thinkpad-isa-0000 | ag {fan.*input} | awk {{ printf("%.0f RPMs, ", $2) }} | sed {s/, $//} 2> /dev/null]
 set fanStatsText "Fans: $fanStats"
 
-set batStats [join [exec acpi -b | awk {{ print $4, $3 }} | sed {s/[:,]//g ; s/ Charging/+/g ; s/ Discharging/-/g ; s/ Unknown//g}]]
+set batStats [join [exec acpi -b | awk {{ print $4, $3 }} | sed {s/[:,]//g ; s/ Charging/+/g ; s/ Discharging/-/g ; s/ Unknown//g} 2> /dev/null]]
 set batStatsText "Bats: [join $batStats {, }]"
 
 puts "$coreTempsText | $fanStatsText | $batStatsText"
