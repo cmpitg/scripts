@@ -4799,7 +4799,7 @@ execl tail [list "-f" $supervisedPath/$serviceName/log/main/$logFile]
 
 ----
 
-== High-level "Fingertip" executables
+== High-level "fingertip" executables
 
 === `wenv` - shorthand to execute a command in an environment or in a subdirectory in `PATH`
 
@@ -4849,6 +4849,21 @@ switch $envName {
         execl [lindex $args 0] [lrange $args 1 end]
     }
 }
+
+----
+
+=== `fastls` - a bit faster `ls`
+
+Traditionally, `ls` `stat`s corresponding path(s).  This doesn't work so well with remote mount with high latency.  `fastls` attempts to mitigate this issue.
+
+.file::fastls
+[source,sh]
+----
+#!/usr/bin/env sh
+
+report-missing-executables find Find || exit 1
+
+exec find "$@" -maxdepth 1
 
 ----
 
