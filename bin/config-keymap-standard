@@ -12,9 +12,9 @@ xmodmap <( cat <<EOF
 ! Notes:
 !
 ! * Press a button -> kernel generates a keycode -> maps to a keysym
-! 
+!
 ! * 'clear', 'add', and 'remove' are for modifiers
-! 
+!
 ! * To remap modifiers, first we need to remove the old keysyms, then assign them again.  That's why swapping is three-step:
 !   - Remove current mapping for modifiers
 !   - Swap the keysyms

@@ -1124,9 +1124,9 @@ xmodmap <( cat <<EOF
 ! Notes:
 !
 ! * Press a button -> kernel generates a keycode -> maps to a keysym
-! 
+!
 ! * 'clear', 'add', and 'remove' are for modifiers
-! 
+!
 ! * To remap modifiers, first we need to remove the old keysyms, then assign them again.  That's why swapping is three-step:
 !   - Remove current mapping for modifiers
 !   - Swap the keysyms
@@ -1524,8 +1524,8 @@ for mouse_ in ${ids_}; do
 	}
 
 	xinput set-prop "${mouse_}" "Device Accel Profile" 7
-	xinput set-prop "${mouse_}" "Device Accel Constant Deceleration" 2
-	xinput set-prop "${mouse_}" "Device Accel Adaptive Deceleration" 1
+	xinput set-prop "${mouse_}" "Device Accel Constant Deceleration" 1.3
+	xinput set-prop "${mouse_}" "Device Accel Adaptive Deceleration" 1.3
 done
 
 ----
@@ -2855,7 +2855,7 @@ try {
         {max-history.arg  256                           "Maximum number of entries in the history"}
         {prefix.arg       "!@ "                         "String with which each executable is prefixed"}
     } {[--history-file <app-runner-history>] [--prefix <prefix>]
-    
+
 Run a fuzzy searcher tool with all the executables found in the PATH environment variable and from a history file.  The result of the search is then executed based on predefined patterns as follows.
 
 * '!@ <command> [args...]' :: Run the command in a terminal emulator
@@ -4014,7 +4014,7 @@ foreach arg $args {
         set beforeDash 0
         continue
     }
-    
+
     if {$beforeDash == 1} {
         lappend sudoArgs $arg
     } else {
@@ -4060,7 +4060,7 @@ foreach arg $args {
         set beforeDash 0
         continue
     }
-    
+
     if {$beforeDash == 1} {
         lappend sudoArgs $arg
     } else {

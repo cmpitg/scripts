@@ -24,7 +24,7 @@ foreach arg $args {
         set beforeDash 0
         continue
     }
-    
+
     if {$beforeDash == 1} {
         lappend sudoArgs $arg
     } else {
