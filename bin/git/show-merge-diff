@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+
+base_branch_="${1}"
+head_branch_="${2}"
+
+git merge-tree $(git merge-base "${base_branch_}" "${head_branch_}") "${base_branch_}" "${head_branch_}"

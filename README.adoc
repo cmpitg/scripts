@@ -265,6 +265,37 @@ fi
 
 ----
 
+=== `git` - utils for Git version control
+
+==== `rm-orphaned` - removes orphaned files
+
+.file::git/rm-orphaned
+[source,sh]
+----
+#!/usr/bin/env sh
+
+git ls-files --deleted | xargs git rm --cached
+
+----
+
+==== `git/show-merge-diff` - `diff`s as if a merge is to be performed
+
+TODO:
+* Help text
+* Error if missing arguments
+
+.file::git/show-merge-diff
+[source,sh]
+----
+#!/usr/bin/env sh
+
+base_branch_="${1}"
+head_branch_="${2}"
+
+git merge-tree $(git merge-base "${base_branch_}" "${head_branch_}") "${base_branch_}" "${head_branch_}"
+
+----
+
 === `graalvm/` - utils for https://www.graalvm.org/[GraalVM]
 
 ==== `with-env` - runs a command with Java from GraalVM
@@ -2315,17 +2346,6 @@ if (~ $1 '') {
 rev_replacement=`{echo $1 | rev}
 
 echo $input | rev | sed 's/^[^.]*\./'$rev_replacement'./' | rev
-
-----
-
-=== `git-rm-orphaned` - removes orphaned files from Git
-
-.file::git-rm-orphaned
-[source,sh]
-----
-#!/usr/bin/env bash
-
-git ls-files --deleted | xargs git rm --cached
 
 ----
 
