@@ -3187,7 +3187,7 @@ if {$text ne ""} {
         }
         "wind-i3 ::*" {
             set nodeID [lindex [split [string trim $text] " "] end]
-            execl wenv [list wm/i3/interactive exec-i3-menu client $nodeID]
+            execl enrich-path [list wm/i3/interactive exec-i3-menu client $nodeID]
         }
         "file ::*" {
             set path [string trim [stripPrefix $text {file ::}]]
@@ -4823,14 +4823,88 @@ execl tail [list "-f" $supervisedPath/$serviceName/log/main/$logFile]
 
 == High-level "fingertip" executables
 
-=== `wenv` - shorthand to execute a command in an environment or in a subdirectory in `PATH`
+=== `enrich-path` - enriches `PATH`, then executes a command
 
 TODO: Help text
 
 TODO: Note on the rationale of this executable - To modularize scripting/shelling
 
-.file::wenv
+.file::enrich-path
 [source,tcl]
+----
+#!/usr/bin/env tclsh
+
+package require Tclx
+
+# TODO: Check argv length
+
+# TODO: Help text
+
+# TODO: Order of args - which overrides which
+
+##############################################################################
+# Helper
+##############################################################################
+
+proc addSuffixToPaths {paths suffix} {
+    set res {}
+    foreach e $paths {
+        lappend res "$e$suffix"
+    }
+    return [list {*}$res {*}$paths]
+}
+
+proc processAddedPath {addedPath} {
+    set paths [split $::env(PATH) ":"]
+    set newPaths [addSuffixToPaths $paths "/$addedPath"]
+    set ::env(PATH) [join $newPaths ":"]
+}
+
+##############################################################################
+# Main
+##############################################################################
+
+# Mark the end of the list of envs if needed
+if {[lsearch $::argv "-"] == -1} {
+    set addedPaths [lrange $::argv 0 0]
+    set args [lrange $::argv 1 end]
+} else {
+    set index [lsearch $::argv "-"]
+    set addedPaths [lrange $::argv 0 [expr {$index - 1}]]
+    set args [lrange $::argv [expr {$index + 1}] end]
+}
+
+foreach addedPath $addedPaths {
+    processAddedPath $addedPath
+}
+
+if {[lindex $args 0] ne ""} {
+    execl [lindex $args 0] [lrange $args 1 end]
+}
+
+----
+
+=== `fastls` - a bit faster `ls`
+
+Traditionally, `ls` `stat`s corresponding path(s).  This doesn't work so well with remote mount with high latency.  `fastls` attempts to mitigate this issue.
+
+.file::fastls
+[source,sh]
+----
+#!/usr/bin/env sh
+
+report-missing-executables find Find || exit 1
+
+exec find "$@" -maxdepth 1
+
+----
+
+== Legacy/Unused executables
+
+=== `wenv` - shorthand to execute a command in an environment or in a subdirectory in `PATH`
+
+.file::wenv
+[source,sh]
 ----
 #!/usr/bin/env tclsh
 
@@ -4873,23 +4947,6 @@ switch $envName {
 }
 
 ----
-
-=== `fastls` - a bit faster `ls`
-
-Traditionally, `ls` `stat`s corresponding path(s).  This doesn't work so well with remote mount with high latency.  `fastls` attempts to mitigate this issue.
-
-.file::fastls
-[source,sh]
-----
-#!/usr/bin/env sh
-
-report-missing-executables find Find || exit 1
-
-exec find "$@" -maxdepth 1
-
-----
-
-== Legacy/Unused executables
 
 === `i3-switch-window` - window switcher for http://i3wm.org/[i3]
 

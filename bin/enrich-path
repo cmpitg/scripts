@@ -1,0 +1,49 @@
+#!/usr/bin/env tclsh
+
+package require Tclx
+
+# TODO: Check argv length
+
+# TODO: Help text
+
+# TODO: Order of args - which overrides which
+
+##############################################################################
+# Helper
+##############################################################################
+
+proc addSuffixToPaths {paths suffix} {
+    set res {}
+    foreach e $paths {
+        lappend res "$e$suffix"
+    }
+    return [list {*}$res {*}$paths]
+}
+
+proc processAddedPath {addedPath} {
+    set paths [split $::env(PATH) ":"]
+    set newPaths [addSuffixToPaths $paths "/$addedPath"]
+    set ::env(PATH) [join $newPaths ":"]
+}
+
+##############################################################################
+# Main
+##############################################################################
+
+# Mark the end of the list of envs if needed
+if {[lsearch $::argv "-"] == -1} {
+    set addedPaths [lrange $::argv 0 0]
+    set args [lrange $::argv 1 end]
+} else {
+    set index [lsearch $::argv "-"]
+    set addedPaths [lrange $::argv 0 [expr {$index - 1}]]
+    set args [lrange $::argv [expr {$index + 1}] end]
+}
+
+foreach addedPath $addedPaths {
+    processAddedPath $addedPath
+}
+
+if {[lindex $args 0] ne ""} {
+    execl [lindex $args 0] [lrange $args 1 end]
+}
