@@ -3185,7 +3185,7 @@ if {$text ne ""} {
         }
         "wind-i3 ::*" {
             set nodeID [lindex [split [string trim $text] " "] end]
-            execl wenv [list wm/i3 call-node-menu $nodeID]
+            execl wenv [list wm/i3 call-client-menu $nodeID]
         }
         "file ::*" {
             set path [string trim [stripPrefix $text {file ::}]]
