@@ -186,9 +186,11 @@ exec "$@"
 
 ----
 
-=== `with-conda` - runs a command with Python from https://docs.conda.io/en/latest/[Conda] environment
+=== `conda/` - utils for Python https://docs.conda.io/en/latest/[Conda]
 
-.file::with-conda
+==== `conda/with-env` - runs a command in the Conda environment
+
+.file::conda/with-env
 [source,sh]
 ----
 #!/usr/bin/env bash
@@ -208,7 +210,7 @@ exec "$@"
 
 === `guix/` - utils for http://guix.gnu.org/[the Guix package manager]
 
-==== `guix/with-env` - runs a command in Guix environment
+==== `guix/with-env` - runs a command in the Guix environment
 
 .file::guix/with-env
 [source,sh]
