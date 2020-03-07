@@ -3529,6 +3529,49 @@ done
 
 ----
 
+=== `find-deep-path` - returns the full path for a file/directory that is found from `PATH`
+
+.file::find-deep-path
+[source,tclsh]
+----
+#!/usr/bin/env tclsh
+
+package require Tcl 8
+package require Tclx
+package require cmdline
+
+if {[catch {exec report-missing-executables find "GNU Find" sort Coreutils <@ stdin >@ stdout 2>@ stderr}]} {
+    exit 1
+}
+
+proc usage {{fd stdout}} {
+    puts $fd {find-deep-path <command>
+
+TODO}
+}
+
+proc findExec {cmd} {
+    set rawPaths [exec echo $::env(PATH) | sed {s/:/\n/g} | sort | uniq]
+    set res {}
+    foreach path $rawPaths {
+        if {[file exists "$path/$cmd"]} {
+            return "$path/$cmd"
+        }
+    }
+    return {}
+}
+
+if {$::argv == "--help"} {
+    usage
+}
+if {$::argc != 1} {
+    usage stderr
+    exit 1
+}
+
+puts [findExec [lindex $::argv 0]]
+----
+
 === `prompt-y-n` - prompts for a yes/no answer
 
 Prompts a yes/no answer, exiting with code 0 for yes and non-zero for no.
