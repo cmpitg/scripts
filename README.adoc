@@ -4141,6 +4141,23 @@ exec echo $password | with-sudo -k --stdin --prompt "" {*}$sudoArgs - {*}$cmd <@
 
 ----
 
+=== `with-workdir <dir> <command> [args...]` - runs a command in a directory
+
+TODO Group all shell utils in one section
+
+TODO Help text
+
+.file::with-workdir
+[source,sh]
+----
+#!/usr/bin/env sh
+
+cd "${1}"
+shift
+exec "$@"
+
+----
+
 === `with-all-x-displays` - runs a command with all X displays
 
 .file::with-all-x-displays
