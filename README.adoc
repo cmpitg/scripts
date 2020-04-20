@@ -2775,6 +2775,17 @@ exec run-menu -modi "clipboard:greenclip print" -show clipboard -run-command '{c
 
 ----
 
+==== Keybind Daemon
+
+.file::run-keybind-daemon
+[source,sh]
+----
+#!/usr/bin/env sh
+
+pidof xkeybinds >/dev/null 2>&1 || exec xbindkeys --nodaemon --poll-rc
+
+----
+
 ==== Power manager
 
 .file::run-power-manager
