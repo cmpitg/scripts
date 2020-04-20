@@ -4051,10 +4051,12 @@ sensors
 
 === `running-p` - determines if a process is running
 
+TODO: Remove due to not being reliable
+
 .file::running-p
 [source,sh]
 ----
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 
 #
 # Determines if a process is running using pgrep.
