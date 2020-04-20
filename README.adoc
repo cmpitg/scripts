@@ -295,7 +295,7 @@ git ls-files --deleted | xargs git rm --cached
 
 ----
 
-==== `git/show-merge-diff` - `diff`s as if a merge is to be performed
+==== `show-merge-diff` - `diff`s as if a merge is to be performed
 
 TODO:
 * Help text
