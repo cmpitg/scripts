@@ -1,0 +1,56 @@
+#!/usr/bin/env tclsh
+
+set cmd [lindex $::argv 0]
+
+proc playTestSound {} {
+    exec paplay /usr/share/sounds/freedesktop/stereo/audio-volume-change.oga <@ stdin >@ stdout 2>@ stderr
+}
+
+proc setVol {amount} {
+    exec pactl set-sink-volume "@DEFAULT_SINK@" $amount <@ stdin >@ stdout 2>@ stderr
+}
+
+proc setMute {flag} {
+    exec pactl set-sink-mute @DEFAULT_SINK@ $flag <@ stdin >@ stdout 2>@ stderr
+}
+
+proc getVol {} {
+    return [join [exec amixer -c 1 -M -D pulse get Master | grep -o -E {[[:digit:]]+%}]]
+}
+
+proc showVol {} {
+    set vol [getVol]
+    puts $vol
+    exec notify-send "Volume: $vol" <@ stdin >@ stdout 2>@ stderr
+}
+
+switch $cmd {
+    get {
+        showVol
+    }
+    up -
+    + {
+        setVol +5%
+        playTestSound
+        showVol
+    }
+    down -
+    "-" {
+        setVol -5%
+        playTestSound
+        showVol
+    }
+    toggle-mute {
+        setMute toggle
+        playTestSound
+        showVol
+    }
+    mute {
+        setMute 1
+    }
+    unmute {
+        setMute 0
+        playTestSound
+        showVol
+    }
+}
