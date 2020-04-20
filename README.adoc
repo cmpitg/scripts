@@ -4081,6 +4081,19 @@ exec pgrep "$@" &>/dev/null
 
 ----
 
+=== `using-x-p` - determines if we're using an X server
+
+.file::using-x-p
+[source,sh]
+----
+#!/usr/bin/env sh
+
+report-missing-executables xset x11-xserver-utils
+
+exec xset q >/dev/null 2>&1
+
+----
+
 === `show-keyboard` - shows keyboard of modifiers, convenient when making screencast
 
 .file::show-keyboard

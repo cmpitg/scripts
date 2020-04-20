@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+
+report-missing-executables xset x11-xserver-utils
+
+exec xset q >/dev/null 2>&1
