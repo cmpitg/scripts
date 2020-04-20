@@ -4,7 +4,38 @@ test -z "${DISPLAY}" && exit 0
 
 do-notify-short "Setting keyboard layout for Steam"
 newline
-setxkbmap us -variant dvp -option lv3:ralt_alt
+setxkbmap us -variant dvp
+xmodmap <( cat <<EOF
+!
+! No mod5 by default
+!
+
+clear mod5
+
+!
+! Swap left Ctrl and Alt
+!
+
+remove control = Control_L
+remove mod1 = Alt_L Meta_L
+keysym Control_L = Alt_L
+keysym Alt_L = Control_L
+add control = Control_L
+add mod1 = Alt_L
+
+!
+! Set right Ctrl as right Alt and right Alt as ISO 3rd level
+!
+
+remove control = Control_R
+remove mod1 = Alt_R Meta_R
+keysym Alt_R = Control_R
+keysym Control_R = ISO_Level3_Shift
+add control = Control_R
+add mod5 = ISO_Level3_Shift
+
+EOF
+)
 
 config-logitech-g502-mouse
 config-logitech-mx-ergo-right
