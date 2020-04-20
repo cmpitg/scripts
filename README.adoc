@@ -267,6 +267,21 @@ fi
 
 ----
 
+=== `sh` - utils for shell scripting
+
+==== `print-colors` - print all colors
+
+.file::sh/print-colors
+[source,sh]
+----
+#!/usr/bin/env bash
+
+for i in {0..255}; do
+	printf "\x1b[38;5;${i}mcolour${i}\x1b[0m\n"
+done
+
+----
+
 === `git` - utils for Git version control
 
 ==== `rm-orphaned` - removes orphaned files
