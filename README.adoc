@@ -500,7 +500,9 @@ acme -a \
 
 ----
 
-=== `term-emu` - wrapper for terminal emulator
+=== Terminal helpers
+
+==== `term-emu` - wrapper for terminal emulator
 
 .file::term-emu
 [source,sh]
@@ -519,8 +521,9 @@ exec "${term_emu_}" -e "$@"
 
 ----
 
-=== `with-term-emu` - runs a command in a termimal emulator
+==== `with-term-emu` - runs a command in a termimal emulator
 
+TODO: Running without X?
 TODO: Document: with/out termux
 TODO: Document: session & window naming
 TODO: Document: must use double quoting:
@@ -550,7 +553,7 @@ fi
 
 ----
 
-=== `with-term-emu-detach` - runs and detachs a command in a termimal emulator
+==== `with-term-emu-detach` - runs and detachs a command in a termimal emulator
 
 .file::with-term-emu-detach
 [source,sh]
@@ -561,7 +564,7 @@ exec env WITHOUT_TERMUX="${WITHOUT_TERMUX}" DETACH_TERMUX=1 with-term-emu "$@"
 
 ----
 
-=== `with-termux` - runs a command with a terminal multiplexer
+==== `with-termux` - runs a command with a terminal multiplexer
 
 .file::with-termux
 [source,sh]
@@ -572,7 +575,36 @@ exec tmux new-session "$@"
 
 ----
 
-=== `bring-termux-session` - brings a terminal emulator session here
+==== `with-mux-session` - runs a command in a term multiplexer session
+
+.file::with-mux-session
+[source,tcl]
+----
+#!/usr/bin/env tclsh
+
+package require Tclx
+
+# TODO: Help text
+
+if {[catch {exec report-missing-executables tmux Tmux <@ stdin >@ stdout 2>@ stderr}]} {
+    exit 1
+}
+
+if {[lsearch $::argv "-"] == -1} {
+    puts stderr "Invalid command, needs to have -"
+    exit 2
+}
+
+if {[lindex $::argv 0] eq "-"} {
+    execl tmux [list new-window {*}[lrange $::argv 1 end]]
+} else {
+    set sessionName [lindex $::argv 0]
+    execl tmux [list new-window -t $sessionName {*}[lrange $::argv 2 end]]
+}
+
+----
+
+==== `bring-termux-session` - brings a terminal emulator session here
 
 .file::bring-termux-session
 [source,sh]
@@ -580,17 +612,6 @@ exec tmux new-session "$@"
 #!/usr/bin/env sh
 
 exec env WITHOUT_TERMUX=1 with-term-emu tmux attach -t "$@"
-
-----
-
-=== `note-taker` - runs a note taker
-
-.file::note-taker
-[source,sh]
-----
-#!/usr/bin/env sh
-
-exec chromium --app=https://notion.so "$@"
 
 ----
 

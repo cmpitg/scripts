@@ -1,0 +1,21 @@
+#!/usr/bin/env tclsh
+
+package require Tclx
+
+# TODO: Help text
+
+if {[catch {exec report-missing-executables tmux Tmux <@ stdin >@ stdout 2>@ stderr}]} {
+    exit 1
+}
+
+if {[lsearch $::argv "-"] == -1} {
+    puts stderr "Invalid command, needs to have -"
+    exit 2
+}
+
+if {[lindex $::argv 0] eq "-"} {
+    execl tmux [list new-window {*}[lrange $::argv 1 end]]
+} else {
+    set sessionName [lindex $::argv 0]
+    execl tmux [list new-window -t $sessionName {*}[lrange $::argv 2 end]]
+}
