@@ -3227,6 +3227,10 @@ proc orString {str elseStr} {
     }
 }
 
+proc substEnvVars {str} {
+    return [exec echo $str | envsubst]
+}
+
 ## TOOD: Documentation
 proc splitString {text str} {
     set index [string first $str $text]
@@ -3326,19 +3330,19 @@ if {$text ne ""} {
     switch -glob $text {
         "mux://*!!!*" {
             set rest [splitString [stripPrefix $text {mux://}] "!!!"]
-            set muxSessionName [lindex $rest 0]
+            set muxSessionName [orString [substEnvVars [lindex $rest 0]] ":."]
             set cmd [lindex $rest 1]
             execl with-mux-session [list $muxSessionName "-" {*}$cmd]
         }
         "mux://*!!*" {
             set rest [splitString [stripPrefix $text {mux://}] "!!"]
-            set muxSessionName [orString [lindex $rest 0] ":."]
+            set muxSessionName [orString [substEnvVars [lindex $rest 0]] ":."]
             set cmd [lindex $rest 1]
             execl with-mux-session [list $muxSessionName "-" with-pause {*}$cmd]
         }
         "mux://*!*" {
             set rest [splitString [stripPrefix $text {mux://}] "!"]
-            set muxSessionName [lindex $rest 0]
+            set muxSessionName [orString [substEnvVars [lindex $rest 0]] ":."]
             set cmd [lindex $rest 1]
             execl tmux [list send-keys -t $muxSessionName $cmd Enter]
         }
