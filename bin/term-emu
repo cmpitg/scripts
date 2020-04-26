@@ -8,4 +8,8 @@
 
 term_emu_="${MY_TERM_EMU:-konsole}"
 
-exec "${term_emu_}" -e "$@"
+if using-x-p; then
+	exec "${term_emu_}" -e "$@"
+else
+	exec "${SHELL}" -c "$*"
+fi
