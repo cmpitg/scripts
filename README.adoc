@@ -3243,6 +3243,12 @@ proc splitString {text str} {
     }
 }
 
+proc copyToClipboard {text} {
+    set fd [open "| xsel -b" w]
+    puts $fd $text
+    close $fd
+}
+
 #
 # Try opening a file.  TODO: Documentation for file pattern.
 #
@@ -3345,6 +3351,14 @@ if {$text ne ""} {
             set muxSessionName [orString [substEnvVars [lindex $rest 0]] ":."]
             set cmd [lindex $rest 1]
             execl tmux [list send-keys -t $muxSessionName $cmd Enter]
+        }
+        "edit!*" {
+            set path [exec which [stripPrefix $text {edit!}]]
+            execl ffn [list $path]
+        }
+        "copy!*" {
+            set text [stripPrefix $text {copy!}]
+            copyToClipboard $text
         }
         "!@*" {
             set cmd [stripPrefix $text {!@}]
