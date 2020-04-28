@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-# config-keymap-standard
 config-keymap-altgr
 config-logitech-trackball-marble-righty
 # config-logitech-trackball-marble-lefty

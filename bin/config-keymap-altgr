@@ -2,44 +2,105 @@
 
 test -z "${DISPLAY}" && exit 0
 
-do-notify-short "Setting cmpitg's keyboard layout with Right Alt as AltGr"
+##############################################################################
+# Main
+##############################################################################
+#
+# References
+# * XKB rules: /usr/share/X11/xkb/rules/
+# * Arch Linux XKB page: https://wiki.archlinux.org/index.php/X_keyboard_extension
+#
+##############################################################################
+
+do-notify-short "Setting cmpitg's keyboard layout"
+
 setxkbmap us -variant dvp
 xmodmap <( cat <<EOF
+! -*- mode: xmodmap-generic -*-
 !
-! No mod5 by default
+! Notes:
+!
+! * Press a button → keyboard sends scancode → kernel generates a keycode → keyboard layout maps to a keysym
+!
+! * 'clear', 'add', and 'remove' commands are for modifiers
+!
+! * 'keysym' command is to map keysym.
+!
+! * To remap modifiers, first we need to remove the old keysyms, then assign them again.  That's why swapping is three-step:
+!   - Remove current mapping for modifiers
+!   - Swap the keysyms
+!   - Re-add the same mapping for modifiers
+!
+! * Modifiers:
+!   - 'control' is for Control
+!   - 'mod1' is for Alt/Meta
+!   - 'mod2' is for NumLock
+!   - 'mod3' is for Hyper
+!   - 'mod4' is for Super
+!   - 'mod5' is for ISO 3rd Level or Mode Switch
+!
+! evdev defs
+!
+!              |  Keycode |      Keysym      | XKB symbol |
+!--------------|----------|------------------|------------|
+!    Left Ctrl |       37 |        Control_L | LCTL       |
+!   Right Ctrl |      105 |        Control_R | RCTL       |
+!     Left Alt |       64 |            Alt_L | LALT       |
+!    Right Alt |      108 |            Alt_R | RALT       |
+!   Left Hyper |      207 |          Hyper_L | HYPR       |
+!  Right Hyper |      207 |          Hyper_R | HYPR       |
+!   Left Super |      206 |          Super_L | SUPR       |
+!  Right Super |      206 |          Super_R | SUPR       |
+!     Capslock |       66 |        Caps_Lock | CAPS       |
+!       Escape |        9 |           Escape | ESC        |
+!      Compose |      203 |        Multi_key | MDSW       |
+!       Level3 |       92 | ISO_Level3_Shift | LVL3       |
+!
+! * References
+!   - Keyboard input: https://wiki.archlinux.org/index.php/Keyboard_input
+!   - Keycodes: /usr/share/X11/xkb/keycodes/
 !
 
-clear mod5
-
 !
-! Swap Escape and Capslock keysyms
+! Swap Escape and Capslock {keycode → keysym} mapping
 !
 
-remove Lock = Caps_Lock
-keysym Caps_Lock = Escape
-keysym Escape = Caps_Lock
+! Pressing Capslock emits Escape
+keycode 66 = Escape
+
+! Pressing Escape emits Capslock
+keycode 9 = Caps_Lock
+! ! Pressing Escape emits Compose
+! keycode 9 = Multi_key
+
+! Keycode 66 still triggers Lock modifier, let's rebind it
+clear Lock
 add Lock = Caps_Lock
 
 !
-! Swap left Ctrl and Alt
+! Swap Ctrl and Alt
 !
 
-remove control = Control_L
-remove mod1 = Alt_L Meta_L
-keysym Control_L = Alt_L
-keysym Alt_L = Control_L
-add control = Control_L
+! Pressing Left Alt emits Left Ctrl
+keycode 64 = Control_L
+
+! Pressing Left Ctrl emits Left Alt
+keycode 37 = Alt_L
+
+! Pressing Right Alt emits Right Ctrl
+keycode 108 = Control_R
+
+! ! Pressing Right Ctrl emits Level3
+! keycode 105 = ISO_Level3_Shift
+! Pressing Right Ctrl emits Compose
+keycode 105 = Multi_key
+
+! Now, rearrange the modifiers
+clear control
+add control = Control_L Control_R
+clear mod1
 add mod1 = Alt_L
-
-!
-! Set right Ctrl as right Alt and right Alt as ISO 3rd level
-!
-
-remove control = Control_R
-remove mod1 = Alt_R Meta_R
-keysym Alt_R = Control_R
-keysym Control_R = ISO_Level3_Shift
-add control = Control_R
+clear mod5
 add mod5 = ISO_Level3_Shift
 
 ! Local Variables:
@@ -48,3 +109,5 @@ add mod5 = ISO_Level3_Shift
 
 EOF
 )
+
+xmodmap
