@@ -1923,27 +1923,6 @@ newline
 
 ----
 
-=== `config-monitors-urt` - configs external monitor for http://www.urbanterror.info[Urban Terror]
-
-Disables laptop monitor and increases brightness, as the brightness option
-doesn't work in-game.
-
-.file::config-monitors-urt
-[source,sh]
-----
-#!/usr/bin/env rc
-
-laptop_mon=eDP1
-main_mon=HDMI1
-gamma=1.4
-
-xrandr --output $laptop_mon --off
-sleep 2
-xrandr --output $main_mon --mode 1280x1024
-xrandr --output $main_mon --gamma $gamma:$gamma:$gamma
-
-----
-
 === `audio-toggle-mute`
 
 .file::audio-toggle-mute
