@@ -1,0 +1,12 @@
+#!/usr/bin/env sh
+
+enrich-path guix - with-env report-missing-executables sawfish Sawfish || exit 1
+
+menu_path_=$(enrich-path guix - with-env which sawfish \
+     | xargs -n 1 -I "{}" readlink -f "{}" \
+     | xargs -n 1 -I "{}" dirname "{}" \
+     | xargs -n 1 -I "{}" readlink -f "{}/../lib/sawfish/sawfish-menu")
+
+ls ${menu_path_}
+
+exec enrich-path guix - with-env with-env-user "${menu_path_}" "$@"
