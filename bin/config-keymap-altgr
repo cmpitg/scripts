@@ -78,7 +78,7 @@ clear Lock
 add Lock = Caps_Lock
 
 !
-! Swap Ctrl and Alt
+! Other modifiers
 !
 
 ! Pressing Left Alt emits Left Ctrl
@@ -87,8 +87,10 @@ keycode 64 = Control_L
 ! Pressing Left Ctrl emits Left Alt
 keycode 37 = Alt_L
 
-! Pressing Right Alt emits Right Ctrl
+! ! Pressing Right Alt emits Right Ctrl
 keycode 108 = Control_R
+! Pressing Right Alt emits Right Hyper
+keycode 108 = Hyper_R
 
 ! ! Pressing Right Ctrl emits Level3
 ! keycode 105 = ISO_Level3_Shift
@@ -97,10 +99,14 @@ keycode 105 = Multi_key
 
 ! Now, rearrange the modifiers
 clear control
-add control = Control_L Control_R
 clear mod1
-add mod1 = Alt_L
+clear mod3
+clear mod4
 clear mod5
+add control = Control_L Control_R
+add mod1 = Alt_L Alt_R
+add mod3 = Hyper_L Hyper_R
+add mod4 = Super_L Super_R
 add mod5 = ISO_Level3_Shift
 
 ! Local Variables:
