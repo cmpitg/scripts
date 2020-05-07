@@ -2192,7 +2192,7 @@ curl -i -H 'Content-Type: application/json' -X POST $*
 report-missing-executables notify-send Libnotify || exit 1
 
 echo "$@"
-exec notify-send "$@"
+qdbus org.freedesktop.Notifications &>/dev/null && notify-send "$@"
 
 ----
 
@@ -2206,7 +2206,7 @@ exec notify-send "$@"
 report-missing-executables notify-send Libnotify || exit 1
 
 echo "$@"
-exec notify-send -t 2000 "$@"
+qdbus org.freedesktop.Notifications &>/dev/null && notify-send -t 2000 "$@"
 
 ----
 
