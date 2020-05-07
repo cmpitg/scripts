@@ -23,8 +23,17 @@ proc addSuffixToPaths {paths suffix} {
     return [list {*}$res {*}$paths]
 }
 
+proc addCurrentDirToPaths {paths} {
+    set res {}
+    if {[lsearch $paths "."] == -1 && [lsearch $paths "./"] == -1} {
+        return [list . {*}$paths]
+    } else {
+        return $paths
+    }
+}
+
 proc processAddedPath {addedPath} {
-    set paths [split $::env(PATH) ":"]
+    set paths [addCurrentDirToPaths [split $::env(PATH) ":"]]
     set newPaths [addSuffixToPaths $paths "/$addedPath"]
     set ::env(PATH) [join $newPaths ":"]
 }
