@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+
+report-missing-executables wmctrl wmctrl || exit 1
+
+wmctrl -m | grep 'Name: ' | cut -d' ' -f2-

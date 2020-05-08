@@ -118,6 +118,21 @@ proc tryOpeningFile {serverName inNewFrameP rest} {
     return 1
 }
 
+proc callWMClientMenu {wmName client} {
+    switch $wmName {
+        "awesome" {
+            execl awesome-client [list "display_client_menu_by_actionable_title('[string trim $client]')"]
+        }
+        "herbstluftwm" {
+            set winID [lindex [split [string trim $client] " "] end]
+            execl call-menu [list client $winID]
+        }
+        default {
+            execl run-menu [list "-e" "Error: Unrecognized window manager: $wmName"]
+        }
+    }
+}
+
 ##############################################################################
 # Main
 ##############################################################################
@@ -175,15 +190,8 @@ if {$text ne ""} {
             execl bring-termux-session $tmuxSessionName
         }
         "wind ::*" {
-            # TODO: Check current window manager?  Or write wrapper?
-            execl awesome-client [list "display_client_menu_by_actionable_title('[string trim $text]')"]
-        }
-        "wind-awesome ::*" {
-            execl awesome-client [list "display_client_menu_by_actionable_title('[string trim $text]')"]
-        }
-        "wind-i3 ::*" {
-            set nodeID [lindex [split [string trim $text] " "] end]
-            execl exec-i3-menu [list client $nodeID]
+            set wmName [exec enrich-path wm - get-wm-name]
+            callWMClientMenu $wmName $text
         }
         "file ::*" {
             set path [string trim [stripPrefix $text {file ::}]]
