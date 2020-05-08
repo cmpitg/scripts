@@ -282,7 +282,7 @@ done
 
 ----
 
-=== `git` - utils for Git version control
+=== `git/` - utils for Git version control
 
 ==== `rm-orphaned` - removes orphaned files
 
