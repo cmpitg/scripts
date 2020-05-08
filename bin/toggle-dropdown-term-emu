@@ -2,4 +2,4 @@
 
 report-missing-executables tdrop tdrop || exit 1
 
-exec tdrop --auto-detect-wm --monitor-aware konsole
+exec tdrop -h 60% --auto-detect-wm --monitor-aware konsole

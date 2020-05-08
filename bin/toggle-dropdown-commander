@@ -2,4 +2,4 @@
 
 report-missing-executables emacsclient-commander-for-dropdown emacsclient-commander-for-dropdown || exit 1
 
-exec tdrop --auto-detect-wm --monitor-aware emacsclient-commander-for-dropdown
+exec tdrop -h 60% --auto-detect-wm --monitor-aware emacsclient-commander-for-dropdown
