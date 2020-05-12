@@ -4,8 +4,7 @@ all: generate docs
 
 generate: README.adoc
 	ulqui generate-src --from ./ --to bin/
-	chmod +x bin/*
-	chmod +x bin/**/*
+	find bin/ -type f -print0 | xargs -0 -I{} chmod +x "{}"
 
 docs: README.adoc
 	ulqui generate-html --from ./ --to docs/
