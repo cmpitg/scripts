@@ -3,35 +3,41 @@
 package require Tcl 8
 package require cmdline
 
-if {[catch {exec report-missing-executables find "GNU Find" sort Coreutils <@ stdin >@ stdout 2>@ stderr}]} {
+if {[catch {exec report-missing-executables find "GNU Find" sort Coreutils parallel "GNU Parallel" with-workdir cmpitg-scripts <@ stdin >@ stdout 2>@ stderr}]} {
     exit 1
 }
 
 proc usage {{fd stdout}} {
-    puts $fd {get-all-execs
+    puts $fd {get-all-execs [<max-depth>]
 
-Get all executables from the PATH environment variables, sort in ascending order, deduplicate, and return them one line per entry.}
+Get all executables from the PATH environment variables, sort in ascending order, deduplicate, and return them one line per entry.  max-depth defines how deep we traverse from a path.  If not specified, max-depth is 1.}
 }
 
-proc getAccessiblePaths {} {
-    set rawPaths [exec echo $::env(PATH) | sed {s/:/\n/g} | sort | uniq]
-    set res {}
+proc getAccessiblePaths {maxDepth} {
+    set rawPaths [split [string trim [exec dedup-PATH]] ":"]
+    set paths {}
     foreach path $rawPaths {
-        if {[file exists $path] && [file isdirectory $path]} {
-            lappend res "$path/"
+        if {$path ne "." && $path ne "./" && [file exists $path] && [file isdirectory $path]} {
+            # lappend cmds [list with-workdir "$path/" find . -maxdepth $maxDepth -type f,l -executable | cut -c 3-]
+            lappend paths "$path/"
         }
     }
-    return $res
+    return $paths
 }
 
 if {$::argv == "--help"} {
     usage
 }
-if {$::argc != 0} {
+if {$::argc > 2} {
     usage stderr
     exit 1
 }
 
-set paths [getAccessiblePaths]
-set execs [exec find {*}$paths -maxdepth 1 -type f,l -executable | awk {FS="/" { print $NF }} | sort -u]
-catch {puts $execs}
+if {$::argv eq {}} {
+    set maxDepth 1
+} else {
+    set maxDepth [lindex $::argv 0]
+}
+
+set paths [getAccessiblePaths $maxDepth]
+catch { puts [exec parallel --link with-workdir ::: {*}$paths ::: find ::: . ::: -maxdepth ::: $maxDepth ::: -type ::: f,l ::: -executable  | cut -c 3- | sort -u | grep -v {^$}]}

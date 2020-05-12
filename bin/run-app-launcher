@@ -13,6 +13,7 @@ try {
         {history-file.arg "~/.local/app-runner-history" "Application history file"}
         {max-history.arg  256                           "Maximum number of entries in the history"}
         {prefix.arg       "!@ "                         "String with which each executable is prefixed"}
+        {max-depth.arg    10                            "How deep paths from PATHS are traversed"}
     } {[--history-file <app-runner-history>] [--prefix <prefix>]
 
 Run a fuzzy searcher tool with all the executables found in the PATH environment variable and from a history file.  The result of the search is then executed based on predefined patterns as follows.
@@ -62,10 +63,11 @@ proc getChoice {history execs} {
 }
 
 set historyFile [file normalize $cmdArgs(history-file)]
+set maxDepth $cmdArgs(max-depth)
 set maxHistory $cmdArgs(max-history)
 set prefix $cmdArgs(prefix)
 
-set execs [exec get-all-execs | sed "s/^/$prefix/g"]
+set execs [exec get-all-execs $maxDepth | sed "s/^/$prefix/g"]
 set history [readHistory $historyFile]
 set choice [getChoice $history $execs]
 
