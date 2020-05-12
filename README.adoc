@@ -2942,6 +2942,8 @@ exec enrich-path guix - with-env "${menu_path_}" "$@"
 
 ==== Application launcher
 
+TODO: Note about `dispatch-action` in the docstring
+
 .file::run-app-launcher
 [source,tcl]
 ----
@@ -3271,7 +3273,7 @@ proc callWMClientMenu {wmName client} {
         }
         "herbstluftwm" {
             set winID [lindex [split [string trim $client] " "] end]
-            execl enrich-path [list wm wm/herbstluft - perform-action client $winID]
+            execl enrich-path [list wm wm/herbstluft - call-menu client $winID]
         }
         default {
             execl run-menu [list "-e" "Error: Unrecognized window manager wmName=$wmName for client menu"]
@@ -3282,7 +3284,7 @@ proc callWMClientMenu {wmName client} {
 proc callWMDesktopMenu {wmName desktop} {
     switch $wmName {
         "herbstluftwm" {
-            execl enrich-path [list wm wm/herbstluft - perform-action tag $desktop]
+            execl enrich-path [list wm wm/herbstluft - call-menu tag $desktop]
         }
         default {
             execl run-menu [list "-e" "Error: Unrecognized window manager wmName=$wmName for desktop menu"]
