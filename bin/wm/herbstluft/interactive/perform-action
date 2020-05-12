@@ -143,6 +143,7 @@ switch -glob $action {
     "kill-current-tag" {
         callHC merge_tag [getCurrentTag] default
     }
+    "()" {}
     default {
         execl run-menu [list -e "Unknown action=$action"]
     }
