@@ -2538,36 +2538,11 @@ puts "$coreTempsText | $fanStatsText | $batStatsText"
 
 ----
 
-=== `gtranslate` - translates from stdin with Google Translate
 
-.file::gtranslate
-[source,sh]
-----
-#!/usr/bin/env rc
-
-#
-# Translates with Google Translate, using soimort/translate-shell tool.
-#
-
-if (! which trans >/dev/null >[2=1]) {
-	echo trans command not found >[1=2]
-	echo Make sure you have soimort/translate-shell installed >[1=2]
-	exit 1
-}
-
-input=`{cat}
-trans $* -brief $"input
-
-----
-
-=== `guile-source` - runs Guile with load-source-code mode
-
-.file::guile-load-source
 [source,sh]
 ----
 #!/usr/bin/env sh
 
-exec guile -s "$@"
 
 ----
 
