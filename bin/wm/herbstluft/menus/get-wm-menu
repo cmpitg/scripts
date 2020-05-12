@@ -1,9 +1,0 @@
-#!/usr/bin/env -S guile -s
-# -*- mode: scheme -*-
-!#
-
-(write
- '(popup-menu (("[_x] Execute client command" wm-exec-client-command)
-               ("[_r] Reload" wm-reload)
-               ("[_s] Restart" wm-wmexec)
-               ("[_q] Quit" wm-quit))))

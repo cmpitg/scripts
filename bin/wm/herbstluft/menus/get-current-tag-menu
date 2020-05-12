@@ -1,8 +1,0 @@
-#!/usr/bin/env -S guile -s
-# -*- mode: scheme -*-
-!#
-
-(write
- '(popup-menu (("[_r] Rename" rename-current-tag)
-               ("[_k] Kill" kill-current-tag))))
-      

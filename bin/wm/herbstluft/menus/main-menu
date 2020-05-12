@@ -1,0 +1,20 @@
+#!/usr/bin/env -S guile -s
+# -*- mode: scheme -*-
+!#
+
+(use-modules (ice-9 popen))
+
+(define (read-output cmd)
+  (let* ((port (open-input-pipe cmd))
+         (data (read port)))
+    (close-pipe port)
+    data))
+
+(write `(("[_g] Add tag" add-tag)
+         ()
+         ("[_a] App" . ,(read-output "app-menu"))
+         ("[_f] Frame" . ,(read-output "frame-menu"))
+         ("[_c] Focused client" . ,(read-output "focused-client-menu"))
+         ("[_t] Current tag" . ,(read-output "current-tag-menu"))
+         ()
+         ("[_w] WM" . ,(read-output "wm-menu"))))

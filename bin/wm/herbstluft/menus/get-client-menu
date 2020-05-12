@@ -1,7 +1,0 @@
-#!/usr/bin/env -S guile -s
-# -*- mode: scheme -*-
-!#
-
-(write
- '(popup-menu (("[_b] Bring here" bring-client-here)
-               ("[_j] Jump to" jump-to-client))))

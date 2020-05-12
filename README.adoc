@@ -4770,24 +4770,24 @@ exec enrich-path wm herbstluft interactive menus - "$@"
 
 ----
 
-===== `interactive/perform-action` - performs a high-level WM action
+===== `interactive/call-menu` - performs a high-level WM action
 
-.file::wm/herbstluft/interactive/perform-action
+.file::wm/herbstluft/interactive/call-menu
 [source,sh]
 ----
 #!/usr/bin/env tclsh
 
 package require Tclx
 
-set menu [lindex $::argv 0]
-set action [exec get-$menu-menu 2> /dev/null | run-context-menu]
+set menuName [lindex $::argv 0]
+set action [exec get-menu $menuName 2> /dev/null | run-context-menu]
 
 proc stripPrefix {text prefix} {
     return [string range $text [string length $prefix] end]
 }
 
 proc callHC {args} {
-    return [exec herbstclient {*}$args]
+    return [exec enrich-path guix - with-env herbstclient {*}$args]
 }
 
 proc getTagList {} {
@@ -4803,7 +4803,7 @@ set ::env(PATH) [stripPrefix [exec enrich-path wm herbstluft interactive menus g
 switch -glob $action {
     "main-menu-call-*" {
         set menuType [stripPrefix $action "main-menu-call-"]
-        execl perform-action [list $menuType]
+        execl call-menu [list $menuType]
     }
     "wm-*" {
         set cmd [stripPrefix $action "wm-"]
@@ -4928,157 +4928,172 @@ switch -glob $action {
 
 ----
 
-===== `menus/get-app-menu`
+===== `menus/get-menu <menu-name>`
 
-.file::wm/herbstluft/menus/get-app-menu
+TODO: assert argv
+
+.file::wm/herbstluft/menus/get-menu
+[source,sh]
+----
+#!/usr/bin/env tclsh
+
+set menuName [lindex $::argv 0]
+
+puts "(popup-menu [exec $menuName-menu])"
+
+----
+
+===== `menus/app-menu`
+
+.file::wm/herbstluft/menus/app-menu
 [source,sh]
 ----
 #!/usr/bin/env -S guile -s
 # -*- mode: scheme -*-
 !#
 
-(write
- '(popup-menu (("[_a] Config input" app-config-input)
-               ("[_m] Terminal emulator" app-term-emu)
-               ("[_c] Clipboard" app-clipboard)
-               ("[_w] Web browser" app-web-browser)
-               ()
-               ("[_l] Lock screen" app-lock-screen)
-               ("[_s] Suspend" app-suspend))))
+(write '(("[_a] Config input" app-config-input)
+         ("[_m] Terminal emulator" app-term-emu)
+         ("[_c] Clipboard" app-clipboard)
+         ("[_w] Web browser" app-web-browser)
+         ()
+         ("[_l] Lock screen" app-lock-screen)
+         ("[_s] Suspend" app-suspend)))
 
 ----
 
-===== `menus/get-client-menu`
+===== `menus/client-menu`
 
-.file::wm/herbstluft/menus/get-client-menu
+.file::wm/herbstluft/menus/client-menu
 [source,sh]
 ----
 #!/usr/bin/env -S guile -s
 # -*- mode: scheme -*-
 !#
 
-(write
- '(popup-menu (("[_b] Bring here" bring-client-here)
-               ("[_j] Jump to" jump-to-client))))
+(write '(("[_b] Bring here" bring-client-here)
+         ("[_j] Jump to" jump-to-client)))
 
 ----
 
-===== `menus/get-current-tag-menu`
+===== `menus/current-tag-menu`
 
-.file::wm/herbstluft/menus/get-current-tag-menu
+.file::wm/herbstluft/menus/current-tag-menu
 [source,sh]
 ----
 #!/usr/bin/env -S guile -s
 # -*- mode: scheme -*-
 !#
 
-(write
- '(popup-menu (("[_r] Rename" rename-current-tag)
-               ("[_k] Kill" kill-current-tag))))
+(write '(("[_r] Rename" rename-current-tag)
+         ("[_k] Kill" kill-current-tag)))
       
 ----
 
-===== `menus/get-focused-client-menu`
+===== `menus/focused-client-menu`
 
-.file::wm/herbstluft/menus/get-focused-client-menu
+.file::wm/herbstluft/menus/focused-client-menu
 [source,sh]
 ----
 #!/usr/bin/env -S guile -s
 # -*- mode: scheme -*-
 !#
 
-(write
- '(popup-menu (("[_f] Toggle fullscreen" toggle-focused-client-fullscreen)
-               ("[_o] Toggle floating" toggle-focused-client-floating)
-               ()
-               ("[_n] Untag" untag-focused-client)
-               ()
-               ("[_u] Move up" move-client-up)
-               ("[_d] Move down" move-client-down)
-               ("[_l] Move left" move-client-left)
-               ("[_r] Move right" move-client-right)
-               ()
-               ("[_a] Move to monitor above" move-client-to-monitor-up)
-               ("[_b] Move to monitor below" move-client-to-monitor-down)
-               ("[_e] Move to left monitor" move-client-to-monitor-left)
-               ("[_i] Move to right monitor" move-client-to-monitor-right))))
-      
+(write '(("[_f] Toggle fullscreen" toggle-focused-client-fullscreen)
+         ("[_o] Toggle floating" toggle-focused-client-floating)
+         ()
+         ("[_n] Untag" untag-focused-client)
+         ()
+         ("[_u] Move up" move-client-up)
+         ("[_d] Move down" move-client-down)
+         ("[_l] Move left" move-client-left)
+         ("[_r] Move right" move-client-right)
+         ()
+         ("[_a] Move to monitor above" move-client-to-monitor-up)
+         ("[_b] Move to monitor below" move-client-to-monitor-down)
+         ("[_e] Move to left monitor" move-client-to-monitor-left)
+         ("[_i] Move to right monitor" move-client-to-monitor-right)))
+
 ----
 
-===== `menus/get-frame-menu`
+===== `menus/frame-menu`
 
-.file::wm/herbstluft/menus/get-frame-menu
+.file::wm/herbstluft/menus/frame-menu
 [source,sh]
 ----
 #!/usr/bin/env -S guile -s
 # -*- mode: scheme -*-
 !#
 
-(write
- '(popup-menu (("[_u] Split (up)" split-frame-top)
-               ("[_d] Split (down)" split-frame-bottom)
-               ("[_l] Split (left)" split-frame-left)
-               ("[_r] Split (right)" split-frame-right)
-               ("[_a] Split (auto)" split-frame-auto)
-               ()
-               ("[_m] Layout max" set-frame-layout-max)
-               ("[_v] Layout vertical" set-frame-layout-vertical)
-               ("[_h] Layout horizontal" set-frame-layout-horizontal)
-               ()
-               ("[_k] Kill" remove-frame))))
+(write '(("[_u] Split (up)" split-frame-top)
+         ("[_d] Split (down)" split-frame-bottom)
+         ("[_l] Split (left)" split-frame-left)
+         ("[_r] Split (right)" split-frame-right)
+         ("[_a] Split (auto)" split-frame-auto)
+         ()
+         ("[_m] Layout max" set-frame-layout-max)
+         ("[_v] Layout vertical" set-frame-layout-vertical)
+         ("[_h] Layout horizontal" set-frame-layout-horizontal)
+         ()
+         ("[_k] Kill" remove-frame)))
 
 ----
 
-===== `menus/get-main-menu`
+===== `menus/main-menu`
 
-.file::wm/herbstluft/menus/get-main-menu
+.file::wm/herbstluft/menus/main-menu
 [source,sh]
 ----
 #!/usr/bin/env -S guile -s
 # -*- mode: scheme -*-
 !#
 
-(write
- '(popup-menu (("[_g] Add tag" add-tag)
-               ()
-               ("[_a] App" main-menu-call-app)
-               ("[_f] Frame" main-menu-call-frame)
-               ("[_c] Focused client" main-menu-call-focused-client)
-               ("[_t] Current tag" main-menu-call-current-tag)
-               ()
-               ("[_w] WM" main-menu-call-wm))))
+(use-modules (ice-9 popen))
+
+(define (read-output cmd)
+  (let* ((port (open-input-pipe cmd))
+         (data (read port)))
+    (close-pipe port)
+    data))
+
+(write `(("[_g] Add tag" add-tag)
+         ()
+         ("[_a] App" . ,(read-output "app-menu"))
+         ("[_f] Frame" . ,(read-output "frame-menu"))
+         ("[_c] Focused client" . ,(read-output "focused-client-menu"))
+         ("[_t] Current tag" . ,(read-output "current-tag-menu"))
+         ()
+         ("[_w] WM" . ,(read-output "wm-menu"))))
 
 ----
 
-===== `menus/get-tag-menu`
+===== `menus/tag-menu`
 
-.file::wm/herbstluft/menus/get-tag-menu
+.file::wm/herbstluft/menus/tag-menu
 [source,sh]
 ----
 #!/usr/bin/env -S guile -s
 # -*- mode: scheme -*-
 !#
 
-(write
- '(popup-menu (("[_b] Bring here" bring-tag-here)
-               ("[_k] Kill" kill-tag))))
+(write '(("[_b] Bring here" bring-tag-here)
+         ("[_k] Kill" kill-tag)))
 
 ----
 
-===== `menus/get-wm-menu`
+===== `menus/wm-menu`
 
-.file::wm/herbstluft/menus/get-wm-menu
+.file::wm/herbstluft/menus/wm-menu
 [source,sh]
 ----
 #!/usr/bin/env -S guile -s
 # -*- mode: scheme -*-
 !#
 
-(write
- '(popup-menu (("[_x] Execute client command" wm-exec-client-command)
-               ("[_r] Reload" wm-reload)
-               ("[_s] Restart" wm-wmexec)
-               ("[_q] Quit" wm-quit))))
+(write '(("[_x] Execute client command" wm-exec-client-command)
+         ("[_r] Reload" wm-reload)
+         ("[_s] Restart" wm-wmexec)
+         ("[_q] Quit" wm-quit)))
 
 ----
 

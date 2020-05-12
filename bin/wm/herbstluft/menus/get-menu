@@ -1,0 +1,5 @@
+#!/usr/bin/env tclsh
+
+set menuName [lindex $::argv 0]
+
+puts "(popup-menu [exec $menuName-menu])"

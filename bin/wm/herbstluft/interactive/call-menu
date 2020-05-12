@@ -2,15 +2,15 @@
 
 package require Tclx
 
-set menu [lindex $::argv 0]
-set action [exec get-$menu-menu 2> /dev/null | run-context-menu]
+set menuName [lindex $::argv 0]
+set action [exec get-menu $menuName 2> /dev/null | run-context-menu]
 
 proc stripPrefix {text prefix} {
     return [string range $text [string length $prefix] end]
 }
 
 proc callHC {args} {
-    return [exec herbstclient {*}$args]
+    return [exec enrich-path guix - with-env herbstclient {*}$args]
 }
 
 proc getTagList {} {
@@ -26,7 +26,7 @@ set ::env(PATH) [stripPrefix [exec enrich-path wm herbstluft interactive menus g
 switch -glob $action {
     "main-menu-call-*" {
         set menuType [stripPrefix $action "main-menu-call-"]
-        execl perform-action [list $menuType]
+        execl call-menu [list $menuType]
     }
     "wm-*" {
         set cmd [stripPrefix $action "wm-"]
