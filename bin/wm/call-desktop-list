@@ -1,0 +1,8 @@
+#!/usr/bin/env zsh
+
+report-missing-executables wmctrl wmctrl || exit 1
+
+cat --squeeze-blank \
+    <(pprint-desktop-list | awk '{ print "desktop ::", $0 }') \
+    | grep -v -e '^$' \
+    | run-menu-and-dispatch

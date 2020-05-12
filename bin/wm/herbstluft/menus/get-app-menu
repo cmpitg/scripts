@@ -1,0 +1,12 @@
+#!/usr/bin/env -S guile -s
+# -*- mode: scheme -*-
+!#
+
+(write
+ '(popup-menu (("[_a] Config input" app-config-input)
+               ("[_m] Terminal emulator" app-term-emu)
+               ("[_c] Clipboard" app-clipboard)
+               ("[_w] Web browser" app-web-browser)
+               ()
+               ("[_l] Lock screen" app-lock-screen)
+               ("[_s] Suspend" app-suspend))))

@@ -4622,6 +4622,17 @@ wget \
 
 === `wm/` - utils for window manager (WM)
 
+==== `format-time-for-panel` - formats date & time to display in a desktop panel
+
+.file::wm/format-time-for-panel
+[source,sh]
+----
+#!/usr/bin/env sh
+
+exec date +'%A, %d %b %Y, %H:%M:%S %p'
+
+----
+
 ==== `get-wm-name` - retrieves the current WM name
 
 .file::wm/get-wm-name
@@ -4632,6 +4643,441 @@ wget \
 report-missing-executables wmctrl wmctrl || exit 1
 
 wmctrl -m | grep 'Name: ' | cut -d' ' -f2-
+
+----
+
+==== `pprint-client-list` - pretty-prints the list of clients with their title & IDs
+
+.file::wm/pprint-client-list
+[source,sh]
+----
+#!/usr/bin/env sh
+
+report-missing-executables wmctrl wmctrl || exit 1
+
+exec wmctrl -l \
+	| awk '{ for (i = 4; i <= NF; i++) printf $i" "; print "::", $1 }'
+
+----
+
+==== `pprint-desktop-list` - pretty-prints the list of desktops
+
+.file::wm/pprint-desktop-list
+[source,sh]
+----
+#!/usr/bin/env sh
+
+report-missing-executables wmctrl wmctrl || exit 1
+
+exec wmctrl -d \
+	| awk '{ print $NF }' \
+	| sort | uniq
+
+----
+
+==== `get-desktop-name` - gets the current desktop name
+
+.file::wm/get-desktop-name
+[source,sh]
+----
+#!/usr/bin/env sh
+
+report-missing-executables wmctrl wmctrl || exit 1
+
+exec wmctrl -d | awk '{ if ($2 == "*" ) print $NF }'
+
+----
+
+==== `copy-client-description` - copies description for a client
+
+.file::wm/copy-client-description
+[source,sh]
+----
+#!/usr/bin/env sh
+
+report-missing-executables wmctrl wmctrl || exit 1
+
+client_=$(pprint-client-list | run-menu -dmenu -p "Client" 2>/dev/null)
+
+if [ -n "${client_}" ]; then
+	exec dispatch-action 'copy!'"${client_}"
+fi
+
+----
+
+==== `copy-client-id` - copies a client ID
+
+.file::wm/copy-client-id
+[source,sh]
+----
+#!/usr/bin/env sh
+
+report-missing-executables wmctrl wmctrl || exit 1
+
+client_id_=$(pprint-client-list | run-menu -dmenu -p "Client" 2>/dev/null | awk '{ print $NF }')
+
+if [ -n "${client_id_}" ]; then
+	exec dispatch-action 'copy!'"${client_id_}"
+fi
+
+----
+
+==== `call-omni-switcher` - calls the omni switcher with WM patterns
+
+.file::wm/call-omni-switcher
+[source,sh]
+----
+#!/usr/bin/env zsh
+
+report-missing-executables wmctrl wmctrl || exit 1
+
+cat --squeeze-blank \
+    <(pprint-client-list | awk '{ print "wind ::", $0 }') \
+    <(pprint-desktop-list | awk '{ print "desktop ::", $0 }') \
+    | grep -v -e '^$' \
+    | run-omni-switcher
+
+----
+
+==== `call-desktop-list` - calls desktop list menu that allows interaction with current desktops
+
+.file::wm/call-desktop-list
+[source,sh]
+----
+#!/usr/bin/env zsh
+
+report-missing-executables wmctrl wmctrl || exit 1
+
+cat --squeeze-blank \
+    <(pprint-desktop-list | awk '{ print "desktop ::", $0 }') \
+    | grep -v -e '^$' \
+    | run-menu-and-dispatch
+
+----
+
+==== `herbstluft/` - utils to manage https://herbstluftwm.org/[HerbstluftWM]
+
+TODO: Document on a menu-driven/guiding UX
+
+===== `with-env` - runs a command in the HerbstluftWM environment
+
+.file::wm/herbstluft/with-env
+[source,sh]
+----
+#!/usr/bin/env bash
+
+exec enrich-path wm herbstluft interactive menus - "$@"
+
+----
+
+===== `interactive/perform-action` - performs a high-level WM action
+
+.file::wm/herbstluft/interactive/perform-action
+[source,sh]
+----
+#!/usr/bin/env tclsh
+
+package require Tclx
+
+set menu [lindex $::argv 0]
+set action [exec get-$menu-menu 2> /dev/null | run-context-menu]
+
+proc stripPrefix {text prefix} {
+    return [string range $text [string length $prefix] end]
+}
+
+proc callHC {args} {
+    return [exec herbstclient {*}$args]
+}
+
+proc getTagList {} {
+    return [split [string trim [callHC object_tree tags.by-name | tail -n +2 | awk '{ print $NF }']] "\n"]
+}
+
+proc getCurrentTag {} {
+    return [exec get-desktop-name]
+}
+
+set ::env(PATH) [stripPrefix [exec enrich-path wm herbstluft interactive menus guix - with-env env | ag {^PATH=}] {^PATH=}]
+
+switch -glob $action {
+    "main-menu-call-*" {
+        set menuType [stripPrefix $action "main-menu-call-"]
+        execl perform-action [list $menuType]
+    }
+    "wm-*" {
+        set cmd [stripPrefix $action "wm-"]
+        if {$cmd eq "exec-client-command"} {
+            catch {
+                set cmd [string trim [callHC list_commands | xargs -I{} echo "{}" | sort | run-menu -dmenu -p "Herbstluft command"]]
+                set output "$cmd output:\n[callHC {*}$cmd]"
+                puts -nonewline $output
+                execl run-menu [list -e $output]
+            }
+        } else {
+            callHC $cmd
+        }
+    }
+    "split-frame-*" {
+        set direction [stripPrefix $action "split-frame-"]
+        callHC split $direction
+    }
+    "set-frame-layout-*" {
+        set layout [stripPrefix $action "set-frame-layout-"]
+        callHC set_layout $layout
+    }
+    "remove-frame" {
+        callHC remove
+    }
+    "app-*" {
+        set appName [stripPrefix $action "app-"]
+        switch $appName {
+            term-emu {
+                callHC spawn kitty
+            }
+            config-input {
+                callHC spawn config-inputs-cmpitg
+            }
+            clipboard {
+                callHC spawn display-clipboard
+            }
+            lock-screen {
+                callHC spawn lockscreen
+            }
+            suspend {
+                callHC spawn suspend-me
+            }
+        }
+    }
+    "toggle-focused-client-*" {
+        set attr [stripPrefix $action "toggle-focused-client-"]
+        switch $attr {
+            floating {
+                callHC attr clients.focus.floating toggle
+            }
+            fullscreen {
+                callHC fullscreen toggle
+            }
+        }
+    }
+    "move-client-to-monitor-*" {
+        set direction [stripPrefix $action "move-client-to-monitor-"]
+        switch $direction {
+            up {
+                set arg "-u"
+            }
+            down {
+                set arg "-d"
+            }
+            left {
+                set arg "-l"
+            }
+            right {
+                set arg "-r"
+            }
+        }
+        callHC shift_to_monitor $arg ""
+    }
+    "move-client-*" {
+        set direction [stripPrefix $action "move-client-"]
+        callHC shift $direction
+    }
+    "bring-client-here" {
+        set clientID [lindex $::argv 1]
+        callHC bring $clientID
+    }
+    "jump-to-client" {
+        set clientID [lindex $::argv 1]
+        callHC jumpto $clientID
+    }
+    "untag-focused-client" {
+        callHC move default
+    }
+    "bring-tag-here" {
+        set tagName [lindex $::argv 1]
+        callHC use $tagName
+    }
+    "kill-tag" {
+        set tagName [lindex $::argv 1]
+        callHC merge_tag $tagName [getCurrentTag]
+    }
+    "add-tag" {
+        catch {
+            set tagName [string trim [exec yad {--title=Add tag} --entry {--entry-label=Tag name}]]
+            if {$tagName ne ""} {
+                callHC add $tagName
+            }
+        }
+    }
+    "rename-current-tag" {
+        catch {
+            set tagName [string trim [exec yad {--title=Add tag} --entry {--entry-label=Tag name}]]
+            if {$tagName ne ""} {
+                callHC rename [getCurrentTag] $tagName
+            }
+        }
+    }
+    "kill-current-tag" {
+        callHC merge_tag [getCurrentTag] default
+    }
+    default {
+        execl run-menu [list -e "Unknown action=$action"]
+    }
+}
+
+----
+
+===== `menus/get-app-menu`
+
+.file::wm/herbstluft/menus/get-app-menu
+[source,sh]
+----
+#!/usr/bin/env -S guile -s
+# -*- mode: scheme -*-
+!#
+
+(write
+ '(popup-menu (("[_a] Config input" app-config-input)
+               ("[_m] Terminal emulator" app-term-emu)
+               ("[_c] Clipboard" app-clipboard)
+               ("[_w] Web browser" app-web-browser)
+               ()
+               ("[_l] Lock screen" app-lock-screen)
+               ("[_s] Suspend" app-suspend))))
+
+----
+
+===== `menus/get-client-menu`
+
+.file::wm/herbstluft/menus/get-client-menu
+[source,sh]
+----
+#!/usr/bin/env -S guile -s
+# -*- mode: scheme -*-
+!#
+
+(write
+ '(popup-menu (("[_b] Bring here" bring-client-here)
+               ("[_j] Jump to" jump-to-client))))
+
+----
+
+===== `menus/get-current-tag-menu`
+
+.file::wm/herbstluft/menus/get-current-tag-menu
+[source,sh]
+----
+#!/usr/bin/env -S guile -s
+# -*- mode: scheme -*-
+!#
+
+(write
+ '(popup-menu (("[_r] Rename" rename-current-tag)
+               ("[_k] Kill" kill-current-tag))))
+      
+----
+
+===== `menus/get-focused-client-menu`
+
+.file::wm/herbstluft/menus/get-focused-client-menu
+[source,sh]
+----
+#!/usr/bin/env -S guile -s
+# -*- mode: scheme -*-
+!#
+
+(write
+ '(popup-menu (("[_f] Toggle fullscreen" toggle-focused-client-fullscreen)
+               ("[_o] Toggle floating" toggle-focused-client-floating)
+               ()
+               ("[_n] Untag" untag-focused-client)
+               ()
+               ("[_u] Move up" move-client-up)
+               ("[_d] Move down" move-client-down)
+               ("[_l] Move left" move-client-left)
+               ("[_r] Move right" move-client-right)
+               ()
+               ("[_a] Move to monitor above" move-client-to-monitor-up)
+               ("[_b] Move to monitor below" move-client-to-monitor-down)
+               ("[_e] Move to left monitor" move-client-to-monitor-left)
+               ("[_i] Move to right monitor" move-client-to-monitor-right))))
+      
+----
+
+===== `menus/get-frame-menu`
+
+.file::wm/herbstluft/menus/get-frame-menu
+[source,sh]
+----
+#!/usr/bin/env -S guile -s
+# -*- mode: scheme -*-
+!#
+
+(write
+ '(popup-menu (("[_u] Split (up)" split-frame-top)
+               ("[_d] Split (down)" split-frame-bottom)
+               ("[_l] Split (left)" split-frame-left)
+               ("[_r] Split (right)" split-frame-right)
+               ("[_a] Split (auto)" split-frame-auto)
+               ()
+               ("[_m] Layout max" set-frame-layout-max)
+               ("[_v] Layout vertical" set-frame-layout-vertical)
+               ("[_h] Layout horizontal" set-frame-layout-horizontal)
+               ()
+               ("[_k] Kill" remove-frame))))
+
+----
+
+===== `menus/get-main-menu`
+
+.file::wm/herbstluft/menus/get-main-menu
+[source,sh]
+----
+#!/usr/bin/env -S guile -s
+# -*- mode: scheme -*-
+!#
+
+(write
+ '(popup-menu (("[_g] Add tag" add-tag)
+               ()
+               ("[_a] App" main-menu-call-app)
+               ("[_f] Frame" main-menu-call-frame)
+               ("[_c] Focused client" main-menu-call-focused-client)
+               ("[_t] Current tag" main-menu-call-current-tag)
+               ()
+               ("[_w] WM" main-menu-call-wm))))
+
+----
+
+===== `menus/get-tag-menu`
+
+.file::wm/herbstluft/menus/get-tag-menu
+[source,sh]
+----
+#!/usr/bin/env -S guile -s
+# -*- mode: scheme -*-
+!#
+
+(write
+ '(popup-menu (("[_b] Bring here" bring-tag-here)
+               ("[_k] Kill" kill-tag))))
+
+----
+
+===== `menus/get-wm-menu`
+
+.file::wm/herbstluft/menus/get-wm-menu
+[source,sh]
+----
+#!/usr/bin/env -S guile -s
+# -*- mode: scheme -*-
+!#
+
+(write
+ '(popup-menu (("[_x] Execute client command" wm-exec-client-command)
+               ("[_r] Reload" wm-reload)
+               ("[_s] Restart" wm-wmexec)
+               ("[_q] Quit" wm-quit))))
 
 ----
 

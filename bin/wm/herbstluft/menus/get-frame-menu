@@ -1,0 +1,16 @@
+#!/usr/bin/env -S guile -s
+# -*- mode: scheme -*-
+!#
+
+(write
+ '(popup-menu (("[_u] Split (up)" split-frame-top)
+               ("[_d] Split (down)" split-frame-bottom)
+               ("[_l] Split (left)" split-frame-left)
+               ("[_r] Split (right)" split-frame-right)
+               ("[_a] Split (auto)" split-frame-auto)
+               ()
+               ("[_m] Layout max" set-frame-layout-max)
+               ("[_v] Layout vertical" set-frame-layout-vertical)
+               ("[_h] Layout horizontal" set-frame-layout-horizontal)
+               ()
+               ("[_k] Kill" remove-frame))))

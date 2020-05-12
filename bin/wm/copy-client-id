@@ -1,0 +1,9 @@
+#!/usr/bin/env sh
+
+report-missing-executables wmctrl wmctrl || exit 1
+
+client_id_=$(pprint-client-list | run-menu -dmenu -p "Client" 2>/dev/null | awk '{ print $NF }')
+
+if [ -n "${client_id_}" ]; then
+	exec dispatch-action 'copy!'"${client_id_}"
+fi

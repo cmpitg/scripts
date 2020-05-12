@@ -1,0 +1,9 @@
+#!/usr/bin/env zsh
+
+report-missing-executables wmctrl wmctrl || exit 1
+
+cat --squeeze-blank \
+    <(pprint-client-list | awk '{ print "wind ::", $0 }') \
+    <(pprint-desktop-list | awk '{ print "desktop ::", $0 }') \
+    | grep -v -e '^$' \
+    | run-omni-switcher

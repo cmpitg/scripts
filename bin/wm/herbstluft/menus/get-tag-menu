@@ -1,0 +1,7 @@
+#!/usr/bin/env -S guile -s
+# -*- mode: scheme -*-
+!#
+
+(write
+ '(popup-menu (("[_b] Bring here" bring-tag-here)
+               ("[_k] Kill" kill-tag))))

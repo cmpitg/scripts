@@ -1,0 +1,9 @@
+#!/usr/bin/env sh
+
+report-missing-executables wmctrl wmctrl || exit 1
+
+client_=$(pprint-client-list | run-menu -dmenu -p "Client" 2>/dev/null)
+
+if [ -n "${client_}" ]; then
+	exec dispatch-action 'copy!'"${client_}"
+fi

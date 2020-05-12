@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+
+report-missing-executables wmctrl wmctrl || exit 1
+
+exec wmctrl -l \
+	| awk '{ for (i = 4; i <= NF; i++) printf $i" "; print "::", $1 }'
