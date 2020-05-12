@@ -32,12 +32,6 @@ proc addCurrentDirToPaths {paths} {
     }
 }
 
-proc processAddedPath {addedPath} {
-    set paths [addCurrentDirToPaths [split $::env(PATH) ":"]]
-    set newPaths [addSuffixToPaths $paths "/$addedPath"]
-    set ::env(PATH) [join $newPaths ":"]
-}
-
 ##############################################################################
 # Main
 ##############################################################################
@@ -52,9 +46,12 @@ if {[lsearch $::argv "-"] == -1} {
     set args [lrange $::argv [expr {$index + 1}] end]
 }
 
+set dedupedPaths [split [string trim [exec echo $::env(PATH) | awk -v RS=: {!($0 in a) {a[$0]; print}}]] "\n"]
+set paths [addCurrentDirToPaths $dedupedPaths]
 foreach addedPath $addedPaths {
-    processAddedPath $addedPath
+    set paths [addSuffixToPaths $paths "/$addedPath"]
 }
+set ::env(PATH) [join $paths ":"]
 
 if {[lindex $args 0] ne ""} {
     execl [lindex $args 0] [lrange $args 1 end]
