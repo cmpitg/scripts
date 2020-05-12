@@ -2807,7 +2807,7 @@ exec run-menu -modi "clipboard:greenclip print" -show clipboard -run-command '{c
 ----
 #!/usr/bin/env sh
 
-pidof xkeybinds >/dev/null 2>&1 || exec xbindkeys --nodaemon --poll-rc
+pidof xbindkeys >/dev/null 2>&1 || exec xbindkeys --nodaemon --poll-rc
 
 ----
 
