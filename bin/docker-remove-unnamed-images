@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-
-docker images -a | awk '/\<none\>/{ print $3 }' | xargs docker rmi

@@ -2211,28 +2211,6 @@ qdbus org.freedesktop.Notifications &>/dev/null && notify-send "$@"
 
 ----
 
-=== `docker-remove-orphaned-containers`
-
-.file::docker-remove-orphaned-containers
-[source,sh]
-----
-#!/usr/bin/env bash
-
-docker rm $(docker ps -aq)
-
-----
-
-=== `docker-remove-unnamed-images`
-
-.file::docker-remove-unnamed-images
-[source,sh]
-----
-#!/usr/bin/env bash
-
-docker images -a | awk '/\<none\>/{ print $3 }' | xargs docker rmi
-
-----
-
 === `drop-lines`
 
 .file::drop-lines
