@@ -2494,8 +2494,8 @@ proc getAccessiblePaths {} {
     set rawPaths [exec echo $::env(PATH) | sed {s/:/\n/g} | sort | uniq]
     set res {}
     foreach path $rawPaths {
-        if {[file exists $path]} {
-            lappend res "$path"
+        if {[file exists $path] && [file isdirectory $path]} {
+            lappend res "$path/"
         }
     }
     return $res
