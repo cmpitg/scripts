@@ -2539,11 +2539,14 @@ puts "$coreTempsText | $fanStatsText | $batStatsText"
 
 ----
 
+=== `dedup-PATH` - gets a clean PATH variable (dedup'ed)
 
+.file::dedup-PATH
 [source,sh]
 ----
 #!/usr/bin/env sh
 
+exec echo "${PATH}" | awk -v RS=: -v ORS=: '!($0 in a) {a[$0]; print}' | head -1
 
 ----
 
