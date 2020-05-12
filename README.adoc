@@ -2229,7 +2229,7 @@ docker rm $(docker ps -aq)
 ----
 #!/usr/bin/env bash
 
-docker images -a | grep "<none>" | awk '{ print $3 }' | xargs docker rmi
+docker images -a | awk '/\<none\>/{ print $3 }' | xargs docker rmi
 
 ----
 
@@ -2466,7 +2466,7 @@ exec git daemon --reuseaddr '--base-path='$git_path --export-all --verbose '--po
 
 report-missing-executables xrandr XRandR ag Ag awk "GNU Awk" || exit 1
 
-xrandr | ag connected | awk '{ print $1 }'
+xrandr | awk '/connected/ { print $1 }'
 
 ----
 

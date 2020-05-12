@@ -2,4 +2,4 @@
 
 report-missing-executables xrandr XRandR ag Ag awk "GNU Awk" || exit 1
 
-xrandr | ag connected | awk '{ print $1 }'
+xrandr | awk '/connected/ { print $1 }'
