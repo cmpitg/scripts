@@ -202,7 +202,7 @@ if ! report-missing-executables conda Conda; then
 	exit 1
 fi
 
-eval "$(${CONDA_PATH}/bin/conda shell.bash hook)"
+# eval "$(conda shell.bash hook)"
 
 exec "$@"
 
