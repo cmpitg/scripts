@@ -3177,7 +3177,7 @@ proc substEnvVars {str} {
     return [exec echo $str | envsubst]
 }
 
-## TOOD: Documentation
+## TODO: Documentation
 proc splitString {text str} {
     set index [string first $str $text]
     if {$index != -1} {
@@ -3188,6 +3188,51 @@ proc splitString {text str} {
         return [list $text ""]
     }
 }
+
+#
+# a         → a
+# a b       → a b
+# a/b       → enrich-path a - b
+# a/b c     → enrich-path a - b c
+# a/b/c     → enrich-path a b - c
+# a/b/c d   → enrich-path a b - c d
+# a/b/c d e → enrich-path a b - c d e
+# /a        → /a
+# /a b      → /a b
+# Constraint: cmd is trimmed
+#
+proc constructEnrichedPathCmd {cmd} {
+    set cmd [string trim $cmd]
+
+    if {[string index $cmd 0] eq "/"} {
+        return $cmd
+    }
+
+    set firstSpacePos [string first " " $cmd]
+    if {$firstSpacePos == -1} {
+        set firstSpacePos [string length $cmd]
+    }
+
+    set firstElement [string range $cmd 0 [expr {$firstSpacePos - 1}]]
+    set rest [string range $cmd [expr {$firstSpacePos + 1}] end]
+    set paths [split $firstElement /]
+    if {[llength $paths] == 1} {
+        return $cmd
+    } else {
+        set prefixes [lrange $paths 0 end-1]
+        set executable [lindex $paths end]
+        return [join [list "enrich-path" {*}$prefixes "-" $executable {*}$rest] " "]
+    }
+}
+# puts [constructEnrichedPathCmd {a}]
+# puts [constructEnrichedPathCmd {a b}]
+# puts [constructEnrichedPathCmd {a/b}]
+# puts [constructEnrichedPathCmd {a/b c}]
+# puts [constructEnrichedPathCmd {a/b/c}]
+# puts [constructEnrichedPathCmd {a/b/c d}]
+# puts [constructEnrichedPathCmd {a/b/c d e}]
+# puts [constructEnrichedPathCmd {/a}]
+# puts [constructEnrichedPathCmd {/a b}]
 
 proc copyToClipboard {text} {
     set fd [open "| xsel -b" w]
@@ -3309,19 +3354,19 @@ if {$text ne ""} {
         "mux://*!!!*" {
             set rest [splitString [stripPrefix $text {mux://}] "!!!"]
             set muxSessionName [orString [substEnvVars [lindex $rest 0]] ":."]
-            set cmd [lindex $rest 1]
+            set cmd [constructEnrichedPathCmd [lindex $rest 1]]
             execl with-mux-session [list $muxSessionName "-" {*}$cmd]
         }
         "mux://*!!*" {
             set rest [splitString [stripPrefix $text {mux://}] "!!"]
             set muxSessionName [orString [substEnvVars [lindex $rest 0]] ":."]
-            set cmd [lindex $rest 1]
+            set cmd [constructEnrichedPathCmd [lindex $rest 1]]
             execl with-mux-session [list $muxSessionName "-" with-pause {*}$cmd]
         }
         "mux://*!*" {
             set rest [splitString [stripPrefix $text {mux://}] "!"]
             set muxSessionName [orString [substEnvVars [lindex $rest 0]] ":."]
-            set cmd [lindex $rest 1]
+            set cmd [constructEnrichedPathCmd [lindex $rest 1]]
             execl tmux [list send-keys -t $muxSessionName $cmd Enter]
         }
         "edit!*" {
@@ -3333,15 +3378,16 @@ if {$text ne ""} {
             copyToClipboard $text
         }
         "!@*" {
-            set cmd [stripPrefix $text {!@}]
+            set cmd [constructEnrichedPathCmd [stripPrefix $text {!@}]]
             execl with-env-user [list with-term-emu-detach {*}$cmd]
         }
         "!!!*" {
-            set cmd [stripPrefix $text {!!!}]
+            set cmd [constructEnrichedPathCmd [stripPrefix $text {!!!}]]
             execl with-env-user [list with-term-emu {*}$cmd]
         }
         "!!*" {
-            set cmd [stripPrefix $text {!!}]
+            set cmd [constructEnrichedPathCmd [stripPrefix $text {!!}]]
+            puts "cmd='$cmd'"
             execl with-env-user [list with-term-emu with-pause {*}$cmd]
         }
         "tmux :: *" {
