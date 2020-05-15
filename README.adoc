@@ -4760,6 +4760,8 @@ exec enrich-path wm herbstluft interactive menus - "$@"
 
 ===== `interactive/call-menu` - performs a high-level WM action
 
+TODO: Report errors after `catch`
+
 .file::wm/herbstluft/interactive/call-menu
 [source,sh]
 ----
@@ -4891,7 +4893,7 @@ switch -glob $action {
     }
     "add-tag" {
         catch {
-            set tagName [string trim [exec yad {--title=Add tag} --entry {--entry-label=Tag name}]]
+            set tagName [string trim [exec yad {--title=Add tag} --entry {--entry-label=Tag name} 2>/dev/null]]
             if {$tagName ne ""} {
                 callHC add $tagName
             }
@@ -4899,7 +4901,7 @@ switch -glob $action {
     }
     "rename-current-tag" {
         catch {
-            set tagName [string trim [exec yad {--title=Add tag} --entry {--entry-label=Tag name}]]
+            set tagName [string trim [exec yad {--title=Rename tag} --entry {--entry-label=New name} 2>/dev/null]]
             if {$tagName ne ""} {
                 callHC rename [getCurrentTag] $tagName
             }
