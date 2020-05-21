@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
 
-exec enrich-path wm herbstluft interactive menus - "$@"
+exec enrich-path wm herbstluft menus - \
+	enrich-path guix - with-env "$@"

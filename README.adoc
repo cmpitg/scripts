@@ -4824,7 +4824,8 @@ TODO: Document on a menu-driven/guiding UX
 ----
 #!/usr/bin/env bash
 
-exec enrich-path wm herbstluft interactive menus - "$@"
+exec enrich-path wm herbstluft menus - \
+	enrich-path guix - with-env "$@"
 
 ----
 
