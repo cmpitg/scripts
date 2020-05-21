@@ -5631,6 +5631,8 @@ TODO: Help text
 
 TODO: Note on the rationale of this executable - To modularize scripting/shelling
 
+TODO: Thinking `wm wm/herbstluft wm/herbstluft/menus` vs. `wm herbstluft menus`
+
 .file::enrich-path
 [source,tcl]
 ----
@@ -5644,6 +5646,8 @@ package require Tclx
 
 # TODO: Order of args - which overrides which
 
+# TODO: The newly construct paths are prepended
+
 ##############################################################################
 # Helper
 ##############################################################################
@@ -5651,12 +5655,12 @@ package require Tclx
 proc addSuffixToPaths {paths suffix} {
     set res {}
     foreach e $paths {
-        set fullPath "$e$suffix" 
-        if {[file exists $fullPath]} {
-            lappend res $fullPath
+        set newPath "$e$suffix" 
+        if {[file exists $newPath]} {
+            lappend res $newPath
         }
     }
-    return [list {*}$res {*}$paths]
+    return $res
 }
 
 proc addCurrentDirToPaths {paths} {
@@ -5684,10 +5688,11 @@ if {[lsearch $::argv "-"] == -1} {
 
 set dedupedPaths [split [string trim [exec echo $::env(PATH) | awk -v RS=: {!($0 in a) {a[$0]; print}}]] "\n"]
 set paths [addCurrentDirToPaths $dedupedPaths]
+set newPaths {}
 foreach addedPath $addedPaths {
-    set paths [addSuffixToPaths $paths "/$addedPath"]
+    set newPaths [list {*}$newPaths {*}[addSuffixToPaths [list {*}$newPaths {*}$paths] "/$addedPath"]]
 }
-set ::env(PATH) [join $paths ":"]
+set ::env(PATH) [join [list {*}$newPaths {*}$paths] ":"]
 
 if {[lindex $args 0] ne ""} {
     execl [lindex $args 0] [lrange $args 1 end]
