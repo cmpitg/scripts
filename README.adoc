@@ -4829,11 +4829,11 @@ exec enrich-path wm herbstluft menus - \
 
 ----
 
-===== `interactive/call-menu` - performs a high-level WM action
+===== `call-menu` - performs a high-level WM action
 
 TODO: Report errors after `catch`
 
-.file::wm/herbstluft/interactive/call-menu
+.file::wm/herbstluft/call-menu
 [source,sh]
 ----
 #!/usr/bin/env tclsh
