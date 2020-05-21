@@ -3462,7 +3462,7 @@ if {$choice ne ""} {
 
 ----
 
-=== `call-omni-switcher-stdin` - displays a window + Tmux session switcher
+=== `call-omni-switcher-stdin` - display a universal switcher
 
 TODO: Help
 TODO: Note on standard input
