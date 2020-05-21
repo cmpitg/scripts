@@ -239,7 +239,6 @@ if {$text ne ""} {
         }
         "!!*" {
             set cmd [constructEnrichedPathCmd [stripPrefix $text {!!}]]
-            puts "cmd='$cmd'"
             execl with-env-user [list with-term-emu with-pause {*}$cmd]
         }
         "tmux :: *" {
