@@ -1,7 +1,0 @@
-#!/usr/bin/env sh
-
-report-missing-executables wmctrl wmctrl || exit 1
-
-exec wmctrl -d \
-	| awk '{ print $NF }' \
-	| sort | uniq

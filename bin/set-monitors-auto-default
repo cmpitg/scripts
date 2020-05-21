@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-
-report-missing-executables xrandr XRandR get-all-randr-outputs get-all-randr-outputs sed "GNU Sed" tr Coreutils || exit 1
-
-get-all-randr-outputs | sed 's/$/ --auto/g; s/^/--output /g' | tr "\n" " " | xargs xrandr
