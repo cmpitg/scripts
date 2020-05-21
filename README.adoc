@@ -4998,9 +4998,16 @@ TODO: assert argv
 ----
 #!/usr/bin/env tclsh
 
+package require Tclx
+
 set menuName [lindex $::argv 0]
 
-puts "(popup-menu [exec $menuName-menu])"
+catch {puts "(popup-menu [exec $menuName-menu 2>@ stderr])"} err opts
+if {[dict get $opts -code] != 0} {
+    set errStr "Failed to get menu (menuName=$menuName): $err"
+    puts stderr $errStr
+    execl run-menu [list -e $errStr]
+}
 
 ----
 
