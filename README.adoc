@@ -3462,12 +3462,12 @@ if {$choice ne ""} {
 
 ----
 
-=== `run-omni-switcher` - displays a window + Tmux session switcher
+=== `call-omni-switcher-stdin` - displays a window + Tmux session switcher
 
 TODO: Help
 TODO: Note on standard input
 
-.file::run-omni-switcher
+.file::call-omni-switcher-stdin
 [source,sh]
 ----
 #!/usr/bin/env zsh
@@ -4768,7 +4768,7 @@ cat --squeeze-blank \
     <(pprint-client-list | awk '{ print "wind ::", $0 }') \
     <(pprint-desktop-list | awk '{ print "desktop ::", $0 }') \
     | grep -v -e '^$' \
-    | run-omni-switcher
+    | call-omni-switcher-stdin
 
 ----
 

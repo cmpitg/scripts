@@ -6,4 +6,4 @@ cat --squeeze-blank \
     <(pprint-client-list | awk '{ print "wind ::", $0 }') \
     <(pprint-desktop-list | awk '{ print "desktop ::", $0 }') \
     | grep -v -e '^$' \
-    | run-omni-switcher
+    | call-omni-switcher-stdin
