@@ -4850,7 +4850,7 @@ proc stripPrefix {text prefix} {
 }
 
 proc callHC {args} {
-    return [exec enrich-path guix - with-env herbstclient {*}$args]
+    return [exec herbstclient {*}$args]
 }
 
 proc getTagList {} {
@@ -4860,8 +4860,6 @@ proc getTagList {} {
 proc getCurrentTag {} {
     return [exec get-desktop-name]
 }
-
-set ::env(PATH) [stripPrefix [exec enrich-path wm herbstluft interactive menus guix - with-env env | ag {^PATH=}] {^PATH=}]
 
 switch -glob $action {
     "main-menu-call-*" {
