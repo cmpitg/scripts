@@ -4841,7 +4841,9 @@ TODO: Report errors after `catch`
 package require Tclx
 
 set menuName [lindex $::argv 0]
-set action [exec get-menu $menuName 2> /dev/null | run-context-menu]
+if {[catch {set action [exec get-menu $menuName 2> /dev/null | run-context-menu]} err]} {
+    execl run-menu [list -e "Error when getting menu (menu=$menuName): $err"]
+}
 
 proc stripPrefix {text prefix} {
     return [string range $text [string length $prefix] end]

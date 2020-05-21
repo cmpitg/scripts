@@ -1,0 +1,150 @@
+#!/usr/bin/env tclsh
+
+package require Tclx
+
+set menuName [lindex $::argv 0]
+if {[catch {set action [exec get-menu $menuName 2> /dev/null | run-context-menu]} err]} {
+    execl run-menu [list -e "Error when getting menu (menu=$menuName): $err"]
+}
+
+proc stripPrefix {text prefix} {
+    return [string range $text [string length $prefix] end]
+}
+
+proc callHC {args} {
+    return [exec herbstclient {*}$args]
+}
+
+proc getTagList {} {
+    return [split [string trim [callHC object_tree tags.by-name | tail -n +2 | awk '{ print $NF }']] "\n"]
+}
+
+proc getCurrentTag {} {
+    return [exec get-desktop-name]
+}
+
+switch -glob $action {
+    "main-menu-call-*" {
+        set menuType [stripPrefix $action "main-menu-call-"]
+        execl call-menu [list $menuType]
+    }
+    "wm-*" {
+        set cmd [stripPrefix $action "wm-"]
+        if {$cmd eq "exec-client-command"} {
+            catch {
+                set cmd [string trim [callHC list_commands | xargs -I{} echo "{}" | sort | run-menu -dmenu -p "Herbstluft command"]]
+                set output "$cmd output:\n[callHC {*}$cmd]"
+                puts -nonewline $output
+                execl run-menu [list -e $output]
+            }
+        } else {
+            callHC $cmd
+        }
+    }
+    "split-frame-*" {
+        set direction [stripPrefix $action "split-frame-"]
+        callHC split $direction
+    }
+    "set-frame-layout-*" {
+        set layout [stripPrefix $action "set-frame-layout-"]
+        callHC set_layout $layout
+    }
+    "remove-frame" {
+        callHC remove
+    }
+    "app-*" {
+        set appName [stripPrefix $action "app-"]
+        switch $appName {
+            term-emu {
+                callHC spawn x-terminal-emulator
+            }
+            config-input {
+                callHC spawn config-inputs-cmpitg
+            }
+            clipboard {
+                callHC spawn display-clipboard
+            }
+            lock-screen {
+                callHC spawn lockscreen
+            }
+            suspend {
+                callHC spawn suspend-me
+            }
+        }
+    }
+    "toggle-focused-client-*" {
+        set attr [stripPrefix $action "toggle-focused-client-"]
+        switch $attr {
+            floating {
+                callHC attr clients.focus.floating toggle
+            }
+            fullscreen {
+                callHC fullscreen toggle
+            }
+        }
+    }
+    "move-client-to-monitor-*" {
+        set direction [stripPrefix $action "move-client-to-monitor-"]
+        switch $direction {
+            up {
+                set arg "-u"
+            }
+            down {
+                set arg "-d"
+            }
+            left {
+                set arg "-l"
+            }
+            right {
+                set arg "-r"
+            }
+        }
+        callHC shift_to_monitor $arg ""
+    }
+    "move-client-*" {
+        set direction [stripPrefix $action "move-client-"]
+        callHC shift $direction
+    }
+    "bring-client-here" {
+        set clientID [lindex $::argv 1]
+        callHC bring $clientID
+    }
+    "jump-to-client" {
+        set clientID [lindex $::argv 1]
+        callHC jumpto $clientID
+    }
+    "untag-focused-client" {
+        callHC move default
+    }
+    "bring-tag-here" {
+        set tagName [lindex $::argv 1]
+        callHC use $tagName
+    }
+    "kill-tag" {
+        set tagName [lindex $::argv 1]
+        callHC merge_tag $tagName [getCurrentTag]
+    }
+    "add-tag" {
+        catch {
+            set tagName [string trim [exec yad {--title=Add tag} --entry {--entry-label=Tag name} 2>/dev/null]]
+            if {$tagName ne ""} {
+                callHC add $tagName
+            }
+        }
+    }
+    "rename-current-tag" {
+        catch {
+            set tagName [string trim [exec yad {--title=Rename tag} --entry {--entry-label=New name} 2>/dev/null]]
+            if {$tagName ne ""} {
+                callHC rename [getCurrentTag] $tagName
+            }
+        }
+    }
+    "kill-current-tag" {
+        callHC merge_tag [getCurrentTag] default
+    }
+    "()" {}
+    default {
+        execl run-menu [list -e "Unknown action=$action"]
+    }
+}
