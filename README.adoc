@@ -4894,7 +4894,7 @@ switch -glob $action {
         set appName [stripPrefix $action "app-"]
         switch $appName {
             term-emu {
-                callHC spawn kitty
+                callHC spawn x-terminal-emulator
             }
             config-input {
                 callHC spawn config-inputs-cmpitg
