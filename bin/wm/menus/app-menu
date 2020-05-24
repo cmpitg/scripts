@@ -6,6 +6,8 @@
          ("[_m] Terminal emulator" app-term-emu)
          ("[_c] Clipboard" app-clipboard)
          ("[_w] Web browser" app-web-browser)
+         ("[_o] Edit TODOs" app-todo-editor)
+         ("[_t] Open Toolbox" app-toolbox)
          ()
          ("[_l] Lock screen" app-lock-screen)
          ("[_s] Suspend" app-suspend)))

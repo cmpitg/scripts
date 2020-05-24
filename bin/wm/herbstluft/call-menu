@@ -58,6 +58,14 @@ switch -glob $action {
             term-emu {
                 callHC spawn x-terminal-emulator
             }
+            toolbox {
+                # TODO: Use env var
+                callHC spawn ffn /m/toolbox/Toolbox
+            }
+            todo-editor {
+                # TODO: Use env var
+                callHC spawn ffn /m/toolbox/TODO.org
+            }
             config-input {
                 callHC spawn config-inputs-cmpitg
             }

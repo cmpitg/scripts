@@ -4813,6 +4813,81 @@ cat --squeeze-blank \
 
 ----
 
+==== `get-menu <menu-name>`
+
+TODO: assert argv
+
+.file::wm/get-menu
+[source,sh]
+----
+#!/usr/bin/env tclsh
+
+package require Tclx
+
+set menuName [lindex $::argv 0]
+
+catch {puts "(popup-menu [exec $menuName-menu 2>@ stderr])"} err opts
+if {[dict get $opts -code] != 0} {
+    set errStr "Failed to get menu (menuName=$menuName): $err"
+    puts stderr $errStr
+    execl run-menu [list -e $errStr]
+}
+
+----
+
+==== `menus/` - common menus across all WMs
+
+===== `menus/wm-menu`
+
+.file::wm/menus/wm-menu
+[source,sh]
+----
+#!/usr/bin/env -S guile -s
+# -*- mode: scheme -*-
+!#
+
+(write '(("[_x] Execute client command" wm-exec-client-command)
+         ("[_r] Reload" wm-reload)
+         ("[_s] Restart" wm-wmexec)
+         ("[_q] Quit" wm-quit)))
+
+----
+
+===== `menus/app-menu`
+
+.file::wm/menus/app-menu
+[source,sh]
+----
+#!/usr/bin/env -S guile -s
+# -*- mode: scheme -*-
+!#
+
+(write '(("[_a] Config input" app-config-input)
+         ("[_m] Terminal emulator" app-term-emu)
+         ("[_c] Clipboard" app-clipboard)
+         ("[_w] Web browser" app-web-browser)
+         ("[_o] Edit TODOs" app-todo-editor)
+         ("[_t] Open Toolbox" app-toolbox)
+         ()
+         ("[_l] Lock screen" app-lock-screen)
+         ("[_s] Suspend" app-suspend)))
+
+----
+
+===== `menus/client-menu`
+
+.file::wm/menus/client-menu
+[source,sh]
+----
+#!/usr/bin/env -S guile -s
+# -*- mode: scheme -*-
+!#
+
+(write '(("[_b] Bring here" bring-client-here)
+         ("[_j] Jump to" jump-to-client)))
+
+----
+
 ==== `herbstluft/` - utils to manage https://herbstluftwm.org/[HerbstluftWM]
 
 TODO: Document on a menu-driven/guiding UX
@@ -4895,6 +4970,14 @@ switch -glob $action {
         switch $appName {
             term-emu {
                 callHC spawn x-terminal-emulator
+            }
+            toolbox {
+                # TODO: Use env var
+                callHC spawn ffn /m/toolbox/Toolbox
+            }
+            todo-editor {
+                # TODO: Use env var
+                callHC spawn ffn /m/toolbox/TODO.org
             }
             config-input {
                 callHC spawn config-inputs-cmpitg
@@ -4986,61 +5069,6 @@ switch -glob $action {
         execl run-menu [list -e "Unknown action=$action"]
     }
 }
-
-----
-
-===== `menus/get-menu <menu-name>`
-
-TODO: assert argv
-
-.file::wm/herbstluft/menus/get-menu
-[source,sh]
-----
-#!/usr/bin/env tclsh
-
-package require Tclx
-
-set menuName [lindex $::argv 0]
-
-catch {puts "(popup-menu [exec $menuName-menu 2>@ stderr])"} err opts
-if {[dict get $opts -code] != 0} {
-    set errStr "Failed to get menu (menuName=$menuName): $err"
-    puts stderr $errStr
-    execl run-menu [list -e $errStr]
-}
-
-----
-
-===== `menus/app-menu`
-
-.file::wm/herbstluft/menus/app-menu
-[source,sh]
-----
-#!/usr/bin/env -S guile -s
-# -*- mode: scheme -*-
-!#
-
-(write '(("[_a] Config input" app-config-input)
-         ("[_m] Terminal emulator" app-term-emu)
-         ("[_c] Clipboard" app-clipboard)
-         ("[_w] Web browser" app-web-browser)
-         ()
-         ("[_l] Lock screen" app-lock-screen)
-         ("[_s] Suspend" app-suspend)))
-
-----
-
-===== `menus/client-menu`
-
-.file::wm/herbstluft/menus/client-menu
-[source,sh]
-----
-#!/usr/bin/env -S guile -s
-# -*- mode: scheme -*-
-!#
-
-(write '(("[_b] Bring here" bring-client-here)
-         ("[_j] Jump to" jump-to-client)))
 
 ----
 
@@ -5146,22 +5174,6 @@ if {[dict get $opts -code] != 0} {
 
 (write '(("[_b] Bring here" bring-tag-here)
          ("[_k] Kill" kill-tag)))
-
-----
-
-===== `menus/wm-menu`
-
-.file::wm/herbstluft/menus/wm-menu
-[source,sh]
-----
-#!/usr/bin/env -S guile -s
-# -*- mode: scheme -*-
-!#
-
-(write '(("[_x] Execute client command" wm-exec-client-command)
-         ("[_r] Reload" wm-reload)
-         ("[_s] Restart" wm-wmexec)
-         ("[_q] Quit" wm-quit)))
 
 ----
 
