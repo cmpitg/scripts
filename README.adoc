@@ -5665,6 +5665,10 @@ package require Tclx
 ##############################################################################
 
 proc addSuffixToPaths {paths suffix} {
+    if {[string match "/*" $suffix]} {
+        return $suffix
+    }
+
     set res {}
     foreach e $paths {
         set newPath "$e$suffix" 
