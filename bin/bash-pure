@@ -1,4 +1,20 @@
-#!/usr/bin/env sh
+#!/usr/bin/env tclsh
 
-# exec env --ignore-environment - HOME="${HOME}" USER="${USER}" DISPLAY="${DISPLAY}" bash --login --noprofile --norc "$@"
-exec bash --noprofile --norc "$@"
+package require Tclx
+
+proc removeElementsWithPattern {xs pattern} {
+    set res {}
+    foreach x $xs {
+        if {![string match $pattern $x]} {
+            lappend res $x
+        }
+    }
+    return $res
+}
+
+foreach {var val} [array get env] {
+    set newVals [removeElementsWithPattern [split $val :] *guix*]
+    set ::env($var) [join $newVals :]
+}
+
+execl bash [list --login --noprofile --norc {*}$::argv]
