@@ -16,12 +16,12 @@ package require Tclx
 
 proc addSuffixToPaths {paths suffix} {
     if {[string match "/*" $suffix]} {
-        return $suffix
+        return [list $suffix]
     }
 
     set res {}
     foreach e $paths {
-        set newPath "$e$suffix" 
+        set newPath "$e/$suffix" 
         if {[file exists $newPath]} {
             lappend res $newPath
         }
@@ -56,7 +56,7 @@ set dedupedPaths [split [string trim [exec echo $::env(PATH) | awk -v RS=: {!($0
 set paths [addCurrentDirToPaths $dedupedPaths]
 set newPaths {}
 foreach addedPath $addedPaths {
-    set newPaths [list {*}$newPaths {*}[addSuffixToPaths [list {*}$newPaths {*}$paths] "/$addedPath"]]
+    set newPaths [list {*}$newPaths {*}[addSuffixToPaths [list {*}$newPaths {*}$paths] "$addedPath"]]
 }
 set ::env(PATH) [join [list {*}$newPaths {*}$paths] ":"]
 
