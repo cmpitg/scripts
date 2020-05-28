@@ -15,7 +15,8 @@ proc setMute {flag} {
 }
 
 proc getVol {} {
-    return [join [exec amixer -c 1 -M -D pulse get Master | grep -o -E {[[:digit:]]+%}]]
+    # return [join [exec amixer -c 1 -M -D pulse get Master | grep -o -E {[[:digit:]]+%}]]
+    return [join [exec amixer -M -D pulse get Master | grep -o -E {[[:digit:]]+%}]]
 }
 
 proc showVol {} {
