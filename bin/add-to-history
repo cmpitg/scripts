@@ -2,7 +2,10 @@
 
 package require Tcl 8
 package require cmdline
-package require struct::list 1.8
+
+if {[catch [exec report-missing-executables flock util-linux]]} {
+	exit 1
+}
 
 try {
 	array set cmdArgs [::cmdline::getoptions ::argv {
@@ -29,11 +32,9 @@ set filePath [lindex $::argv 0]
 # Helpers
 ##############################################################################
 
-proc slurpIntoLines {path} {
-	set fd [open $path r]
-	set res [read $fd]
-	close $fd
-	return [::struct::list filterfor x [split $res "\n"] {[string trim $x] ne ""}]
+proc slurpAndAdd {path line} {
+	# Awk is to filter out blank lines and trim spaces
+	set lines [split [exec echo $line | cat - $path | awk {NF { $1 = $1; print }} | dedup-lines] "\n"]
 }
 
 proc readLineFromStdin {} {
@@ -63,14 +64,12 @@ if {![file exists $filePath]} {
 
 # Make sure the history file is locked
 if {!([info exists ::env(_FLOCKER_HISTORY_PATH_)] && $::env(_FLOCKER_HISTORY_PATH_) eq $filePath)} {
-    package require Tclx
-    execl flock [list --exclusive $filePath env "_FLOCKER_HISTORY_PATH_=$filePath" $::argv0 {*}$::argv]
+	package require Tclx
+	execl flock [list --exclusive $filePath env "_FLOCKER_HISTORY_PATH_=$filePath" $::argv0 {*}$::argv]
 }
 
-set lines [slurpIntoLines $filePath]
-
 set newLine [readLineFromStdin]
-set newLines [concat [list $newLine] [::struct::list filterfor x $lines {$x ne $newLine}]]
+set newLines [slurpAndAdd $filePath $newLine]
 set finalLines [lrange $newLines 0 [expr {$maxHistory - 1}]]
 
 writeLines $filePath $finalLines
