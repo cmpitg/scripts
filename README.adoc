@@ -3600,11 +3600,15 @@ if {![file exists $filePath]} {
 
 	# Create the empty file
 	close [open $filePath w]
-
-	set lines {}
-} else {
-	set lines [slurpIntoLines $filePath]
 }
+
+# Make sure the history file is locked
+if {!([info exists ::env(_FLOCKER_HISTORY_PATH_)] && $::env(_FLOCKER_HISTORY_PATH_) eq $filePath)} {
+    package require Tclx
+    execl flock [list --exclusive $filePath env "_FLOCKER_HISTORY_PATH_=$filePath" $::argv0 {*}$::argv]
+}
+
+set lines [slurpIntoLines $filePath]
 
 set newLine [readLineFromStdin]
 set newLines [concat [list $newLine] [::struct::list filterfor x $lines {$x ne $newLine}]]
