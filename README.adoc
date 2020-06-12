@@ -3381,21 +3381,39 @@ if {$text ne ""} {
     switch -glob $text {
         "mux://*!!!*" {
             set rest [splitString [stripPrefix $text {mux://}] "!!!"]
-            set muxSessionName [orString [substEnvVars [lindex $rest 0]] ":."]
+            set muxSessionName [string trim [orString [substEnvVars [lindex $rest 0]] ":."]]
             set cmd [constructEnrichedPathCmd [lindex $rest 1]]
             execl with-mux-session [list $muxSessionName "-" {*}$cmd]
         }
         "mux://*!!*" {
             set rest [splitString [stripPrefix $text {mux://}] "!!"]
-            set muxSessionName [orString [substEnvVars [lindex $rest 0]] ":."]
+            set muxSessionName [string trim [orString [substEnvVars [lindex $rest 0]] ":."]]
             set cmd [constructEnrichedPathCmd [lindex $rest 1]]
             execl with-mux-session [list $muxSessionName "-" with-pause {*}$cmd]
         }
         "mux://*!*" {
             set rest [splitString [stripPrefix $text {mux://}] "!"]
-            set muxSessionName [orString [substEnvVars [lindex $rest 0]] ":."]
+            set muxSessionName [string trim [orString [substEnvVars [lindex $rest 0]] ":."]]
             set cmd [constructEnrichedPathCmd [lindex $rest 1]]
             execl tmux [list send-keys -t $muxSessionName $cmd Enter]
+        }
+        "ssh://*!*" {
+            set rest [splitString [stripPrefix $text {ssh://}] "!"]
+            set hostExpr [string trim [substEnvVars [lindex $rest 0]]]
+            set cmd [constructEnrichedPathCmd [lindex $rest 1]]
+            execl ssh [list $hostExpr {*}$cmd]
+        }
+        "ssh://*:*/" {
+            set rest [splitString [string trim [stripPrefix $text {ssh://}]] ":"]
+            set hostExpr [string trim [substEnvVars [lindex $rest 0]]]
+            set path [join [lrange $rest 1 end] ":"]
+            execl ssh [list $hostExpr ls -1 --classify --all --group-directories-first $path]
+        }
+        "ssh://*:*" {
+            set rest [splitString [string trim [stripPrefix $text {ssh://}]] ":"]
+            set hostExpr [string trim [substEnvVars [lindex $rest 0]]]
+            set path [join [lrange $rest 1 end] ":"]
+            execl ssh [list $hostExpr cat $path]
         }
         "edit!*" {
             set path [exec which [stripPrefix $text {edit!}]]
