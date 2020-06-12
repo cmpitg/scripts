@@ -3407,7 +3407,7 @@ if {$text ne ""} {
             set rest [splitString [string trim [stripPrefix $text {ssh://}]] ":"]
             set hostExpr [string trim [substEnvVars [lindex $rest 0]]]
             set path [join [lrange $rest 1 end] ":"]
-            execl ssh [list $hostExpr ls -1 --classify --all --group-directories-first $path]
+            execl ssh [list $hostExpr ls -1 --indicator-style=slash --dereference --all --group-directories-first $path]
         }
         "ssh://*:*" {
             set rest [splitString [string trim [stripPrefix $text {ssh://}]] ":"]
