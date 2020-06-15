@@ -6,6 +6,15 @@
 # TODO: report-missing-executables
 # TODO: Declarative configuration?
 
+# TODO: Samples
+# dispatch-action 'ssh://<foobar>!' 'w'
+# dispatch-action 'ssh://<username>@<foobar>' '!' 'w'
+# dispatch-action 'ssh://<username>@<foobar>:<port>' '!' 'w'
+# dispatch-action 'ssh://<foobar>:/tmp/'
+# dispatch-action 'ssh://<foobar>:/tmp/foobar'
+# dispatch-action 'ssh://<username>@<foobar>:/tmp/'
+# dispatch-action 'ssh://<username>@<foobar>:<port>:/tmp/foobar'
+
 package require Tclx
 
 ##############################################################################
@@ -30,10 +39,10 @@ proc substEnvVars {str} {
 }
 
 ## TODO: Documentation
-proc splitString {text str} {
-    set index [string first $str $text]
+proc splitString {text str {startIndex 0}} {
+    set index [string first $str $text $startIndex]
     if {$index != -1} {
-        set i1 [expr {$index - [string length $str]}]
+        set i1 [expr {$index - 1}]
         set i2 [expr {$index + [string length $str]}]
         return [list [string range $text 0 $i1] [string range $text $i2 end]]
     } else {
@@ -222,21 +231,31 @@ if {$text ne ""} {
             execl tmux [list send-keys -t $muxSessionName $cmd Enter]
         }
         "ssh://*!*" {
-            set rest [splitString [stripPrefix $text {ssh://}] "!"]
-            set hostExpr [string trim [substEnvVars [lindex $rest 0]]]
-            set cmd [constructEnrichedPathCmd [lindex $rest 1]]
+            # Execute an SSH command
+            set parts [splitString $text "!"]
+
+            set hostExpr [string trim [substEnvVars [lindex $parts 0]]]
+            set cmd [constructEnrichedPathCmd [lindex $parts 1]]
+
             execl ssh [list $hostExpr {*}$cmd]
         }
-        "ssh://*:*/" {
-            set rest [splitString [string trim [stripPrefix $text {ssh://}]] ":"]
-            set hostExpr [string trim [substEnvVars [lindex $rest 0]]]
-            set path [join [lrange $rest 1 end] ":"]
+        "ssh://*:/*/" {
+            # Expand a remote dir via SSH
+            set parts [splitString [string trim $text] ":/" [string length "ssh://"]]
+
+            set hostExpr [string trim [substEnvVars [lindex $parts 0]]]
+            set path "/[lindex $parts 1]"
+
             execl ssh [list $hostExpr ls -1 --indicator-style=slash --dereference --all --group-directories-first $path]
         }
-        "ssh://*:*" {
-            set rest [splitString [string trim [stripPrefix $text {ssh://}]] ":"]
-            set hostExpr [string trim [substEnvVars [lindex $rest 0]]]
-            set path [join [lrange $rest 1 end] ":"]
+        "ssh://*:/*" {
+            # Edit a remote file via SSH
+            # TODO: Make the edit functionality work
+            set parts [splitString [string trim $text] ":/" [string length "ssh://"]]
+
+            set hostExpr [string trim [substEnvVars [lindex $parts 0]]]
+            set path "/[lindex $parts 1]"
+
             execl ssh [list $hostExpr cat $path]
         }
         "/*/" {
