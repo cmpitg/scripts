@@ -3900,7 +3900,7 @@ proc getDefaultChoice {choice} {
 }
 
 proc getAnswer {default} {
-	set answer [gets stdin]
+	set answer [string trim [gets stdin]]
 	if {[string equal "" $answer]} {
 		return $default
 	} else {
