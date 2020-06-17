@@ -17,8 +17,8 @@ proc getAnswer {default} {
 	}
 }
 
-set prompt [lindex $argv 0]
-set defaultChoice [getDefaultChoice [lindex $argv 1]]
+set prompt [string trim [lindex $argv 0]]
+set defaultChoice [getDefaultChoice [string trim [lindex $argv 1]]]
 
 puts -nonewline "$prompt \[y/n\] ($defaultChoice) "
 flush stdout
