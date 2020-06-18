@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+
+exec_path_=$(get-exec "$1")
+shift 1
+
+exec "${exec_path_}" "$@"
