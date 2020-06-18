@@ -29,15 +29,6 @@ proc addSuffixToPaths {paths suffix} {
     return $res
 }
 
-proc addCurrentDirToPaths {paths} {
-    set res {}
-    if {[lsearch $paths "."] == -1 && [lsearch $paths "./"] == -1} {
-        return [list . {*}$paths]
-    } else {
-        return $paths
-    }
-}
-
 ##############################################################################
 # Main
 ##############################################################################
@@ -52,13 +43,12 @@ if {[lsearch $::argv "-"] == -1} {
     set args [lrange $::argv [expr {$index + 1}] end]
 }
 
-set dedupedPaths [split [string trim [exec echo $::env(PATH) | awk -v RS=: {!($0 in a) {a[$0]; print}}]] "\n"]
-set paths [addCurrentDirToPaths $dedupedPaths]
-set newPaths {}
-foreach addedPath $addedPaths {
-    set newPaths [list {*}$newPaths {*}[addSuffixToPaths [list {*}$newPaths {*}$paths] "$addedPath"]]
+set paths [split [string trim [exec echo ".:$::env(PATH)" | awk -v RS=: {!($0 in a) {a[$0]; print}}]] "\n"]
+foreach suffix $addedPaths {
+    set pathsWithSuffix [addSuffixToPaths $paths $suffix]
+    set paths [list {*}$pathsWithSuffix {*}$paths]
 }
-set ::env(PATH) [join [list {*}$newPaths {*}$paths] ":"]
+set ::env(PATH) [join $paths ":"]
 
 if {[lindex $args 0] ne ""} {
     execl [lindex $args 0] [lrange $args 1 end]
