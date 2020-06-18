@@ -1,0 +1,13 @@
+#!/usr/bin/env tclsh
+
+set execFile [string trim $::argv]
+set paths [split $::env(PATH) ":"]
+
+foreach path $paths {
+    set possibleExec "$path/$execFile"
+    if {[file exists $possibleExec]} {
+        puts $possibleExec
+        exit 0
+    }
+}
+exit 2

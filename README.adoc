@@ -5651,6 +5651,29 @@ exit 2
 
 ----
 
+=== `get-from-paths` - gets the full path of a file/directory from `PATH`
+
+TODO: Help text
+
+.file::get-from-paths
+[source,tcl]
+----
+#!/usr/bin/env tclsh
+
+set execFile [string trim $::argv]
+set paths [split $::env(PATH) ":"]
+
+foreach path $paths {
+    set possibleExec "$path/$execFile"
+    if {[file exists $possibleExec]} {
+        puts $possibleExec
+        exit 0
+    }
+}
+exit 2
+
+----
+
 === `enrich-path` - enriches `PATH`, then executes a command
 
 TODO: Help text
