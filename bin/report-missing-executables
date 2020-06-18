@@ -1,31 +1,7 @@
-#!/usr/bin/env python3
+#!/usr/bin/env tclsh
 
-import sys
-import os
-
-
-def main():
-	if os.environ.get('DOCTEST') == '1':
-		import doctest
-		doctest.testmod()
-		sys.exit(0)
-
-	if len(sys.argv) == 1:
-		show_help(when_error=True)
-	elif len(sys.argv) == 2 and sys.argv[1] == "--help":
-		show_help()
-	elif len(sys.argv) % 2 == 0:
-		sys.stderr.write("Invalid arguments.  Number of arguments must be even.\n")
-		sys.exit(3)
-	else:
-		sys.exit(
-			1 if report_missing_execs(get_missing_execs(sys.argv[1:])) else 0
-        )
-
-
-def show_help(when_error=False):
-	help_text = """
-Usage:
+proc showHelp {} {
+    puts {Usage:
   report-missing-executables <exec-1> <prog-1> ...
   report-missing-executables --help
 
@@ -37,111 +13,56 @@ E.g.
 
   report-missing-executables aria2c Aria2 wget Wget
     # aria2c and wget not found
-    # Make sure you have Aria2 and Wget installed
+    # Make sure Aria2, Wget are installed
 
   report-missing-executables aria2c Aria2 wget Wget curl cURL
     # aria2c, curl, and wget not found
-    # Make sure you have Aria2, Wget, and cURL installed
+    # Make sure Aria2, Wget, cURL are installed
 
   report-missing-executables aria2c Aria2 wget
-    # Invalid arguments.  Number of arguments must be even.
+    # Invalid arguments.  Number of arguments must be even.}
+}
 
-Development note: When running with environment variable DOCTEST set to 1,
-runs the Python doctest and exits.
-"""
-	if when_error:
-		sys.stderr.write(help_text)
-	else:
-		sys.stdout.write(help_text)
+if {$::argc == 0 || $::argv eq {--help}} {
+    showHelp
+    exit 0
+}
 
+if {$::argc % 2 == 1} {
+    puts stderr "Invalid arguments.  Number of arguments must be even."
+    exit 2
+}
 
-def find_executable(name):
-	"""If `name` is an executable, returns the full path to `name`; otherwise,
-	returns `False`.
+proc notifyMissingExecs {execs} {
+    set execStr [join $execs ", "]
+    exec notify-send --urgency=critical "Missing Software" "Missing $execStr" <@ stdin >@ stdout 2>@ stderr
+}
 
-	>>> find_executable("ls")
-	'/bin/ls'
-	>>> import uuid
-	>>> find_executable(str(uuid.uuid4()))
-	False
-	"""
-	paths = os.environ.get("PATH", "").split(":")
+set missingExecs {}
+set missingApps {}
+for {set i 0} {$i < $::argc} {incr i 2} {
+    set execName [lindex $::argv $i]
+    set appName [lindex $::argv [expr {$i + 1}]]
+    if {[catch {exec get-exec $execName > /dev/null 2> /dev/null}]} {
+        set missingExecs [list {*}$missingExecs $execName]
+        set missingApps [list {*}$missingApps $appName]
+    }
+}
 
-	for path_dir in paths:
-		full_path = os.path.join(path_dir, name)
-		if (os.path.isfile(full_path) and os.access(full_path, os.X_OK)):
-			return full_path
-
-	return False
-
-
-def found_executable(name):
-	"""Determines if a name is an executable that can be called.
-
-	>>> found_executable("ls")
-	True
-	>>> found_executable("python")
-	True
-	>>> import uuid
-	>>> found_executable(str(uuid.uuid4()))
-	False
-	"""
-	return find_executable(name) != False
-
-
-def get_missing_execs(args):
-	"""Gets missing executables from command line arguments.  The argument `args`
-	is a list of strings `<exec-1> <program-1> <exec-2> <program-2> ...`.
-	Returns the list of dictionaries with `\"executable\"` and `\"program\"`
-	as keys where the corresponding executables are not found.
-
-	>>> get_missing_execs(['ls', 'Binutils', 'python', 'Python', 'aaaSomeCrapaaa', 'Some Crap']) == [{'executable': 'aaaSomeCrapaaa', 'program': 'Some Crap'}]
-	True
-	"""
-	return [
-		dict(executable=args[i], program=args[i + 1])
-		for i in range(0, len(args), 2)
-		if not found_executable(args[i])
-	]
-
-
-def report_missing_execs(missing_list):
-	"""Reports missing executables, returning `True` if there is at least one
-	missing and `False` otherwise.
-
-	"""
-
-	def print_missing_list(pre_msg, post_msg, missing):
-		if len(missing) == 1:
-			output = missing[0]
-		else:
-			missing_butlast = missing[:-1]
-			missing_last    = missing[-1]
-			before_last     = ", ".join(missing_butlast)
-			comma           = "," if len(missing) > 2 else ""
-
-			output = "{}{} and {}".format(before_last, comma, missing_last)
-
-		sys.stdout.write("{}{} {}\n".format(pre_msg, output, post_msg))
-
-	def notify_missing(missing):
-		os.system("notify-send --urgency=critical 'Missing Software' 'Missing execs: {}'".format(', '.join(missing)))
-
-	if len(missing_list) == 0:
-		return False
-	else:
-		print_missing_list(
-			pre_msg="",
-			post_msg="not found",
-			missing=[x['executable'] for x in missing_list],
-		)
-		print_missing_list(
-			pre_msg="Make sure you have ",
-			post_msg="installed",
-			missing=[x['program'] for x in missing_list],
-		)
-		notify_missing(x['executable'] for x in missing_list)
-		return True
-
-
-main()
+switch [llength $missingApps] {
+    0 {
+        exit 0
+    }
+    1 {
+        puts stderr "$missingExecs not found"
+        puts stderr "Make sure $missingApps is installed"
+        notifyMissingExecs $missingExecs
+    }
+    default {
+        set execStr [join $missingExecs ", "]
+        set appStr [join $missingApps ", "]
+        puts stderr "$execStr not found"
+        puts stderr "Make sure $appStr are installed"
+        notifyMissingExecs $missingExecs
+    }
+}
