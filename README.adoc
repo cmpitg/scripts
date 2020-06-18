@@ -5628,6 +5628,29 @@ execl tail [list "-f" $supervisedPath/$serviceName/log/main/$logFile]
 
 == High-level "fingertip" executables
 
+=== `get-exec` - gets the full path of an executable from `PATH`
+
+TODO: Help text
+
+.file::get-exec
+[source,tcl]
+----
+#!/usr/bin/env tclsh
+
+set execFile [string trim $::argv]
+set paths [split $::env(PATH) ":"]
+
+foreach path $paths {
+    set possibleExec "$path/$execFile"
+    if {[file exists $possibleExec] && [file isfile $possibleExec] && [file executable $possibleExec]} {
+        puts $possibleExec
+        exit 0
+    }
+}
+exit 2
+
+----
+
 === `enrich-path` - enriches `PATH`, then executes a command
 
 TODO: Help text
