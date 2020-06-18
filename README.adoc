@@ -2957,14 +2957,14 @@ exec rofi -lines 40 \
 ----
 #!/usr/bin/env sh
 
-enrich-path guix - with-env report-missing-executables sawfish Sawfish || exit 1
+deep-exec guix/with-env report-missing-executables sawfish Sawfish || exit 1
 
-menu_path_=$(enrich-path guix - with-env which sawfish \
+menu_path_=$(deep-exec guix/with-env which sawfish \
      | xargs -n 1 -I "{}" readlink -f "{}" \
      | xargs -n 1 -I "{}" dirname "{}" \
      | xargs -n 1 -I "{}" readlink -f "{}/../lib/sawfish/sawfish-menu")
 
-exec enrich-path guix - with-env "${menu_path_}" "$@"
+exec deep-exec guix/with-env "${menu_path_}" "$@"
 
 ----
 
@@ -4891,7 +4891,7 @@ TODO: Document on a menu-driven/guiding UX
 #!/usr/bin/env bash
 
 exec enrich-path wm herbstluft menus - \
-	enrich-path guix - with-env "$@"
+	deep-exec guix/with-env "$@"
 
 ----
 
