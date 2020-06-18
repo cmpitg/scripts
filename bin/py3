@@ -1,6 +1,0 @@
-#!/usr/bin/env bash
-
-virtualenv_=${VIRTUAL_ENV:-python2-full-debian}
-
-source "${WORKON_HOME}/${virtualenv_}/bin/activate"
-exec python3 "$@"

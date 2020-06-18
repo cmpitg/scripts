@@ -4158,76 +4158,6 @@ prefix=$1 {
 
 ----
 
-=== `pretty-print-json`
-
-.file::pretty-print-json
-[source,sh]
-----
-#!/usr/bin/env bash
-
-python -m json.tool "$@"
-
-----
-
-=== `psx` - `ps -ef | grep --color "$@"`
-
-.file::psx
-[source,sh]
-----
-#!/usr/bin/env bash
-
-ps -ef | grep --color "$@"
-
-----
-
-=== `py2` - runs Python 2 in a http://docs.python-guide.org/en/latest/dev/virtualenvs/[virtual environment]
-
-The name of the virtual environment could be set by setting the `VIRTUAL_ENV`
-environment variable.  By default, it uses `python2-full-debian` as its name.
-
-.file::py2
-[source,sh]
-----
-#!/usr/bin/env bash
-
-virtualenv_=${VIRTUAL_ENV:-python2-full-debian}
-
-source "${WORKON_HOME}/${virtualenv_}/bin/activate"
-exec python "$@"
-
-----
-
-=== `py3` - runs Python 3 in a http://docs.python-guide.org/en/latest/dev/virtualenvs/[virtual environment]
-
-The name of the virtual environment could be set by setting the `VIRTUAL_ENV`
-environment variable.  By default, it uses `python2-full-debian` as its name.
-
-.file::py3
-[source,sh]
-----
-#!/usr/bin/env bash
-
-virtualenv_=${VIRTUAL_ENV:-python2-full-debian}
-
-source "${WORKON_HOME}/${virtualenv_}/bin/activate"
-exec python3 "$@"
-
-----
-
-=== `site-packages-path` - prints Python site packages path
-
-.file::site-packages-path
-[source,sh]
-----
-#!/usr/bin/env python
-
-from distutils.sysconfig import get_python_lib
-
-
-print(get_python_lib())
-
-----
-
 === `query-password` - queries password from a password manager
 
 The password is printed to stdout without an end-of-line character.
@@ -4293,17 +4223,6 @@ tmpfile=`{tempfile}^.png
 qrencode -o $tmpfile -s 5 $*
 do-notify-short $tmpfile' created'
 display $tmpfile
-
-----
-
-=== `rackjure` - runs Racket with https://github.com/greghendershott/rackjure[Rackjure]
-
-.file::rackjure
-[source,sh]
-----
-#!/usr/bin/env bash
-
-racket -I rackjure "$@"
 
 ----
 
