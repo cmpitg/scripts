@@ -4,13 +4,109 @@ if {[catch {exec report-missing-executables sensors lm-sensors acpi acpi >@ stdo
     exit 1
 }
 
-set coreTemps [exec sensors -u coretemp-isa-0000 | ag {temp.*input} | awk {{ printf("%.1f°C, ", $2) }} | sed {s/, $//} 2> /dev/null]
-set coreTempsText "Cores: $coreTemps"
+package require Tcl 8.4
+package require json 1.3.3
 
-set fanStats [exec sensors -u thinkpad-isa-0000 | ag {fan.*input} | awk {{ printf("%.0f RPMs, ", $2) }} | sed {s/, $//} 2> /dev/null]
-set fanStatsText "Fans: $fanStats"
+set deviceMapping {
+    {
+        label CPU
+        command {::json::json2dict [exec sensors -j <@ stdin 2> /dev/null]}
+        groups {
+            {
+                unit °C
+                paths {
+                    {k10temp-pci-00c3 Tdie temp1_input}
+                    {coretemp-isa-0000 "Core 0" temp2_input}
+                    {coretemp-isa-0000 "Core 1" temp3_input}
+                    {coretemp-isa-0000 "Core 2" temp4_input}
+                    {coretemp-isa-0000 "Core 3" temp5_input}
+                }
+            }
+            {
+                unit " RPM"
+                paths {
+                    {thinkpad-isa-0000 fan1 fan1_input}
+                }
+            }
+        }
+    }
+    {
+        label GPU
+        command {::json::json2dict [exec sensors -j <@ stdin 2> /dev/null]}
+        groups {
+            {
+                unit °C
+                paths {
+                    {amdgpu-pci-0500 junction temp2_input}
+                }
+            }
+            {
+                unit " RPM"
+                paths {
+                    {amdgpu-pci-0500 fan1 fan1_input}
+                }
+            }
+        }
+    }
+    {
+        label Bats
+        command {join [exec acpi -b | awk {{ print $4, $3 }} | sed {s/[:,]//g ; s/ Charging/+/g ; s/ Discharging/-/g ; s/ Unknown//g} 2> /dev/null]}
+    }
+}
 
-set batStats [join [exec acpi -b | awk {{ print $4, $3 }} | sed {s/[:,]//g ; s/ Charging/+/g ; s/ Discharging/-/g ; s/ Unknown//g} 2> /dev/null]]
-set batStatsText "Bats: [join $batStats {, }]"
+set sensorData [::json::json2dict [exec sensors -j <@ stdin 2> /dev/null]]
+set resultList {}
 
-puts "$coreTempsText | $fanStatsText | $batStatsText"
+proc getValueForPath {data path} {
+    if {![dict exists $data {*}$path]} {
+        return {}
+    } else {
+        return [format "%.1f" [dict get $data {*}$path]]
+    }
+}
+
+proc getReadingForGroup {sensorData group} {
+    set currentReadingList {}
+    set unit [dict get $group unit]
+    foreach path [dict get $group paths] {
+        set number [getValueForPath $sensorData $path]
+        if {$number ne {}} {
+            lappend currentReadingList "$number$unit"
+        }
+    }
+    return $currentReadingList
+}
+
+proc getReadingForDevice {dev} {
+    set label [dict get $dev label]
+    set sensorData [eval [dict get $dev command]]
+
+    if {[dict exists $dev groups]} {
+        set reading {}
+        foreach group [dict get $dev groups] {
+            set groupReading [getReadingForGroup $sensorData $group]
+            if {$groupReading ne {}} {
+                lappend reading [join $groupReading ", "]
+            }
+        }
+    } else {
+        # If the 'groups' key doesn't exist, the reading is $sensorData
+        set reading $sensorData
+    }
+
+
+    if {$reading ne {}} {
+        return "$label: [join $reading ", "]"
+    } else {
+        return {}
+    }
+}
+
+foreach dev $deviceMapping {
+    set reading [getReadingForDevice $dev]
+    if {$reading ne {}} {
+        lappend resultList $reading
+    }
+}
+
+puts [join $resultList " | "]
