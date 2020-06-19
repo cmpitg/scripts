@@ -179,7 +179,7 @@ proc callWMClientMenu {wmName client} {
         }
         "herbstluftwm" {
             set winID [lindex [split [string trim $client] " "] end]
-            execl enrich-path [list wm wm/herbstluft - call-menu client $winID]
+            execl enrich-path [list wm herbstluft - call-menu client $winID]
         }
         default {
             execl run-menu [list "-e" "Error: Unrecognized window manager wmName=$wmName for client menu"]
@@ -190,7 +190,7 @@ proc callWMClientMenu {wmName client} {
 proc callWMDesktopMenu {wmName desktop} {
     switch $wmName {
         "herbstluftwm" {
-            execl enrich-path [list wm wm/herbstluft - call-menu tag $desktop]
+            execl enrich-path [list wm herbstluft - call-menu tag $desktop]
         }
         default {
             execl run-menu [list "-e" "Error: Unrecognized window manager wmName=$wmName for desktop menu"]
@@ -287,11 +287,11 @@ if {$text ne ""} {
             execl bring-termux-session $tmuxSessionName
         }
         "wind :: *" {
-            set wmName [exec enrich-path wm - get-wm-name]
+            set wmName [exec deep-exec wm/get-wm-name]
             callWMClientMenu $wmName $text
         }
         "desktop :: *" {
-            set wmName [exec enrich-path wm - get-wm-name]
+            set wmName [exec deep-exec wm/get-wm-name]
             set desktop [stripPrefix $text {desktop :: }]
             callWMDesktopMenu $wmName $desktop
         }
