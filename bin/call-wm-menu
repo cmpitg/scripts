@@ -2,12 +2,12 @@
 
 package require Tclx
 
-set wmName [exec enrich-path wm - get-wm-name]
+set wmName [exec deep-exec wm/get-wm-name]
 set menuName [lindex $::argv 0]
 
 switch -exact $wmName {
     herbstluftwm {
-        execl enrich-path [list wm/herbstluft - with-env call-menu $menuName]
+        execl deep-exec [list wm/herbstluft/with-env call-menu $menuName]
     }
     default {
         execl run-menu [list -e "Menu: $menuName not supported"]

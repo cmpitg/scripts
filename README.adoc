@@ -3559,11 +3559,11 @@ if {$text ne ""} {
             execl bring-termux-session $tmuxSessionName
         }
         "wind :: *" {
-            set wmName [exec enrich-path wm - get-wm-name]
+            set wmName [exec deep-exec wm/get-wm-name]
             callWMClientMenu $wmName $text
         }
         "desktop :: *" {
-            set wmName [exec enrich-path wm - get-wm-name]
+            set wmName [exec deep-exec wm/get-wm-name]
             set desktop [stripPrefix $text {desktop :: }]
             callWMDesktopMenu $wmName $desktop
         }
@@ -3666,12 +3666,12 @@ TODO: Help
 
 package require Tclx
 
-set wmName [exec enrich-path wm - get-wm-name]
+set wmName [exec deep-exec wm/get-wm-name]
 set menuName [lindex $::argv 0]
 
 switch -exact $wmName {
     herbstluftwm {
-        execl enrich-path [list wm/herbstluft - with-env call-menu $menuName]
+        execl deep-exec [list wm/herbstluft/with-env call-menu $menuName]
     }
     default {
         execl run-menu [list -e "Menu: $menuName not supported"]
