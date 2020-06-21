@@ -15,7 +15,8 @@ set deviceMapping {
             {
                 unit °C
                 paths {
-                    {k10temp-pci-00c3 Tdie temp1_input}
+                    {k10temp-pci-00c3 Tdie temp2_input}
+                    {k10temp-pci-00c3 Tccd1 temp3_input}
                     {coretemp-isa-0000 "Core 0" temp2_input}
                     {coretemp-isa-0000 "Core 1" temp3_input}
                     {coretemp-isa-0000 "Core 2" temp4_input}
