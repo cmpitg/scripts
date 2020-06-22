@@ -14,7 +14,7 @@ set servicePath [glob -nocomplain $userDaemonPath/available/$serviceName]
 set enablePath $userDaemonPath/enabled/$serviceName
 
 if {$servicePath eq ""} {
-    puts stderr "Error: $servicePath doesn't exist"
+    puts stderr "ERROR: $servicePath doesn't exist"
     exit 1
 }
 

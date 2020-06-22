@@ -158,7 +158,7 @@ proc tryOpeningFile {serverName inNewFrameP rest} {
                 catch {gotoPattern $serverName $buffer $pattern}
             }
             default {
-                puts stderr "Error: Unrecognized pattern for file path: $arg"
+                puts stderr "ERROR: Unrecognized pattern for file path: $arg"
             }
         }
     }

@@ -17,7 +17,7 @@ set cmd {}
 set beforeDash 1
 foreach arg $args {
     if {$arg eq "-i"} {
-        puts stderr "Cannot run interactive sudo (-i) with this command"
+        puts stderr "ERROR: Cannot run interactive sudo (-i) with this command"
         exit 2
     }
 

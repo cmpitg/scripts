@@ -14,7 +14,7 @@ set GET_STATE_CMD [lrange $::argv 1 [expr {$separatorPos - 1}]]
 set TRIGGER_CMD [lrange $::argv [expr {$separatorPos + 1}] end]
 
 if {$TIMEOUT eq "" || $GET_STATE_CMD eq "" || $TRIGGER_CMD eq ""} {
-    puts stderr "Timeout, get-state, and trigger must exist"
+    puts stderr "ERROR: Timeout, get-state, and trigger must exist"
     exit 2
 }
 

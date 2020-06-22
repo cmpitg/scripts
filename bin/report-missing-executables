@@ -29,7 +29,7 @@ if {$::argc == 0 || $::argv eq {--help}} {
 }
 
 if {$::argc % 2 == 1} {
-    puts stderr "Invalid arguments.  Number of arguments must be even."
+    puts stderr "ERROR: Invalid arguments.  Number of arguments must be even."
     exit 2
 }
 

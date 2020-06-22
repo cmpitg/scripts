@@ -6,7 +6,7 @@ set menuName [lindex $::argv 0]
 
 catch {puts "(popup-menu [exec $menuName-menu 2>@ stderr])"} err opts
 if {[dict get $opts -code] != 0} {
-    set errStr "Failed to get menu (menuName=$menuName): $err"
+    set errStr "ERROR: Failed to get menu (menuName=$menuName): $err"
     puts stderr $errStr
     execl run-menu [list -e $errStr]
 }

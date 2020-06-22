@@ -609,7 +609,7 @@ if {[catch {exec report-missing-executables tmux Tmux <@ stdin >@ stdout 2>@ std
 }
 
 if {[lsearch $::argv "-"] == -1} {
-    puts stderr "Invalid command, needs to have -"
+    puts stderr "ERROR: Invalid command, needs to have -"
     exit 2
 }
 
@@ -3090,7 +3090,7 @@ proc tryOpeningFile {serverName inNewFrameP rest} {
                 catch {gotoPattern $serverName $buffer $pattern}
             }
             default {
-                puts stderr "Error: Unrecognized pattern for file path: $arg"
+                puts stderr "ERROR: Unrecognized pattern for file path: $arg"
             }
         }
     }
@@ -3775,7 +3775,7 @@ if {$::argc == 0 || $::argv eq {--help}} {
 }
 
 if {$::argc % 2 == 1} {
-    puts stderr "Invalid arguments.  Number of arguments must be even."
+    puts stderr "ERROR: Invalid arguments.  Number of arguments must be even."
     exit 2
 }
 
@@ -4038,7 +4038,7 @@ set cmd {}
 set beforeDash 1
 foreach arg $args {
     if {$arg eq "-i"} {
-        puts stderr "Cannot run interactive sudo (-i) with this command"
+        puts stderr "ERROR: Cannot run interactive sudo (-i) with this command"
         exit 2
     }
 
@@ -4139,7 +4139,7 @@ set GET_STATE_CMD [lrange $::argv 1 [expr {$separatorPos - 1}]]
 set TRIGGER_CMD [lrange $::argv [expr {$separatorPos + 1}] end]
 
 if {$TIMEOUT eq "" || $GET_STATE_CMD eq "" || $TRIGGER_CMD eq ""} {
-    puts stderr "Timeout, get-state, and trigger must exist"
+    puts stderr "ERROR: Timeout, get-state, and trigger must exist"
     exit 2
 }
 
@@ -4496,7 +4496,7 @@ set menuName [lindex $::argv 0]
 
 catch {puts "(popup-menu [exec $menuName-menu 2>@ stderr])"} err opts
 if {[dict get $opts -code] != 0} {
-    set errStr "Failed to get menu (menuName=$menuName): $err"
+    set errStr "ERROR: Failed to get menu (menuName=$menuName): $err"
     puts stderr $errStr
     execl run-menu [list -e $errStr]
 }
@@ -4994,7 +4994,7 @@ proc getDestination {dest} {
 
 proc getURI {uri} {
 	if {$uri eq ""} {
-		puts stderr "URI must be provided"
+		puts stderr "ERROR: Missing URI"
 		exit 1
 	} else {
 		return $uri
@@ -5213,7 +5213,7 @@ set servicePath [glob -nocomplain $userDaemonPath/available/$serviceName]
 set enablePath $userDaemonPath/enabled/$serviceName
 
 if {$servicePath eq ""} {
-    puts stderr "Error: $servicePath doesn't exist"
+    puts stderr "ERROR: $servicePath doesn't exist"
     exit 1
 }
 

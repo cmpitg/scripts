@@ -9,7 +9,7 @@ if {[catch {exec report-missing-executables tmux Tmux <@ stdin >@ stdout 2>@ std
 }
 
 if {[lsearch $::argv "-"] == -1} {
-    puts stderr "Invalid command, needs to have -"
+    puts stderr "ERROR: Invalid command, needs to have -"
     exit 2
 }
 

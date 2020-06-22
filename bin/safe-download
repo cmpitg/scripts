@@ -35,7 +35,7 @@ proc getDestination {dest} {
 
 proc getURI {uri} {
 	if {$uri eq ""} {
-		puts stderr "URI must be provided"
+		puts stderr "ERROR: Missing URI"
 		exit 1
 	} else {
 		return $uri
