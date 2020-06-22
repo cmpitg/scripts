@@ -2537,6 +2537,7 @@ set deviceMapping {
             {
                 unit °C
                 paths {
+                    {k10temp-pci-00c3 Tdie temp1_input}
                     {k10temp-pci-00c3 Tdie temp2_input}
                     {k10temp-pci-00c3 Tccd1 temp3_input}
                     {coretemp-isa-0000 "Core 0" temp2_input}
@@ -2561,6 +2562,7 @@ set deviceMapping {
                 unit °C
                 paths {
                     {amdgpu-pci-0500 junction temp2_input}
+                    {amdgpu-pci-0600 edge temp1_input}
                 }
             }
             {
