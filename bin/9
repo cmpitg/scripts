@@ -6,22 +6,19 @@
 ## * Runs the corresponding program
 ##
 
-export TEMP9=/tmp/9-${USER}
-export PLAN9=/m/opt/plan9port
-export PATH=${PLAN9}/bin:${PATH}
+export TEMP9="${TEMP9:-/tmp/9-${USER}}"
+export PLAN9="${PLAN9:-/m/opt/plan9port}"
+export PATH="${PLAN9}/bin:${PATH}"
+export PLAN9_FONTDIR="${PLAN9_FONTDIR:-/m/9p-fonts}"
 
 export SHELL=rc
 export TERM=9term
-export font='/m/9p-fonts/GoMono/11a/font'
+export font="${PLAN9_FONTDIR}/GoMono/11a/font"
 
-mkdir -p ${TEMP9}
-mkdir -p /m/9p-fonts
+mkdir -p "${TEMP9}"
+mkdir -p "${PLAN9_FONTDIR}"
 
-running-p plumber || plumber
-running-p fontsrv || \
-	nohup fontsrv \
-		-m /m/9p-fonts \
-		>${TEMP9}/fontsrv.out \
-		2>${TEMP9}/fontsrv.err &
+plumber 2>/dev/null
+nohup fontsrv -m "${PLAN9_FONTDIR}" >"${TEMP9}/fontsrv.out" 2>"${TEMP9}/fontsrv.err" &
 
 exec ${PLAN9}/bin/9 "$@"

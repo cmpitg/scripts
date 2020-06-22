@@ -396,6 +396,9 @@ read -p "Press Enter to exit..."
 * Creates temporary directory: `/tmp/9-${USER}`
 * And executes a command in a Plan9port environment in `${PLAN9}/bin`.  If `PLAN9` variable is not set, it is set to `/m/opt/plan9port` by default.
 
+TODO: Customize plumber dir
+TODO: Proper docs
+
 .file::9
 [source,sh]
 ----
@@ -407,23 +410,20 @@ read -p "Press Enter to exit..."
 ## * Runs the corresponding program
 ##
 
-export TEMP9=/tmp/9-${USER}
-export PLAN9=/m/opt/plan9port
-export PATH=${PLAN9}/bin:${PATH}
+export TEMP9="${TEMP9:-/tmp/9-${USER}}"
+export PLAN9="${PLAN9:-/m/opt/plan9port}"
+export PATH="${PLAN9}/bin:${PATH}"
+export PLAN9_FONTDIR="${PLAN9_FONTDIR:-/m/9p-fonts}"
 
 export SHELL=rc
 export TERM=9term
-export font='/m/9p-fonts/GoMono/11a/font'
+export font="${PLAN9_FONTDIR}/GoMono/11a/font"
 
-mkdir -p ${TEMP9}
-mkdir -p /m/9p-fonts
+mkdir -p "${TEMP9}"
+mkdir -p "${PLAN9_FONTDIR}"
 
-running-p plumber || plumber
-running-p fontsrv || \
-	nohup fontsrv \
-		-m /m/9p-fonts \
-		>${TEMP9}/fontsrv.out \
-		2>${TEMP9}/fontsrv.err &
+plumber 2>/dev/null
+nohup fontsrv -m "${PLAN9_FONTDIR}" >"${TEMP9}/fontsrv.out" 2>"${TEMP9}/fontsrv.err" &
 
 exec ${PLAN9}/bin/9 "$@"
 
@@ -489,19 +489,17 @@ exec 9 rc "$@"
 
 ----
 
-=== `acme` - runs Plan9port Acme with `9`
+=== `9-acme` - runs Plan9port Acme with `9`
 
-Font can be chosen by setting the `font` environment variable.  By default, it
-is set to `/m/9p-fonts/Go Mono/11a/font`.
+Font can be chosen by setting the `font` environment variable.  By default, it is set to `/m/9p-fonts/GoMono/11a/font`.
 
-.file::acme
+.file::9-acme
 [source,sh]
 ----
 #!/usr/bin/env rc
 
 #
-# Starts Acme with font specified by variable `font'.  By default, use Droid
-# Sans Mono.
+# Starts Acme with font specified by variable `font'.  By default, use Go Mono.
 #
 
 if (~ $font '') {
@@ -510,9 +508,7 @@ if (~ $font '') {
 
 mkdir -p /m/acme
 
-acme -a \
-	-m /m/acme \
-	-f $font $* $toolbox
+acme -a -m /m/acme -f $font $*
 
 ----
 
@@ -1732,12 +1728,12 @@ id_=$( \
 
 scrolling_distance_2_=$(xinput list-props ${id_} \
 	| grep 'Synaptics Scrolling Distance' \
-	| gnu-awk '{ print $NF }' \
+	| gawk '{ print $NF }' \
 	| sed 's/-//g' \
 )
 scrolling_distance_1_=$(xinput list-props ${id_} \
 	| grep 'Synaptics Scrolling Distance' \
-	| gnu-awk '{ print $(NF - 1) }' \
+	| gawk '{ print $(NF - 1) }' \
 	| cut -d',' -f1 \
 	| sed 's/-//g' \
 )
@@ -1878,11 +1874,11 @@ xrandr | grep " connected" | wc -l
 
 ----
 
-=== `cpu-usage`
+=== `get-cpu-usage`
 
 Returns the average CPU usage measured in 3 consecutive seconds, using `mpstat`.
 
-.file::cpu-usage
+.file::get-cpu-usage
 [source,sh]
 ----
 #!/usr/bin/env bash
