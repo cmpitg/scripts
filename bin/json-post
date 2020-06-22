@@ -1,9 +1,0 @@
-#!/usr/bin/env rc
-
-#
-# Makes a JSON POST with Curl
-#
-
-report-missing-executables curl cURL || exit 1
-
-curl -i -H 'Content-Type: application/json' -X POST $*

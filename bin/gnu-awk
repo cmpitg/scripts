@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-
-report-missing-executables gawk "GNU Awk" || exit 1
-
-exec gawk "$@"

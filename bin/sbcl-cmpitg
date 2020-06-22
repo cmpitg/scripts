@@ -1,8 +1,0 @@
-#!/usr/bin/env bash
-
-#
-# Note that --no-userinit should be after "$@", at the position of
-# `user-options'.  Consult `sbcl --help' for further information.
-#
-
-sbcl --noinform --core /m/opt/sbcl-images/sbcl-base.core "$@" --no-userinit

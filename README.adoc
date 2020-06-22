@@ -645,18 +645,6 @@ exec env WITHOUT_TERMUX=1 with-term-emu tmux attach -t "$@"
 #!/usr/bin/env sh
 
 printf "\n"
-----
-
-=== `gnu-awk` - specifically calls the GNU implementation of Awk
-
-.file::gnu-awk
-[source,sh]
-----
-#!/usr/bin/env bash
-
-report-missing-executables gawk "GNU Awk" || exit 1
-
-exec gawk "$@"
 
 ----
 
@@ -880,29 +868,6 @@ done
 
 ----
 
-=== `buildapp-cmpitg` - builds Common Lisp standalone executable
-
-With https://github.com/xach[@xach's]
-http://www.xach.com/lisp/buildapp/[Buildapp].  This script takes
-https://common-lisp.net/project/asdf/[ASDF] manifest file from `manifest`
-environment variable.  By default, `manifest` is set to
-`/m/config/common-lisp/sbcl-quicklisp-manifest.txt`.
-
-.file::buildapp-cmpitg
-[source,sh]
-----
-#!/usr/bin/env rc
-
-if (~ $manifest '') {
-	manifest='/m/config/common-lisp/sbcl-quicklisp-manifest.txt'
-}
-
-buildapp --manifest-file $manifest \
-	--load /m/config/common-lisp/sbcl-base.lisp \
-	$*
-
-----
-
 === `symlink` - symlinks, prompting for overwriting if destination exists
 
 .file::symlink
@@ -926,31 +891,6 @@ if [ -d "${2}" ] && [ ! -L "${2}" ]; then
 	exec ln --interactive --verbose --symbolic "${1}" "${2}"
 else
 	exec ln --interactive --verbose --symbolic --no-target-directory "${1}" "${2}"
-fi
-
-----
-
-=== `start-vpn` - connects to a VPN
-
-Connects to a VPN using OpenVPN, taking the first argument as the path to the directory that contains the VPN configuration.  This script will automatically start the client VPN process in a Tmux session if not run in a TTY.
-
-.file::start-vpn
-[source,sh]
-----
-#!/usr/bin/env sh
-
-vpn_dir_="${1:-${HOME}}"
-vpn_path_=$(zenity --file-selection --multiple --filename="${vpn_dir_}")
-
-if [ -n "${vpn_path_}" ]; then
-	start_vpn_cmd_="cd $(dirname ${vpn_path_}) && sudo openvpn --config ${vpn_path_}"
-    cd "$(dirname ${vpn_path_})"
-
-	if [ -t 0 ]; then
-		eval "${start_vpn_cmd_}"
-	else
-		term-emu "tmux new-session 'bash -c \"${start_vpn_cmd_}\"'"
-	fi
 fi
 
 ----
@@ -1032,57 +972,12 @@ find "${dir_}" -type f -print0 | xargs -0 chmod 0644
 
 ----
 
-=== `cl-write-manifest` - writes ASDF manifest file
-
-Writes
-https://common-lisp.net/project/asia/asia.html#_how_to_create_project_manifest_database[ASDF
-manifest] file to a location, set by environment variable `manifest`.  By
-default, `manifest` is set to
-`/m/config/common-lisp/sbcl-quicklisp-manifest.txt`.
-
-.file::cl-write-manifest
-[source,sh]
-----
-#!/usr/bin/env rc
-
-if (~ $manifest '') {
-	manifest='/m/config/common-lisp/sbcl-quicklisp-manifest.txt'
-}
-
-echo Writing manifest file $manifest
-
-sbcl-cmpitg --no-userinit --no-sysinit --non-interactive \
-	--eval '(ql:write-asdf-manifest-file "'^$manifest^'")'
-
-----
-
-=== `clojure-repl` - starts Clojure REPL with http://leiningen.org/[Lein]
-
-Starts a Clojure REPL in a directory, set by the `clojure_root` environment
-variable.  By default, `clojure_root` is set to `${HOME}/test/clojure/main`.
-
-.file::clojure-repl
-[source,sh]
-----
-#!/usr/bin/env rc
-
-if (~ $clojure_root '') {
-	clojure_root=$home/test/clojure/main
-}
-
-pushd .
-cd $clojure_root
-lein repl $@
-popd
-
-----
-
-=== `comment-code` - comments code, read from stdin
+=== `add-line-comment` - comments code, read from stdin
 
 Comments code by prefixing them with line comment character string by the
 first argument passed in this script.  By default, prefix code with `# `.
 
-.file::comment-code
+.file::add-line-comment
 [source,sh]
 ----
 #!/usr/bin/env rc
@@ -1915,60 +1810,6 @@ newline
 
 ----
 
-=== `audio-toggle-mute`
-
-.file::audio-toggle-mute
-[source,sh]
-----
-#!/usr/bin/env rc
-
-ids=`{ \
-	pactl list sinks short \
-	| awk '{ print $1 }'
-}
-
-for (id in $ids) {
-	pactl set-sink-mute $id toggle
-}
-
-----
-
-=== `audio-unmute`
-
-.file::audio-unmute
-[source,sh]
-----
-#!/usr/bin/env rc
-
-ids=`{ \
-	pactl list sinks short \
-	| awk '{ print $1 }'
-}
-
-for (id in $ids) {
-	pactl set-sink-mute $id 0
-}
-
-----
-
-=== `audio-mute`
-
-.file::audio-mute
-[source,sh]
-----
-#!/usr/bin/env rc
-
-ids=`{ \
-	pactl list sinks short \
-	| awk '{ print $1 }'
-}
-
-for (id in $ids) {
-	pactl set-sink-mute $id 1
-}
-
-----
-
 === `extract-audio`
 
 Extracts from a video file, creating the same file name with appropriate
@@ -2082,119 +1923,6 @@ dir_name_="$1"
 shift
 
 ctags "$@" -f "${dir_name_}"/TAGS -R "${dir_name_}"/*
-
-----
-
-=== `create-sbcl-cmpitg-image` - dumping a customized SBCL image
-
-Dumps a customized SBCL image and makes it work with Shelly (if installed).
-
-.file::create-sbcl-cmpitg-image
-[source,sh]
-----
-#!/usr/bin/env rc
-
-if (~ $1 -h --help) {
-	cat <<EOF
-	exit 1
-}
-Dumps an SBCL image and makes it work with Shelly (if installed).
-
-Usage: $0 [--core-path core-file] [--eval sexp]
-
-Options:
-
---core-path :: Path to SBCL core file to dump to, default value:
-               '/m/opt/sbcl-images/sbcl-base.core'.
---eval      :: The Sexp to evaluate before dumping, default value:
-               '(load "/m/config/common-lisp/sbcl-base.lisp")'.
-EOF
-
-##############################################################################
-# Sanity check
-##############################################################################
-
-report-missing-executables sbcl SBCL || exit 1
-
-sbcl_version=`{sbcl --version | cut -d' ' -f2}
-
-##############################################################################
-
-fn try_set_vars {
-	switch ($1) {
-	case --core-path
-		core_path=$2
-	case --eval
-		sexp=$2
-	}
-
-	if (~ $core_path '') {
-		core_path=/m/opt/sbcl-images/sbcl-base.core
-	}
-	if (~ $sexp '') {
-		sexp='(load "/m/config/common-lisp/sbcl-base.lisp")'
-	}
-}
-
-try_set_vars $1 $2
-try_set_vars $3 $4
-
-if (! ~ $SHELLY_HOME '') {
-	shelly_core_path=$SHELLY_HOME^'/dumped-cores/sbcl-'^$sbcl_version^'.core'
-}
-
-##############################################################################
-
-echo Core path: $core_path
-echo Sexp: $sexp
-if (! ~ $shelly_core_path '') {
-	echo Shelly found, path to core: $shelly_core_path
-}
-
-echo '-> Dumping core'
-sbcl --noinform \
-	--no-userinit \
-	--eval $sexp \
-	--eval '(sb-ext:save-lisp-and-die "'^$core_path^'")'
-
-if (test -d $SHELLY_HOME/dumped-cores) {
-	echo '-> Updating Shelly'
-	cp -fv $core_path $shelly_core_path
-	cp -fv $core_path $SHELLY_HOME/dumped-cores/sbcl.core
-}
-
-----
-
-=== `sbcl-cmpitg`
-
-.file::sbcl-cmpitg
-[source,sh]
-----
-#!/usr/bin/env bash
-
-#
-# Note that --no-userinit should be after "$@", at the position of
-# `user-options'.  Consult `sbcl --help' for further information.
-#
-
-sbcl --noinform --core /m/opt/sbcl-images/sbcl-base.core "$@" --no-userinit
-
-----
-
-=== `json-post` - makes a JSON POST
-
-.file::json-post
-[source,sh]
-----
-#!/usr/bin/env rc
-
-#
-# Makes a JSON POST with Curl
-#
-
-report-missing-executables curl cURL || exit 1
-
-curl -i -H 'Content-Type: application/json' -X POST $*
 
 ----
 
@@ -2321,39 +2049,6 @@ emacs --batch --eval $"sexpr $* >[2]/dev/null
 
 ----
 
-=== `monitors-info` - retrieves information of connected monitors
-
-.file::monitors-info
-[source,sh]
-----
-#!/usr/bin/env rc
-
-#
-# Retrieves information of the currently connected monitors and outputs as
-# followed:
-# * First line: <number of monitors>
-# * Second line: <monitor> <mode> <rate>
-#
-
-lines=`{xrandr \
-	| grep ' connected' \
-	| cut -d' ' -f1}
-
-echo $#lines
-for (output in $lines) {
-	data=`{xrandr \
-		| take-from $output \
-		| drop-lines 1 \
-		| take-lines 1 \
-		| tr -d '*' \
-		| tr -d '+'}
-	mode=`{echo $data | cut -d' ' -f1}
-	rate=`{echo $data | cut -d' ' -f2}
-	echo $output $mode $rate
-}
-
-----
-
 === `replace-extension` - replaces file extension
 
 .file::replace-extension
@@ -2371,40 +2066,6 @@ if (~ $1 '') {
 rev_replacement=`{echo $1 | rev}
 
 echo $input | rev | sed 's/^[^.]*\./'$rev_replacement'./' | rev
-
-----
-
-=== `uri-github2ssh` - converts Github URI to `git+ssh` style
-
-.file::uri-github2ssh
-[source,sh]
-----
-#!/usr/bin/env rc
-
-#
-# git@github.com:schacon/hg-git.git
-# git+ssh://git@github.com/schacon/hg-git.git
-#
-
-program=`{basename $0}
-
-if (~ $1 '' '--help') {
-	cat <<USAGE
-	exit 1
-}
-Usage: $program git@github.com:<user>/<repo>
-
-Converts to universal git+ssh style repository URI.
-
-E.g.
-
-  $program git@github.com:schacon/hg-git.git
-  # ⇨ git+ssh://git@github.com/schacon/hg-git.git
-USAGE
-
-uri=`{echo $1 | sed 's/:/\//g' | sed 's/git\/\/\///g'}
-
-echo 'git+ssh://'$uri
 
 ----
 
