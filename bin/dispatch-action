@@ -270,6 +270,10 @@ if {$text ne ""} {
             set text [stripPrefix $text {copy!}]
             copyToClipboard $text
         }
+        "!#*" {
+            set cmd [constructEnrichedPathCmd [stripPrefix $text {!@}]]
+            execl with-env-user [list env WITHOUT_TERMUX=1 with-term-emu {*}$cmd]
+        }
         "!@*" {
             set cmd [constructEnrichedPathCmd [stripPrefix $text {!@}]]
             execl with-env-user [list with-term-emu-detach {*}$cmd]
