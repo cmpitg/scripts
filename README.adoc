@@ -3190,8 +3190,8 @@ if {$text ne ""} {
 
             execl ssh [list $hostExpr cat $path]
         }
-        "/*/" {
-            set path [string trim $text]
+        "*/" {
+            set path [file nativename [substEnvVars [string trim $text]]]
             execl ls [list -1 --indicator-style=slash --dereference --all --group-directories-first $path]
         }
         "edit!*" {
