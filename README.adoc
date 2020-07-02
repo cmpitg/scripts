@@ -5071,9 +5071,9 @@ if {![checksumsMatched $dest $checksumDict]} {
 
 ----
 
-=== `gen-random-string` - generates a random alphanumeric string
+=== `gen-string` - generates a random alphanumeric string
 
-.file::gen-random-string
+.file::gen-string
 [source,sh]
 ----
 #!/usr/bin/env bash
@@ -5084,11 +5084,11 @@ cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w ${length_} | head -n 1
 
 ----
 
-=== `gen-random-names` - generates random English names
+=== `gen-names` - generates random English names
 
 TODO: docstring
 
-.file::gen-random-names
+.file::gen-names
 [source,sh]
 ----
 #!/usr/bin/env bash
@@ -5103,11 +5103,11 @@ rig -c $(( (${counter_} + 1) / 2 )) | awk 'NR == 1 || NR % 5 == 1' | tr ' ' '\n'
 
 ----
 
-=== `gen-random-filename` - generates a random filename
+=== `gen-filename` - generates a random filename
 
 TODO: docstring
 
-.file::gen-random-filename
+.file::gen-filename
 [source,sh]
 ----
 #!/usr/bin/env sh
@@ -5115,7 +5115,7 @@ TODO: docstring
 counter_="${1:-4}"
 separator_="${2:--}"
 
-exec normalize-filename $(gen-random-names ${counter_}) | downcase | tr ' ' "${separator_}"
+exec normalize-filename $(gen-names ${counter_}) | downcase | tr ' ' "${separator_}"
 
 ----
 
