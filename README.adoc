@@ -709,9 +709,7 @@ fi
 .file::upcase
 [source,sh]
 ----
-#!/usr/bin/env bash
-
-report-missing-executables tr "GNU tr" || exit 1
+#!/usr/bin/env sh
 
 exec gnu-tr '[:lower:]' '[:upper:]'
 
@@ -722,9 +720,7 @@ exec gnu-tr '[:lower:]' '[:upper:]'
 .file::downcase
 [source,sh]
 ----
-#!/usr/bin/env bash
-
-report-missing-executables tr "GNU tr" || exit 1
+#!/usr/bin/env sh
 
 exec gnu-tr '[:upper:]' '[:lower:]'
 
