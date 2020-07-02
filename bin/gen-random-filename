@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+
+counter_="${1:-4}"
+separator_="${2:--}"
+
+exec normalize-filename $(gen-random-names ${counter_}) | downcase | tr ' ' "${separator_}"

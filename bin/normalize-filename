@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+exec echo "$*" | tr -d -C '[[:alnum:]][[:space:]]'

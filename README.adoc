@@ -5104,6 +5104,21 @@ rig -c $(( (${counter_} + 1) / 2 )) | awk 'NR == 1 || NR % 5 == 1' | tr ' ' '\n'
 ----
 
 === `gen-random-filename` - generates a random filename
+
+TODO: docstring
+
+.file::gen-random-filename
+[source,sh]
+----
+#!/usr/bin/env sh
+
+counter_="${1:-4}"
+separator_="${2:--}"
+
+exec normalize-filename $(gen-random-names ${counter_}) | downcase | tr ' ' "${separator_}"
+
+----
+
 === `daemontools`-compatible utils
 
 ==== `sv-create-user-supervisor` - creates a supervision daemon for the current user
