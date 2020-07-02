@@ -3428,21 +3428,15 @@ puts $newLine
 
 ----
 
-=== `join-lines`
+=== `normalize-filename`
 
-Joins all lines using Plan 9's tr.
-
-.file::join-lines
+.file::normalize-filename
 [source,sh]
 ----
-#!/usr/bin/env rc
+#!/usr/bin/env sh
 
-#
-# Joins all lines into one using Plan 9's tr.
-#
+exec echo "$*" | tr -d -C '[[:alnum:]][[:space:]]'
 
-exec tr '
-' ' '
 ----
 
 === `all-dev-debs` - lists all Debian `-dev` packages installed
@@ -5077,9 +5071,8 @@ if {![checksumsMatched $dest $checksumDict]} {
 
 ----
 
-=== `random-string` - generates a random alphanumeric string
 
-.file::random-string
+.file::gen-random-string
 [source,sh]
 ----
 #!/usr/bin/env bash

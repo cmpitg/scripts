@@ -1,8 +1,0 @@
-#!/usr/bin/env rc
-
-#
-# Joins all lines into one using Plan 9's tr.
-#
-
-exec tr '
-' ' '
