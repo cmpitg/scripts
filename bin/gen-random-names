@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+set -o nounset
+
+DICT_PATH=${DICT_PATH:-/usr/share/dict/words}
+
+counter_=${1:-1}
+
+rig -c $(( (${counter_} + 1) / 2 )) | awk 'NR == 1 || NR % 5 == 1' | tr ' ' '\n' | head -${counter_} | paste --serial --delimiters=' ' -

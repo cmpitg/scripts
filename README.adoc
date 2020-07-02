@@ -5084,6 +5084,26 @@ cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w ${length_} | head -n 1
 
 ----
 
+=== `gen-random-names` - generates random English names
+
+TODO: docstring
+
+.file::gen-random-names
+[source,sh]
+----
+#!/usr/bin/env bash
+
+set -o nounset
+
+DICT_PATH=${DICT_PATH:-/usr/share/dict/words}
+
+counter_=${1:-1}
+
+rig -c $(( (${counter_} + 1) / 2 )) | awk 'NR == 1 || NR % 5 == 1' | tr ' ' '\n' | head -${counter_} | paste --serial --delimiters=' ' -
+
+----
+
+=== `gen-random-filename` - generates a random filename
 === `daemontools`-compatible utils
 
 ==== `sv-create-user-supervisor` - creates a supervision daemon for the current user
