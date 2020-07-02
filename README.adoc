@@ -3156,7 +3156,8 @@ if {$text ne ""} {
             set rest [splitString [stripPrefix $text {mux://}] "!"]
             set muxSessionName [string trim [orString [substEnvVars [lindex $rest 0]] ":."]]
             set cmd [constructEnrichedPathCmd [lindex $rest 1]]
-            execl tmux [list send-keys -t $muxSessionName $cmd Enter]
+            exec tmux send-keys -l -t $muxSessionName $cmd
+            execl tmux [list send-keys -t $muxSessionName Enter]
         }
         "ssh://*!*" {
             # Execute an SSH command
