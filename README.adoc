@@ -5071,6 +5071,7 @@ if {![checksumsMatched $dest $checksumDict]} {
 
 ----
 
+=== `gen-random-string` - generates a random alphanumeric string
 
 .file::gen-random-string
 [source,sh]
