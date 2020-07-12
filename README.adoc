@@ -2504,6 +2504,17 @@ switch $cmd {
 
 ----
 
+==== Disk daemon
+
+.file::run-disk-daemon
+[source,sh]
+----
+#!/usr/bin/env sh
+
+pidof udiskie >/dev/null 2>&1 || exec udiskie --no-automount --tray
+
+----
+
 ==== Clipboard manager
 
 .file::run-clipboard-manager
