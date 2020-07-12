@@ -2511,7 +2511,7 @@ switch $cmd {
 ----
 #!/usr/bin/env sh
 
-pidof udiskie >/dev/null 2>&1 || exec udiskie --no-automount --tray
+pgrep --full 'udiskie*.*tray' >/dev/null 2>&1 || exec udiskie --no-automount --tray
 
 ----
 
