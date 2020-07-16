@@ -5384,6 +5384,32 @@ exec "${exec_path_}" "$@"
 
 ----
 
+=== `exec-stdin` - execs from stdin
+
+TODO: Help text
+
+.file::exec-stdin
+[source,tcl]
+----
+#!/usr/bin/env tclsh
+
+package require Tcl 8
+
+set input [read stdin]
+set fd [file tempfile tempPath]
+
+try {
+    puts -nonewline $fd $input
+    close $fd
+
+    file attribute $tempPath -permissions u+x
+    puts [exec $tempPath]
+} finally {
+    file delete $tempPath
+}
+
+----
+
 === `enrich-path` - enriches `PATH`, then executes a command
 
 TODO: Help text

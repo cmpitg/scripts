@@ -1,0 +1,16 @@
+#!/usr/bin/env tclsh
+
+package require Tcl 8
+
+set input [read stdin]
+set fd [file tempfile tempPath]
+
+try {
+    puts -nonewline $fd $input
+    close $fd
+
+    file attribute $tempPath -permissions u+x
+    puts [exec $tempPath]
+} finally {
+    file delete $tempPath
+}
