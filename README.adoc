@@ -2125,7 +2125,17 @@ if {$::argv eq {}} {
 }
 
 set paths [getAccessiblePaths $maxDepth]
-catch { puts [exec parallel --link with-workdir ::: {*}$paths ::: find ::: . ::: -maxdepth ::: $maxDepth ::: -type ::: f,l ::: -executable  | cut -c 3- | sort -u | grep -v {^$}]}
+
+# With GNU Parallel - Slowest
+# catch { puts [exec parallel --link with-workdir ::: {*}$paths ::: fdfind ::: . ::: --maxdepth ::: $maxDepth ::: --type ::: x ::: --type ::: l ::: --hidden ::: --no-ignore ::: --color ::: never | rev | cut -d/ -f 1 | rev | sort -u | rg -v {^$}]}
+
+# Without GNU Parallel
+# basename -> Slow
+# catch { puts [exec fdfind . --maxdepth $maxDepth --type x --type l --hidden --no-ignore {*}$paths --color never --exec basename | sort -u | rg -v {^$}]}
+# cut + rev: fast
+catch { puts [exec fdfind . --maxdepth $maxDepth --type x --type l --hidden --no-ignore {*}$paths --color never | rev | cut -d/ -f 1 | rev | sort -u | rg -v {^$}]}
+# Awk: fast but a bit slower
+# catch { puts [exec fdfind . --maxdepth $maxDepth --type x --type l --hidden --no-ignore {*}$paths --color never | awk --field-separator=/ {{ print $NF }} | sort -u | rg -v {^$}]}
 
 ----
 
