@@ -5420,6 +5420,22 @@ try {
 
 ----
 
+=== `exec-and-echo-stdin` - execs and echoes stdin
+
+TODO: Help text
+
+.file::exec-and-echo-stdin
+[source,tcl]
+----
+#!/usr/bin/env expect
+
+log_user 0
+
+spawn {*}$::argv
+interact
+
+----
+
 === `enrich-path` - enriches `PATH`, then executes a command
 
 TODO: Help text
