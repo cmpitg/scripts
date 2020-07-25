@@ -193,6 +193,8 @@ exec bash "$@"
 
 === `with-env-user` - runs a command under `bash-user`
 
+TODO: Doc: For a single command, e.g. shell operators don't work
+
 .file::with-env-user
 [source,sh]
 ----
@@ -200,6 +202,13 @@ exec bash "$@"
 
 exec "$@"
 
+----
+
+==== Testing scenarios
+
+[source,sh]
+----
+with-env-user which with-env-user ';' aoeu ';' pwd '&&' with-pause true
 ----
 
 === `with-env-user-sh` - runs a _shell_ command under `bash-user`
