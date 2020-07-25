@@ -6,7 +6,7 @@
 # konsole -e <cmd>
 # xfce4-terminal -x <cmd>
 
-term_emu_="${MY_TERM_EMU:-konsole}"
+term_emu_="${MY_TERM_EMU:-x-terminal-emulator}"
 
 if using-x-p; then
 	exec "${term_emu_}" -e "$@"
