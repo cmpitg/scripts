@@ -285,7 +285,7 @@ if {$text ne ""} {
         }
         "!!*" {
             set cmd [constructEnrichedPathCmd [stripPrefix $text {!!}]]
-            execl with-env-user [list with-term-emu with-pause {*}$cmd]
+            execl with-env-user [list with-term-emu {*}$cmd \; with-pause true]
         }
         "tmux :: *" {
             set tmuxSessionName [string trim [stripPrefix $text "tmux :: "]]
