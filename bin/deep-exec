@@ -3,4 +3,9 @@
 exec_path_=$(get-exec "$1")
 shift 1
 
+if [ "${exec_path_}" = "" ]; then
+    echo "Error: $1 not found" >&2
+    exit 1
+fi
+
 exec "${exec_path_}" "$@"
