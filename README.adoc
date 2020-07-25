@@ -3056,6 +3056,7 @@ exec xset b off
 # TODO: Read stdin?
 # TODO: report-missing-executables
 # TODO: Declarative configuration?
+# TODO: Remove constructEnrichedPathCmd
 
 # TODO: Samples
 # dispatch-action 'ssh://<foobar>!' 'w'
@@ -3322,21 +3323,21 @@ if {$text ne ""} {
             set text [stripPrefix $text {copy!}]
             copyToClipboard $text
         }
-        "!#*" {
-            set cmd [constructEnrichedPathCmd [stripPrefix $text {!@}]]
-            execl with-env-user [list env WITHOUT_TERMUX=1 with-term-emu {*}$cmd]
+        "!%*" {
+            set cmd [constructEnrichedPathCmd [stripPrefix $text {!%}]]
+            execl with-env-user [list with-term-emu-sh --without-termux - $cmd]
         }
         "!@*" {
             set cmd [constructEnrichedPathCmd [stripPrefix $text {!@}]]
-            execl with-env-user [list with-term-emu-detach {*}$cmd]
+            execl with-env-user [list with-term-emu-sh --detach-termux - $cmd]
         }
         "!!!*" {
             set cmd [constructEnrichedPathCmd [stripPrefix $text {!!!}]]
-            execl with-env-user [list with-term-emu {*}$cmd]
+            execl with-env-user [list with-term-emu-sh - $cmd]
         }
         "!!*" {
             set cmd [constructEnrichedPathCmd [stripPrefix $text {!!}]]
-            execl with-env-user [list with-term-emu {*}$cmd \; with-pause true]
+            execl with-env-user [list with-term-emu-sh --pause-after-exec - $cmd]
         }
         "tmux :: *" {
             set tmuxSessionName [string trim [stripPrefix $text "tmux :: "]]
