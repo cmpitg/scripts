@@ -3360,6 +3360,42 @@ if {$text ne ""} {
 
 ----
 
+==== Testing scenarios
+
+* Run in a term emu without termux:
++
+[source,sh]
+----
+dispatch-action '!% aoeu && pwd ; with-pause true ; htop'
+dispatch-action '!%' aoeu '&&' pwd ';' with-pause true ';' htop
+----
+
+
+* Run in a detached termux → see a flash of the term emu, could find the command from a termux session
++
+[source,sh]
+----
+dispatch-action '!@ aoeu && pwd ; with-pause true ; htop'
+dispatch-action '!@' aoeu '&&' pwd ';' with-pause true ';' htop
+----
+
+
+* Run in a termux → see a term emu with a termux
++
+[source,sh]
+----
+dispatch-action '!!! aoeu && pwd ; with-pause true ; htop'
+dispatch-action '!!!' aoeu '&&' pwd ';' with-pause true ';' htop
+----
+
+* Run in a termux → see a term emu with a termux, paused upon exiting
++
+[source,sh]
+----
+dispatch-action '!! aoeu && pwd ; with-pause true ; htop'
+dispatch-action '!!' aoeu '&&' pwd ';' with-pause true ';' htop
+----
+
 === `run-menu-and-dispatch` - runs a menu program, allowing user to choose an item/input custom string, then dispatch an action based on the output
 
 TODO: Documentation
