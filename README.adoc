@@ -202,6 +202,32 @@ exec "$@"
 
 ----
 
+=== `with-env-user-sh` - runs a _shell_ command under `bash-user`
+
+TODO: Doc: shell operators work
+
+.file::with-env-user-sh
+[source,sh]
+----
+#!/usr/bin/env bash-user
+
+exec "${SHELL}" -c "$*"
+
+----
+
+==== Testing scenarios
+
+The following should output:
+* Path to `with-env-user`
+* Command not found `aoeu`
+* Current path
+* Then pause and wait for input
+
+[source,sh]
+----
+with-env-user-sh which with-env-user ';' aoeu ';' pwd '&&' with-pause true
+----
+
 === `conda/` - utils for Python https://docs.conda.io/en/latest/[Conda]
 
 ==== `conda/with-env` - runs a command in the Conda environment
