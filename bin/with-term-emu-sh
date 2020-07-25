@@ -1,0 +1,80 @@
+#!/usr/bin/env tclsh
+
+if {[catch {exec report-missing-executables tmux Tmux <@ stdin >@ stdout 2>@ stderr}]} {
+    exit 1
+}
+
+package require Tclx
+
+if {[lsearch $::argv "-"] == -1} {
+    set ::args [list "-" {*}$::argv]
+} else {
+    set ::args $::argv
+}
+
+set ::withoutTermux 0
+set ::detachTermux 0
+set ::pauseAfterExec 0
+set ::verbose 0
+set ::shell $::env(SHELL)
+set ::mainCmd [lrange $::argv [expr {[lsearch $::argv "-"] + 1}] end]
+
+foreach arg $::args {
+    if {$arg eq "-"} {
+        break
+    }
+
+    switch $arg {
+        --verbose {
+            set ::verbose 1
+        }
+        --without-termux {
+            set ::withoutTermux 1
+        }
+        --detach-termux {
+            set ::detachTermux 1
+        }
+        --pause-after-exec {
+            set ::pauseAfterExec 1
+        }
+        default {
+            error "Error: Unknown argument $arg"
+        }
+    }
+}
+
+if {$::withoutTermux && $::detachTermux} {
+    error "--without-termux and --detach-termux cannot go together"
+}
+
+if {$::pauseAfterExec} {
+    set ::mainCmd "$::mainCmd ; with-pause true"
+}
+
+if {$::verbose} {
+    puts "Without termux: $::withoutTermux"
+    puts "Detach termux: $::detachTermux"
+    puts "Pause after execution: $::pauseAfterExec"
+    puts "Shell: $::shell"
+    puts "Command: $::mainCmd"
+}
+
+##############################################################################
+# Main
+##############################################################################
+
+if {$::withoutTermux} {
+    execl term-emu [list $::shell -c $::mainCmd]
+}
+
+set ::termuxWindowName [exec echo $::mainCmd | sed "s/:/COLON/g ; s/\\./DOT/g ; s/(/OPEN_P/g ; s/)/CLOSE_P/g ; s/{/OPEN_C/g ; s/}/CLOSE_C/g"]
+
+if {$::verbose} {
+    puts "Termux window name: $::termuxWindowName"
+}
+
+if {$::detachTermux} {
+    execl term-emu [list with-termux -n $::termuxWindowName $::mainCmd \; detach]
+} else {
+    execl term-emu [list with-termux -n $::termuxWindowName $::mainCmd]
+}

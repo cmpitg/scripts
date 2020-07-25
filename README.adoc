@@ -529,7 +529,7 @@ If X is not running, just run the command with the default Bourne-compatible she
 # konsole -e <cmd>
 # xfce4-terminal -x <cmd>
 
-term_emu_="${MY_TERM_EMU:-konsole}"
+term_emu_="${MY_TERM_EMU:-x-terminal-emulator}"
 
 if using-x-p; then
 	exec "${term_emu_}" -e "$@"
@@ -539,7 +539,148 @@ fi
 
 ----
 
+==== `with-term-emu-sh` - runs a _shell_ command in a terminal emulator
+
+TODOs
+
+* Running without X?
+* Documentation
+* Doc: `- <args..>` → Arguments will be merged into one, executed in a shell (shell ops like && works)
+
+.file::with-term-emu-sh
+[source,tcl]
+----
+#!/usr/bin/env tclsh
+
+if {[catch {exec report-missing-executables tmux Tmux <@ stdin >@ stdout 2>@ stderr}]} {
+    exit 1
+}
+
+package require Tclx
+
+if {[lsearch $::argv "-"] == -1} {
+    set ::args [list "-" {*}$::argv]
+} else {
+    set ::args $::argv
+}
+
+set ::withoutTermux 0
+set ::detachTermux 0
+set ::pauseAfterExec 0
+set ::verbose 0
+set ::shell $::env(SHELL)
+set ::mainCmd [lrange $::argv [expr {[lsearch $::argv "-"] + 1}] end]
+
+foreach arg $::args {
+    if {$arg eq "-"} {
+        break
+    }
+
+    switch $arg {
+        --verbose {
+            set ::verbose 1
+        }
+        --without-termux {
+            set ::withoutTermux 1
+        }
+        --detach-termux {
+            set ::detachTermux 1
+        }
+        --pause-after-exec {
+            set ::pauseAfterExec 1
+        }
+        default {
+            error "Error: Unknown argument $arg"
+        }
+    }
+}
+
+if {$::withoutTermux && $::detachTermux} {
+    error "--without-termux and --detach-termux cannot go together"
+}
+
+if {$::pauseAfterExec} {
+    set ::mainCmd "$::mainCmd ; with-pause true"
+}
+
+if {$::verbose} {
+    puts "Without termux: $::withoutTermux"
+    puts "Detach termux: $::detachTermux"
+    puts "Pause after execution: $::pauseAfterExec"
+    puts "Shell: $::shell"
+    puts "Command: $::mainCmd"
+}
+
+##############################################################################
+# Main
+##############################################################################
+
+if {$::withoutTermux} {
+    execl term-emu [list $::shell -c $::mainCmd]
+}
+
+set ::termuxWindowName [exec echo $::mainCmd | sed "s/:/COLON/g ; s/\\./DOT/g ; s/(/OPEN_P/g ; s/)/CLOSE_P/g ; s/{/OPEN_C/g ; s/}/CLOSE_C/g"]
+
+if {$::verbose} {
+    puts "Termux window name: $::termuxWindowName"
+}
+
+if {$::detachTermux} {
+    execl term-emu [list with-termux -n $::termuxWindowName $::mainCmd \; detach]
+} else {
+    execl term-emu [list with-termux -n $::termuxWindowName $::mainCmd]
+}
+
+----
+
+===== Testing scenarios
+
+* Just see a flash of a term emu
++
+[source,sh]
+----
+with-term-emu-sh --without-termux - 'pwd && pwd'
+----
+
+* See a term emu, paused
++
+[source,sh]
+----
+with-term-emu-sh --without-termux - 'pwd && pwd ; with-pause true'
+with-term-emu-sh --without-termux --pause-after-exec - 'pwd && pwd'
+----
+
+* See a term emu, paused, with the failed command
++
+[source,sh]
+----
+with-term-emu-sh --without-termux - 'aoeu && pwd ; with-pause true'
+with-term-emu-sh --without-termux --pause-after-exec - 'aoeu && pwd'
+----
+
+* See a term emu with termux, paused
++
+[source,sh]
+----
+with-term-emu-sh - 'pwd && pwd ; with-pause true'
+with-term-emu-sh - 'aoeu && pwd ; with-pause true'
+with-term-emu-sh --pause-after-exec - 'aoeu && pwd'
+----
+
+* See a flash of a term emu, but could find the session in termux manually
++
+[source,sh]
+----
+with-term-emu-sh --detach-termux - 'pwd && pwd ; with-pause true'
+with-term-emu-sh --detach-termux --pause-after-exec - 'pwd && pwd'
+
+with-term-emu-sh --detach-termux - 'aoeu && pwd ; with-pause true'
+with-term-emu-sh --detach-termux --pause-after-exec - 'aoeu && pwd'
+----
+
 ==== `with-term-emu` - runs a command in a termimal emulator
+
+TODO: Deprecated
 
 TODO: Running without X?
 TODO: Document: with/out termux
