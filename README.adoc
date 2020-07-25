@@ -747,17 +747,6 @@ fi
 
 ----
 
-==== `with-term-emu-detach` - runs and detachs a command in a termimal emulator
-
-.file::with-term-emu-detach
-[source,sh]
-----
-#!/usr/bin/env sh
-
-exec env WITHOUT_TERMUX="${WITHOUT_TERMUX}" DETACH_TERMUX=1 with-term-emu "$@"
-
-----
-
 ==== `with-termux` - runs a command with a terminal multiplexer
 
 .file::with-termux
@@ -805,7 +794,7 @@ if {[lindex $::argv 0] eq "-"} {
 ----
 #!/usr/bin/env sh
 
-exec env WITHOUT_TERMUX=1 with-term-emu tmux attach -t "$@"
+exec with-term-emu-sh --without-termux - tmux attach -t "$@"
 
 ----
 

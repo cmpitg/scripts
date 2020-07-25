@@ -1,3 +1,0 @@
-#!/usr/bin/env sh
-
-exec env WITHOUT_TERMUX="${WITHOUT_TERMUX}" DETACH_TERMUX=1 with-term-emu "$@"
