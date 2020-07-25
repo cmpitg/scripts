@@ -231,21 +231,20 @@ if {$text ne ""} {
             copyToClipboard $text
         }
         "!%*" {
-            set cmd [constructEnrichedPathCmd [stripPrefix $text {!%}]]
+            set cmd [stripPrefix $text {!%}]
             execl with-env-user [list with-term-emu-sh --without-termux - $cmd]
         }
         "!@*" {
-            set cmd [constructEnrichedPathCmd [stripPrefix $text {!@}]]
+            set cmd [stripPrefix $text {!@}]
             execl with-env-user [list with-term-emu-sh --detach-termux - $cmd]
         }
         "!!!*" {
-            set cmd [constructEnrichedPathCmd [stripPrefix $text {!!!}]]
+            set cmd [stripPrefix $text {!!!}]
             execl with-env-user [list with-term-emu-sh - $cmd]
         }
         "!!*" {
-            set cmd [constructEnrichedPathCmd [stripPrefix $text {!!}]]
-            # set cmd [stripPrefix $text {!!}]
-            execl with-env-user [list with-term-emu-sh --pause-after-exec - "deep-exec $cmd"]
+            set cmd [stripPrefix $text {!!}]
+            execl with-env-user [list with-term-emu-sh --pause-after-exec - $cmd]
         }
         "tmux :: *" {
             set tmuxSessionName [string trim [stripPrefix $text "tmux :: "]]

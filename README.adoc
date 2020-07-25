@@ -3272,21 +3272,20 @@ if {$text ne ""} {
             copyToClipboard $text
         }
         "!%*" {
-            set cmd [constructEnrichedPathCmd [stripPrefix $text {!%}]]
+            set cmd [stripPrefix $text {!%}]
             execl with-env-user [list with-term-emu-sh --without-termux - $cmd]
         }
         "!@*" {
-            set cmd [constructEnrichedPathCmd [stripPrefix $text {!@}]]
+            set cmd [stripPrefix $text {!@}]
             execl with-env-user [list with-term-emu-sh --detach-termux - $cmd]
         }
         "!!!*" {
-            set cmd [constructEnrichedPathCmd [stripPrefix $text {!!!}]]
+            set cmd [stripPrefix $text {!!!}]
             execl with-env-user [list with-term-emu-sh - $cmd]
         }
         "!!*" {
-            set cmd [constructEnrichedPathCmd [stripPrefix $text {!!}]]
-            # set cmd [stripPrefix $text {!!}]
-            execl with-env-user [list with-term-emu-sh --pause-after-exec - "deep-exec $cmd"]
+            set cmd [stripPrefix $text {!!}]
+            execl with-env-user [list with-term-emu-sh --pause-after-exec - $cmd]
         }
         "tmux :: *" {
             set tmuxSessionName [string trim [stripPrefix $text "tmux :: "]]
@@ -3350,6 +3349,16 @@ dispatch-action '!!!' aoeu '&&' pwd ';' with-pause true ';' htop
 dispatch-action '!! aoeu && pwd ; with-pause true ; htop'
 dispatch-action '!!' aoeu '&&' pwd ';' with-pause true ';' htop
 ----
+
+* Run in a termux (subshell execution) → see a term emu with a termux, paused upon exiting
++
+[source,sh]
+----
+dispatch-action '!! ( aoeu && pwd ; with-pause true ; htop)'
+dispatch-action '!!' '(' aoeu '&&' pwd ';' with-pause true ';' htop ')'
+----
+
+
 
 === `run-menu-and-dispatch` - runs a menu program, allowing user to choose an item/input custom string, then dispatch an action based on the output
 
