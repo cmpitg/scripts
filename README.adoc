@@ -713,40 +713,6 @@ with-term-emu-sh --detach-termux - 'aoeu && pwd ; with-pause true'
 with-term-emu-sh --detach-termux --pause-after-exec - 'aoeu && pwd'
 ----
 
-==== `with-term-emu` - runs a command in a termimal emulator
-
-TODO: Deprecated
-
-TODO: Running without X?
-TODO: Document: with/out termux
-TODO: Document: session & window naming
-TODO: Document: must use double quoting:
-* This works: awesome-client "'get_something'"
-* Does this doesn't: awesome-client "'get_something'"
-How to prevent the double quoting?
-`with-env-user "$@"` works but cannot chain shell commands since everything becomes the argument for with-env-user, not part of the shell
-
-.file::with-term-emu
-[source,sh]
-----
-#!/usr/bin/env sh
-
-if [ "${WITHOUT_TERMUX}" = "1" ]; then
-	unset WITHOUT_TERMUX
-	exec term-emu "/usr/bin/env with-env-user $*"
-else
-	window_name_=$(echo "$@" | sed "s/:/COLON/g ; s/\./DOT/g ; s/(/OPEN/g ; s/)/CLOSE/g")
-	if [ "${DETACH_TERMUX}" = "1" ]; then
-		unset DETACH_TERMUX
-		exec term-emu with-termux -n "${window_name_}" "with-env-user $*" \; detach
-	else
-		unset DETACH_TERMUX
-		exec term-emu with-termux -n "${window_name_}" "with-env-user $*"
-	fi
-fi
-
-----
-
 ==== `with-termux` - runs a command with a terminal multiplexer
 
 .file::with-termux
