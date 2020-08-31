@@ -34,6 +34,9 @@ for mouse_ in ${ids_}; do
 	}
 
 	xinput set-prop "${mouse_}" "Device Accel Profile" 7
-	xinput set-prop "${mouse_}" "Device Accel Constant Deceleration" 1.2
-	xinput set-prop "${mouse_}" "Device Accel Adaptive Deceleration" 1.1
+	xinput set-prop "${mouse_}" "Device Accel Constant Deceleration" 1.05
+	xinput set-prop "${mouse_}" "Device Accel Adaptive Deceleration" 1.05
+	# xinput set-prop "${mouse_}" "Device Accel Profile" 2
+	# xinput set-prop "${mouse_}" "Device Accel Constant Deceleration" 1.7
+	# xinput set-prop "${mouse_}" "Device Accel Adaptive Deceleration" 1.5
 done
