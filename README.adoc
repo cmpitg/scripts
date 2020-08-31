@@ -3164,7 +3164,7 @@ proc tryOpeningFile {serverName inNewFrameP rest} {
     }
 
     if {$inNewFrameP} {
-        execl rmacs [list --client-opts --alternate-editor=vim --name $serverName --new-frame open $possiblePath]
+        execl rmacs [list --client-opts --alternate-editor=vim --name $serverName --no-wait --new-frame open $possiblePath]
     } else {
         exec rmacs --client-opts --alternate-editor=vim --name $serverName open $possiblePath <@ stdin >@ stdout 2>@ stderr
     }
