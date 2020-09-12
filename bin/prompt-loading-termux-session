@@ -6,7 +6,7 @@ if {[catch {exec report-missing-executables run-menu cmpitg-scripts tmuxp Tmuxp 
     exit 1
 }
 
-set tmuxSessionDir "$::env(MY_LOCAL_SETUP)/output/shell-session/config/"
+set tmuxSessionDir "$::env(MY_LOCAL_SETUP)/output/shell-session/config"
 
 if {[catch {set sessionFile [exec ls -1 $tmuxSessionDir | run-menu -dmenu -p "Session"]}]} {
     set sessionFile {}
