@@ -391,7 +391,8 @@ exec "$@"
 
 set -o nounset
 
-export EMU='-g800x600 -c1'
+# export EMU='-g800x600 -c1'
+export EMU='-g800x600'
 export PATH="${INFERNO_OS_ROOT}/Linux/386/bin:${PATH}"
 
 exec "$@"
