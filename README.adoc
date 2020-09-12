@@ -414,6 +414,21 @@ exec emu /dis/wm/wm.dis wm/logon -n "/usr/${user}/namespace" -u "${user}" "$@"
 
 ----
 
+==== `sh.dis` - runs the shell
+
+.file::inferno/sh.dis
+[source,sh]
+----
+#!/usr/bin/env sh
+
+set -o nounset
+
+export user=cmpitg
+
+exec emu /dis/sh.dis "$@"
+
+----
+
 === `with-pause` - runs a command, then pause and wait for user to input Enter to exit
 
 .file::with-pause

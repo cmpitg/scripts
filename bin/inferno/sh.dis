@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+
+set -o nounset
+
+export user=cmpitg
+
+exec emu /dis/sh.dis "$@"
