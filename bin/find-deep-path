@@ -33,4 +33,10 @@ if {$::argc != 1} {
     exit 1
 }
 
-puts [findExec [lindex $::argv 0]]
+set path [findExec [lindex $::argv 0]]
+
+if {$path eq ""} {
+    exit 2
+} else {
+    puts $path
+}
