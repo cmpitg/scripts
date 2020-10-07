@@ -13,4 +13,4 @@ if [[ -n "${BASH}" || -n "${ZSH_NAME}" ]]; then
 	chruby ${RUBY_CHRUBY_VERSION}
 fi
 
-"$@"
+exec "$@"
