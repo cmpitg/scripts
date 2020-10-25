@@ -569,6 +569,8 @@ acme -a -m /m/acme -f $font $*
 
 If X is not running, just run the command with the default Bourne-compatible shell.
 
+TODO: Run always ${SHELL} -c
+
 .file::term-emu
 [source,sh]
 ----
