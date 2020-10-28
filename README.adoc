@@ -652,10 +652,6 @@ if {$::withoutTermux && $::detachTermux} {
     error "--without-termux and --detach-termux cannot go together"
 }
 
-if {$::pauseAfterExec} {
-    set ::mainCmd "$::mainCmd ; with-pause true"
-}
-
 if {$::verbose} {
     puts "Without termux: $::withoutTermux"
     puts "Detach termux: $::detachTermux"
@@ -669,7 +665,11 @@ if {$::verbose} {
 ##############################################################################
 
 if {$::withoutTermux} {
-    execl term-emu [list $::shell -c $::mainCmd]
+    if {$::pauseAfterExec} {
+        execl term-emu [list with-pause $::shell -c $::mainCmd]
+    } else {
+        execl term-emu [list $::shell -c $::mainCmd]
+    }
 }
 
 set ::termuxWindowName [exec echo $::mainCmd | sed "s/:/COLON/g ; s/\\./DOT/g ; s/(/OPEN_P/g ; s/)/CLOSE_P/g ; s/{/OPEN_C/g ; s/}/CLOSE_C/g"]
@@ -679,16 +679,24 @@ if {$::verbose} {
 }
 
 if {$::detachTermux} {
-    execl term-emu [list with-termux -n $::termuxWindowName $::mainCmd \; detach]
+    if {$::pauseAfterExec} {
+        execl term-emu [list with-termux -n $::termuxWindowName with-pause $::shell -c $::mainCmd \; detach]
+    } else {
+        execl term-emu [list with-termux -n $::termuxWindowName $::shell -c $::mainCmd \; detach]
+    }
 } else {
-    execl term-emu [list with-termux -n $::termuxWindowName $::mainCmd]
+    if {$::pauseAfterExec} {
+        execl term-emu [list with-termux -n $::termuxWindowName with-pause $::shell -c $::mainCmd]
+    } else {
+        execl term-emu [list with-termux -n $::termuxWindowName $::mainCmd]
+    }
 }
 
 ----
 
 ===== Testing scenarios
 
-* Just see a flash of a term emu
+* See a flash of a term emu
 +
 [source,sh]
 ----
