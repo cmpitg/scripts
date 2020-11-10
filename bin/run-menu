@@ -3,7 +3,7 @@
 exec rofi -lines 40 \
 	-width 85 \
 	-i \
-	-font "Go Mono 11" \
+	-font "Cascadia Code 11" \
 	-kb-row-select Tab \
 	-kb-row-tab "" \
 	-kb-accept-alt "" \
