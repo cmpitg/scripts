@@ -8,7 +8,7 @@ setopt shwordsplit
 
 ids_=$( \
 	xinput list \
-	| grep "Logitech MX Ergo" \
+	| rg "(Logitech MX Ergo|MX Ergo Mouse)" \
 	| cut -d'=' -f2 \
 	| awk '{ print $1 }' \
 )
