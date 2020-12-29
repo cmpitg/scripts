@@ -4726,7 +4726,7 @@ switch -glob $action {
     "split-frame-*" {
         set direction [stripPrefix $action "split-frame-"]
         callHC split $direction
-        
+
         switch $direction {
             "left" {
                 callHC focus left
@@ -4867,7 +4867,7 @@ switch -glob $action {
 
 (write '(("[_r] Rename" rename-current-tag)
          ("[_k] Kill" kill-current-tag)))
-      
+
 ----
 
 ===== `menus/focused-client-menu`
@@ -5599,7 +5599,7 @@ proc addSuffixToPaths {paths suffix} {
 
     set res {}
     foreach e $paths {
-        set newPath "$e/$suffix" 
+        set newPath "$e/$suffix"
         if {[file exists $newPath]} {
             lappend res $newPath
         }

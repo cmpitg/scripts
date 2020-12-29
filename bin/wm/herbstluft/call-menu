@@ -44,7 +44,7 @@ switch -glob $action {
     "split-frame-*" {
         set direction [stripPrefix $action "split-frame-"]
         callHC split $direction
-        
+
         switch $direction {
             "left" {
                 callHC focus left

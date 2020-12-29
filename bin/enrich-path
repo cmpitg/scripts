@@ -21,7 +21,7 @@ proc addSuffixToPaths {paths suffix} {
 
     set res {}
     foreach e $paths {
-        set newPath "$e/$suffix" 
+        set newPath "$e/$suffix"
         if {[file exists $newPath]} {
             lappend res $newPath
         }
