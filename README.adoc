@@ -3464,12 +3464,12 @@ else
 	rmacs_server_alive_p_=0
 fi
 
-cat --squeeze-blank - \
+exec cat --squeeze-blank - \
 	<(tmux list-sessions -F "#{session_name}" | sed "s/^/tmux :: /g") \
 	<([[ "${rmacs_server_alive_p_}" = 1 ]] \
 		&& print $(rmacs --name "${rmacs_server_name_}" eval "(~format-opened-files)") | sed 's/^"//; s/"$//; s/^/file :: /g') \
 	| grep -v -e '^$' \
-	| exec run-menu-and-dispatch "Switch to"
+	| run-menu-and-dispatch "Switch to"
 
 ----
 
