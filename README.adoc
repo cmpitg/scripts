@@ -554,7 +554,7 @@ Font can be chosen by setting the `font` environment variable.  By default, it i
 #
 
 if (~ $font '') {
-	font='/m/9p-fonts/GoMono/11a/font'
+	font='/m/9p-fonts/CascadiaCode-Regular/11a/font'
 }
 
 mkdir -p /m/acme
