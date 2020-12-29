@@ -1,4 +1,4 @@
-#!/usr/bin/env rc
+#!/usr/bin/env 9-rc
 
 #
 # Translates from Finnish to English with Google Translate, using

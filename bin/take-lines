@@ -1,4 +1,4 @@
-#!/usr/bin/env rc
+#!/usr/bin/env 9-rc
 
 #
 # Takes the first $1 lines using Plan 9's seq.

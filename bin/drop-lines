@@ -1,4 +1,4 @@
-#!/usr/bin/env rc
+#!/usr/bin/env 9-rc
 
 #
 # Drops the first $1 lines.

@@ -1,4 +1,4 @@
-#!/usr/bin/env rc
+#!/usr/bin/env 9-rc
 
 #
 # Formats text from stdin using Emacs's fill-paragraph.

@@ -1,4 +1,4 @@
-#!/usr/bin/env rc
+#!/usr/bin/env 9-rc
 
 #
 # Takes all lines from a pattern (representing by $1), using GNU Awk.

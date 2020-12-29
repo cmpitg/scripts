@@ -1,4 +1,4 @@
-#!/usr/bin/env rc
+#!/usr/bin/env 9-rc
 
 #
 # Starts Acme with font specified by variable `font'.  By default, use Go Mono.

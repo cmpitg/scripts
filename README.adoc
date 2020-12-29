@@ -529,12 +529,12 @@ exec 9 9term $*
 
 ----
 
-=== `rc` - runs RC shell with Plan 9 Port environment
+=== `9-rc` - runs RC shell with Plan 9 Port environment
 
-.file::rc
+.file::9-rc
 [source,sh]
 ----
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 
 exec 9 rc "$@"
 
@@ -542,12 +542,12 @@ exec 9 rc "$@"
 
 === `9-acme` - runs Plan9port Acme with `9`
 
-Font can be chosen by setting the `font` environment variable.  By default, it is set to `/m/9p-fonts/GoMono/11a/font`.
+Font can be chosen by setting the `font` environment variable.
 
 .file::9-acme
 [source,sh]
 ----
-#!/usr/bin/env rc
+#!/usr/bin/env 9-rc
 
 #
 # Starts Acme with font specified by variable `font'.  By default, use Go Mono.
@@ -1090,7 +1090,7 @@ first argument passed in this script.  By default, prefix code with `# `.
 .file::add-line-comment
 [source,sh]
 ----
-#!/usr/bin/env rc
+#!/usr/bin/env 9-rc
 
 #
 # Comments a piece of code.
@@ -1951,7 +1951,7 @@ This script takes a list of files as arguments.
 .file::convert-to-mp3
 [source,sh]
 ----
-#!/usr/bin/env rc
+#!/usr/bin/env 9-rc
 
 report-missing-executables ffmpeg Ffmpeg || exit 1
 
@@ -1969,7 +1969,7 @@ This script takes a list of files as arguments.
 .file::convert-to-ogg-vorbis
 [source,sh]
 ----
-#!/usr/bin/env rc
+#!/usr/bin/env 9-rc
 
 report-missing-executables ffmpeg Ffmpeg || exit 1
 
@@ -2073,7 +2073,7 @@ qdbus org.freedesktop.Notifications &>/dev/null && notify-send "$@"
 .file::drop-lines
 [source,sh]
 ----
-#!/usr/bin/env rc
+#!/usr/bin/env 9-rc
 
 #
 # Drops the first $1 lines.
@@ -2105,7 +2105,7 @@ exec date --date="@${epoch_}" -R
 .file::en2fi
 [source,sh]
 ----
-#!/usr/bin/env rc
+#!/usr/bin/env 9-rc
 
 #
 # Translates from English to Finnish with Google Translate, using
@@ -2123,7 +2123,7 @@ TARGET_LANG=fi gtranslate $*
 .file::fi2en
 [source,sh]
 ----
-#!/usr/bin/env rc
+#!/usr/bin/env 9-rc
 
 #
 # Translates from Finnish to English with Google Translate, using
@@ -2141,7 +2141,7 @@ TARGET_LANG=en gtranslate $*
 .file::format-text
 [source,sh]
 ----
-#!/usr/bin/env rc
+#!/usr/bin/env 9-rc
 
 #
 # Formats text from stdin using Emacs's fill-paragraph.
@@ -2167,7 +2167,7 @@ emacs --batch --eval $"sexpr $* >[2]/dev/null
 .file::replace-extension
 [source,sh]
 ----
-#!/usr/bin/env rc
+#!/usr/bin/env 9-rc
 
 input=`{cat}
 
@@ -2187,7 +2187,7 @@ echo $input | rev | sed 's/^[^.]*\./'$rev_replacement'./' | rev
 .file::gitserve
 [source,sh]
 ----
-#!/usr/bin/env rc
+#!/usr/bin/env 9-rc
 
 #
 # Runs a Git server.
@@ -3974,7 +3974,7 @@ switch [llength $missingApps] {
 .file::prefix
 [source,sh]
 ----
-#!/usr/bin/env rc
+#!/usr/bin/env 9-rc
 
 #
 # Prefixes all lines read from stdin.
@@ -4037,7 +4037,7 @@ exec query-password Sandwich
 .file::qrcode
 [source,sh]
 ----
-#!/usr/bin/env rc
+#!/usr/bin/env 9-rc
 
 report-missing-executables \
 	tempfile "tempfile utility" \
@@ -4372,7 +4372,7 @@ exec sudo pm-suspend
 .file::take-from
 [source,sh]
 ----
-#!/usr/bin/env rc
+#!/usr/bin/env 9-rc
 
 #
 # Takes all lines from a pattern (representing by $1), using GNU Awk.
@@ -4397,7 +4397,7 @@ gawk 'BEGIN {
 .file::take-lines
 [source,sh]
 ----
-#!/usr/bin/env rc
+#!/usr/bin/env 9-rc
 
 #
 # Takes the first $1 lines using Plan 9's seq.
@@ -4423,7 +4423,7 @@ Updates OpenJDK 8 with font rendering patch from PPA
 .file::update-openjdk-8-font-patched
 [source,sh]
 ----
-#!/usr/bin/env rc
+#!/usr/bin/env 9-rc
 
 repo_url=http://ppa.launchpad.net/no1wantdthisname/openjdk-fontfix/ubuntu/pool/main/o/openjdk-8/
 echo URL: $repo_url
