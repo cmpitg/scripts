@@ -3423,22 +3423,24 @@ proc spitToTempFile {input} {
     return $tempPath
 }
 
-proc getChoice {prompt input} {
-    set tempPath [spitToTempFile $input]
-
-    set choice {}
-    catch {set choice [string trim [exec run-menu -dmenu -p $prompt < $tempPath]]}
-    file delete $tempPath
-
-    return $choice
+proc getChoices {prompt input} {
+    set fd [open "| run-menu -dmenu -p $prompt" r+]
+    puts -nonewline $fd $input
+    chan close $fd write
+    catch {set choices [string trim [read $fd]]}
+    catch {close $fd}
+    return [split $choices "\n"]
 }
 
-set prompt [lindex $::argv 0]
-set input [read stdin]
-set choice [getChoice $prompt $input]
+set ::PROMPT [lindex $::argv 0]
+set ::INPUT [read stdin]
+set ::CHOICES [getChoices $::PROMPT $::INPUT]
 
-if {$choice ne ""} {
-    execl dispatch-action [list $choice]
+if {$::CHOICES ne ""} {
+    # execl dispatch-action [list $::CHOICES]
+    foreach choice $::CHOICES {
+        exec dispatch-action $choice
+    }
 }
 
 ----
