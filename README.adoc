@@ -2740,7 +2740,9 @@ pidof xbindkeys >/dev/null 2>&1 || exec xbindkeys --nodaemon --poll-rc
 #!/usr/bin/env sh
 
 pkill xfce4-power-manager
-exec xfce4-power-manager --no-daemon
+pkill mate-power-manager
+# exec xfce4-power-manager --no-daemon
+exec mate-power-manager
 
 ----
 
