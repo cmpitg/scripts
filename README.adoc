@@ -1460,6 +1460,19 @@ check-xinput 'Logitech MX Vertical' && (
 	)
 )
 
+check-xinput 'Microsoft Microsoft® 2.4GHz Transceiver v8.0 Mouse' && (
+	do-notify 'Setting accel profile for Microsoft Microsoft® 2.4GHz Transceiver v8.0 Mouse'
+	# Polynomial - very usable, recommended
+	xinput set-prop 'Microsoft Microsoft® 2.4GHz Transceiver v8.0 Mouse' 'Device Accel Profile' 2
+
+	do-notify 'Setting natural scrolling for Microsoft Microsoft® 2.4GHz Transceiver v8.0 Mouse'
+	(
+		xinput set-prop 'Microsoft Microsoft® 2.4GHz Transceiver v8.0 Mouse' 'libinput Natural Scrolling Enabled' 1 &>/dev/null
+	) || (
+		xinput set-prop 'Microsoft Microsoft® 2.4GHz Transceiver v8.0 Mouse' 'Evdev Scrolling Distance' -1, -1, -1
+	)
+)
+
 ----
 
 ===== `config-lenovo-n700-mouse`
@@ -2727,7 +2740,9 @@ pidof xbindkeys >/dev/null 2>&1 || exec xbindkeys --nodaemon --poll-rc
 #!/usr/bin/env sh
 
 pkill xfce4-power-manager
-exec xfce4-power-manager --no-daemon
+pkill mate-power-manager
+# exec xfce4-power-manager --no-daemon
+exec mate-power-manager
 
 ----
 

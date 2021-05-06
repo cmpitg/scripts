@@ -108,3 +108,16 @@ check-xinput 'Logitech MX Vertical' && (
 		xinput set-prop 'Logitech MX Vertical' 'Evdev Scrolling Distance' -1, -1, -1
 	)
 )
+
+check-xinput 'Microsoft Microsoft® 2.4GHz Transceiver v8.0 Mouse' && (
+	do-notify 'Setting accel profile for Microsoft Microsoft® 2.4GHz Transceiver v8.0 Mouse'
+	# Polynomial - very usable, recommended
+	xinput set-prop 'Microsoft Microsoft® 2.4GHz Transceiver v8.0 Mouse' 'Device Accel Profile' 2
+
+	do-notify 'Setting natural scrolling for Microsoft Microsoft® 2.4GHz Transceiver v8.0 Mouse'
+	(
+		xinput set-prop 'Microsoft Microsoft® 2.4GHz Transceiver v8.0 Mouse' 'libinput Natural Scrolling Enabled' 1 &>/dev/null
+	) || (
+		xinput set-prop 'Microsoft Microsoft® 2.4GHz Transceiver v8.0 Mouse' 'Evdev Scrolling Distance' -1, -1, -1
+	)
+)
