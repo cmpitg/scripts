@@ -1237,7 +1237,7 @@ keycode 64 = Control_L
 ! Pressing Left Ctrl emits Left Alt
 keycode 37 = Alt_L
 
-! ! Pressing Right Alt emits Right Ctrl
+! Pressing Right Alt emits Right Ctrl
 keycode 108 = Control_R
 ! Pressing Right Alt emits Right Hyper
 keycode 108 = Hyper_R
