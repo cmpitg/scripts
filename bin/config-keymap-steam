@@ -38,4 +38,5 @@ EOF
 )
 
 config-logitech-g502-mouse
+config-logitech-g903-mouse
 config-logitech-mx-ergo-right

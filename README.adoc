@@ -1283,6 +1283,7 @@ config-logitech-trackball-marble-righty
 config-logitech-mx-ergo-right
 config-logitech-g300-mouse
 config-logitech-g502-mouse
+config-logitech-g903-mouse
 config-lenovo-n700-mouse
 config-touchpad
 config-extra-peripherals
@@ -1336,6 +1337,7 @@ EOF
 )
 
 config-logitech-g502-mouse
+config-logitech-g903-mouse
 config-logitech-mx-ergo-right
 
 ----
@@ -1595,6 +1597,50 @@ for mouse_ in ${ids_}; do
 	xinput set-prop "${mouse_}" "Device Accel Profile" 7
 	xinput set-prop "${mouse_}" "Device Accel Constant Deceleration" 2
 	xinput set-prop "${mouse_}" "Device Accel Adaptive Deceleration" 1
+done
+
+----
+
+===== `config-logitech-g903-mouse`
+
+.file::config-logitech-g903-mouse
+[source,sh]
+----
+#!/bin/zsh
+
+setopt shwordsplit
+
+# http://www.x.org/wiki/Development/Documentation/PointerAcceleration/
+
+##############################################################################
+
+ids_=$( \
+	xinput list \
+	| grep "Logitech G903 LS" \
+	| cut -d'=' -f2 \
+	| awk '{ print $1 }' \
+)
+
+test -z "${ids_}" && exit 0
+
+##############################################################################
+
+do-notify "Configuring Logitech G903 mouse
+* Set natural scrolling
+* Tuning mouse movement"
+
+for mouse_ in ${ids_}; do
+	echo "${mouse_}"
+
+	{
+		xinput set-prop "${mouse_}" "libinput Natural Scrolling Enabled" 1 &>/dev/null
+	} || {
+		xinput set-prop "${mouse_}" "Evdev Scrolling Distance" -1, -1, 1 &>/dev/null
+	}
+
+#	xinput set-prop "${mouse_}" "Device Accel Profile" 7
+#	xinput set-prop "${mouse_}" "Device Accel Constant Deceleration" 2
+#	xinput set-prop "${mouse_}" "Device Accel Adaptive Deceleration" 1
 done
 
 ----

@@ -6,6 +6,7 @@ config-logitech-trackball-marble-righty
 config-logitech-mx-ergo-right
 config-logitech-g300-mouse
 config-logitech-g502-mouse
+config-logitech-g903-mouse
 config-lenovo-n700-mouse
 config-touchpad
 config-extra-peripherals
