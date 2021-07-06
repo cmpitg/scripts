@@ -4,4 +4,5 @@ report-missing-executables notify-send Libnotify || exit 1
 
 echo "$@"
 # qdbus org.freedesktop.Notifications &>/dev/null && notify-send -t 2000 "$@"
-qdbus org.freedesktop.Notifications &>/dev/null && notify-send "$@"
+# qdbus org.freedesktop.Notifications &>/dev/null && notify-send "$@"
+notify-send "$@"
