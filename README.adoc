@@ -1267,6 +1267,18 @@ add mod5 = ISO_Level3_Shift
 EOF
 )
 
+set_layout_for_keyboard() {
+    local keyboard_name_="${1}"
+    local layout_="${2}"
+    local id_=$(xinput list --id-only keyboard:"${keyboard_name_}" 2>/dev/null)
+    if [[ -n "${id_}" ]]; then
+        echo setxkbmap -device "${id_}" -layout "${layout_}"
+        setxkbmap -device "${id_}" -layout "${layout_}"
+    fi
+}
+
+set_layout_for_keyboard "SOFT/HRUF Splitography" us
+
 xmodmap
 
 ----
