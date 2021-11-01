@@ -4441,10 +4441,11 @@ exec sudo --askpass -tt -E env "PATH=${PATH}" "$@"
 .file::suspend-me
 [source,sh]
 ----
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 
 # exec sudo pm-suspend && lockscreen
-exec sudo pm-suspend
+# exec sudo pm-suspend
+exec systemctl suspend
 
 ----
 
