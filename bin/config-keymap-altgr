@@ -126,6 +126,6 @@ set_layout_for_keyboard() {
     fi
 }
 
-set_layout_for_keyboard "SOFT/HRUF Splitography" us
+# set_layout_for_keyboard "SOFT/HRUF Splitography" us
 
 xmodmap
