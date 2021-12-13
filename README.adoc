@@ -2830,7 +2830,7 @@ pkill pasystray ; pasystray
 ----
 #!/usr/bin/env sh
 
-exec ibus-daemon -xvr
+exec ibus-daemon -xvrR
 
 ----
 
