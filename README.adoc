@@ -4376,6 +4376,63 @@ foreach display $displays {
 
 ----
 
+=== `prompt-y-n-gui` - prompts a yes/no answer in all current displays
+
+.file::prompt-y-n-gui
+[source,tcl]
+----
+#!/usr/bin/env tclsh
+
+# TODO: Doc: Works with all DISPLAYs
+# TODO: Doc: One answer is enough
+
+if {[catch {exec report-missing-executables zenity Zenity get-all-x-displays get-all-x-displays >@ stdout 2>@ stderr}]} {
+    exit 1
+}
+
+proc usage {{outFD stdout}} {
+    puts $outFD {prompt-gui <question>
+
+Prompts a yes/no answer in all current displays and exits as soon as an answer is received.  Returns 0 in case of positive answer and 1 otherwise.}
+}
+
+if {$::argc == 0} {
+    usage stderr
+    exit 1
+} elseif {[lindex $::argv 0] eq "--help"} {
+    usage
+    exit 0
+}
+
+set ::QUESTION [join $argv " "]
+set ::DISPLAYS [exec get-all-x-displays <@ stdin]
+set ::THREADS {}
+
+package require Tcl 8.4
+package require Thread 2.8
+
+foreach display $::DISPLAYS {
+    set t [thread::create {
+        set ::DIALOG_CMD [list zenity --question]
+
+        proc execReturnExitCode {args} {
+            return [catch {exec {*}$args <@ stdin >@ stdout 2>@ stderr}]
+        }
+
+        proc promptForDisplay {display question} {
+            return [expr {[execReturnExitCode {*}$::DIALOG_CMD --text=$question --display=$display] == 0}]
+        }
+
+        thread::wait
+    }]
+    thread::send -async $t [list promptForDisplay $display $::QUESTION] ::ANSWER
+}
+
+vwait ::ANSWER
+exit [expr {!($::ANSWER == 1)}]
+
+----
+
 === `event/` - event-based triggers
 
 Collection of executables that get triggered in case of an event
