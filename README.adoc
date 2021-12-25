@@ -4314,6 +4314,35 @@ exec "$@"
 
 ----
 
+=== `get-all-x-displays` - gets all X displays
+
+.file::get-all-x-displays
+[source,tcl]
+----
+#!/usr/bin/env tclsh
+
+proc usage {{outFD stdout}} {
+    puts $outFD {get-all-x-displays
+
+Returns all Xorg displays.}
+}
+
+if {[lindex $::argv 0] eq "--help"} {
+    usage
+    exit 0
+}
+
+set ::X11_SOCKET_PATH /tmp/.X11-unix
+
+if {[file exists $::X11_SOCKET_PATH]} {
+    set ::DISPLAYS [string trim [exec ls $::X11_SOCKET_PATH | tr 'X' ':' <@ stdin]]
+    foreach display $::DISPLAYS {
+        puts $::display
+    }
+}
+
+----
+
 === `with-all-x-displays` - runs a command with all X displays
 
 .file::with-all-x-displays
@@ -4321,7 +4350,7 @@ exec "$@"
 ----
 #!/usr/bin/env tclsh
 
-if {[catch {exec report-missing-executables awk Awk ag Ag >@ stdout 2>@ stderr}]} {
+if {[catch {exec report-missing-executables get-all-x-displays get-all-x-displays >@ stdout 2>@ stderr}]} {
     exit 1
 }
 
@@ -4339,7 +4368,7 @@ if {$::argc == 0} {
     exit 0
 }
 
-set displays [string trim [exec w | awk {{ print $3 }} | sort | uniq | ag {^:} <@ stdin]]
+set displays [string trim [exec get-all-x-displays <@ stdin]]
 
 foreach display $displays {
     exec env "DISPLAY=$display" {*}$::argv <@ stdin >@ stdout 2>@ stderr
@@ -5321,8 +5350,6 @@ exec normalize-filename $(gen-names ${counter_}) | downcase | tr ' ' "${separato
 ----
 
 === `daemontools`-compatible utils
-
-==== `sv-create-user-supervisor` - creates a supervision daemon for the current user
 
 .file::sv-create-user-supervisor
 [source,tcl]

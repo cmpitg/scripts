@@ -1,6 +1,6 @@
 #!/usr/bin/env tclsh
 
-if {[catch {exec report-missing-executables awk Awk ag Ag >@ stdout 2>@ stderr}]} {
+if {[catch {exec report-missing-executables get-all-x-displays get-all-x-displays >@ stdout 2>@ stderr}]} {
     exit 1
 }
 
@@ -18,7 +18,7 @@ if {$::argc == 0} {
     exit 0
 }
 
-set displays [string trim [exec w | awk {{ print $3 }} | sort | uniq | ag {^:} <@ stdin]]
+set displays [string trim [exec get-all-x-displays <@ stdin]]
 
 foreach display $displays {
     exec env "DISPLAY=$display" {*}$::argv <@ stdin >@ stdout 2>@ stderr

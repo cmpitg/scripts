@@ -1,0 +1,21 @@
+#!/usr/bin/env tclsh
+
+proc usage {{outFD stdout}} {
+    puts $outFD {get-all-x-displays
+
+Returns all Xorg displays.}
+}
+
+if {[lindex $::argv 0] eq "--help"} {
+    usage
+    exit 0
+}
+
+set ::X11_SOCKET_PATH /tmp/.X11-unix
+
+if {[file exists $::X11_SOCKET_PATH]} {
+    set ::DISPLAYS [string trim [exec ls $::X11_SOCKET_PATH | tr 'X' ':' <@ stdin]]
+    foreach display $::DISPLAYS {
+        puts $::display
+    }
+}
