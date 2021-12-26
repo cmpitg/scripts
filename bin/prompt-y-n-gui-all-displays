@@ -30,20 +30,33 @@ package require Thread 2.8
 
 foreach display $::DISPLAYS {
     set t [thread::create {
-        set ::DIALOG_CMD [list zenity --question]
+        package require BLT
+        package require Thread
 
-        proc execReturnExitCode {args} {
-            return [catch {exec {*}$args <@ stdin >@ stdout 2>@ stderr}]
+        proc exitNow args {
+            global ::EXIT_STATUS, ::MAIN_THREAD_ID
+            lassign $::EXIT_STATUS _ _ exitCode _
+            thread::send -async $::MAIN_THREAD_ID [list set ::ANSWER $exitCode]
         }
 
-        proc promptForDisplay {display question} {
-            return [expr {[execReturnExitCode {*}$::DIALOG_CMD --text=$question --display=$display] == 0}]
-        }
+        trace add variable ::EXIT_STATUS write exitNow
 
         thread::wait
     }]
-    thread::send -async $t [list promptForDisplay $display $::QUESTION] ::ANSWER
+    thread::send $t [list set ::MAIN_THREAD_ID [thread::id]]
+    thread::send -async $t [list blt::bgexec ::EXIT_STATUS zenity --question "--text=$::QUESTION" --display=$display]
+    lappend ::THREADS $t
 }
 
 vwait ::ANSWER
-exit [expr {!($::ANSWER == 1)}]
+set ::SAVED_ANSWER $::ANSWER
+
+foreach t $::THREADS {
+    if {[thread::exists $t]} {
+        thread::send $t [list set ::EXIT_STATUS {0 0 0 0}]
+        thread::cancel $t
+        thread::release $t
+    }
+}
+
+exit [expr {($::SAVED_ANSWER == 1)}]
