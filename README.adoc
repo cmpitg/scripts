@@ -4376,9 +4376,9 @@ foreach display $displays {
 
 ----
 
-=== `prompt-y-n-gui` - prompts a yes/no answer in all current displays
+=== `prompt-y-n-gui-all-displays` - prompts a yes/no answer in all current displays
 
-.file::prompt-y-n-gui
+.file::prompt-y-n-gui-all-displays
 [source,tcl]
 ----
 #!/usr/bin/env tclsh
