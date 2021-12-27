@@ -3914,31 +3914,6 @@ if {[string equal "y" $answer]} {
 
 ----
 
-=== `prompt-loading-termux-session` - loads a terminal multiplexer session interactively
-
-.file::prompt-loading-termux-session
-[source,tcl]
-----
-#!/usr/bin/env tclsh
-
-package require Tclx
-
-if {[catch {exec report-missing-executables run-menu cmpitg-scripts tmuxp Tmuxp >@ stdout 2>@ stderr}]} {
-    exit 1
-}
-
-set tmuxSessionDir "$::env(MY_LOCAL_SETUP)/output/shell-session/config"
-
-if {[catch {set sessionFile [exec ls -1 $tmuxSessionDir | run-menu -dmenu -p "Session"]}]} {
-    set sessionFile {}
-}
-
-if {$sessionFile ne ""} {
-    execl tmuxp [list load "$tmuxSessionDir/$sessionFile"]
-}
-
-----
-
 === `executable-exists <exec-file>` - checks if an executable exists in `PATH`
 
 Checks whether an executable exists in one of the `PATH`s, returning exit code 0 if it does and 127 otherwise.
