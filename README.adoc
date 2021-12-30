@@ -4515,6 +4515,25 @@ puts [getCurrentState]
 
 ----
 
+==== `get-connected-monitors` - TODO
+
+.file::get-connected-monitors
+[source,tcl]
+----
+#!/usr/bin/env python3
+
+import gi
+gi.require_version("Gdk", "3.0")
+
+
+from gi.repository import Gdk
+display = Gdk.Display.get_default()
+
+for i in range(display.get_n_monitors()):
+    print(display.get_monitor(i).get_model())
+
+----
+
 === `sudo-askpass` - runs `sudo` with a graphical askpass program, also preserving some environment variables
 
 .file::sudo-askpass
