@@ -1,10 +1,14 @@
 #!/usr/bin/env sh
 
-deep-exec guix/with-env report-missing-executables sawfish Sawfish || exit 1
+# deep-exec guix/with-env report-missing-executables sawfish Sawfish || exit 1
 
-menu_path_=$(deep-exec guix/with-env which sawfish \
-     | xargs -n 1 -I "{}" readlink -f "{}" \
-     | xargs -n 1 -I "{}" dirname "{}" \
-     | xargs -n 1 -I "{}" readlink -f "{}/../lib/sawfish/sawfish-menu")
+# menu_path_=$(deep-exec guix/with-env which sawfish \
+#     | xargs -n 1 -I "{}" readlink -f "{}" \
+#      | xargs -n 1 -I "{}" dirname "{}" \
+#      | xargs -n 1 -I "{}" readlink -f "{}/../lib/sawfish/sawfish-menu")
 
-exec deep-exec guix/with-env "${menu_path_}" "$@"
+# exec deep-exec guix/with-env "${menu_path_}" "$@"
+
+report-missing-executables sawfish Sawfish || exit 1
+
+exec /usr/lib/x86_64-linux-gnu/sawfish/sawfish-menu "$@"
