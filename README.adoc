@@ -4050,6 +4050,23 @@ prefix=$1 {
 
 ----
 
+=== `suffix` - suffixes all lines read from stdin with a string
+
+.file::suffix
+[source,sh]
+----
+#!/usr/bin/env 9-rc
+
+#
+# Prefixes all lines read from stdin.
+#
+
+suffix=$1 {
+	sed 's/$/'^$suffix^'/g'
+}
+
+----
+
 === `query-password` - queries password from a password manager
 
 The password is printed to stdout without an end-of-line character.

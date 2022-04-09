@@ -1,0 +1,9 @@
+#!/usr/bin/env 9-rc
+
+#
+# Prefixes all lines read from stdin.
+#
+
+suffix=$1 {
+	sed 's/$/'^$suffix^'/g'
+}
