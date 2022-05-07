@@ -10,7 +10,7 @@ if {[catch {exec report-missing-executables zenity Zenity get-all-x-displays get
 proc usage {{outFD stdout}} {
     puts $outFD {prompt-gui <question>
 
-Prompts a yes/no answer in all current displays and exits as soon as an answer is received.  Returns 0 in case of positive answer and 1 otherwise.}
+Prompts a yes/no answer in all current displays for all logged in users and exits as soon as an answer is received.  Returns 0 in case of positive answer and 1 otherwise.}
 }
 
 if {$::argc == 0} {
@@ -22,7 +22,7 @@ if {$::argc == 0} {
 }
 
 set ::QUESTION [join $argv " "]
-set ::DISPLAYS [exec get-all-x-displays <@ stdin]
+set ::DISPLAYS [exec get-all-logged-in-x-displays <@ stdin]
 set ::THREADS {}
 
 package require Tcl 8.4
