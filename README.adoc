@@ -4340,6 +4340,35 @@ if {[file exists $::X11_SOCKET_PATH]} {
 
 ----
 
+=== `get-all-logged-in-x-displays` - gets all X displays of logged in users
+
+.file::get-all-logged-in-x-displays
+[source,tcl]
+----
+#!/usr/bin/env tclsh
+
+proc usage {{outFD stdout}} {
+    puts $outFD {get-all-logged-in-x-displays
+
+Returns all Xorg displays of logged in users.}
+}
+
+if {[lindex $::argv 0] eq "--help"} {
+    usage
+    exit 0
+}
+
+set ::X11_SOCKET_PATH /tmp/.X11-unix
+
+if {[file exists $::X11_SOCKET_PATH]} {
+    set ::DISPLAYS [string trim [exec w | awk {{ print $3 }} | grep -e {^:} | sort | uniq <@ stdin]]
+    foreach display $::DISPLAYS {
+        puts $::display
+    }
+}
+
+----
+
 === `with-all-x-displays` - runs a command with all X displays
 
 .file::with-all-x-displays
