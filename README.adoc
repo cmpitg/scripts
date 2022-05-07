@@ -4435,9 +4435,79 @@ foreach display $displays {
 
 ----
 
-=== `prompt-y-n-gui-all-displays` - prompts a yes/no answer in all current displays for logged in users
+=== `prompt-y-n-gui-all-displays` - prompts a yes/no answer in all current displays
 
 .file::prompt-y-n-gui-all-displays
+[source,tcl]
+----
+#!/usr/bin/env tclsh
+
+# TODO: Doc: Works with all DISPLAYs
+# TODO: Doc: One answer is enough
+
+if {[catch {exec report-missing-executables zenity Zenity get-all-x-displays get-all-x-displays >@ stdout 2>@ stderr}]} {
+    exit 1
+}
+
+proc usage {{outFD stdout}} {
+    puts $outFD {prompt-gui <question>
+
+Prompts a yes/no answer in all current displays and exits as soon as an answer is received.  Returns 0 in case of positive answer and 1 otherwise.}
+}
+
+if {$::argc == 0} {
+    usage stderr
+    exit 1
+} elseif {[lindex $::argv 0] eq "--help"} {
+    usage
+    exit 0
+}
+
+set ::QUESTION [join $argv " "]
+set ::DISPLAYS [exec get-all-x-displays <@ stdin]
+set ::THREADS {}
+
+package require Tcl 8.4
+package require Thread 2.8
+
+foreach display $::DISPLAYS {
+    set t [thread::create {
+        package require BLT
+        package require Thread
+
+        proc exitNow args {
+            global ::EXIT_STATUS, ::MAIN_THREAD_ID
+            lassign $::EXIT_STATUS _ _ exitCode _
+            thread::send -async $::MAIN_THREAD_ID [list set ::ANSWER $exitCode]
+        }
+
+        trace add variable ::EXIT_STATUS write exitNow
+
+        thread::wait
+    }]
+    thread::send $t [list set ::MAIN_THREAD_ID [thread::id]]
+    thread::send -async $t [list blt::bgexec ::EXIT_STATUS zenity --question "--text=$::QUESTION" --display=$display]
+    lappend ::THREADS $t
+}
+
+vwait ::ANSWER
+set ::SAVED_ANSWER $::ANSWER
+
+foreach t $::THREADS {
+    if {[thread::exists $t]} {
+        thread::send $t [list set ::EXIT_STATUS {0 0 0 0}]
+        thread::cancel $t
+        thread::release $t
+    }
+}
+
+exit [expr {($::SAVED_ANSWER == 1)}]
+
+----
+
+=== `prompt-y-n-gui-all-logged-in-displays` - prompts a yes/no answer in all current displays for logged in users
+
+.file::prompt-y-n-gui-all-logged-in-displays
 [source,tcl]
 ----
 #!/usr/bin/env tclsh
