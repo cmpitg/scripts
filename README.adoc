@@ -4402,6 +4402,39 @@ foreach display $displays {
 
 ----
 
+=== `with-all-logged-in-x-displays` - runs a command with all X displays
+
+.file::with-all-logged-x-displays
+[source,tcl]
+----
+#!/usr/bin/env tclsh
+
+if {[catch {exec report-missing-executables get-all-logged-in-x-displays get-all-logged-in-x-displays >@ stdout 2>@ stderr}]} {
+    exit 1
+}
+
+proc usage {{outFD stdout}} {
+    puts $outFD {with-all-logged-in-x-displays <command> [args...]
+
+Run a command with all Xorg displays for logged in users.}
+}
+
+if {$::argc == 0} {
+    usage stderr
+    exit 1
+} elseif {[lindex $::argv 0] eq "--help"} {
+    usage
+    exit 0
+}
+
+set displays [string trim [exec get-all-logged-in-x-displays <@ stdin]]
+
+foreach display $displays {
+    exec env "DISPLAY=$display" {*}$::argv <@ stdin >@ stdout 2>@ stderr
+}
+
+----
+
 === `prompt-y-n-gui-all-displays` - prompts a yes/no answer in all current displays
 
 .file::prompt-y-n-gui-all-displays
