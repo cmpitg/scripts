@@ -53,7 +53,7 @@ set deviceMapping {
     }
     {
         label Bats
-        command {join [exec acpi -b | awk {{ print $4, $3 }} | sed {s/[:,]//g ; s/ Charging/+/g ; s/ Discharging/-/g ; s/ Unknown//g} 2> /dev/null]}
+        command {join [exec acpi -b | cut -d: -f 2 | awk {BEGIN { FS="," } { print $2 $1 }} | sed {s/[:,]//g ; s/ Not charging//g ; s/ Charging/+/g ; s/ Discharging/-/g ; s/ Unknown//g} 2> /dev/null]}
     }
 }
 
