@@ -2890,7 +2890,9 @@ gnome-settings-daemon -h >/dev/null 2>&1 && (
 ----
 #!/usr/bin/env sh
 
-pidof insync >/dev/null 2>&1 || exec insync start
+# pidof insync >/dev/null 2>&1 || exec insync start
+insync quit
+exec insync start
 
 ----
 
