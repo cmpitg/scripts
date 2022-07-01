@@ -178,7 +178,7 @@ exec "$@"
 .file::bash-user
 [source,sh]
 ----
-#!/usr/bin/env bash-pure
+#!/usr/bin/env bash
 
 if [ -f ~/.env ]; then
 	. ~/.env
