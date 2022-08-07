@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-exec rofi -lines 40 \
+exec rofi -l 40 \
 	-width 85 \
 	-i \
 	-multi-select \
