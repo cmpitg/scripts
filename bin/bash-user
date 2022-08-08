@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env bash-pure
 
 # All hell break loose without the following!!!
 # Why is the varible set to empty???
