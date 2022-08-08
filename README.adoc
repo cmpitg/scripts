@@ -195,6 +195,17 @@ exec bash "$@"
 
 ----
 
+=== `zsh-user` - runs Zsh with the current user's environment
+
+.file::zsh-user
+[source,sh]
+----
+#!/usr/bin/env bash-user
+
+exec zsh "$@"
+
+----
+
 === `with-env-user` - runs a command under `bash-user`
 
 TODO: Doc: For a single command, e.g. shell operators don't work
