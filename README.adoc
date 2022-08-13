@@ -597,6 +597,7 @@ TODO: Run always ${SHELL} -c
 # XFCE4 terminal crashes randomly (under load?)
 # konsole -e <cmd>
 # xfce4-terminal -x <cmd>
+# deep-exec guix/with-env kitty <cmd>
 
 term_emu_="${MY_TERM_EMU:-x-terminal-emulator}"
 
