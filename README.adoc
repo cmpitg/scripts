@@ -3137,7 +3137,7 @@ exec emacsclient --socket-name="${emacs_socket_name_}" --no-wait --create-frame 
 
 report-missing-executables tdrop tdrop || exit 1
 
-exec tdrop -h 60% --auto-detect-wm --monitor-aware konsole
+exec tdrop -h 60% --auto-detect-wm --monitor-aware term-emu zsh-user
 
 ----
 
