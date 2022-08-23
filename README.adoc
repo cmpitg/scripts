@@ -3405,23 +3405,23 @@ if {$text ne ""} {
         }
         "!%*" {
             set cmd [stripPrefix $text {!%}]
-            execl with-env-user [list with-term-emu-sh --without-termux - $cmd]
+            execl with-env-user [list with-term-emu-sh --without-termux - {*}$cmd]
         }
         "!@*" {
             set cmd [stripPrefix $text {!@}]
-            execl with-env-user [list with-term-emu-sh --detach-termux - $cmd]
+            execl with-env-user [list with-term-emu-sh --detach-termux - {*}$cmd]
         }
         "!!!*" {
             set cmd [stripPrefix $text {!!!}]
-            execl with-env-user [list with-term-emu-sh - $cmd]
+            execl with-env-user [list with-term-emu-sh - {*}$cmd]
         }
         "!!*" {
             set cmd [stripPrefix $text {!!}]
-            execl with-env-user [list with-term-emu-sh --pause-after-exec - $cmd]
+            execl with-env-user [list with-term-emu-sh --pause-after-exec - {*}$cmd]
         }
         "!*" {
             set cmd [stripPrefix $text {!}]
-            execl with-env-user [list $::env(SHELL) -c $cmd]
+            execl with-env-user [list $::env(SHELL) -c {*}$cmd]
         }
         "tmux :: *" {
             set tmuxSessionName [string trim [stripPrefix $text "tmux :: "]]
