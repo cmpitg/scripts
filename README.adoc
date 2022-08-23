@@ -689,7 +689,7 @@ if {$::withoutTermux} {
     }
 }
 
-set ::termuxWindowName [exec echo $::mainCmd | sed "s/:/COLON/g ; s/\\./DOT/g ; s/(/OPEN_P/g ; s/)/CLOSE_P/g ; s/{/OPEN_C/g ; s/}/CLOSE_C/g"]
+set ::termuxWindowName [exec echo $::mainCmd | sed -r {s/:/COLON/g ; s/\\./DOT/g ; s/\(/OPEN_P/g ; s/\)/CLOSE_P/g ; s/\{/OPEN_C/g ; s/\}/CLOSE_C/g ; s/[[:space:]]+/_/g}]
 
 if {$::verbose} {
     puts "Termux window name: $::termuxWindowName"
