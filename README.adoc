@@ -590,7 +590,9 @@ TODO: Run always ${SHELL} -c
 .file::term-emu
 [source,sh]
 ----
-#!/usr/bin/env sh
+#!/usr/bin/env tclsh
+
+package require Tclx
 
 # Terminator has some memory leaks, throws GTK error messages to the console
 # GNOME terminal doesn't handle mouse scrolling well
@@ -599,13 +601,21 @@ TODO: Run always ${SHELL} -c
 # xfce4-terminal -x <cmd>
 # deep-exec guix/with-env kitty <cmd>
 
-term_emu_="${MY_TERM_EMU:-x-terminal-emulator}"
+if {[info exists ::env(MY_TERM_EMU)]} {
+	set ::TERM_EMU $::env(MY_TERM_EMU)
+} else {
+	set ::TERM_EMU x-terminal-emulator
+}
 
-if using-x-p; then
-	exec "${term_emu_}" -e "$@"
-else
-	exec "${SHELL}" -c "$*"
-fi
+if {[catch {exec using-x-p <@ stdin >@ stdout 2>@ stderr}]} {
+	set ::args {}
+	foreach x $::argv {
+		lappend ::args "\"$x\""
+	}
+	execl $::env(SHELL) [list -c [join $::args " "]]
+} else {
+	execl $::TERM_EMU [list -e {*}$::argv]
+}
 
 ----
 
