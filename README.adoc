@@ -763,7 +763,11 @@ with-term-emu-sh --detach-termux --pause-after-exec - 'aoeu && pwd'
 ----
 #!/usr/bin/env sh
 
-exec tmux new-session "$@"
+if using-x-p; then
+	exec tmux new-session "$@"
+else
+	exec tmux new-window "$@"
+fi
 
 ----
 

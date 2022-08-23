@@ -1,3 +1,7 @@
 #!/usr/bin/env sh
 
-exec tmux new-session "$@"
+if using-x-p; then
+	exec tmux new-session "$@"
+else
+	exec tmux new-window "$@"
+fi
