@@ -244,7 +244,7 @@ if {$text ne ""} {
         }
         "!*" {
             set cmd [stripPrefix $text {!}]
-            execl with-env-user [list $::env(SHELL) -c {*}$cmd]
+            execl with-env-user [list $::env(SHELL) -c $cmd]
         }
         "tmux :: *" {
             set tmuxSessionName [string trim [stripPrefix $text "tmux :: "]]
