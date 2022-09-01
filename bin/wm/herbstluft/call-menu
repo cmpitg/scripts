@@ -102,7 +102,8 @@ switch -glob $action {
                 callHC attr clients.focus.floating toggle
             }
             fullscreen {
-                callHC fullscreen toggle
+                # callHC fullscreen toggle
+                execl $::env(HOME)/.guix-profile/share/doc/herbstluftwm/examples/maximize.sh
             }
         }
     }
