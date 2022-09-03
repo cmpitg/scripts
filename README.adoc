@@ -3101,17 +3101,6 @@ exec chromium --app=https://web.whatsapp.com/ "$@"
 
 ----
 
-==== Drop-down terminal emulator
-
-.file::run-drop-down-term-emu
-[source,sh]
-----
-#!/usr/bin/env sh
-
-exec guake "$@"
-
-----
-
 ==== Desktop calendar
 
 .file::run-calendar
