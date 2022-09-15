@@ -206,7 +206,8 @@ if {$text ne ""} {
             set hostExpr [string trim [substEnvVars [lindex $parts 0]]]
             set path "/[lindex $parts 1]"
 
-            execl ssh [list $hostExpr ls -1 --indicator-style=slash --dereference --all --group-directories-first $path]
+            # execl ssh [list $hostExpr ls -1 --indicator-style=slash --dereference --all --group-directories-first $path]
+            execl ssh [list $hostExpr ls -1aHF --group-directories-first $path]
         }
         "ssh://*:/*" {
             # Edit a remote file via SSH
