@@ -2,4 +2,4 @@
 
 report-missing-executables emacsclient-commander-for-dropdown emacsclient-commander-for-dropdown || exit 1
 
-exec tdrop --monitor-aware emacsclient-commander-for-dropdown
+exec run-tdrop emacsclient-commander-for-dropdown "$@"

@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+
+# exec tdrop -h 60% --auto-detect-wm --monitor-aware term-emu zsh-user
+exec tdrop --remember --monitor-aware "$@"

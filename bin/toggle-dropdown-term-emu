@@ -2,5 +2,4 @@
 
 report-missing-executables tdrop tdrop || exit 1
 
-# exec tdrop -h 60% --auto-detect-wm --monitor-aware term-emu zsh-user
-exec tdrop --monitor-aware term-emu zsh-user
+exec run-tdrop term-emu zsh-user "$@"
