@@ -1348,6 +1348,15 @@ else
 
     ! Pressing Right Alt emits Compose
     keycode 108 = Multi_key
+
+    ! Now, rearrange the modifiers
+    clear control
+    clear mod3
+    clear mod4
+    add control = Control_L Control_R
+    add mod3 = Hyper_L Hyper_R
+    add mod4 = Super_L Super_R
+
 EOF
 )
 fi
