@@ -2,5 +2,5 @@
 
 report-missing-executables wmctrl wmctrl || exit 1
 
-exec wmctrl -l \
-	| awk '{ for (i = 4; i <= NF; i++) printf $i" "; print "::", $1 }'
+exec wmctrl -xl \
+	| awk '{ for (i = 5; i <= NF; i++) printf $i" "; print "::", $3, "::", $1 }'
