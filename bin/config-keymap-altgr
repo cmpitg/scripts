@@ -114,6 +114,8 @@ if [[ ! "$(hostname)" = "ifr-l" ]]; then
 EOF
 )
 else
+    # Running inside a virtual machine, where modifiers are already swapped.
+    # Thus we don't swap, just assign.
     xmodmap <( cat <<EOF
     ! -*- mode: xmodmap-generic -*-
     !
@@ -160,24 +162,19 @@ else
     !   - Keycodes: /usr/share/X11/xkb/keycodes/
     !
 
-    !
-    ! Other modifiers
-    !
+    ! Pressing Right Ctrl emits Right Hyper
+    keycode 105 = Hyper_R
 
-    ! Pressing Right Alt emits Right Hyper
-    keycode 108 = Hyper_R
-
-    ! Pressing Right Ctrl emits Compose
-    keycode 105 = Multi_key
+    ! Pressing Right Alt emits Compose
+    keycode 108 = Multi_key
 
     ! Now, rearrange the modifiers
+    clear control
     clear mod3
     clear mod4
-    clear mod5
+    add control = Control_L Control_R
     add mod3 = Hyper_L Hyper_R
     add mod4 = Super_L Super_R
-    add mod5 = ISO_Level3_Shift
-
 EOF
 )
 fi
