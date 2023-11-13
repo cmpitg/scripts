@@ -13,7 +13,7 @@ export PLAN9_FONTDIR="${PLAN9_FONTDIR:-/m/9p-fonts}"
 
 export SHELL=rc
 export TERM=9term
-export font="${PLAN9_FONTDIR}/GoMono/11a/font"
+# export font="${PLAN9_FONTDIR}/GoMono/11a/font"
 
 mkdir -p "${TEMP9}"
 mkdir -p "${PLAN9_FONTDIR}"
