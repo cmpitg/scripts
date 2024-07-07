@@ -1384,7 +1384,7 @@ xmodmap
 ----
 #!/usr/bin/env bash
 
-config-keymap-altgr
+# config-keymap-altgr
 config-logitech-trackball-marble-righty
 # config-logitech-trackball-marble-lefty
 config-logitech-mx-ergo-right
